@@ -1,0 +1,8 @@
+E:\Project\SaleTools\Common\bin\Debug\Common.dll
+E:\Project\SaleTools\Common\bin\Debug\Common.pdb
+E:\Project\SaleTools\Common\bin\Debug\Newtonsoft.Json.dll
+E:\Project\SaleTools\Common\bin\Debug\Newtonsoft.Json.xml
+E:\Project\SaleTools\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+E:\Project\SaleTools\Common\obj\Debug\Common.dll
+E:\Project\SaleTools\Common\obj\Debug\Common.pdb
+E:\Project\SaleTools\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
