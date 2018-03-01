@@ -86,15 +86,15 @@
     height: 340px;
 }
 
-.main .slider .main_slide .loading {
-    position: absolute;
-    z-index: 5;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: #ffffff url(../../../../../statics/images/loading.gif) center no-repeat;
-}
+    .main .slider .main_slide .loading {
+        position: absolute;
+        z-index: 5;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: #ffffff url(../../../../../Content/images/loading.gif) center no-repeat;
+    }
 
 .main .slider .main_slide .slides li {
     width: 730px;
@@ -133,17 +133,17 @@
     *zoom: 1;
 }
 
-.main .slider .main_slide .flex-control-nav li a {
-    display: block;
-    width: 18px;
-    height: 18px;
-    line-height: 18px;
-    text-align: center;
-    background: url(../../../../../statics/images/home_sprite.png) -98px 0 no-repeat;
-    color: #ffffff;
-    margin: 0 5px;
-    cursor: pointer;
-}
+    .main .slider .main_slide .flex-control-nav li a {
+        display: block;
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        text-align: center;
+        background: url(../../../../../Content/images/home_sprite.png) -98px 0 no-repeat;
+        color: #ffffff;
+        margin: 0 5px;
+        cursor: pointer;
+    }
 
 .main .slider .main_slide .flex-control-nav li .flex-active {
     background-position: -80px 0;
@@ -159,15 +159,15 @@
     margin-top: -35px;
 }
 
-.main .slider .main_slide .flex-direction-nav li a {
-    position: absolute;
-    display: block;
-    width: 40px;
-    height: 70px;
-    text-indent: -9999em;
-    background: url(../../../../../statics/images/home_sprite.png) no-repeat;
-    cursor: pointer;
-}
+    .main .slider .main_slide .flex-direction-nav li a {
+        position: absolute;
+        display: block;
+        width: 40px;
+        height: 70px;
+        text-indent: -9999em;
+        background: url(../../../../../Content/images/home_sprite.png) no-repeat;
+        cursor: pointer;
+    }
 
 .main .slider .main_slide .flex-direction-nav li .flex-prev {
     left: 0;
@@ -385,7 +385,7 @@
     position: absolute;
     width: 21px;
     height: 25px;
-    background: url(../../../../../statics/images/04171707.png) no-repeat;
+    background: url(../../../../../Content/images/04171707.png) no-repeat;
     padding-right: 10px;
     top: 2px;
     left: 0;
@@ -621,10 +621,10 @@
     position: absolute;
 }
 
-#left,#recommendLeft {
+#left, #recommendLeft {
     width: 30px;
     height: 60px;
-    background: transparent url('../../../../../statics/images/index/arrow-ser-left.png') no-repeat top left;
+    background: transparent url('../../../../../Content/images/index/arrow-ser-left.png') no-repeat top left;
     position: absolute;
     top: 43%;
     margin-top: -19px;
@@ -636,10 +636,10 @@
     display: none;
 }
 
-#right,#recommendRight {
+#right, #recommendRight {
     width: 30px;
     height: 60px;
-    background: transparent url('../../../../../statics/images/index/arrow-ser-right.png') no-repeat top left;
+    background: transparent url('../../../../../Content/images/index/arrow-ser-right.png') no-repeat top left;
     position: absolute;
     top: 43%;
     margin-top: -19px;

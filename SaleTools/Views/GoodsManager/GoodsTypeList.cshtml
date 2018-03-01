@@ -8,7 +8,7 @@
 <label>类型名</label>
 <input type="text" id="typeName" />
 <button id="add">添加</button>
-<a href="/GoodsManager/GoodsTypeList/@ViewBag.Id"> 返回上级</a>
+<a href="/GoodsManager/GoodsTypeList/@ViewBag.TypeId"> 返回上级</a>
 <table class="table table_border">
     <thead class="bg_color">
         <tr>
@@ -26,7 +26,7 @@
                 <td>
                     <a href="/GoodsManager/GoodsTypeList/@item.Id">查看下级</a>
                     <a href="#" class="del" typeId="@item.Id">删除</a>
-                    <a href="/GoodsManager/SetBrand?typeId=@item.Id">查看下级</a>
+                    <a href="/GoodsManager/SetBrand?typeId=@item.Id">设置品牌</a>
 
                 </td>
             </tr>

@@ -46,10 +46,10 @@
                 <div class="wrapper">
                     <form action="" method="POST" autocomplete="off" id="myForm">
                         <div>
-                            <input type="text" name="username" class="J_Input" id="Account" value="" placeholder=" 手机号/会员名" data-form-un="1517826097904.9963" style=";background-color:#FAFFBD !important;box-shadow:none;">
+                            <input type="text" name="username" class="J_Input" id="J_Username" value="" placeholder=" 手机号/会员名" data-form-un="1517826097904.9963" style=";background-color:#FAFFBD !important;box-shadow:none;">
                         </div>
                         <div style="margin-top:3px;">
-                            <input type="password" class="J_Input" id="Pwd" placeholder=" 请输入密码" data-form-pw="1517826097904.9963" style=";background:#FAFFBD !important;box-shadow:none;">
+                            <input type="password" class="J_Input" id="J_Password" placeholder=" 请输入密码" data-form-pw="1517826097904.9963" style=";background:#FAFFBD !important;box-shadow:none;">
                             <input type="hidden" name="password" id="J_enPassword">
                         </div>
                         <div class="autoLogin">
@@ -135,8 +135,8 @@
         
 
             $('#submit').on('click', function () {
-                var account = $("#Account").val();
-                var Pwd = $("#Pwd").val();
+                var account = $("#J_Username").val();
+                var Pwd = $("#J_Password").val();
 
                 $.post("/Login/AccountLogin", { account: account, Pwd: Pwd }, function (e) {
                     if (e == "登陆成功")

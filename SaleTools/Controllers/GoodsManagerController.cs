@@ -19,6 +19,11 @@ namespace SaleTools.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 商品类型列表
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult GoodsTypeList(string id = "")
         {
             if (Session["LoginUser"] == null)
@@ -31,7 +36,11 @@ namespace SaleTools.Controllers
             ViewBag.TypeId = guid;
             return View();
         }
-
+        /// <summary>
+        /// 根据上级Id获取商品类型Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public string GetGoodsTypeList(string id )
         {
             var loginUser = (UserInfo)Session["LoginUser"];
@@ -39,6 +48,12 @@ namespace SaleTools.Controllers
             var list = _manager.GetDownGoodsType(guid, loginUser.UserId);
             return Utils.SerializeObject(list);
         }
+        /// <summary>
+        /// 添加商品类型
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="typeName"></param>
+        /// <returns></returns>
         public string AddGoodType(Guid parent,string typeName)
         {
             var loginUser = (UserInfo)Session["LoginUser"];
@@ -64,13 +79,21 @@ namespace SaleTools.Controllers
             return Utils.SerializeObject(res);
         }
 
+        /// <summary>
+        /// 删除商品类型
+        /// </summary>
+        /// <param name="typeId"></param>
+        /// <returns></returns>
         public string DelGoodsType(Guid typeId)
         {
             var res = _manager.DelGoodsType(typeId);
             return Utils.SerializeObject(res);
         }
 
-
+        /// <summary>
+        /// 商品品牌页面
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GoodsBrand()
         {
             var loginUser = (UserInfo)Session["LoginUser"];
@@ -79,6 +102,11 @@ namespace SaleTools.Controllers
             return View(goodList);
         }
 
+        /// <summary>
+        /// 添加商品品牌
+        /// </summary>
+        /// <param name="brandName"></param>
+        /// <returns></returns>
         public string AddGoodBrand(string brandName)
         {
             var loginUser = (UserInfo)Session["LoginUser"];
@@ -96,6 +124,11 @@ namespace SaleTools.Controllers
             return Utils.SerializeObject(res);
         }
 
+        /// <summary>
+        /// 给某个商品类型添加商品品牌
+        /// </summary>
+        /// <param name="typeId"></param>
+        /// <returns></returns>
         public ActionResult SetBrand(Guid typeId)
         {
             var loginUser = (UserInfo)Session["LoginUser"];
@@ -107,12 +140,22 @@ namespace SaleTools.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 绑定品牌和商品类型
+        /// </summary>
+        /// <param name="typeId"></param>
+        /// <param name="typeList"></param>
+        /// <returns></returns>
         public string SaveBrandOfType(Guid typeId,List<Guid> typeList)
         {
             var res = _manager.SaveBrandOfType(typeId, typeList);
             return Utils.SerializeObject(res);
         }
 
+        /// <summary>
+        /// 添加商品页面
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AddGoods()
         {
             var loginUser = (UserInfo)Session["LoginUser"];
@@ -124,12 +167,23 @@ namespace SaleTools.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 获取品牌列表
+        /// </summary>
+        /// <param name="typeId"></param>
+        /// <returns></returns>
         public string GetBrandList(Guid typeId)
         {
             var typeList = _manager.GetBrandList(typeId);
             return Utils.SerializeObject(typeList);
         }
 
+        /// <summary>
+        /// 保存商品
+        /// </summary>
+        /// <param name="goods"></param>
+        /// <param name="price"></param>
+        /// <returns></returns>
         public string SaveGoods(GoodInfo goods ,List<string> price)
         {
             var loginUser = (UserInfo)Session["LoginUser"];
@@ -164,6 +218,19 @@ namespace SaleTools.Controllers
                 }
             }
             return res.ToString();
+        }
+
+
+
+
+        public ActionResult GoodsList()
+        {
+            return View();
+        }
+
+        public string GetGoodsList(int index,int size,string SupplierId = "",string fstTypeId = "",string secTypeId="",string thdTypeId = "",string keyWord="")
+        {
+            return "";
         }
     }
 }

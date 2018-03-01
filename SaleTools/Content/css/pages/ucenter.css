@@ -426,13 +426,13 @@ a{text-decoration: none;}
 .referrer:hover #left, .referrer:hover #right {
     display: block;
 }
-#left{
-    background:transparent url('/statics/images/index/arrow-ser-left.png') no-repeat top left;
-    left:53px;
+#left {
+    background: transparent url('/Content/images/index/arrow-ser-left.png') no-repeat top left;
+    left: 53px;
 }
-#right{
-    background:transparent url('/statics/images/index/arrow-ser-right.png') no-repeat top left;
-    right:10px;
+#right {
+    background: transparent url('/Content/images/index/arrow-ser-right.png') no-repeat top left;
+    right: 10px;
 }
 #right:hover,#left:hover{
     opacity:1.0;
@@ -442,13 +442,13 @@ a{text-decoration: none;}
     overflow:hidden;
 }
 /* integral-guide */
-.content .pic{
+.content .pic {
     width: 912px;
     height: 61px;
-    background: url(/statics/images/manual_1.png) repeat-x;
+    background: url(/Content/images/manual_1.png) repeat-x;
     position: absolute;
-    top:-20px;
-    left:0px;
+    top: -20px;
+    left: 0px;
 }
 .content .gitem{
     margin:15px;
@@ -459,15 +459,15 @@ a{text-decoration: none;}
 .content .gitem.bottom{
     border-bottom: none;
 }
-.content .gitem h3{
-    width: 191px;
-    height: 42px;
-    line-height: 42px;
-    font-size: 18px;
-    color: #fff;
-    padding-left: 10px;
-    background: url(/statics/images/manual_2.png) no-repeat;
-}
+    .content .gitem h3 {
+        width: 191px;
+        height: 42px;
+        line-height: 42px;
+        font-size: 18px;
+        color: #fff;
+        padding-left: 10px;
+        background: url(/Content/images/manual_2.png) no-repeat;
+    }
 .content .gitem p{
     font-size: 16px;
     line-height: 25px;
@@ -546,10 +546,10 @@ a{text-decoration: none;}
 .integral_nav li.now{
     border-bottom: 3px solid #ff4f04;
 }
-.integral_calendar{
+.integral_calendar {
     width: 900px;
     height: 486px;
-    background: url(/statics/images/integral_2_1.jpg) center no-repeat;
+    background: url(/Content/images/integral_2_1.jpg) center no-repeat;
     position: relative;
     margin-bottom: 20px;
 }
@@ -580,26 +580,26 @@ a{text-decoration: none;}
     color: #fff;
     font-weight: bold;
 }
-.integral_calendar .calendar .item_con li{
-    height: 38px;
-    line-height: 38px;
-    text-align: center;
-    margin-top:8px;
-    background: url(/statics/images/integral_3h.png) no-repeat;
-    color: #f7ac39;
-    font-weight: normal;
-}
+    .integral_calendar .calendar .item_con li {
+        height: 38px;
+        line-height: 38px;
+        text-align: center;
+        margin-top: 8px;
+        background: url(/Content/images/integral_3h.png) no-repeat;
+        color: #f7ac39;
+        font-weight: normal;
+    }
 .integral_calendar .calendar .item_con li.overdue{
     color: #b8b4b1;
 }
-.integral_calendar .calendar .item_con li.checking{
-    color: #b8b4b1;
-    background: url(/statics/images/integral_4h.png) no-repeat;
-}
-.integral_calendar .calendar .item_con li.now{
-    color: #fff;
-    background: url(/statics/images/integral_5h.png) no-repeat;  
-}
+        .integral_calendar .calendar .item_con li.checking {
+            color: #b8b4b1;
+            background: url(/Content/images/integral_4h.png) no-repeat;
+        }
+        .integral_calendar .calendar .item_con li.now {
+            color: #fff;
+            background: url(/Content/images/integral_5h.png) no-repeat;
+        }
 .integral_calendar .con{
     width:231px;
     height: 235px;

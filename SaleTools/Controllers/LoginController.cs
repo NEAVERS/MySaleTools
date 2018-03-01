@@ -36,5 +36,18 @@ namespace SaleTools.Controllers
             }
 
         }
+
+        public ActionResult AddAdmin()
+        {
+            UserInfo user = new UserInfo();
+            user.Account = "admin";
+            user.PassWord = Utils.GetMD5("123456");
+            user.UserId = Guid.NewGuid();
+            user.CreateUserId = user.UserId;
+            user.UserNum = "admin";
+            user.CreateTime = DateTime.Now;
+            _manager.UserReg(user);
+            return View();
+        }
     }
 }

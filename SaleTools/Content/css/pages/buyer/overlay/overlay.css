@@ -41,14 +41,14 @@
               float: right;
               margin-top: 45px;
           }
-          .overlay .wrapper .title{
-              background: url(/statics/images/buyer/0113-01.png) no-repeat;
-              font-size: 23px;
-              margin-bottom: 26px;
-              padding-left: 32px;
-              line-height: 27px;
-              height: 27px;
-          }
+            .overlay .wrapper .title {
+                background: url(/Content/images/buyer/0113-01.png) no-repeat;
+                font-size: 23px;
+                margin-bottom: 26px;
+                padding-left: 32px;
+                line-height: 27px;
+                height: 27px;
+            }
           .overlay .wrapper .ui-btn{
               width: 80px;
               height: 100%;

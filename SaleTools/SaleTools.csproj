@@ -204,6 +204,7 @@
     <Content Include="Views\GoodsManager\SetBrand.cshtml" />
     <Content Include="Scripts\webuploader\README.md" />
     <Content Include="Views\GoodsManager\AddGoods.cshtml" />
+    <Content Include="Views\Login\AddAdmin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

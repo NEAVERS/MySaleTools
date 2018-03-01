@@ -11,3 +11,16 @@ E:\Project\SaleTools\Dal\obj\Debug\Dal.csprojResolveAssemblyReference.cache
 E:\Project\SaleTools\Dal\obj\Debug\Dal.csproj.CoreCompileInputs.cache
 E:\Project\SaleTools\Dal\obj\Debug\Dal.dll
 E:\Project\SaleTools\Dal\obj\Debug\Dal.pdb
+G:\study\git\MySaleTools\Dal\bin\Debug\Dal.dll.config
+G:\study\git\MySaleTools\Dal\bin\Debug\Dal.dll
+G:\study\git\MySaleTools\Dal\bin\Debug\Dal.pdb
+G:\study\git\MySaleTools\Dal\bin\Debug\EntityFramework.dll
+G:\study\git\MySaleTools\Dal\bin\Debug\EntityFramework.SqlServer.dll
+G:\study\git\MySaleTools\Dal\bin\Debug\Model.dll
+G:\study\git\MySaleTools\Dal\bin\Debug\Model.pdb
+G:\study\git\MySaleTools\Dal\bin\Debug\EntityFramework.xml
+G:\study\git\MySaleTools\Dal\bin\Debug\EntityFramework.SqlServer.xml
+G:\study\git\MySaleTools\Dal\obj\Debug\Dal.csprojResolveAssemblyReference.cache
+G:\study\git\MySaleTools\Dal\obj\Debug\Dal.csproj.CoreCompileInputs.cache
+G:\study\git\MySaleTools\Dal\obj\Debug\Dal.dll
+G:\study\git\MySaleTools\Dal\obj\Debug\Dal.pdb
