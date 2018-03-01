@@ -1,0 +1,1582 @@
+<html>
+
+<head>
+    <title>
+        新增商品 - 加盟商个人中心
+    </title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="statics/css/bootstrap.min.css">
+    <!-- global css -->
+    <link rel="stylesheet" type="text/css" href="statics/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/base.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/pages/ucenter.css">
+    <style type="text/css">
+    .table {
+        margin-top: 10px;
+    }
+    
+    .table td {
+        padding: 6px;
+    }
+    
+    .table_border_td_none
+                    td {
+        border: none !important;
+    }
+    
+    .input-group input {
+        box-sizing: border-box;
+    }
+    
+    .selectpicker {
+        width: 50%;
+    }
+    
+    #brand_id .btn {
+        display: inline-block;
+        margin-bottom: 0;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        touch-action: manipulation;
+        cursor: pointer;
+        background-image: none;
+        white-space: nowrap;
+        line-height: 1.42857143;
+        border-radius: 4px;
+        -webkit-user-select: none;
+        font-size: 16px;
+        background: none;
+    }
+    
+    .selectpicker .clear {
+        top: 3px;
+    }
+
+    </style>
+    <link type="text/css" rel="stylesheet" href="/statics/js/lib/category_selector/category_selector.css">
+    <link href="/statics/js/lib/kindeditor-4.1.10/themes/default/default.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- 全局顶部导航 -->
+    <div class="topbar" id="topbar">
+        <div class="pace">
+        </div>
+        <div class="module clearfix">
+            <div class="lfloat">
+                <a href="http://www.yunmayi.com" target="_blank">
+                        <span class="main_title">
+                            首页
+                        </span>
+                    </a>
+                <span class="hello">
+                        您好，
+                    </span>
+                <span class="username">
+                        57700000
+                    </span>
+                <span>
+                        ，欢迎来到温州批发平台
+                        <!-- ,客服电话:0577-86000802 -->
+                    </span>
+            </div>
+            <div class="rfloat">
+                <ul class="clearfix">
+                    <!-- <li><a href="http://www.yunmayi.com" target="_blank">云蚂蚁首页</a></li> -->
+                    <li style="margin-right:10px;">
+                        <a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">
+                                快递代收
+                            </a>
+                    </li>
+                    <li>
+                        <a href="http://pifa.yunmayi.com/">
+                                批发首页
+                            </a>
+                    </li>
+                    <li>
+                        <a href="http://pifa.yunmayi.com/index/ucenter">
+                                会员中心
+                            </a>
+                    </li>
+                    <li>
+                        <a href="http://pifa.yunmayi.com/cashier/application">
+                                当面付申请
+                            </a>
+                    </li>
+                    <li>
+                        <a href="http://pifa.yunmayi.com/product/collect" class="">
+                                收藏中心
+                            </a>
+                    </li>
+                    <li>
+                        <a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">
+                                帮助中心
+                            </a>
+                    </li>
+                    <li>
+                        <a href="http://pifa.yunmayi.com/cart1">
+                                购物车
+                            </a>
+                    </li>
+                    <li>
+                        <a href="http://passport.pifa.yunmayi.com/logout">
+                                退出
+                            </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js">
+    </script>
+    <script>
+    (function($) {
+        $.fn.snow = function(options) {
+            var $flake = $('<div id="flake" />').css({
+                    'position': 'absolute',
+                    'top': '-50px',
+                    'z-index': '99999999'
+                }).html('&#10052;'),
+                documentHeight = $(document).height(),
+                documentWidth = $(document).width(),
+                defaults = {
+                    minSize: 10,
+                    maxSize: 20,
+                    newOn: 2000,
+                    flakeColor: "red"
+                },
+                options = $.extend({},
+                    defaults, options);
+            var interval = setInterval(function() {
+                    documentHeight = $(document).height();
+                    var startPositionLeft = Math.random() * documentWidth - 100,
+                        startOpacity = 0.5 + Math.random(),
+                        sizeFlake = options.minSize + Math.random() * options.maxSize,
+                        endPositionTop = documentHeight - options.maxSize,
+                        endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                        durationFall = documentHeight * 10 + Math.random() * 5000;
+                    $flake.clone().appendTo('body').css({
+                        left: startPositionLeft,
+                        opacity: startOpacity,
+                        'font-size': sizeFlake,
+                        color: options.flakeColor
+                    }).animate({
+                            top: endPositionTop,
+                            left: endPositionLeft,
+                            opacity: 0.2
+                        },
+                        durationFall, 'linear',
+                        function() {
+                            $(this).remove()
+                        });
+                },
+                options.newOn);
+        };
+    })(jQuery);
+    //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+    //鼠标跟随 留言信息窗口
+    $('.remark').mousemove(function(e) {
+        $(this).children('.content').show();
+        $(this).children('.content').show().css({
+            "top": e.pageY + 20,
+            "left": e.pageX + 20
+        })
+    });
+    //滑出隐藏
+    $('.remark').mouseout(function() {
+        $(this).children('.content').hide();
+    });
+    $(window).resize(function() {
+        /* Act on the event */
+        if (document.documentElement.clientWidth < 1200) {
+            $('#topbar').width(1200);
+        } else {
+            $('#topbar').width('100%');
+        }
+
+    });
+    //加载效果
+    var paces = {
+        pace: $('#topbar .pace'),
+        timer: "",
+        w: 0,
+        start: function() {
+            var _this = this;
+            _this.w = 0;
+            if (_this.timer) {
+                _this.w = 0;
+                _this.pace.width(_this.w + "%");
+                clearInterval(_this.timer);
+            } else {
+                _this.timer = setInterval(function() {
+                        ++_this.w;
+                        _this.pace.width(_this.w + "%");
+                        if (_this.w >= 55) {
+                            clearInterval(_this.timer);
+                        }
+                    },
+                    0)
+            }
+
+        },
+        end: function() {
+            var _this = this;
+            _this.w = parseInt(_this.pace[0].style.width);
+            clearInterval(_this.timer);
+            _this.timer = setInterval(function() {
+                    ++_this.w;
+                    _this.pace.width(_this.w + "%");
+                    if (_this.w >= 100) {
+                        clearInterval(_this.timer);
+                        var setTimer = setTimeout(function() {
+                                _this.w = 0;
+                                _this.pace.width(_this.w);
+                                clearInterval(_this.timer);
+                            },
+                            1000);
+                        clearTimeout(clearTimeout);
+                        return false
+                    }
+                },
+                10)
+        }
+    };
+
+    /*弹框 popup*/
+    function build(status, comment, id, num) {
+        if (!$(".globalPopContainer").length > 0) {
+            $(document.body).append('<div class="globalPopContainer"></div>');
+        }
+        if (!num) {
+            num = '';
+        }
+        if (status == "red") {
+            var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress rprogress'></div>";
+        } else {
+            var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress gprogress'></div>";
+        }
+        html += "<span class='closePop'>x</span>";
+        html += "</div>";
+        $(".globalPopContainer").prepend(html); // 追加新元素   
+        $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth()) Popup(id, $("#popup_" + id).outerWidth());
+    }
+
+    function Popup(id, popWidth) {
+        $("#popup_" + id).find(".progress").animate({
+                width: 0 + 'px'
+            },
+            3000,
+            function() {
+                $("#popup_" + id).animate({
+                        right: -popWidth + 'px'
+                    },
+                    function() {
+                        $(this).remove();
+                    })
+            });
+        $("#popup_" + id).mouseout(function() {
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).find(".progress").animate({
+                    width: 0 + 'px'
+                },
+                function() {
+                    $(this).parent().animate({
+                            right: -popWidth + 'px'
+                        },
+                        function() {
+                            $(this).remove();
+                        })
+                })
+        });
+        $("#popup_" + id).mouseover(function() {
+            var proWidth = $(this).outerWidth() $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).animate({
+                    right: 0 + 'px'
+                },
+                function() {
+                    $(this).find(".progress").animate({
+                        width: proWidth + 'px'
+                    });
+                });
+        });
+        $("#popup_" + id).find(".closePop").on('click',
+            function(event) {
+                $(this).parent().unbind("mouseover");
+                $(this).parent().unbind("mouseout");
+                $(this).siblings('.progress').animate({
+                        width: 0 + 'px'
+                    },
+                    function() {
+                        $(this).parent().animate({
+                                right: -popWidth + 'px'
+                            },
+                            function() {
+                                $(this).remove();
+                            })
+                    })
+            })
+    }
+    </script>
+    <div id="wraper">
+        <div id="main">
+            <div class="module">
+                <div class="ucenter">
+                    <div class="col_side">
+                        <!-- 侧边导航 -->
+                        <div class="menu_box">
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    交易管理
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/list">
+                                            订单管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/arealist">
+                                            订单查询
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/export">
+                                            订单导出
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsbills">
+                                            取货单查询
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickingupgoodsbills">
+                                            拣货单查询
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsalelist">
+                                            多平台销售单
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudpicklist">
+                                            多平台拣货单
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsendgoodsbills">
+                                            多平台取货单
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/expressqueryforagent">
+                                            快递订单查询
+                                        </a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    商品管理
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/product/index">
+                                            商品列表
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/publish" class="selected">
+                                            新增商品
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/checkprice">
+                                            商品审核
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/public">
+                                            公共商品库
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/brandcategory">
+                                            品牌管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/recommendlist">
+                                            推荐商品列表
+                                        </a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    账户中心
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/account/updatepassword">
+                                            修改密码
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/manage">
+                                            账号管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/deliverymanmanage">
+                                            送货员管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/salesmanmanage">
+                                            业务员管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/pickermanage">
+                                            分拣员管理
+                                        </a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    会员管理
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellermanage">
+                                            供应商管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/cloudseller">
+                                            云供应商管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/buyermanage">
+                                            小店管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/banklist">
+                                            银行账号管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/checkorderbranch">
+                                            快递网点查询
+                                        </a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    余额管理
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/balance/list">
+                                            余额明细
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/recharge">
+                                            余额充值
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/creditquota">
+                                            信用额度
+                                        </a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    财务管理
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderconfirmpayrecord">
+                                            订单收款登记
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderpaycontrast">
+                                            应收未收对比
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/bill/salebill">
+                                            平台销售统计
+                                        </a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    仓库管理
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderabnormalrecord">
+                                            订单异常登记
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsscan">
+                                            订单发货扫描
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersendgoodscontrast">
+                                            发货扫描对比
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodswithoutpay">
+                                            已发未交查询
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/storemanage">
+                                            商品库存管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/stocksetting">
+                                            商品入库操作
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/checkout">
+                                            商品出库操作
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/stockoperate">
+                                            商品操作查询
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersortsearch">
+                                            仓库排单管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickgoodsscan">
+                                            订单分拣扫描
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/ordermanagement">
+                                            订单分拣管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/checkpicklist">
+                                            分拣商品查询
+                                        </a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    活动管理
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjslist">
+                                            满就送活动
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/couponlist">
+                                            优惠券活动
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/dpslist">
+                                            单品送活动
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjjlist">
+                                            满就减活动
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/blacklist">
+                                            非活动商品
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/categoryactivity">
+                                            类目活动
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/onlycouponlist">
+                                            优惠券管理
+                                        </a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    系统管理
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/notice/index">
+                                            公告列表
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/diycategory">
+                                            首页类目设置
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/homeposter">
+                                            首页海报
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/sendgoodsfoot">
+                                            页尾设置
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/systemdao/operate">
+                                            系统设置
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/systemlist">
+                                            系统日志
+                                        </a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    积分管理
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/integral/gitmanage">
+                                            积分礼品管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/integral/rulemanage">
+                                            签到规则管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/searchgiftmanage">
+                                            积分商品管理
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/agentbalancelist">
+                                            商城积分明细
+                                        </a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    数据统计
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordercount">
+                                            订单综合统计
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/shopcount">
+                                            商品销售统计
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalcount">
+                                            异常情况统计
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/refundinfo">
+                                            商品退货统计
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/agent/warehouse/inventory">
+                                            商品库存统计
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/goodsbill">
+                                            商品账单统计
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/countlog">
+                                            商品编辑统计
+                                        </a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    退货管理
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/salesmanorderlist">
+                                            申请退货
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnbacklist">
+                                            退货查询
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allreturnbacklist">
+                                            客服审核
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/warehouseaudit">
+                                            仓库审核
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnsellerlist">
+                                            退供应商
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allbacklistformoney">
+                                            财务打款
+                                        </a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    账单管理
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/bill/operate">
+                                            异常登记
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/auditsellerlist">
+                                            商品审核
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/financialauditsellerlist">
+                                            财务审核
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ financialplaysellerlist">
+                                            财务打款
+                                        </a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">
+                                    供应商管理
+                                </dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockinfo">
+                                            到货条码生成
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerqr">
+                                            到货扫描操作
+                                        </a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockbill">
+                                            到货扫描管理
+                                        </a>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col_main">
+                        <div class="col_main_hd">
+                            <h2>
+                                    新增商品
+                                    <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;">
+                                        <a href="http://183.131.13.228:8080/agent/商品管理-新增商品.htm" target="_blank"
+                                        style="color: #ffffff;font-weight: bold;font-size: 13px;">
+                                            帮助
+                                        </a>
+                                    </button>
+                                </h2>
+                        </div>
+                        <div class="col_main_bd">
+                            <div class="inner">
+                                <div class="col_main_content">
+                                    <form action="http://agent.pifa.yunmayi.com/product/publish" method="POST" id="J_PublishProductForm">
+                                        <table class="table table_border_td_none">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="right">
+                                                        商品条形码：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:150px;" name="bar_code" id="J_BarCode" value="">
+                                                        <span class="highlight">
+                                                                （商品最小单位条形码，比如一包清风纸上的条形码）
+                                                            </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        商品中码：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:150px;" name="middle_code" value="">
+                                                        <span class="highlight">
+                                                                （商品大包装里面中包装条形码，比如一提清风纸外包装上的条形码）
+                                                            </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        商品箱码：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:150px;" name="box_code" value="">
+                                                        <span class="highlight">
+                                                                （商品大包装上的条形码，比如清风纸箱子上的条形码；）
+                                                            </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        <span class="highlight">
+                                                                *
+                                                            </span> 供应商：
+                                                    </td>
+                                                    <td>
+                                                        <select name="seller_id" class="seller-id">
+                                                            <option value="0">
+                                                                请选择
+                                                            </option>
+                                                            <option value="16616972">
+                                                                温州市鸿福食品有限公司
+                                                            </option>
+                                                            <option value="16653402">
+                                                                温州理想商务有限公司
+                                                            </option>
+                                                            <option value="16666808">
+                                                                温州市旺盛商业有限公司
+                                                            </option>
+                                                            <option value="16682741">
+                                                                温州市名佳贸易有限公司
+                                                            </option>
+                                                            <option value="16684391">
+                                                                杭州顶益食品有限公司温州分公司
+                                                            </option>
+                                                            <option value="16687448">
+                                                                康师傅（杭州）饮品有限公司温州分公司
+                                                            </option>
+                                                            <option value="16692616">
+                                                                温州备货中转仓
+                                                            </option>
+                                                            <option value="16698606">
+                                                                温州理想商务有限公司2
+                                                            </option>
+                                                            <option value="16713191">
+                                                                温州市佳南副食品有限公司
+                                                            </option>
+                                                            <option value="16725087">
+                                                                温州市鸿福食品有限公司2
+                                                            </option>
+                                                            <option value="16726646">
+                                                                温州市鹿城区小南三禾食品经营部
+                                                            </option>
+                                                            <option value="16746013">
+                                                                温州玥而国际贸易有限公司
+                                                            </option>
+                                                            <option value="16747672">
+                                                                温州奇盟酒天地
+                                                            </option>
+                                                            <option value="16750804">
+                                                                温州瑞云贸易有限公司
+                                                            </option>
+                                                            <option value="16763612">
+                                                                温州市瓯海三垟连勇副食品
+                                                            </option>
+                                                            <option value="16763613">
+                                                                温州市瓯海梧田傲雷副食品
+                                                            </option>
+                                                            <option value="16766309">
+                                                                义乌多妙批发
+                                                            </option>
+                                                            <option value="16772829">
+                                                                永嘉县浩宇日用百货有限公司
+                                                            </option>
+                                                            <option value="16773255">
+                                                                朗木食品
+                                                            </option>
+                                                            <option value="16775857">
+                                                                温州卓峰贸易有限公司
+                                                            </option>
+                                                            <option value="16778081">
+                                                                温州市瓯海梧田农谷粮油经营部
+                                                            </option>
+                                                            <option value="16782441">
+                                                                温州市双源食品有限公司
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" width="120">
+                                                        <span class="highlight">
+                                                                *
+                                                            </span> 商品类目：
+                                                    </td>
+                                                    <td>
+                                                        <!-- category selector -->
+                                                        <div class="wgt_category_select" id="J_CategorySelector" data-fid="0" data-sid="0" data-tid="0">
+                                                            <div class="wgt_category_select_hd">
+                                                                <div class="wgt_category_title">
+                                                                    请选择类目
+                                                                </div>
+                                                                <i class="iconfont">
+                                                                        
+                                                                    </i>
+                                                            </div>
+                                                            <div class="wgt_category_select_bd">
+                                                                <div class="wgt_category_select_tabs">
+                                                                    <a class="wgt_category_select_tab cur" href="javascript:;">
+                                                                            一级类目
+                                                                        </a>
+                                                                    <a class="wgt_category_select_tab" href="javascript:;">
+                                                                            二级类目
+                                                                        </a>
+                                                                    <a class="wgt_category_select_tab" href="javascript:;">
+                                                                            三级类目
+                                                                        </a>
+                                                                </div>
+                                                                <div class="wgt_category_select_contents">
+                                                                    <div class="wgt_category_select_content wgt_category_select_content_show">
+                                                                        <dl>
+                                                                            <dd class="clearfix">
+                                                                                <a href="javascript:;" data-id="1002">
+                                                                                        日用洗护
+                                                                                    </a>
+                                                                                <a href="javascript:;" data-id="1030">
+                                                                                        食品零食
+                                                                                    </a>
+                                                                                <a href="javascript:;" data-id="1041">
+                                                                                        粮油调味
+                                                                                    </a>
+                                                                                <a href="javascript:;" data-id="1051">
+                                                                                        酒水饮料
+                                                                                    </a>
+                                                                                <a href="javascript:;" data-id="1085">
+                                                                                        家用百货
+                                                                                    </a>
+                                                                                <a href="javascript:;" data-id="1957">
+                                                                                        折扣专区
+                                                                                    </a>
+                                                                            </dd>
+                                                                        </dl>
+                                                                    </div>
+                                                                    <div class="wgt_category_select_content">
+                                                                        <dl>
+                                                                            <dd class="clearfix">
+                                                                            </dd>
+                                                                        </dl>
+                                                                    </div>
+                                                                    <div class="wgt_category_select_content">
+                                                                        <dl>
+                                                                            <dd class="clearfix">
+                                                                            </dd>
+                                                                        </dl>
+                                                                    </div>
+                                                                </div>
+                                                                <input type="hidden" name="fst_cat_id" value="0">
+                                                                <input type="hidden" name="snd_cat_id" value="0">
+                                                                <input type="hidden" name="thd_cat_id" value="0">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        <span class="highlight">
+                                                                *
+                                                            </span> 商品标题：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:400px;" name="title" id="J_Title" value="">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        商品副标题：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:400px;" name="sub_title" id="J_SubTitle" value="">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        品牌：
+                                                    </td>
+                                                    <td>
+                                                        <div id="brand_id" class="selectpicker" data-clear="true" data-live="true">
+                                                            <a href="#" class="clear" style="padding-top: 8px;">
+                                                                    <span class="cancel">
+                                                                        ❌
+                                                                    </span>
+                                                                    <span class="sr-only">
+                                                                        Cancel the selection
+                                                                    </span>
+                                                                </a>
+                                                            <button data-id="prov" type="button" class="btn btn-lg btn-block btn-default dropdown-toggle">
+                                                                <span class="placeholder">
+                                                                        请选择
+                                                                    </span>
+                                                                <span class="caret">
+                                                                    </span>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                <div class="live-filtering" data-clear="true" data-autocomplete="true" data-keys="true">
+                                                                    <label class="sr-only" for="input-bts-ex-5">
+                                                                        Search in the list
+                                                                    </label>
+                                                                    <div class="search-box">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon" id="search-icon5">
+                                                                                    <span class="search">
+                                                                                        🔍
+                                                                                    </span>
+                                                                            <a href="#" class="fa fa-times hide filter-clear">
+                                                                                        <span class="sr-only">
+                                                                                            Clear filter
+                                                                                        </span>
+                                                                                    </a>
+                                                                            </span>
+                                                                            <div style="position: relative; height: 34px; display: block;">
+                                                                                <input type="text" class="form-control live-search hint" aria-describedby="search-icon5" tabindex="-1" style="background-color: transparent; position: absolute;">
+                                                                                <input type="text" placeholder="Search in the list" id="input-bts-ex-5" class="form-control live-search" aria-describedby="search-icon5" tabindex="1" style="background-color: transparent; position: relative;">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="list-to-filter">
+                                                                        <ul class="list-unstyled">
+                                                                            <li class="optgroup">
+                                                                                <ul id="J_Brand" class="list-unstyled">
+                                                                                </ul>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <div class="no-search-results" style="display: none;">
+                                                                            <div class="alert alert-warning" role="alert">
+                                                                                <i class="fa fa-warning margin-right-sm">
+                                                                                    </i> No entry for
+                                                                                <strong>
+                                                                                        '
+                                                                                        <span>
+                                                                                        </span>
+                                                                                        '
+                                                                                    </strong> was found.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <input type="hidden" name="brand_id" value="">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        <span class="highlight">
+                                                                *
+                                                            </span> 参考价：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="market_price" id="J_MarketPrice" value="">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        <span class="highlight">
+                                                                *
+                                                            </span> 销售价：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="sell_price" id="J_SellPrice" value="">
+                                                        <span class="highlight">
+                                                            </span>
+                                                        <input type="checkbox" name="sell_price_checked" checked="checked"> 默认客户类型可看
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        A类销售价：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="sell_price_a" id="J_SellPriceA" value="">
+                                                        <input type="checkbox" name="sell_price_a_checked" checked="checked"> A类客户类型可看
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        B类销售价：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="sell_price_b" id="J_SellPriceB" value="">
+                                                        <input type="checkbox" name="sell_price_b_checked" checked="checked"> B类客户类型可看
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        C类销售价：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="sell_price_c" id="J_SellPriceC" value="">
+                                                        <input type="checkbox" name="sell_price_c_checked" checked="checked"> C类客户类型可看
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        D类销售价：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="sell_price_d" id="J_SellPriceD" value="">
+                                                        <input type="checkbox" name="sell_price_d_checked" checked="checked"> D类客户类型可看
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        蚂蚁连锁：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="sell_price_e" value="">
+                                                        <input type="checkbox" name="sell_price_e_checked"> E类客户类型可看
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        <span class="highlight">
+                                                                *
+                                                            </span> 成本价：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="cost_price" id="J_CostPrice" value="">
+                                                        <span class="highlight">
+                                                            </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        <span class="highlight">
+                                                                *
+                                                            </span> 商品库存：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="stock" id="J_Stock" value="">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        锁定库存：
+                                                    </td>
+                                                    <td>
+                                                        <input type="checkbox" value="1" name="is_lock_stock">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        商品编号：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:150px;" name="number" id="J_Number" value="">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        商品规格信息：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:200px;" name="spec" id="J_Spec" value="">
+                                                        <span class="highlight">
+                                                                仅显示10个字符
+                                                            </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        商品单位：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="unit" id="J_Unit" value="">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        单位总数：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="unit_total" id="J_UnitTotal" value="0">
+                                                        <span class="highlight">
+                                                                （商品单位总数，比如一箱农夫山泉有24瓶，则一箱农夫山泉的单位总数为24）
+                                                            </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        商品重量：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="weight" id="J_Unit" value=""> 克
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        商品体积：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="size" id="J_Unit" value="" placeholder="1*1*1">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        商品保质期：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:80px;" name="shelf_life" id="J_Unit" value=""> 天
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        最小起批数量：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:40px;" name="min_sold_num" id="J_MinSoldNum" value="1">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        限购数量：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:40px;" name="limit_buy_num" id="J_LimitBuyNum" value="0">
+                                                    </td>
+                                                </tr>
+                                                <tr style="display: none;">
+                                                    <td class="right">
+                                                        是否同步：
+                                                    </td>
+                                                    <td>
+                                                        <input type="radio" class="inputtext" name="is_synchro" value="0" checked=""> &nbsp;同步&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <input type="radio" class="inputtext" name="is_synchro" value="1"> &nbsp;不同步
+                                                    </td>
+                                                </tr>
+                                                <!-- 商品组图 -->
+                                                <tr>
+                                                    <td class="right">
+                                                        商品组图：
+                                                    </td>
+                                                    <td style="color:#999999;">
+                                                        图片推荐尺寸：800x800
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="color:#999999;">
+                                                        第1张：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" name="pic_list[]" style="width:300px;" id="J_PicList1" value="">
+                                                        <iframe src="http://agent.pifa.yunmayi.com/index/uploadImage?key=J_PicList1" scrolling="no" topmargin="no" width="330" height="30" marginwidth="0" marginheight="0" frameborder="0" align="center">
+                                                        </iframe>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="color:#999999;">
+                                                        第2张：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" name="pic_list[]" style="width:300px;" id="J_PicList2" value="">
+                                                        <iframe src="http://agent.pifa.yunmayi.com/index/uploadImage?key=J_PicList2" scrolling="no" topmargin="no" width="330" height="30" marginwidth="0" marginheight="0" frameborder="0" align="center">
+                                                        </iframe>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="color:#999999;">
+                                                        第3张：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" name="pic_list[]" style="width:300px;" id="J_PicList3" value="">
+                                                        <iframe src="http://agent.pifa.yunmayi.com/index/uploadImage?key=J_PicList3" scrolling="no" topmargin="no" width="330" height="30" marginwidth="0" marginheight="0" frameborder="0" align="center">
+                                                        </iframe>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="color:#999999;">
+                                                        第4张：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" name="pic_list[]" style="width:300px;" id="J_PicList4" value="">
+                                                        <iframe src="http://agent.pifa.yunmayi.com/index/uploadImage?key=J_PicList4" scrolling="no" topmargin="no" width="330" height="30" marginwidth="0" marginheight="0" frameborder="0" align="center">
+                                                        </iframe>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="color:#999999;">
+                                                        第5张：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" name="pic_list[]" style="width:300px;" id="J_PicList5" value="">
+                                                        <iframe src="http://agent.pifa.yunmayi.com/index/uploadImage?key=J_PicList5" scrolling="no" topmargin="no" width="330" height="30" marginwidth="0" marginheight="0" frameborder="0" align="center">
+                                                        </iframe>
+                                                    </td>
+                                                </tr>
+                                                <!-- 商品组图 -->
+                                                <tr>
+                                                    <td class="right">
+                                                        关键字：
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" style="width:400px;" name="keyword" id="J_Keyword" value="">
+                                                        <span class="highlight" style="margin-left:10px;">
+                                                                关键字之间请用逗号隔开
+                                                            </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">
+                                                        商品详情：
+                                                    </td>
+                                                    <!-- id="J_KindEditor"-->
+                                                    <td>
+                                                        <div class="ke-container ke-container-default" style="width: 100%;">
+                                                            <div style="display:block;" class="ke-toolbar" unselectable="on">
+                                                                <span class="ke-outline" data-name="undo" title="后退(Ctrl+Z)" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-undo" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="redo" title="前进(Ctrl+Y)" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-redo" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-inline-block ke-separator">
+                                                                    </span>
+                                                                <span class="ke-outline" data-name="justifyleft" title="左对齐" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-justifyleft"
+                                                                        unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="justifycenter" title="居中" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-justifycenter"
+                                                                        unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="justifyright" title="右对齐" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-justifyright"
+                                                                        unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="justifyfull" title="两端对齐" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-justifyfull"
+                                                                        unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="insertorderedlist" title="编号" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-insertorderedlist"
+                                                                        unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="insertunorderedlist" title="项目符号" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-insertunorderedlist"
+                                                                        unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="indent" title="增加缩进" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-indent" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="outdent" title="减少缩进" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-outdent" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="subscript" title="下标" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-subscript" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="superscript" title="上标" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-superscript"
+                                                                        unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="clearhtml" title="清理HTML代码" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-clearhtml" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="selectall" title="全选(Ctrl+A)" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-selectall" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-inline-block ke-separator">
+                                                                    </span>
+                                                                <span class="ke-outline" data-name="formatblock" title="段落" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-formatblock"
+                                                                        unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="fontname" title="字体" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-fontname" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="fontsize" title="文字大小" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-fontsize" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-inline-block ke-separator">
+                                                                    </span>
+                                                                <span class="ke-outline" data-name="forecolor" title="文字颜色" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-forecolor" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="hilitecolor" title="文字背景" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-hilitecolor"
+                                                                        unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="bold" title="粗体(Ctrl+B)" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-bold" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="italic" title="斜体(Ctrl+I)" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-italic" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="underline" title="下划线(Ctrl+U)" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-underline" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="strikethrough" title="删除线" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-strikethrough"
+                                                                        unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="lineheight" title="行距" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-lineheight" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-inline-block ke-separator">
+                                                                    </span>
+                                                                <span class="ke-outline" data-name="image" title="图片" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-image" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="multiimage" title="批量图片上传" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-multiimage" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="table" title="表格" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-table" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="link" title="超级链接" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-link" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                                <span class="ke-outline" data-name="unlink" title="取消超级链接" unselectable="on">
+                                                                        <span class="ke-toolbar-icon ke-toolbar-icon-url ke-icon-unlink" unselectable="on">
+                                                                        </span>
+                                                                </span>
+                                                            </div>
+                                                            <div style="display: block; height: 311px;" class="ke-edit">
+                                                                <iframe class="ke-edit-iframe" hidefocus="true" frameborder="0" tabindex="" style="width: 100%; height: 311px;">
+                                                                </iframe>
+                                                                <textarea class="ke-edit-textarea" hidefocus="true" tabindex="" style="width: 100%; height: 311px; display: none;">
+                                                                </textarea>
+                                                            </div>
+                                                            <div class="ke-statusbar">
+                                                                <span class="ke-inline-block ke-statusbar-center-icon">
+                                                                    </span>
+                                                                <span class="ke-inline-block ke-statusbar-right-icon">
+                                                                    </span>
+                                                            </div>
+                                                        </div>
+                                                        <textarea id="content" name="content" style="width: 100%; height: 350px; display: none;">
+                                                        </textarea>
+                                                        <br> (每张图片不能大于800KB)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        &nbsp;
+                                                    </td>
+                                                    <td>
+                                                        <button type="submit" class="btn btn_confirm">
+                                                            发布商品
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- global js -->
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js">
+    </script>
+    <script type="text/javascript">
+    var DOMAIN = {
+        "main": "pifa.yunmayi.com",
+        "passport": "passport.pifa.yunmayi.com",
+        "buyer": "buyer.pifa.yunmayi.com",
+        "seller": "seller.pifa.yunmayi.com",
+        "ajax": "ajax.pifa.yunmayi.com",
+        "agent": "agent.pifa.yunmayi.com"
+    };
+    </script>
+    <script type="text/javascript" src="statics/js/lib/help.js">
+    </script>
+    <script type="text/javascript" src="statics/js/lib/category_selector/category_selector.js">
+    </script>
+    <script type="text/javascript" src="statics/js/lib/kindeditor-4.1.10/kindeditor-min.js">
+    </script>
+    <script type="text/javascript" src="statics/js/lib/select_js/bootstrap-select.js">
+    </script>
+    <script type="text/javascript" src="statics/js/lib/select_js/livefilter.min.js">
+    </script>
+    <script type="text/javascript" src="statics/js/lib/select_js/tabcomplete.min.js">
+    </script>
+    <script type="text/javascript">
+    // category selector
+    $("#J_CategorySelector").CategorySelector({
+        afterThdSelect: function(cid) {
+            // 品牌信息
+            $.ajax({
+                "type": "POST",
+                "url": "http://" + DOMAIN.ajax + "/category/leafCatBrandList",
+                "dataType": "jsonp",
+                "data": {
+                    "leaf_id": cid
+                },
+                "success": function(result) {
+                    var bhtml = "";
+                    "<li class='filter-item items' data-filter='请选择' data-value='0'></li>";
+                    for (var k in result) {
+                        bhtml += "<li class='filter-item items' data-filter=\"" + result[k].name + "\"  data-value=\"" + result[k].id + "\">" + result[k].name + "</li>";
+                    }
+                    $("#J_Brand").html(bhtml);
+                }
+            });
+        }
+    });
+
+    // kindeditor
+    KindEditor.ready(function(K) {
+        K.create("#content", {
+            items: ['undo', 'redo', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript', 'clearhtml', 'selectall', '|', 'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', '|', 'image', 'multiimage', 'table', 'link', 'unlink']
+        });
+    });
+
+    //供应商选择
+    var warehouse_list = [16692616];
+
+    function validate_warehosue(value) {
+        var count = warehouse_list.length;
+        for (i = 0; i < count; i++) {
+            var item = parseInt(warehouse_list[i]);
+            if (item == value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    $(".seller-id").on("change",
+        function() {
+            var value = parseInt($(this).find("option:selected").val());
+            var is_warehouse = validate_warehosue(value);
+            if (is_warehouse) {
+                $("#J_Stock").val(0).attr("disabled", "disabled");
+            } else {
+                $("#J_Stock").removeAttr("disabled");
+            }
+
+        });
+
+    // 表单submit事件
+    $("#J_PublishProductForm").on("submit",
+        function() {
+            // 类目检测
+            var _category_selector_box = $("#J_CategorySelector");
+            var _fst_cat = $("input:hidden[name=fst_cat_id]", _category_selector_box);
+            var _snd_cat = $("input:hidden[name=snd_cat_id]", _category_selector_box);
+            var _thd_cat = $("input:hidden[name=thd_cat_id]", _category_selector_box);
+            var fid = parseInt(_fst_cat.val());
+            var sid = parseInt(_snd_cat.val());
+            var tid = parseInt(_thd_cat.val());
+            if (isNaN(fid) || fid <= 0 || isNaN(sid) || sid <= 0 || isNaN(tid) || tid <= 0) {
+                build("red", "请设置商品类目信息", fid);
+                return false;
+            }
+
+            // 标题
+            var _title = $("#J_Title");
+            var title = $.trim(_title.val());
+            if (title.length == 0) {
+                build("red", "请设置商品标题", fid);
+                return false;
+            }
+            // 参考价
+            var _market_price = $("#J_MarketPrice");
+            var market_price = parseFloat(_market_price.val());
+            if (isNaN(market_price) || market_price <= 0) {
+                build("red", "请设置商品参考价", fid);
+                return false;
+            }
+            // 销售价
+            var _sell_price = $("#J_SellPrice");
+            var sell_price = parseFloat(_sell_price.val());
+            if (isNaN(sell_price) || sell_price <= 0) {
+                build("red", "请设置商品销售价", fid);
+                return false;
+            }
+            // 成本价
+            var _cost_price = $("#J_CostPrice");
+            var cost_price = parseFloat(_cost_price.val());
+            if (isNaN(cost_price) || cost_price <= 0) {
+                build("red", "请设置商品成本价", fid);
+                return false;
+            }
+            // 商品库存
+            var _stock = $("#J_Stock");
+            var stock = parseInt(_stock.val());
+            if (isNaN(stock) || stock < 0) {
+                build("red", "请设置商品库存", fid);
+                return false;
+            }
+            //最小起批量
+            var _minSoldNum = $('#J_MinSoldNum');
+            var minSoldNum = parseInt(_minSoldNum.val());
+            if (isNaN(minSoldNum) || minSoldNum <= 0) {
+                build("red", "请设置最小起批量", fid);
+                return false;
+            }
+
+            //            var _unitTotal = $('#J_UnitTotal');
+            //            var unitTotal = parseInt(_unitTotal.val());
+            //            if(isNaN(unitTotal) || unitTotal <= 0){
+            //                alert("请设置单位总数");
+            //                return false;
+            //            }
+            return true;
+
+        });
+
+    // 商品条形码失去焦点,获取杭州和上海对应条形码的商品价格信息
+    $("#J_BarCode").on("blur",
+        function() {
+            var barcode = $(this).val().trim();
+            if (barcode.length == 0) {
+                return false;
+            }
+
+            $.ajax({
+                url: "/product/queryPriceMessageByBarcodeForPublish",
+                type: "get",
+                dataType: "json",
+                data: {
+                    barcode: barcode
+                },
+                success: function(result) {
+                    $("#J_SellPrice").siblings("span").text(result.data.sell);
+                    $("#J_CostPrice").siblings("span").text(result.data.cost);
+                }
+            });
+            return true;
+        });
+    </script>
+</body>
+
+</html>
