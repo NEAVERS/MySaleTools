@@ -24,3 +24,16 @@ G:\study\git\MySaleTools\Dal\obj\Debug\Dal.csprojResolveAssemblyReference.cache
 G:\study\git\MySaleTools\Dal\obj\Debug\Dal.csproj.CoreCompileInputs.cache
 G:\study\git\MySaleTools\Dal\obj\Debug\Dal.dll
 G:\study\git\MySaleTools\Dal\obj\Debug\Dal.pdb
+E:\Project\test\SaleTools\Dal\bin\Debug\Dal.dll.config
+E:\Project\test\SaleTools\Dal\bin\Debug\Dal.dll
+E:\Project\test\SaleTools\Dal\bin\Debug\Dal.pdb
+E:\Project\test\SaleTools\Dal\bin\Debug\EntityFramework.dll
+E:\Project\test\SaleTools\Dal\bin\Debug\EntityFramework.SqlServer.dll
+E:\Project\test\SaleTools\Dal\bin\Debug\Model.dll
+E:\Project\test\SaleTools\Dal\bin\Debug\Model.pdb
+E:\Project\test\SaleTools\Dal\bin\Debug\EntityFramework.xml
+E:\Project\test\SaleTools\Dal\bin\Debug\EntityFramework.SqlServer.xml
+E:\Project\test\SaleTools\Dal\obj\Debug\Dal.csprojResolveAssemblyReference.cache
+E:\Project\test\SaleTools\Dal\obj\Debug\Dal.csproj.CoreCompileInputs.cache
+E:\Project\test\SaleTools\Dal\obj\Debug\Dal.dll
+E:\Project\test\SaleTools\Dal\obj\Debug\Dal.pdb

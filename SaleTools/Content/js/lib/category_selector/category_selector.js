@@ -1,5 +1,5 @@
 (function($){
-    var ajax_url = "http://"+DOMAIN.ajax+"/category/getChildrenList";
+    var ajax_url = "/GoodsManager/GetGoodsTypeList";
     var tpl_header_str = "<div class=\"wgt_category_select_hd\"><div class=\"wgt_city_title\">请选择类目</div><i class=\"iconfont\">&#xe607;</i></div>";
     var tpl_body_str = "<div class=\"wgt_category_select_bd\"><div class=\"wgt_category_select_tabs\"><a class=\"wgt_category_select_tab cur\" href=\"javascript:;\">一级类目</a><a class=\"wgt_category_select_tab\" href=\"javascript:;\">二级类目</a><a class=\"wgt_category_select_tab\" href=\"javascript:;\">三级类目</a></div><div class=\"wgt_category_select_content wgt_category_select_content_show\"><dl><dd class=\"clearfix\"></dd></dl></div><div class=\"wgt_category_select_content\"><dl><dd class=\"clearfix\"></dd></dl></div><div class=\"wgt_category_select_content\"><dl><dd class=\"clearfix\"></dd></dl></div><input type=\"hidden\" name=\"fst_cat_id\" value=\"0\"><input type=\"hidden\" name=\"snd_cat_id\" value=\"0\"><input type=\"hidden\" name=\"thd_cat_id\" value=\"0\"></div>";
     var category_cache = {};
@@ -358,7 +358,10 @@
             this.getCategoryList(0, function(result){
                 $(that.container).each(function(index){
                     var elems = that.elements[index];
-                    var fid = result[0].Id;
+                    var fid = "";
+
+                    if ($("#FirstTypeId").val())
+                        fid = $("#FirstTypeId").val();
                     var html = "";
                     var cur_class = "";
 
@@ -381,7 +384,10 @@
 
                         // 初始化二级类目
                         that.getCategoryList(fid, function(result){
-                            var sid = result[0].Id;;
+                            var sid = "";;
+                            if ($("#SecondTypeId").val())
+                                sid = $("#SecondTypeId").val();
+
                             var html = "";
                             var cur_class = "";
 
@@ -404,8 +410,12 @@
                                 that.configs.afterSndSelect(sid);
 
                                 // 初始化三级类目
-                                that.getCategoryList(sid, function(result){
-                                    var tid = parseInt(elems.thidden.val());
+                                that.getCategoryList(sid, function (result) {
+
+                                    var tid = "";
+                                    if ($("#ThirdTYypeId").val())
+                                        sid = $("#ThirdTYypeId").val();
+
                                     var html = "";
                                     var cur_class = "";
 

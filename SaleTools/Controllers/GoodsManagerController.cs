@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Common;
 using BLL;
 using Model;
+using Common.Entities;
 
 namespace SaleTools.Controllers
 {
@@ -41,15 +42,15 @@ namespace SaleTools.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string GetGoodsTypeList(string id )
+        public string GetGoodsTypeList(string id ="" )
         {
             var loginUser = (UserInfo)Session["LoginUser"];
             var guid = Utils.ParseGuid(id);
             var list = _manager.GetDownGoodsType(guid, loginUser.UserId);
             return Utils.SerializeObject(list);
         }
-        /// <summary>
-        /// 添加商品类型
+        /// <summary>5
+        /// 添加商品类型0
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="typeName"></param>
@@ -156,15 +157,24 @@ namespace SaleTools.Controllers
         /// 添加商品页面
         /// </summary>
         /// <returns></returns>
-        public ActionResult AddGoods()
+        public ActionResult AddGoods(string id ="")
         {
+            Guid goodId = Utils.ParseGuid(id);
+            var info = new GoodInfo();
+            var pirceList = new List<PriceOfUserType>();
+
+            if (goodId != Guid.Empty)
+            {
+                pirceList = _manager.GetPriceOfUserTypeByGoodsId(goodId);
+                info = _manager.GetGoodInfoById(goodId);
+            }
             var loginUser = (UserInfo)Session["LoginUser"];
             var list = _user.GetTypeList();
-
             var supplierList = _user.GetSupplierList(loginUser.UserId);
             ViewBag.SupplierList = supplierList;
             ViewBag.UserTypeList = list;
-            return View();
+            ViewBag.PriceList = pirceList;
+            return View(info);
         }
 
         /// <summary>
@@ -188,35 +198,36 @@ namespace SaleTools.Controllers
         {
             var loginUser = (UserInfo)Session["LoginUser"];
             bool res = false;
+            goods.LastUpdateTime = DateTime.Now;
             if (goods.Id == Guid.Empty)
             {
                 goods.Id = Guid.NewGuid();
                 goods.CreateUserId = loginUser.UserId;
                 goods.CreateUserName = loginUser.UserName;
                 goods.CreateTime = DateTime.Now;
-                goods.LastUpdateTime = DateTime.Now;
-                res = _manager.SaveGoodsInfo(goods);
-                if(res)
-                {
-                    List<PriceOfUserType> priceList = new List<PriceOfUserType>();
-                    price.ForEach(x =>
-                    {
-                        var a = x.Split(',');
-                        int typeId = Utils.ParseInt(a[0]);
-                        decimal _price = Utils.ParseDecimal(a[1]);
-                        if(_price>0)
-                        {
-                            var model = new PriceOfUserType();
-                            model.CreateTime = DateTime.Now;
-                            model.Price = _price;
-                            model.GoodsId = goods.Id;
-                            model.UserTypeId = typeId;
-                            priceList.Add(model);
-                        }
-                    });
-                    res = _manager.SavePrice(priceList);
-                }
             }
+            res = _manager.UpdateGoodsInfo(goods);
+            if (res)
+            {
+                List<PriceOfUserType> priceList = new List<PriceOfUserType>();
+                price.ForEach(x =>
+                {
+                    var a = x.Split(',');
+                    int typeId = Utils.ParseInt(a[0]);
+                    decimal _price = Utils.ParseDecimal(a[1]);
+                    if (_price > 0)
+                    {
+                        var model = new PriceOfUserType();
+                        model.CreateTime = DateTime.Now;
+                        model.Price = _price;
+                        model.GoodsId = goods.Id;
+                        model.UserTypeId = typeId;
+                        priceList.Add(model);
+                    }
+                });
+                res = _manager.SavePrice(priceList);
+            }
+
             return res.ToString();
         }
 
@@ -225,12 +236,55 @@ namespace SaleTools.Controllers
 
         public ActionResult GoodsList()
         {
+            var loginUser = (UserInfo)Session["LoginUser"];
+            var list = _user.GetTypeList();
+
+            var supplierList = _user.GetSupplierList(loginUser.UserId);
+            ViewBag.SupplierList = supplierList;
+            ViewBag.UserTypeList = list;
+
             return View();
         }
 
+        /// <summary>
+        /// 获取商品列表
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="size"></param>
+        /// <param name="SupplierId"></param>
+        /// <param name="fstTypeId"></param>
+        /// <param name="secTypeId"></param>
+        /// <param name="thdTypeId"></param>
+        /// <param name="keyWord"></param>
+        /// <returns></returns>
         public string GetGoodsList(int index,int size,string SupplierId = "",string fstTypeId = "",string secTypeId="",string thdTypeId = "",string keyWord="")
         {
-            return "";
+            var loginUser = (UserInfo)Session["LoginUser"];   
+            var page = _manager.GetGoodsList(loginUser.UserId, index, size, SupplierId, fstTypeId, secTypeId, thdTypeId, keyWord);
+            return Utils.SerializeObject(page);
         }
+        /// <summary>
+        /// 删除商品
+        /// </summary>
+        /// <param name="goodsIds"></param>
+        /// <returns></returns>
+        public string DeleteGoods(List<Guid> goodsIds)
+        {
+            var res = _manager.Delete(goodsIds);
+            return Utils.SerializeObject(res);
+        }
+
+        /// <summary>
+        /// 更改商品上架状态
+        /// </summary>
+        /// <param name="goodsIds"></param>
+        /// <param name="isShelves"></param>
+        /// <returns></returns>
+        public string ToggleShelves(List<Guid> goodsIds,bool isShelves)
+        {
+            var res = _manager.ToggleShelves(goodsIds, isShelves);
+            return Utils.SerializeObject(res);
+        }
+
     }
 }

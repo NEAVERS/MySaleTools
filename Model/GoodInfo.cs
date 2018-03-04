@@ -156,5 +156,16 @@ namespace Model
 
         public DateTime LastUpdateTime { get; set; }
 
+        public int SortId { get; set; }
+
+        public bool IsUpShelves { get; set; }
+
+
+        public GoodInfo()
+        {
+            IsUpShelves = false;
+            SortId = 0;
+        }
+
     }
 }

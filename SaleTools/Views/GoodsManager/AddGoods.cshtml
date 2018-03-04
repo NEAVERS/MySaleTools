@@ -4,7 +4,9 @@
     ViewBag.Title = "AddGoods";
     var SupplierList = (List<Supplier>)ViewBag.SupplierList;
     var UserTypeList = (List<UserType>)ViewBag.UserTypeList;
+    var PriceList = (List<PriceOfUserType>)ViewBag.PriceList;
 }
+@model GoodInfo
 <link rel="stylesheet" type="text/css" href="/Content/css/bootstrap.min.css">
 <!-- global css -->
 <link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
@@ -28,7 +30,7 @@
                             商品条形码：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="bar_code" id="J_BarCode" value="">
+                            <input type="text" class="inputtext" style="width:150px;" name="bar_code" id="J_BarCode" value="@Model.BarCode.Trim()">
                             <span class="highlight">
                                 （商品最小单位条形码，比如一包清风纸上的条形码）
                             </span>
@@ -39,7 +41,7 @@
                             商品中码：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="middle_code" id="middle_code" value="">
+                            <input type="text" class="inputtext" style="width:150px;" name="middle_code" id="middle_code" value="@Model.MiddleCode.Trim()">
                             <span class="highlight">
                                 （商品大包装里面中包装条形码，比如一提清风纸外包装上的条形码）
                             </span>
@@ -50,7 +52,7 @@
                             商品箱码：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="box_code" id="box_code" value="">
+                            <input type="text" class="inputtext" style="width:150px;" name="box_code" id="box_code" value="@Model.BoxCode.Trim()">
                             <span class="highlight">
                                 （商品大包装上的条形码，比如清风纸箱子上的条形码；）
                             </span>
@@ -68,11 +70,11 @@
                                     请选择
                                 </option>
                                 @foreach (var item in SupplierList)
-                {
-                    <option value="@item.Id" data-num="@item.SupplierNum">
-                        @item.SupplierCompany
-                    </option>
-}
+                                {
+                                    <option value="@item.Id" data-num="@item.SupplierNum" @(item.Id == Model.SupplierId ? "selected='selected'" : "")>
+                                        @item.SupplierCompany
+                                    </option>
+                                }
                             </select>
                         </td>
                     </tr>
@@ -109,24 +111,6 @@
                                         <div class="wgt_category_select_content wgt_category_select_content_show">
                                             <dl>
                                                 <dd class="clearfix">
-                                                    <a href="javascript:;" data-id="1002">
-                                                        日用洗护
-                                                    </a>
-                                                    <a href="javascript:;" data-id="1030">
-                                                        食品零食
-                                                    </a>
-                                                    <a href="javascript:;" data-id="1041">
-                                                        粮油调味
-                                                    </a>
-                                                    <a href="javascript:;" data-id="1051">
-                                                        酒水饮料
-                                                    </a>
-                                                    <a href="javascript:;" data-id="1085">
-                                                        家用百货
-                                                    </a>
-                                                    <a href="javascript:;" data-id="1957">
-                                                        折扣专区
-                                                    </a>
                                                 </dd>
                                             </dl>
                                         </div>
@@ -154,7 +138,7 @@
                             </span> 商品标题：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:400px;" name="title" id="J_Title" value="">
+                            <input type="text" class="inputtext" style="width:400px;" name="title" id="J_Title" value="@Model.GoodsTittle.Trim()">
                         </td>
                     </tr>
                     <tr>
@@ -162,7 +146,7 @@
                             商品副标题：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:400px;" name="sub_title" id="J_SubTitle" value="">
+                            <input type="text" class="inputtext" style="width:400px;" name="sub_title" id="J_SubTitle" value="@Model.GoodsSubTittle.Trim()">
                         </td>
                     </tr>
                     <tr>
@@ -230,7 +214,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input type="hidden" name="brand_id" id="Mbrand_id" brandName="" value="">
+                                <input type="hidden" name="brand_id" id="Mbrand_id" brandName="" value="@Model.BrandId">
                             </div>
                         </td>
                     </tr>
@@ -259,19 +243,25 @@
                     </tr>
                     @foreach (var item in UserTypeList)
                     {
-                <tr>
-                    <td class="right">
-                        @item.TypeName 销售价：
-                    </td>
-                    <td>
-                        <input type="text" class="inputtext prices" style="width:80px;"  typeId="@item.TypeId" name="sell_price_a"  value="">
-                         @item.TypeName 客户类型可看
-                    </td>
-                </tr>
+                        decimal value = 0;
+                        var pirceItem = PriceList.FirstOrDefault(x => x.UserTypeId == item.TypeId);
+                        if (pirceItem!=null)
+                        {
+                            value = pirceItem.Price;
+                        }
+                        <tr>
+                            <td class="right">
+                                @item.TypeName 销售价：
+                            </td>
+                            <td>
+                                <input type="text" class="inputtext prices" style="width:80px;" typeId="@item.TypeId" name="sell_price_a" value="@value">
+                                @item.TypeName 客户类型可看
+                            </td>
+                        </tr>
 
                     }
 
-                    
+
                     <tr>
                         <td class="right">
                             <span class="highlight">
@@ -279,7 +269,7 @@
                             </span> 成本价：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="cost_price" id="J_CostPrice" value="">
+                            <input type="text" class="inputtext" style="width:80px;" name="cost_price" id="J_CostPrice" value="@Model.CostPrice">
                             <span class="highlight">
                             </span>
                         </td>
@@ -291,7 +281,7 @@
                             </span> 商品库存：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="stock" id="J_Stock" value="">
+                            <input type="text" class="inputtext" style="width:80px;" name="stock" id="J_Stock" value="@Model.Stock">
                         </td>
                     </tr>
                     <tr>
@@ -299,7 +289,7 @@
                             锁定库存：
                         </td>
                         <td>
-                            <input type="checkbox" value="1" name="is_lock_stock" id="is_lock_stock">
+                            <input type="checkbox" value="1" name="is_lock_stock" id="is_lock_stock" @(Model.IsLockStork ? "checked='checked'" : "")>
                         </td>
                     </tr>
                     <tr>
@@ -307,7 +297,7 @@
                             商品编号：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="number" id="J_Number" value="">
+                            <input type="text" class="inputtext" style="width:150px;" name="number" id="J_Number" value="@Model.GoodsNum.Trim()">
                         </td>
                     </tr>
                     <tr>
@@ -315,7 +305,7 @@
                             商品规格信息：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:200px;" name="spec" id="J_Spec" value="">
+                            <input type="text" class="inputtext" style="width:200px;" name="spec" id="J_Spec" value="@Model.Spec.Trim()">
                             <span class="highlight">
                                 仅显示10个字符
                             </span>
@@ -326,7 +316,7 @@
                             商品单位：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="unit" id="J_Unit" value="">
+                            <input type="text" class="inputtext" style="width:80px;" name="unit" id="J_Unit" value="@Model.Unit.Trim()">
                         </td>
                     </tr>
                     <tr>
@@ -334,7 +324,7 @@
                             单位总数：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="unit_total" id="J_UnitTotal" value="0">
+                            <input type="text" class="inputtext" style="width:80px;" name="unit_total" id="J_UnitTotal" value="@Model.BoxSpec.Trim()">
                             <span class="highlight">
                                 （商品单位总数，比如一箱农夫山泉有24瓶，则一箱农夫山泉的单位总数为24）
                             </span>
@@ -345,7 +335,7 @@
                             商品重量：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="weight" id="weight" value=""> 克
+                            <input type="text" class="inputtext" style="width:80px;" name="weight" id="weight" value="@Model.Weight"> 克
                         </td>
                     </tr>
                     <tr>
@@ -353,7 +343,7 @@
                             商品体积：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="size" id="size" value="" placeholder="1*1*1">
+                            <input type="text" class="inputtext" style="width:80px;" name="size" id="size" value="@Model.Size.Trim()" placeholder="1*1*1">
                         </td>
                     </tr>
                     <tr>
@@ -361,7 +351,7 @@
                             商品保质期：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="shelf_life" id="shelf_life" value=""> 天
+                            <input type="text" class="inputtext" style="width:80px;" name="shelf_life" id="shelf_life" value="@Model.ShelfLife"> 天
                         </td>
                     </tr>
                     <tr>
@@ -369,7 +359,7 @@
                             最小起批数量：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:40px;" name="min_sold_num" id="min_sold_num" value="1">
+                            <input type="text" class="inputtext" style="width:40px;" name="min_sold_num" id="min_sold_num" value="@Model.MinCount">
                         </td>
                     </tr>
                     <tr>
@@ -377,7 +367,7 @@
                             限购数量：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:40px;" name="limit_buy_num" id="limit_buy_num" value="0">
+                            <input type="text" class="inputtext" style="width:40px;" name="limit_buy_num" id="limit_buy_num" value="@Model.LimitCount">
                         </td>
                     </tr>
                     <tr style="display: none;">
@@ -423,7 +413,7 @@
                             关键字：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:400px;" name="keyword" id="J_Keyword" value="">
+                            <input type="text" class="inputtext" style="width:400px;" name="keyword" id="J_Keyword" value="@Model.KeyWord.Trim()">
                             <span class="highlight" style="margin-left:10px;">
                                 关键字之间请用逗号隔开
                             </span>
@@ -436,6 +426,7 @@
                         <!-- id="J_KindEditor"-->
                         <td>
                             <textarea id="content" name="content" style="width: 100%; height: 350px;">
+@Model.Detail.Trim()
                                                         </textarea>
 
                         </td>
@@ -455,7 +446,10 @@
         </div>
     </div>
 </div>
-
+<input type="hidden" id="goodInfoId" value="@Model.Id" />
+<input type="hidden" id="FirstTypeId" value="@Model.FirstTypeId" />
+<input type="hidden" id="SecondTypeId" value="@Model.SecondTypeId" />
+<input type="hidden" id="ThirdTYypeId" value="@Model.ThirdTYypeId" />
 <script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js">
 </script>
 <script type="text/javascript">
@@ -537,75 +531,6 @@
 
         });
 
-    // 表单submit事件
-    $("#J_PublishProductForm").on("submit",
-        function () {
-            // 类目检测
-            var _category_selector_box = $("#J_CategorySelector");
-            var _fst_cat = $("input:hidden[name=fst_cat_id]", _category_selector_box);
-            var _snd_cat = $("input:hidden[name=snd_cat_id]", _category_selector_box);
-            var _thd_cat = $("input:hidden[name=thd_cat_id]", _category_selector_box);
-            var fid = parseInt(_fst_cat.val());
-            var sid = parseInt(_snd_cat.val());
-            var tid = parseInt(_thd_cat.val());
-            if (isNaN(fid) || fid <= 0 || isNaN(sid) || sid <= 0 || isNaN(tid) || tid <= 0) {
-                build("red", "请设置商品类目信息", fid);
-                return false;
-            }
-
-            // 标题
-            var _title = $("#J_Title");
-            var title = $.trim(_title.val());
-            if (title.length == 0) {
-                build("red", "请设置商品标题", fid);
-                return false;
-            }
-            // 参考价
-            var _market_price = $("#J_MarketPrice");
-            var market_price = parseFloat(_market_price.val());
-            if (isNaN(market_price) || market_price <= 0) {
-                build("red", "请设置商品参考价", fid);
-                return false;
-            }
-            // 销售价
-            var _sell_price = $("#J_SellPrice");
-            var sell_price = parseFloat(_sell_price.val());
-            if (isNaN(sell_price) || sell_price <= 0) {
-                build("red", "请设置商品销售价", fid);
-                return false;
-            }
-            // 成本价
-            var _cost_price = $("#J_CostPrice");
-            var cost_price = parseFloat(_cost_price.val());
-            if (isNaN(cost_price) || cost_price <= 0) {
-                build("red", "请设置商品成本价", fid);
-                return false;
-            }
-            // 商品库存
-            var _stock = $("#J_Stock");
-            var stock = parseInt(_stock.val());
-            if (isNaN(stock) || stock < 0) {
-                build("red", "请设置商品库存", fid);
-                return false;
-            }
-            //最小起批量
-            var _minSoldNum = $('#J_MinSoldNum');
-            var minSoldNum = parseInt(_minSoldNum.val());
-            if (isNaN(minSoldNum) || minSoldNum <= 0) {
-                build("red", "请设置最小起批量", fid);
-                return false;
-            }
-
-            //            var _unitTotal = $('#J_UnitTotal');
-            //            var unitTotal = parseInt(_unitTotal.val());
-            //            if(isNaN(unitTotal) || unitTotal <= 0){
-            //                alert("请设置单位总数");
-            //                return false;
-            //            }
-            return true;
-
-        });
-
     // 商品条形码失去焦点,获取杭州和上海对应条形码的商品价格信息
     $("#J_BarCode").on("blur",
         function () {
@@ -637,15 +562,16 @@
 
     $(document).on("click", "#save", function () {
         var obj = {};
+        obj.Id = $("#goodInfoId").val();
         obj.GoodsNum = $("#J_Number").val();
-        obj.BarCode =$("#J_BarCode").val();
+        obj.BarCode = $("#J_BarCode").val();
         obj.MiddleCode = $("#middle_code").val();
         obj.BoxCode = $("#box_code").val();
         obj.SupplierId = $("#seller_id").val();
         obj.SupplierNum = $("#seller_id").find("option:selected").attr("data-num");
         obj.SupplierName = $("#seller_id").find("option:selected").text();
         obj.FirstTypeId = $("input:hidden[name=fst_cat_id]", $("#J_CategorySelector")).val();
-        obj.FirstTypeName  = $("#J_Number").val();
+        obj.FirstTypeName = $("#J_Number").val();
         obj.SecondTypeId = $("input:hidden[name=snd_cat_id]", $("#J_CategorySelector")).val();
         obj.SecondTypeName = $("#J_Number").val();
         obj.ThirdTYypeId = $("input:hidden[name=thd_cat_id]", $("#J_CategorySelector")).val();
@@ -676,7 +602,7 @@
         obj.Detail = $("#content").val();
         var price = [];
         $(".prices").each(function () {
-            price.push($(this).attr("typeid")+","+$(this).val());
+            price.push($(this).attr("typeid") + "," + $(this).val());
         })
         $.post("/GoodsManager/SaveGoods", { goods: obj, price: price }, function (e) {
             alert(e);

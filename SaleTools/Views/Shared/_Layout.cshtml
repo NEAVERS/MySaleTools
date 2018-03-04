@@ -8,6 +8,207 @@
     <link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
     <link rel="stylesheet" type="text/css" href="/Content/css/base.css">
     <link rel="stylesheet" type="text/css" href="/Content/css/pages/ucenter.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/pages/ucenter.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/pages/buyer/overlay/overlay.css">
+    <style>
+        /*供应商选择css*/ body, button, input, label, select, td, textarea {
+            font-family: 'Microsoft Yahei',Arial,'lucida grande',tahoma,verdana,arial,sans-serif;
+            font-size: 12px;
+        }
+
+        .table {
+            margin-top: 10px;
+        }
+
+            .table td {
+                padding: 6px;
+            }
+
+        .table_border_td_none td {
+            border: none !important;
+        }
+
+        .input-group input {
+            box-sizing: border-box;
+        }
+
+        .selectpicker {
+            width: 27.4%;
+            float: left;
+        }
+
+        #brand_id .btn {
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            touch-action: manipulation;
+            cursor: pointer;
+            background-image: none;
+            white-space: nowrap;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            font-size: 16px;
+            background: none;
+        }
+
+        .selectpicker .clear {
+            top: 3px;
+        }
+
+        .topbar {
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #dddddd;
+            line-height: 29px;
+            height: 29px;
+        }
+
+            .topbar .lfloat span {
+                float: left;
+            }
+
+        a {
+            color: #333;
+            text-decoration: none;
+        }
+
+            a:hover {
+                color: #e62d2d;
+            }
+
+        .h1, .h2, .h3, h1, h2, h3 {
+            margin: 0;
+        }
+
+        .btn.focus, .btn:focus,
+        .btn:hover {
+            color: #ffffff;
+            text-decoration: none;
+            background-color: #e62d2d;
+        }
+
+        label {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 5px;
+            font-weight: normal;
+        }
+
+        .selectpicker .dropdown-toggle {
+            position: relative;
+            text-align: left;
+            border-radius: 0;
+            margin: 0;
+            padding-top: 3px;
+            height: 32px;
+            width: 216px;
+        }
+
+        .activeSort {
+            border: 1px solid #c40000;
+            color: white;
+            background: #c40000;
+            cursor: pointer;
+        }
+
+        .change:hover {
+            border: 1px solid #c40000;
+            color: #c40000;
+            cursor: pointer;
+        }
+
+        .dot-top, .dot-bottom {
+            float: right;
+            clear: both;
+            margin-bottom: 4px;
+            font-size: 0;
+            line-height: 0;
+            border-width: 6px;
+            border-color: #8f8b8c;
+            border-style: dashed;
+            border-bottom-style: solid;
+            border-left-color: transparent;
+            border-right-color: transparent;
+        }
+        /* 向下的箭头 */
+
+        .dot-bottom {
+            border-bottom-width: 0;
+        }
+        /* 向上的箭头 */
+
+        .dot-top {
+            border-top-width: 0;
+        }
+
+        .color {
+            border-color: #fff;
+            border-left-color: transparent;
+            border-right-color: transparent;
+        }
+
+        input[type=file] {
+            display: inline-block;
+        }
+
+        #seller_id {
+            width: 200px;
+        }
+
+        .item_li {
+            vertical-align: inherit;
+        }
+
+        #seller_id button {
+            background: transparent;
+            border: 1px solid #dddddd;
+        }
+
+        .selectpicker .clear {
+            top: -8px;
+        }
+
+        #seller_id button .text {
+            color: black;
+        }
+
+        #seller_id button .caret {
+            border-top: 4px dashed black;
+        }
+
+        .search_bar .search_item button, .search_bar form button.toNewCheckPick {
+            height: 27px;
+            line-height: 26px;
+            border: none;
+            padding: 0 20px;
+            background: #c40000;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        .dropdown-toggle span.text {
+            float: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 154px;
+        }
+
+        .box {
+            width: 955px;
+            height: 80px;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+    </style>
+    <link type="text/css" rel="stylesheet" href="/Content/js/lib/category_selector/category_selector.css">
+
 </head>
 
 <body>
@@ -245,7 +446,7 @@
                                 <dd class="menu_item">
                                     <a href="/GoodsManager/GoodsTypeList">商品类型</a>
                                     <a href="/GoodsManager/GoodsBrand">品牌管理</a>
-                                    <a href="/User/AddNewUser">商品列表</a>
+                                    <a href="/GoodsManager/GoodsList">商品列表</a>
                                     <a href="/GoodsManager/AddGoods">新增商品</a>
                                 </dd>
                             </dl>

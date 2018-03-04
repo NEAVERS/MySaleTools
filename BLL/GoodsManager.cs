@@ -1,4 +1,5 @@
-﻿using Dal;
+﻿using Common.Entities;
+using Dal;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -109,7 +110,139 @@ namespace BLL
         }
         public bool SavePrice(List<PriceOfUserType> priceList)
         {
-            _context.PriceOfUserTypes.AddRange(priceList);
+            priceList.ForEach(x =>
+            {
+                var model = _context.PriceOfUserTypes.FirstOrDefault(c => c.GoodsId == x.GoodsId && c.UserTypeId == x.UserTypeId);
+                if (model == null)
+                    _context.PriceOfUserTypes.Add(x);
+                else
+                    model.Price = x.Price;
+            });
+            return _context.SaveChanges() > 0;
+        }
+
+        public List<PriceOfUserType> GetPriceOfUserTypeByGoodsId(Guid goodsId)
+        {
+            var q = _context.PriceOfUserTypes.Where(x => x.GoodsId == goodsId);
+            return q.ToList();
+        }
+
+        public PageData<GoodInfo> GetGoodsList(Guid CreaetUserId, int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId, string keyWord)
+        {
+            PageData<GoodInfo> page = new PageData<GoodInfo>();
+            page.PageIndex = index;
+            page.PageSize = size;
+            var q = from c in _context.GoodInfoes
+                    where c.CreateUserId == CreaetUserId
+                    && c.GoodsTittle.Contains(keyWord)
+                    && !c.IsDelete
+                    select c;
+            if (!string.IsNullOrWhiteSpace(SupplierId) && SupplierId != "0")
+                q = q.Where(x => x.SupplierId.ToString() == SupplierId);
+            if (!string.IsNullOrWhiteSpace(fstTypeId) && fstTypeId != "0")
+                q = q.Where(x => x.FirstTypeId.ToString() == fstTypeId);
+            if (!string.IsNullOrWhiteSpace(secTypeId) && secTypeId != "0")
+                q = q.Where(x => x.SecondTypeId.ToString() == secTypeId);
+            if (!string.IsNullOrWhiteSpace(thdTypeId) && thdTypeId != "0")
+                q = q.Where(x => x.ThirdTYypeId.ToString() == thdTypeId);
+
+            page.TotalCount = q.Count();
+
+            q = q.OrderByDescending(x => x.SortId).ThenBy(x=>x.CreateTime);
+            var list = q.Skip((index - 1) * size).Take(size).ToList();
+            page.ListData = list;
+            return page;
+        }
+
+        /// <summary>
+        /// 根据Id获取商品详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public GoodInfo GetGoodInfoById(Guid id)
+        {
+            return _context.GoodInfoes.FirstOrDefault(x => x.Id == id);
+        }
+
+        /// <summary>
+        /// 批量删除商品
+        /// </summary>
+        /// <param name="goodsIds"></param>
+        /// <returns></returns>
+        public bool Delete(List<Guid> goodsIds)
+        {
+            var list = _context.GoodInfoes.Where(x => goodsIds.Contains(x.Id));
+            foreach(var item in list)
+            {
+                item.IsDelete = true;
+            }
+            return _context.SaveChanges() > 0;
+        }
+
+        /// <summary>
+        /// 更改商品的上架状态
+        /// </summary>
+        /// <param name="goodsIds"></param>
+        /// <returns></returns>
+        public bool ToggleShelves(List<Guid> goodsIds, bool IsUpShelves)
+        {
+            var list = _context.GoodInfoes.Where(x => goodsIds.Contains(x.Id));
+            foreach (var item in list)
+            {
+                item.IsUpShelves = IsUpShelves;
+            }
+            return _context.SaveChanges() > 0;
+        }
+      
+        public bool UpdateGoodsInfo(GoodInfo newInfo)
+        {
+            var obj = _context.GoodInfoes.FirstOrDefault(x => x.Id == newInfo.Id);
+            if(obj==null)
+            {
+                _context.GoodInfoes.Add(newInfo);
+            }
+            else
+            {
+                
+                obj.GoodsNum = newInfo.GoodsNum;
+                obj.BarCode = newInfo.BarCode;
+                obj.MiddleCode = newInfo.MiddleCode;
+                obj.BoxCode = newInfo.BoxCode;
+                obj.SupplierId = newInfo.SupplierId;
+                obj.SupplierNum = newInfo.SupplierNum;
+                obj.SupplierName = newInfo.SupplierName;
+                obj.FirstTypeId = newInfo.FirstTypeId;
+                obj.FirstTypeName = newInfo.FirstTypeName;
+                obj.SecondTypeId = newInfo.SecondTypeId;
+                obj.SecondTypeName = newInfo.SecondTypeName;
+                obj.ThirdTYypeId = newInfo.ThirdTYypeId;
+                obj.ThirdTypeName = newInfo.ThirdTypeName;
+                obj.GoodsTittle = newInfo.GoodsTittle;
+                obj.GoodsSubTittle = newInfo.GoodsSubTittle;
+                obj.BrandId = newInfo.BrandId;
+                obj.BrandName = newInfo.BrandName;
+                obj.RetailtPrice = newInfo.RetailtPrice;
+                obj.MarketPrice = newInfo.MarketPrice;
+                obj.CostPrice = newInfo.CostPrice;
+                obj.Stock = newInfo.Stock;
+                obj.IsLockStork = newInfo.IsLockStork;
+                obj.BoxSpec = newInfo.BoxSpec;
+                obj.Spec = newInfo.Spec;
+                obj.Unit = newInfo.Unit;
+                obj.Weight = newInfo.Weight;
+                obj.Size = newInfo.Size;
+                obj.ShelfLife = newInfo.ShelfLife;
+                obj.MinCount = newInfo.MinCount;
+                obj.LimitCount = newInfo.LimitCount;
+                obj.pic1 = newInfo.pic1;
+                obj.pic2 = newInfo.pic2;
+                obj.pic3 = newInfo.pic3;
+                obj.pic4 = newInfo.pic4;
+                obj.pic5 = newInfo.pic5;
+                obj.KeyWord = newInfo.KeyWord;
+                obj.Detail = newInfo.Detail;
+            }
+
             return _context.SaveChanges() > 0;
         }
 

@@ -132,6 +132,8 @@
     <Content Include="Content\js\lib\category_selector\category_selector.js" />
     <Content Include="Content\js\lib\help.js" />
     <Content Include="Content\js\lib\jquery-1.11.1.min.js" />
+    <Content Include="Content\js\lib\jquery.flexslider-min.js" />
+    <Content Include="Content\js\lib\jquery.fly.min.js" />
     <Content Include="Content\js\lib\kindeditor-4.1.10\kindeditor-min.js" />
     <Content Include="Content\js\lib\kindeditor-4.1.10\lang\zh_CN.js" />
     <Content Include="Content\js\lib\kindeditor-4.1.10\themes\default\default.css" />
@@ -140,9 +142,12 @@
     <Content Include="Content\js\lib\laydate\need\laydate.css" />
     <Content Include="Content\js\lib\laydate\skins\ymy\laydate.css" />
     <Content Include="Content\js\lib\overlay.js" />
+    <Content Include="Content\js\lib\paging.js" />
+    <Content Include="Content\js\lib\requestAnimationFrame.js" />
     <Content Include="Content\js\lib\select_js\bootstrap-select.js" />
     <Content Include="Content\js\lib\select_js\livefilter.min.js" />
     <Content Include="Content\js\lib\select_js\tabcomplete.min.js" />
+    <Content Include="Content\js\lib\YMY_scroll.js" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -205,6 +210,7 @@
     <Content Include="Scripts\webuploader\README.md" />
     <Content Include="Views\GoodsManager\AddGoods.cshtml" />
     <Content Include="Views\Login\AddAdmin.cshtml" />
+    <Content Include="Views\GoodsManager\GoodsList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

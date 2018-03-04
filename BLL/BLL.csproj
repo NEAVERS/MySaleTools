@@ -54,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{a80c3369-87e8-4f40-8f08-cd6a549e1b0b}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dal\Dal.csproj">
       <Project>{8d78a19c-c2e2-49af-a80a-2218859e156a}</Project>
       <Name>Dal</Name>
