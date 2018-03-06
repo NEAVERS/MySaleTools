@@ -391,8 +391,9 @@
 <script type="text/javascript" src="/Content/js/lib/paging.js"></script>
 
 <script>
+    LoadList(1);
     $(function () {
-        LoadList(1);
+       
     })
     $("#J_CategorySelector").CategorySelector({
         afterThdSelect: function (cid) {
@@ -412,49 +413,54 @@
         postData.thdTypeId = $("input:hidden[name=thd_cat_id]", $("#J_CategorySelector")).val();
         postData.keyWord = $("#search_value").val();
 
+        $.ajax({
+            url: "/GoodsManager/GetGoodsList",
+            async: false,
+            type: "POST",
+            data: postData,
+            dataType: "json",
+            success: function (e) {
+                var html = "";
+                $(e.ListData).each(function () {
+                    html += '<tbody>< tr ><td colspan="10" class="sep_row">&nbsp;</td></tr >'
+                    html += '<tr class="product_hd"><th colspan="10">条形码:'
+                    html += ' <input type="text" style="width:150px;padding:5px;" class="J_QuickBarCode" data-id="' + this.Id + '" data-bar-code="' + this.BarCode + '" value="' + this.BarCode + '"> 商品ID:' + this.GoodsNum + ' &nbsp;';
+                    html += ' <span style="float:right;">' + this.SupplierName + '</span></th></tr>';
+                    html += '< tr class="product_bd" ><td class="center"><input type="checkbox" name="pass" value="' + this.Id + '"></td>'
+                    html += '<td class="product"><a href="" class="lfloat"><img src="' + this.pic1 + '"></a>';
+                    html += ' <div class="title"><a href="">' + this.GoodsTittle + '</a></div></td>';
+                    html += '<td class="center">2.30</td>';
+                    html += '<td class="center">2362</td>';
+                    html += '<td class="center">9657</td>';
+                    html += '<td class="center">0</td>';
+                    html += '<td class="center">' + this.LastUpdateTime + '</td>'
+                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum" data-id="808105" data-num="10" value="10"></td>';
+                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" data-id="808105" data-sort="341" value="341"></td>';
+                    html += '<td class="center"><a href="http://agent.pifa.yunmayi.com/product/onlysee?id=808105">商品详情</a><br><br>';
+                    html += '<a href="http://agent.pifa.yunmayi.com/product/copyadd?id=808105">复制新增</a><br><br>';
+                    html += '<a href="/GoodsManager/AddGoods/' + this.Id + '">编辑商品</a><br><br>';
+                    html += '<a href="http://agent.pifa.yunmayi.com/product/warehouse?id=808105">备仓库存</a><br><br>';
+                    var strShelves = "上架";
+                    if (this.IsUpShelves) {
+                        strShelves = "下架"
+                    }
+                    html += '<button type="button" class="btn btn_confirm J_UpShelves" data-isShelves="' + this.IsUpShelves + '" data-id="' + this.Id + '">' + strShelves + '</button>';
+                    html += '<input type="button" class="delpro btn" value="删除" data-id="' + this.Id + '" style="margin-top:3px;"></td></tr></tbody>';
+                });
+                $(".product_list").find("tbody").remove();
 
-        $.post("/GoodsManager/GetGoodsList", postData, function (e) {
-            var html = "";
-            $(e.ListData).each(function () {
-                html += '<tbody>< tr ><td colspan="10" class="sep_row">&nbsp;</td></tr >'
-                html += '<tr class="product_hd"><th colspan="10">条形码:'
-                html += ' <input type="text" style="width:150px;padding:5px;" class="J_QuickBarCode" data-id="' + this.Id + '" data-bar-code="' + this.BarCode + '" value="' + this.BarCode + '"> 商品ID:' + this.GoodsNum + ' &nbsp;';
-                html += ' <span style="float:right;">' + this.SupplierName + '</span></th></tr>';
-                html += '< tr class="product_bd" ><td class="center"><input type="checkbox" name="pass" value="' + this.Id + '"></td>'
-                html += '<td class="product"><a href="" class="lfloat"><img src="' + this.pic1.replace('~', '') + '"></a>';
-                html += ' <div class="title"><a href="">' + this.GoodsTittle + '</a></div></td>';
-                html += '<td class="center">2.30</td>';
-                html += '<td class="center">2362</td>';
-                html += '<td class="center">9657</td>';
-                html += '<td class="center">0</td>';
-                html += '<td class="center">' + this.LastUpdateTime + '</td>'
-                html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum" data-id="808105" data-num="10" value="10"></td>';
-                html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" data-id="808105" data-sort="341" value="341"></td>';
-                html += '<td class="center"><a href="http://agent.pifa.yunmayi.com/product/onlysee?id=808105">商品详情</a><br><br>';
-                html += '<a href="http://agent.pifa.yunmayi.com/product/copyadd?id=808105">复制新增</a><br><br>';
-                html += '<a href="/GoodsManager/AddGoods/' + this.Id + '">编辑商品</a><br><br>';
-                html += '<a href="http://agent.pifa.yunmayi.com/product/warehouse?id=808105">备仓库存</a><br><br>';
-                var strShelves = "上架";
-                if (this.IsUpShelves) {
-                    strShelves = "下架"
-                }
-                html += '<button type="button" class="btn btn_confirm J_UpShelves" data-isShelves="' + this.IsUpShelves + '" data-id="' + this.Id + '">' + strShelves+'</button>';
-                html += '<input type="button" class="delpro btn" value="删除" data-id="' + this.Id +'" style="margin-top:3px;"></td></tr></tbody>';
-            });
-            $(".product_list").find("tbody").remove();
-
-            $(".product_list").append(html);
-            //$("#page").paging({
-            //    pageNo: pageIndex,
-            //    totalPage: e.TotalPage,
-            //    totalSize: e.TotalCount,
-            //    callback: function (num) {
-            //        alert(num)
-            //    }
-            //})
-
-        }, "json")
-
+                $(".product_list").append(html);
+                $("#page").paging({
+                    pageNo: pageIndex,
+                    totalPage: e.TotalPage,
+                    totalSize: e.TotalCount,
+                    callback: function (num) {
+                        if (pageIndex != num)
+                            LoadList(num);
+                    }
+                })
+            }
+        })
     }
     $(document).on("click", ".delpro", function () {
         var goodsIds = [];
