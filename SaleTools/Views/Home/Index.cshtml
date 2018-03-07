@@ -1,6 +1,8 @@
 ﻿
+@using Common.Entities;
 @{
     ViewBag.Title = "Index";
+    var typeList = (List<GoddsTypeTree>)ViewBag.GoddsTypeTree;
     Layout = null;
 }
 
@@ -294,85 +296,26 @@
                     <div class="dropdown_menu">
                         <!-- first category -->
                         <ul class="menu_nav_container" id="C_CategoryList">
-                            <li data-source="">
-                                <div class="menu_nav_fst">
-                                    <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1030">食品零食</a></h3>
-                                    <div class="fst_cat_child">
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1031">膨化食品</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1039">饼干点心</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1040">方便食品</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1169">核果蜜饯</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1298">糖果巧克力</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1819">早餐食品</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1996">进口食品</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=2003">散称专区</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=2333">麻辣食品</a>
-                                    </div>
+
+                            @foreach (var item in typeList)
+                            {
+                        <li data-source="">
+                            <div class="menu_nav_fst">
+                                <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=@item.GoodsType.Id">@item.GoodsType.TypeName</a></h3>
+                                <div class="fst_cat_child">
+                                    @foreach (var child in item.TypeList)
+                                    {
+                                    <a href="http://pifa.yunmayi.com/product/list?cid=@child.GoodsType.Id">@child.GoodsType.TypeName</a>
+
+                                    }
+
+                                 
                                 </div>
-                            </li>
-                            <li data-source="">
-                                <div class="menu_nav_fst">
-                                    <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1002">日用洗护</a></h3>
-                                    <div class="fst_cat_child">
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1095">洗发用品         </a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1155">洗浴用品     </a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1173">口腔护理</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1221">日常用纸</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1232">女性护理</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1239">洁衣用品</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1385">家用清洁</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1742">护肤用品</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1798">身体护理</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li data-source="">
-                                <div class="menu_nav_fst">
-                                    <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1041">粮油调味</a></h3>
-                                    <div class="fst_cat_child">
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1043">调味品</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1250">粮食干货</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1924">水产干货</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li data-source="">
-                                <div class="menu_nav_fst">
-                                    <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1051">酒水饮料</a></h3>
-                                    <div class="fst_cat_child">
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1052">饮料</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1053">啤酒</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1054">果酒</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1055">白酒</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=2025">黄酒</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li data-source="">
-                                <div class="menu_nav_fst">
-                                    <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1085">家用百货</a></h3>
-                                    <div class="fst_cat_child">
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1086">日用杂品</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1313">针棉用品</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1833">文具/办公用品</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1834">体育/娱乐用品</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1835">玩具</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1836">电子电器</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1837">工具五金</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1838">饰品</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1839">针棉织品</a>
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1840">其他</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li data-source="">
-                                <div class="menu_nav_fst">
-                                    <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1957">折扣专区</a></h3>
-                                    <div class="fst_cat_child">
-                                        <a href="http://pifa.yunmayi.com/product/list?cid=1958">折扣专区</a>
-                                    </div>
-                                </div>
-                            </li>
+                            </div>
+                        </li>
+
+                            }
+
                         </ul>
                     </div>
                 </div>
@@ -381,30 +324,15 @@
                         <a href="http://pifa.yunmayi.com/">首页</a>
                         <img src="/Content/images/christmas-tree.png" alt="">
                     </li>
-                    <li>
-                        <a href="http://pifa.yunmayi.com/product/list?cid=1030">食品零食</a>
-                        <img src="/Content/images/christmas-tree.png" alt="">
-                    </li>
-                    <li>
-                        <a href="http://pifa.yunmayi.com/product/list?cid=1002">日用洗护</a>
-                        <img src="/Content/images/christmas-tree.png" alt="">
-                    </li>
-                    <li>
-                        <a href="http://pifa.yunmayi.com/product/list?cid=1041">粮油调味</a>
-                        <img src="/Content/images/christmas-tree.png" alt="">
-                    </li>
-                    <li>
-                        <a href="http://pifa.yunmayi.com/product/list?cid=1051">酒水饮料</a>
-                        <img src="/Content/images/christmas-tree.png" alt="">
-                    </li>
-                    <li>
-                        <a href="http://pifa.yunmayi.com/product/list?cid=1085">家用百货</a>
-                        <img src="/Content/images/christmas-tree.png" alt="">
-                    </li>
-                    <li>
-                        <a href="http://pifa.yunmayi.com/product/list?cid=1957">折扣专区</a>
-                        <img src="/Content/images/christmas-tree.png" alt="">
-                    </li>
+                    @foreach (var item in typeList)
+                    {
+                <li>
+                    <a href="http://pifa.yunmayi.com/product/list?cid=@item.GoodsType.Id">@item.GoodsType.TypeName</a>
+                    <img src="/Content/images/christmas-tree.png" alt="">
+                </li>
+
+                    }
+
                 </ul>
             </div>
         </div>
