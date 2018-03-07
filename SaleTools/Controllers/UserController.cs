@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace SaleTools.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private UserManager manager = new UserManager();
         // GET: Usei

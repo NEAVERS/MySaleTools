@@ -10,7 +10,7 @@ using Common.Entities;
 
 namespace SaleTools.Controllers
 {
-    public class GoodsManagerController : Controller
+    public class GoodsManagerController : BaseController
     {
         private GoodsManager _manager = new GoodsManager();
         private UserManager _user = new UserManager();
@@ -285,6 +285,8 @@ namespace SaleTools.Controllers
             var res = _manager.ToggleShelves(goodsIds, isShelves);
             return Utils.SerializeObject(res);
         }
+
+
 
     }
 }
