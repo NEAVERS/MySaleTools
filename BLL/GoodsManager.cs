@@ -246,5 +246,19 @@ namespace BLL
             return _context.SaveChanges() > 0;
         }
 
+
+
+        public List<GoddsTypeTree> GetGoddsTypeTree(Guid createUserId)
+        {
+            var top = _context.GoodsTypes.Where(x => x.CreateUserId == createUserId&&x.ParentId == Guid.Empty).ToList();
+            var list = new List<GoddsTypeTree>();
+            foreach(var item in top)
+            {
+                var tempList = _context.GoodsTypes.Where(x => x.ParentId == item.Id).ToList();
+                var treeNode = new GoddsTypeTree(item, tempList);
+                list.Add(treeNode);
+            }
+            return list;
+        }
     }
 }
