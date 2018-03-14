@@ -1,4 +1,5 @@
 ﻿using BLL;
+using Common;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,13 @@ namespace SaleTools.Controllers
             var list = _manager.GetGoddsTypeTree(user.UserId);
             ViewBag.GoddsTypeTree = list;
             return View();
+        }
+
+        public string LoadProduct(string firstTypeId)
+        {
+            var loginUser = (UserInfo)Session["LoginUser"];
+            var list = _manager.GetGoodsList(loginUser.CreateUserId, 1, 10, "", firstTypeId, "", "", "");
+            return Utils.SerializeObject(list);
         }
     }
 }

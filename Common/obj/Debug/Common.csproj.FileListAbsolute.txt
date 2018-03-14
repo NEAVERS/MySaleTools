@@ -24,3 +24,5 @@ E:\Project\test\SaleTools\Common\obj\Debug\Common.dll
 E:\Project\test\SaleTools\Common\obj\Debug\Common.pdb
 E:\Project\test\SaleTools\Common\bin\Debug\Model.dll
 E:\Project\test\SaleTools\Common\bin\Debug\Model.pdb
+G:\study\git\MySaleTools\Common\bin\Debug\Model.dll
+G:\study\git\MySaleTools\Common\bin\Debug\Model.pdb
