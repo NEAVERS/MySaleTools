@@ -29,5 +29,34 @@ namespace SaleTools.Controllers
             var list = _manager.GetGoodsList(loginUser.CreateUserId, 1, 10, "", firstTypeId, "", "", "");
             return Utils.SerializeObject(list);
         }
+
+
+        public ActionResult Product(string fst = "", string sec = "", string trd = "")
+        {
+            var fstType = _manager.GetGoodsType(fst);
+            var secType = _manager.GetGoodsType(sec);
+            var trdType = _manager.GetGoodsType(trd);
+            var loginUser = (UserInfo)Session["LoginUser"];
+
+            Guid parentId = Guid.Empty;
+            var TypeList = new List<GoodsType>();
+            if (!string.IsNullOrWhiteSpace(trd))
+            {
+                parentId = Utils.ParseGuid(trd);
+            }
+            else if(!string.IsNullOrWhiteSpace(sec))
+            {
+                parentId = Utils.ParseGuid(sec);
+            }
+            else if (!string.IsNullOrWhiteSpace(fst))
+            {
+                parentId = Utils.ParseGuid(fst);
+            }
+            TypeList = _manager.GetDownGoodsType(parentId, loginUser.CreateUserId);
+            ViewBag.TypeList = TypeList;
+            ViewBag.BrandList = _manager.GetBrandList(parentId);
+            return View();
+        }
+
     }
 }

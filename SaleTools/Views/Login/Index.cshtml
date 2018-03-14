@@ -140,8 +140,7 @@
 
                 $.post("/Login/AccountLogin", { account: account, Pwd: Pwd }, function (e) {
                     if (e == "登陆成功")
-                        location.href = "/User/Index";
-                    alert(e);
+                        location.href = "/Home/Index";
                 })
             })
         });

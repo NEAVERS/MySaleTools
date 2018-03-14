@@ -260,5 +260,15 @@ namespace BLL
             }
             return list;
         }
+
+
+        public GoodsType GetGoodsType(string typeId)
+        {
+            if (string.IsNullOrWhiteSpace(typeId))
+            {
+                return null;
+            }
+            return _context.GoodsTypes.FirstOrDefault(x => x.Id.ToString() == typeId);
+        }
     }
 }

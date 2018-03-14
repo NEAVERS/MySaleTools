@@ -214,6 +214,8 @@
     <Content Include="Views\Login\AddAdmin.cshtml" />
     <Content Include="Views\GoodsManager\GoodsList.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Product.cshtml" />
+    <Content Include="Views\Shared\_UserLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

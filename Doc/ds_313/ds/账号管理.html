@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>员工账号管理 - 加盟商个人中心</title>
+    <!-- global css -->
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="statics/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/base.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/pages/ucenter.css">
+</head>
+
+<body>
+    <!-- 全局顶部导航 -->
+    <div class="topbar" id="topbar">
+        <div class="pace"></div>
+        <div class="module clearfix">
+            <div class="lfloat">
+                <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                <span class="hello">您好，</span>
+                <span class="username">57700000</span>
+                <span>
+                                ，欢迎来到温州批发平台
+                <!-- ,客服电话:0577-86000802 -->
+                                            </span>
+            </div>
+            <div class="rfloat">
+                <ul class="clearfix">
+                    <!-- <li><a href="http://www.yunmayi.com" target="_blank">云蚂蚁首页</a></li> -->
+                    <li style="margin-right:10px;"><a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">快递代收</a></li>
+                    <li><a href="http://pifa.yunmayi.com/">批发首页</a></li>
+                    <li><a href="http://pifa.yunmayi.com/index/ucenter">会员中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cashier/application">当面付申请</a></li>
+                    <li><a href="http://pifa.yunmayi.com/product/collect" class="">收藏中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">帮助中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cart1">购物车</a></li>
+                    <li><a href="http://passport.pifa.yunmayi.com/logout">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script>
+    (function($) {
+        $.fn.snow = function(options) {
+            var $flake = $('<div id="flake" />').css({
+                    'position': 'absolute',
+                    'top': '-50px',
+                    'z-index': '99999999'
+                }).html('&#10052;'),
+                documentHeight = $(document).height(),
+                documentWidth = $(document).width(),
+                defaults = {
+                    minSize: 10,
+                    maxSize: 20,
+                    newOn: 2000,
+                    flakeColor: "red"
+                },
+                options = $.extend({}, defaults, options);
+            var interval = setInterval(function() {
+                    documentHeight = $(document).height();
+                    var startPositionLeft = Math.random() * documentWidth - 100,
+                        startOpacity = 0.5 + Math.random(),
+                        sizeFlake = options.minSize + Math.random() * options.maxSize,
+                        endPositionTop = documentHeight - options.maxSize,
+                        endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                        durationFall = documentHeight * 10 + Math.random() * 5000;
+                    $flake.clone().appendTo('body').css({
+                        left: startPositionLeft,
+                        opacity: startOpacity,
+                        'font-size': sizeFlake,
+                        color: options.flakeColor
+                    }).animate({
+                            top: endPositionTop,
+                            left: endPositionLeft,
+                            opacity: 0.2
+                        },
+                        durationFall, 'linear',
+                        function() {
+                            $(this).remove()
+                        });
+                },
+                options.newOn);
+        };
+    })(jQuery);
+    //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+
+
+    //鼠标跟随 留言信息窗口
+    $('.remark').mousemove(function(e) {
+        $(this).children('.content').show();
+        $(this).children('.content').show().css({
+            "top": e.pageY + 20,
+            "left": e.pageX + 20
+        })
+    });
+    //滑出隐藏
+    $('.remark').mouseout(function() {
+        $(this).children('.content').hide();
+    });
+    $(window).resize(function() {
+        /* Act on the event */
+        if (document.documentElement.clientWidth < 1200) {
+            $('#topbar').width(1200);
+        } else {
+            $('#topbar').width('100%');
+        }
+
+    });
+    //加载效果
+    var paces = {
+        pace: $('#topbar .pace'),
+        timer: "",
+        w: 0,
+        start: function() {
+            var _this = this;
+            _this.w = 0;
+            if (_this.timer) {
+                _this.w = 0;
+                _this.pace.width(_this.w + "%");
+                clearInterval(_this.timer);
+            } else {
+                _this.timer = setInterval(function() {
+                    ++_this.w;
+                    _this.pace.width(_this.w + "%");
+                    if (_this.w >= 55) {
+                        clearInterval(_this.timer);
+                    }
+                }, 0)
+            }
+
+
+        },
+        end: function() {
+            var _this = this;
+            _this.w = parseInt(_this.pace[0].style.width);
+            clearInterval(_this.timer);
+            _this.timer = setInterval(function() {
+                ++_this.w;
+                _this.pace.width(_this.w + "%");
+                if (_this.w >= 100) {
+                    clearInterval(_this.timer);
+                    var setTimer = setTimeout(function() {
+                        _this.w = 0;
+                        _this.pace.width(_this.w);
+                        clearInterval(_this.timer);
+                    }, 1000);
+                    clearTimeout(clearTimeout);
+                    return false
+                }
+            }, 10)
+        }
+    };
+
+    /*弹框 popup*/
+    function build(status, comment, id, num) {
+        if (!$(".globalPopContainer").length > 0) {
+            $(document.body).append('<div class="globalPopContainer"></div>');
+        }
+        if (!num) {
+            num = '';
+        }
+        if (status == "red") {
+            var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress rprogress'></div>";
+        } else {
+            var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress gprogress'></div>";
+        }
+        html += "<span class='closePop'>x</span>";
+        html += "</div>";
+        $(".globalPopContainer").prepend(html); // 追加新元素   
+        $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth())
+        Popup(id, $("#popup_" + id).outerWidth());
+    }
+
+    function Popup(id, popWidth) {
+        $("#popup_" + id).find(".progress").animate({ width: 0 + 'px' }, 3000, function() {
+            $("#popup_" + id).animate({ right: -popWidth + 'px' }, function() {
+                $(this).remove();
+            })
+        });
+        $("#popup_" + id).mouseout(function() {
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).find(".progress").animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        });
+        $("#popup_" + id).mouseover(function() {
+            var proWidth = $(this).outerWidth()
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).animate({ right: 0 + 'px' }, function() {
+                $(this).find(".progress").animate({ width: proWidth + 'px' });
+            });
+        });
+        $("#popup_" + id).find(".closePop").on('click', function(event) {
+            $(this).parent().unbind("mouseover");
+            $(this).parent().unbind("mouseout");
+            $(this).siblings('.progress').animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        })
+    }
+    </script>
+    <div id="wraper">
+        <div id="main">
+            <div class="module">
+                <div class="ucenter">
+                    <div class="col_side">
+                        <!-- 侧边导航 -->
+                        <div class="menu_box">
+                            <dl class="menu">
+                                <dt class="menu_title">交易管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/list">订单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/arealist">订单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/export">订单导出</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsbills">取货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickingupgoodsbills">拣货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsalelist">多平台销售单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudpicklist">多平台拣货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsendgoodsbills">多平台取货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/expressqueryforagent">快递订单查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">商品管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/product/index">商品列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/publish">新增商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/checkprice">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/public">公共商品库</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/brandcategory">品牌管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/recommendlist">推荐商品列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账户中心</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/account/updatepassword">修改密码</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/manage" class="selected">账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/deliverymanmanage">送货员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/salesmanmanage">业务员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/pickermanage">分拣员管理</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">会员管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellermanage">供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/cloudseller">云供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/buyermanage">小店管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/banklist">银行账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/checkorderbranch">快递网点查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">余额管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/balance/list">余额明细</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/recharge">余额充值</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/creditquota">信用额度</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">财务管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderconfirmpayrecord">订单收款登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderpaycontrast">应收未收对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/bill/salebill">平台销售统计</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">仓库管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderabnormalrecord">订单异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsscan">订单发货扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersendgoodscontrast">发货扫描对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodswithoutpay">已发未交查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/storemanage">商品库存管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/stocksetting">商品入库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/checkout">商品出库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/stockoperate">商品操作查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersortsearch">仓库排单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickgoodsscan">订单分拣扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/ordermanagement">订单分拣管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/checkpicklist">分拣商品查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">活动管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjslist">满就送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/couponlist">优惠券活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/dpslist">单品送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjjlist">满就减活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/blacklist">非活动商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/categoryactivity">类目活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/onlycouponlist">优惠券管理</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">系统管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/notice/index">公告列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/diycategory">首页类目设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/homeposter">首页海报</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/sendgoodsfoot">页尾设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/systemdao/operate">系统设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/systemlist">系统日志</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">积分管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/integral/gitmanage">积分礼品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/integral/rulemanage">签到规则管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/searchgiftmanage">积分商品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/agentbalancelist">商城积分明细</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">数据统计</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordercount">订单综合统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/shopcount">商品销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalcount">异常情况统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/refundinfo">商品退货统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/agent/warehouse/inventory">商品库存统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/goodsbill">商品账单统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/countlog">商品编辑统计</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">退货管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/salesmanorderlist">申请退货</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnbacklist">退货查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allreturnbacklist">客服审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/warehouseaudit">仓库审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnsellerlist">退供应商</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allbacklistformoney">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账单管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/bill/operate">异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/auditsellerlist">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/financialauditsellerlist">财务审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ financialplaysellerlist">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">供应商管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockinfo">到货条码生成</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerqr">到货扫描操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockbill">到货扫描管理</a>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col_main">
+                        <div class="col_main_hd">
+                            <h2>
+                                员工账号管理                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/账户中心-账号管理.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+                            </h2>
+                        </div>
+                        <div class="col_main_bd">
+                            <div class="inner">
+                                <div class="col_main_content">
+                                    <div class="search_bar">
+                                        <ul class="search_item_list">
+                                            <li class="search_item">
+                                                <a href="http://agent.pifa.yunmayi.com/account/addUser">新增账号</a>
+                                            </li>
+                                            <li class="search_item_list" style="float:right;">
+                                                <form action="/account/manage" method="get">
+                                                    <input type="text" name="keyword" value="">
+                                                    <input type="submit" value="查询">
+                                                </form>
+                                            </li>
+                                            <li class="clearfix"></li>
+                                        </ul>
+                                    </div>
+                                    <table class="table table_border">
+                                        <thead class="bg_color">
+                                            <tr>
+                                                <th class="center">用户ID</th>
+                                                <th class="center">用户名</th>
+                                                <th class="center">姓名</th>
+                                                <th class="center">手机</th>
+                                                <th class="center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="center">16776150</td>
+                                                <td class="center">13686283493</td>
+                                                <td class="center">肖仁江</td>
+                                                <td class="center">13686283493</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16776150&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16776150">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16771748</td>
+                                                <td class="center">13957701960</td>
+                                                <td class="center">方勇</td>
+                                                <td class="center">13957701960</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16771748&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16771748">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16768013</td>
+                                                <td class="center">15258627281</td>
+                                                <td class="center">陈希晋</td>
+                                                <td class="center">15258627281</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16768013&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16768013">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16762475</td>
+                                                <td class="center">13868614158</td>
+                                                <td class="center">柯建光</td>
+                                                <td class="center">13868614158</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16762475&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16762475">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16752980</td>
+                                                <td class="center">13616638382</td>
+                                                <td class="center">陈世望</td>
+                                                <td class="center">13676799837</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16752980&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16752980">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16751995</td>
+                                                <td class="center">88609713</td>
+                                                <td class="center">临时送货员</td>
+                                                <td class="center">13868404218</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16751995&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16751995">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16746128</td>
+                                                <td class="center">15058395925</td>
+                                                <td class="center">韩玉清</td>
+                                                <td class="center">15657731882</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16746128&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16746128">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16727844</td>
+                                                <td class="center">18357700683</td>
+                                                <td class="center">苏红大</td>
+                                                <td class="center">18357700683</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16727844&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16727844">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16721692</td>
+                                                <td class="center">15990725600</td>
+                                                <td class="center">叶集存</td>
+                                                <td class="center">15990725600</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16721692&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16721692">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16681783</td>
+                                                <td class="center">57700006</td>
+                                                <td class="center">胜国</td>
+                                                <td class="center">18367793876</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16681783&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16681783">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16679896</td>
+                                                <td class="center">15657731885</td>
+                                                <td class="center">万成辉</td>
+                                                <td class="center">15657731885</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16679896&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16679896">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16679895</td>
+                                                <td class="center">15657731883</td>
+                                                <td class="center">牛棋</td>
+                                                <td class="center">15657731883</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16679895&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16679895">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16679887</td>
+                                                <td class="center">15657708620</td>
+                                                <td class="center">张军营</td>
+                                                <td class="center">15657708620</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16679887&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16679887">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16656935</td>
+                                                <td class="center">15968758893</td>
+                                                <td class="center">汤家艳</td>
+                                                <td class="center">15657708601</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16656935&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16656935">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16651897</td>
+                                                <td class="center">13857763731</td>
+                                                <td class="center">郑国尧</td>
+                                                <td class="center">13857763731</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16651897&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16651897">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16651889</td>
+                                                <td class="center">13165887268</td>
+                                                <td class="center">杨信辉</td>
+                                                <td class="center">13165887268</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16651889&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16651889">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16641926</td>
+                                                <td class="center">57700005</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center">15558807679</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16641926&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16641926">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16639049</td>
+                                                <td class="center">57700004</td>
+                                                <td class="center">何小娟</td>
+                                                <td class="center">15057573903</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16639049&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16639049">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16638908</td>
+                                                <td class="center">57700003</td>
+                                                <td class="center">郑金浩</td>
+                                                <td class="center">13587438874</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16638908&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16638908">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16632610</td>
+                                                <td class="center">15657708600</td>
+                                                <td class="center">韩玉林</td>
+                                                <td class="center">15657708600</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16632610&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16632610">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16631618</td>
+                                                <td class="center">57700002</td>
+                                                <td class="center">李密</td>
+                                                <td class="center">13868404218</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16631618&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16631618">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16631601</td>
+                                                <td class="center">57700001</td>
+                                                <td class="center">陈孟冉</td>
+                                                <td class="center">13616631303</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16631601&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16631601">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16614587</td>
+                                                <td class="center">57700000</td>
+                                                <td class="center">57700000</td>
+                                                <td class="center">18888888888</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16614587&amp;back=user">编辑</a>
+                                                    <a class="del" href="#" id="16614587">删除</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- global js -->
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    var DOMAIN = { "main": "pifa.yunmayi.com", "passport": "passport.pifa.yunmayi.com", "buyer": "buyer.pifa.yunmayi.com", "seller": "seller.pifa.yunmayi.com", "ajax": "ajax.pifa.yunmayi.com", "agent": "agent.pifa.yunmayi.com" };
+    </script>
+    <script type="text/javascript" src="statics/js/lib/help.js"></script>
+    <script>
+    /*删除员工账户*/
+    $(".del").on("click", function(event) {
+        var gid = $(this).attr("id");
+        event.preventDefault();
+        if (confirm("你确定要删除该员工吗？")) {
+            $.ajax({
+                type: 'post',
+                url: '/Account/deleteManage',
+                dataType: 'json',
+                data: {
+                    gid: gid
+                },
+                success: function(result) {
+                    if (result.state == 0) {
+                        build("red", result.info, gid);
+                    } else {
+                        build("green", result.info, gid);
+                        window.location.reload(true);
+                    }
+                },
+                error: function() {
+
+                }
+
+            });
+        }
+    });
+    </script>
+    <div id="qb-sougou-search" style="display: none; opacity: 0;">
+        <p>搜索</p>
+        <p class="last-btn">复制</p>
+        <iframe src=""></iframe>
+    </div>
+</body>
+
+</html>
