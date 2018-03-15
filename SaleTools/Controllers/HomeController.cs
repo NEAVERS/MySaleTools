@@ -31,31 +31,53 @@ namespace SaleTools.Controllers
         }
 
 
-        public ActionResult Product(string fst = "", string sec = "", string trd = "")
+        public ActionResult Product(string fst = "", string sec = "", string trd = "", string brandId = "")
         {
             var fstType = _manager.GetGoodsType(fst);
             var secType = _manager.GetGoodsType(sec);
             var trdType = _manager.GetGoodsType(trd);
             var loginUser = (UserInfo)Session["LoginUser"];
-
+            string para = "fst";
             Guid parentId = Guid.Empty;
             var TypeList = new List<GoodsType>();
+            var BrandList = new List<GoodsBrand>();
             if (!string.IsNullOrWhiteSpace(trd))
             {
+                para = "trd";
                 parentId = Utils.ParseGuid(trd);
             }
-            else if(!string.IsNullOrWhiteSpace(sec))
+            else if (!string.IsNullOrWhiteSpace(sec))
             {
+                para = "trd";
                 parentId = Utils.ParseGuid(sec);
             }
             else if (!string.IsNullOrWhiteSpace(fst))
             {
+                para = "sec";
                 parentId = Utils.ParseGuid(fst);
             }
             TypeList = _manager.GetDownGoodsType(parentId, loginUser.CreateUserId);
-            ViewBag.TypeList = TypeList;
-            ViewBag.BrandList = _manager.GetBrandList(parentId);
-            return View();
+            if (para == "trd"&& !string.IsNullOrWhiteSpace(trd))
+            {
+                TypeList = new List<GoodsType>();
+                TypeList.Add(_manager.GetGoodsType(parentId.ToString()));
+            }
+            BrandList = _manager.GetBrandList(parentId);
+            if (!string.IsNullOrWhiteSpace(brandId))
+            {
+                var model = BrandList.FirstOrDefault(x => x.Id.ToString() == brandId);
+                if (model != null)
+                {
+                    BrandList = new List<GoodsBrand>()
+                    {model };
+                }
+            }
+                ViewBag.TypeList = TypeList;
+                ViewBag.BrandList = BrandList;
+                ViewBag.Para = para;
+            ViewBag.ParentGuid = parentId;
+                return View();
+            
         }
 
     }
