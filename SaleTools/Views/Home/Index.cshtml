@@ -302,11 +302,11 @@
                             {
                         <li data-source="">
                             <div class="menu_nav_fst">
-                                <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=@item.GoodsType.Id">@item.GoodsType.TypeName</a></h3>
+                                <h3 class="fst_cat_title"><a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a></h3>
                                 <div class="fst_cat_child">
                                     @foreach (var child in item.TypeList)
                                     {
-                                    <a href="http://pifa.yunmayi.com/product/list?cid=@child.GoodsType.Id">@child.GoodsType.TypeName</a>
+                                    <a href="/Home/Product?sec=@child.GoodsType.Id">@child.GoodsType.TypeName</a>
 
                                     }
 
@@ -322,13 +322,13 @@
                 </div>
                 <ul class="list clearfix">
                     <li>
-                        <a href="http://pifa.yunmayi.com/">首页</a>
+                        <a href="/Home/Index">首页</a>
                         <img src="/Content/images/christmas-tree.png" alt="">
                     </li>
                     @foreach (var item in typeList)
                     {
                 <li>
-                    <a href="http://pifa.yunmayi.com/product/list?cid=@item.GoodsType.Id">@item.GoodsType.TypeName</a>
+                    <a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a>
                     <img src="/Content/images/christmas-tree.png" alt="">
                 </li>
 
