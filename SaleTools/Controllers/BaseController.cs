@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using BLL;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace SaleTools.Controllers
 {
     public class BaseController : Controller
     {
+        private GoodsManager _manager = new GoodsManager();
+
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             InitPath(filterContext);
@@ -23,8 +26,18 @@ namespace SaleTools.Controllers
                 filterContext.Result = new RedirectResult("/Login/Index", false);
 
             var user = (UserInfo)Session["LoginUser"];
+            if(user==null)
+            {
+                filterContext.Result = new RedirectResult("/Login/Index", false);
+            }
+            //TODO   传的Id要根据用户的类型（管理员传自己的用户Id 普通用户传创建人Id）
+            if (user != null)
+            {
+                var list = _manager.GetGoddsTypeTree(user.UserId);
+                ViewBag.GoddsTypeTree = list;
+                ViewBag.User = user;
 
-            ViewBag.User = user;
+            }
             //当前登录用户的组织名称
         }
     }

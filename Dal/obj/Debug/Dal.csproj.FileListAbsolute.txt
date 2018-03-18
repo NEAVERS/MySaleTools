@@ -37,3 +37,4 @@ E:\Project\test\SaleTools\Dal\obj\Debug\Dal.csprojResolveAssemblyReference.cache
 E:\Project\test\SaleTools\Dal\obj\Debug\Dal.csproj.CoreCompileInputs.cache
 E:\Project\test\SaleTools\Dal\obj\Debug\Dal.dll
 E:\Project\test\SaleTools\Dal\obj\Debug\Dal.pdb
+E:\Project\test\SaleTools\Dal\obj\Debug\Dal.csproj.CopyComplete

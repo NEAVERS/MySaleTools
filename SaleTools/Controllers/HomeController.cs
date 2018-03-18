@@ -16,10 +16,6 @@ namespace SaleTools.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            var user = (UserInfo)ViewBag.User;
-            //TODO   传的Id要根据用户的类型（管理员传自己的用户Id 普通用户传创建人Id）
-            var list = _manager.GetGoddsTypeTree(user.UserId);
-            ViewBag.GoddsTypeTree = list;
             return View();
         }
 
@@ -45,11 +41,14 @@ namespace SaleTools.Controllers
             {
                 para = "trd";
                 parentId = Utils.ParseGuid(trd);
+                secType = _manager.GetGoodsType(trdType.ParentId.ToString());
+                fstType = _manager.GetGoodsType(secType.ParentId.ToString());
             }
             else if (!string.IsNullOrWhiteSpace(sec))
             {
                 para = "trd";
                 parentId = Utils.ParseGuid(sec);
+                fstType = _manager.GetGoodsType(secType.ParentId.ToString());
             }
             else if (!string.IsNullOrWhiteSpace(fst))
             {
@@ -57,7 +56,7 @@ namespace SaleTools.Controllers
                 parentId = Utils.ParseGuid(fst);
             }
             TypeList = _manager.GetDownGoodsType(parentId, loginUser.CreateUserId);
-            if (para == "trd"&& !string.IsNullOrWhiteSpace(trd))
+            if (para == "trd" && !string.IsNullOrWhiteSpace(trd))
             {
                 TypeList = new List<GoodsType>();
                 TypeList.Add(_manager.GetGoodsType(parentId.ToString()));
@@ -72,12 +71,15 @@ namespace SaleTools.Controllers
                     {model };
                 }
             }
-                ViewBag.TypeList = TypeList;
-                ViewBag.BrandList = BrandList;
-                ViewBag.Para = para;
+            ViewBag.TypeList = TypeList;
+            ViewBag.BrandList = BrandList;
+            ViewBag.Para = para;
             ViewBag.ParentGuid = parentId;
-                return View();
-            
+            ViewBag.FstType = fstType;
+            ViewBag.SecType = secType;
+            ViewBag.TrdType = trdType;
+            return View();
+
         }
 
     }

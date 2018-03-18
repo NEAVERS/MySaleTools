@@ -5,6 +5,9 @@
     var TypeList = (List<GoodsType>)ViewBag.TypeList;
     var BrandList = (List<GoodsBrand>)ViewBag.BrandList;
     Layout = "~/Views/Shared/_UserLayout.cshtml";
+    GoodsType fstType =  (GoodsType)ViewBag.FstType ;
+    GoodsType secType =(GoodsType)ViewBag.SecType;
+    GoodsType trdType =(GoodsType)ViewBag.TrdType;
 }
 
 
@@ -13,11 +16,23 @@
     <div class="pro_list">
         <div class="ctg_info" id="productStyle1">
             <div class="path" style="overflow:hidden;">
-                <div style="float:left;" id="C_Crumbs"><a href="#" class="C_cat" data-id="0">全部商品</a>&gt;<a href="#" class="C_cat" data-id="1030" data-name="食品零食">食品零食</a>&gt;<a href="#" class="C_cat" data-id="1031" data-name="膨化食品">膨化食品</a></div>
-                <div class="search_box">
-                    <!--input type="text" class="text_value" id="searchInput" value="{{ q is defined ? q : '' }}" />
-                    <input type="button" class="search_btn" id="searchBtn" value="搜索" /-->
+                <div style="float:left;" id="C_Crumbs">
+                    <a href="#" class="C_cat" data-id="0">全部商品</a>&gt;
+                    <a href="/Home/Product?fst=@fstType.Id" class="C_cat" data-id="1030" data-name="@fstType.TypeName">@fstType.TypeName</a>
+                    @if (secType != null)
+                    {
+                        var para = ">";
+                @para<a href="/Home/Product?sec=@secType.Id" class="C_cat" data-id="1031" data-name="@secType.TypeName">@secType.TypeName</a>
+                        if (trdType != null)
+                        {
+                @para<a href="/Home/Product?trd=@trdType.Id" class="C_cat" data-id="1031" data-name="@trdType.TypeName">@trdType.TypeName</a>
+                        }
+                    }
                 </div>
+            <div class="search_box">
+                <!--input type="text" class="text_value" id="searchInput" value="{{ q is defined ? q : '' }}" />
+    <input type="button" class="search_btn" id="searchBtn" value="搜索" /-->
+            </div>
             </div>
             <div class="category_con">
                 <h3 style="height: 35px;line-height: 35px;">类目</h3>

@@ -30,6 +30,10 @@ G:\study\git\MySaleTools\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 G:\study\git\MySaleTools\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
 G:\study\git\MySaleTools\BLL\obj\Debug\BLL.dll
 G:\study\git\MySaleTools\BLL\obj\Debug\BLL.pdb
+G:\study\git\MySaleTools\BLL\bin\Debug\Common.dll
+G:\study\git\MySaleTools\BLL\bin\Debug\Newtonsoft.Json.dll
+G:\study\git\MySaleTools\BLL\bin\Debug\Common.pdb
+G:\study\git\MySaleTools\BLL\bin\Debug\Newtonsoft.Json.xml
 E:\Project\test\SaleTools\BLL\bin\Debug\BLL.dll.config
 E:\Project\test\SaleTools\BLL\bin\Debug\BLL.dll
 E:\Project\test\SaleTools\BLL\bin\Debug\BLL.pdb
@@ -50,7 +54,4 @@ E:\Project\test\SaleTools\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 E:\Project\test\SaleTools\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
 E:\Project\test\SaleTools\BLL\obj\Debug\BLL.dll
 E:\Project\test\SaleTools\BLL\obj\Debug\BLL.pdb
-G:\study\git\MySaleTools\BLL\bin\Debug\Common.dll
-G:\study\git\MySaleTools\BLL\bin\Debug\Newtonsoft.Json.dll
-G:\study\git\MySaleTools\BLL\bin\Debug\Common.pdb
-G:\study\git\MySaleTools\BLL\bin\Debug\Newtonsoft.Json.xml
+E:\Project\test\SaleTools\BLL\obj\Debug\BLL.csproj.CopyComplete

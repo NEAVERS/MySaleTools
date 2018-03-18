@@ -300,20 +300,20 @@
 
                             @foreach (var item in typeList)
                             {
-                        <li data-source="">
-                            <div class="menu_nav_fst">
-                                <h3 class="fst_cat_title"><a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a></h3>
-                                <div class="fst_cat_child">
-                                    @foreach (var child in item.TypeList)
-                                    {
-                                    <a href="/Home/Product?sec=@child.GoodsType.Id">@child.GoodsType.TypeName</a>
+                                <li data-source="">
+                                    <div class="menu_nav_fst">
+                                        <h3 class="fst_cat_title"><a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a></h3>
+                                        <div class="fst_cat_child">
+                                            @foreach (var child in item.TypeList)
+                                            {
+                                                <a href="/Home/Product?sec=@child.GoodsType.Id">@child.GoodsType.TypeName</a>
 
-                                    }
+                                            }
 
-                                 
-                                </div>
-                            </div>
-                        </li>
+
+                                        </div>
+                                    </div>
+                                </li>
 
                             }
 
@@ -327,10 +327,10 @@
                     </li>
                     @foreach (var item in typeList)
                     {
-                <li>
-                    <a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a>
-                    <img src="/Content/images/christmas-tree.png" alt="">
-                </li>
+                        <li>
+                            <a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a>
+                            <img src="/Content/images/christmas-tree.png" alt="">
+                        </li>
 
                     }
 
@@ -1471,44 +1471,44 @@
                 @foreach (var item in typeList)
                 {
                     floorIndex++;
-            <div class="module floor goodsFloor " data-id="@item.GoodsType.Id">
-                <a id="@item.GoodsType.TypeName"></a>
-                <div class="mt clearfix">
-                    <!-- 这个东西是用来改客户类型的 -->
-                    <h2>
-                        <a href="/product/list?cid=@item.GoodsType.Id">
-                            <i>@(floorIndex)F</i>@item.GoodsType.TypeName
-                        </a>
-                    </h2>
-                </div>
-                <div class="mc">
-                    <ul class="clearfix">
-                        <li class="item_box">
-                            <div class="item_pic">
-                                <a href="/product/detail?id=975597" target="_blank"><img src="http://i8.yunmayi.com/upload/2017/12/07/b267ef23187012a8eb35bfab94b6d642.jpgXXXXX!!!!!_300x300.jpg"></a>
-                            </div>
-                            <div class="item_name">
-                                <a href="/product/detail?id=975597" target="_blank">上好佳80g特惠装原味薯条</a>
-                            </div>
-                            <div class="item_price">
-                                <span>￥4.50/</span>
-                                <b>规格:</b>
-                            </div>
-                            <div class="item_action clearfix">
-                                <span class="J_AddCollectBtn add_collect_btn" id="975597" data-id="975597">收藏</span>
-                                <div class="rfloat">
-                                    <div class="item_quantity">
-                                        <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                        <input type="text" value="1" data-min="1" data-max="" class="quantity_input J_QuantityInput">
-                                        <a href="javascript:;" class="increment J_Increment">+</a>
+                    <div class="module floor goodsFloor " data-id="@item.GoodsType.Id">
+                        <a id="@item.GoodsType.TypeName"></a>
+                        <div class="mt clearfix">
+                            <!-- 这个东西是用来改客户类型的 -->
+                            <h2>
+                                <a href="/product/list?cid=@item.GoodsType.Id">
+                                    <i>@(floorIndex)F</i>@item.GoodsType.TypeName
+                                </a>
+                            </h2>
+                        </div>
+                        <div class="mc">
+                            <ul class="clearfix">
+                                <li class="item_box">
+                                    <div class="item_pic">
+                                        <a href="/product/detail?id=975597" target="_blank"><img src="http://i8.yunmayi.com/upload/2017/12/07/b267ef23187012a8eb35bfab94b6d642.jpgXXXXX!!!!!_300x300.jpg"></a>
                                     </div>
-                                    <span class="J_Nostock" data-id="975597">售罄</span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+                                    <div class="item_name">
+                                        <a href="/product/detail?id=975597" target="_blank">上好佳80g特惠装原味薯条</a>
+                                    </div>
+                                    <div class="item_price">
+                                        <span>￥4.50/</span>
+                                        <b>规格:</b>
+                                    </div>
+                                    <div class="item_action clearfix">
+                                        <span class="J_AddCollectBtn add_collect_btn" id="975597" data-id="975597">收藏</span>
+                                        <div class="rfloat">
+                                            <div class="item_quantity">
+                                                <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                                <input type="text" value="1" data-min="1" data-max="" class="quantity_input J_QuantityInput">
+                                                <a href="javascript:;" class="increment J_Increment">+</a>
+                                            </div>
+                                            <span class="J_Nostock" data-id="975597">售罄</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 }
             </div>
             <div id="msg">已成功加入购物车！</div>
@@ -1548,17 +1548,17 @@
                 @foreach (var item in typeList)
                 {
 
-            <li>
-                <a href="#@item.GoodsType.TypeName">
-                    @item.GoodsType.TypeName
-                </a>
-            </li>
+                    <li>
+                        <a href="#@item.GoodsType.TypeName">
+                            @item.GoodsType.TypeName
+                        </a>
+                    </li>
                 }
-            <li class="goTop">
-                <a href="javascript:document.body.scrollTop =0">
-                    返回顶部
-                </a>
-            </li>
+                <li class="goTop">
+                    <a href="javascript:document.body.scrollTop =0">
+                        返回顶部
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -1576,7 +1576,33 @@
     <script type="text/javascript" src="/Content/js/lib/requestAnimationFrame.js"></script>
     <!--  -->
 
-   <script>
+
+
+    @*<li class="item_box">
+        <div class="item_pic">
+            <a href="/product/detail?id=847289" target="_blank"><img src="http://i8.yunmayi.com/upload/2017/07/04/e893ea53184654ead6e4ad72d2ad3311.jpgXXXXX!!!!!_300x300.jpg"></a>
+        </div>
+        <div class="item_name">
+            <a href="/product/detail?id=847289" target="_blank">银鹭芒果汁 250ml*24罐</a>
+        </div>
+        <div class="item_price">
+            <span>￥60.00/箱</span>
+            <b>规格:250ml*24</b>
+        </div>
+        <div class="item_action clearfix">
+            <span class="J_AddCollectBtn add_collect_btn" id="847289" data-id="847289">收藏</span>
+            <div class="rfloat">
+                <div class="item_quantity">
+                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                    <input type="text" value="1" data-min="1" data-max="986" class="quantity_input J_QuantityInput">
+                    <a href="javascript:;" class="increment J_Increment">+</a>
+                </div>
+                <a href="#" class="J_AddCartBtn add_cart_btn" data-id="847289" data-start="0" data-end="0" data-num="0">进货</a>
+            </div>
+        </div>
+    </li>*@
+
+    <script>
         LoadProduct();
         function LoadProduct() {
             $(".goodsFloor").each(function () {
@@ -1588,13 +1614,22 @@
                         html += '<li class="item_box"><div class="item_pic" >';
                         html += '<a href= "/product/detail?id=975597" target= "_blank" > <img src="http://i8.yunmayi.com/upload/2017/12/07/b267ef23187012a8eb35bfab94b6d642.jpgXXXXX!!!!!_300x300.jpg"></a></div>';
                         html += '<div class="item_name"><a href="/product/detail?id=975597" target="_blank">上好佳80g特惠装原味薯条</a></div>';
+                        html += '<div class="item_price"><span >￥60.00 / 箱</span ><b>规格:250ml*24</b></div >';
+                        html += ' <div class="item_action clearfix">';
+                        html += '<span class="J_AddCollectBtn add_collect_btn" id="847289" data-id="847289">收藏</span>';
+                        html += '<div class="rfloat"><div class="item_quantity" >';
+                        html += ' <a href="javascript:;" class="decrement J_Decrement">-</a>';
+                        html += '<input type="text" value="1" data-min="1" data-max="986" class="quantity_input J_QuantityInput">';
+                        html += '<a href="javascript:;" class="increment J_Increment">+</a></div>'
+                        html += '<a href="#" class="J_AddCartBtn add_cart_btn" data-id="847289" data-start="0" data-end="0" data-num="0">进货</a>';
+                        html += '</div></div ></li >';
                     });
                     ul.append(html);
 
-                },"json")
+                }, "json")
             })
         }
-   </script>
+    </script>
 
     <script type="text/javascript">
         $(function () {

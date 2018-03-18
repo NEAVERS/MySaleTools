@@ -182,6 +182,12 @@ G:\study\git\MySaleTools\SaleTools\obj\Debug\SaleTools.csprojResolveAssemblyRefe
 G:\study\git\MySaleTools\SaleTools\obj\Debug\SaleTools.csproj.CoreCompileInputs.cache
 G:\study\git\MySaleTools\SaleTools\obj\Debug\SaleTools.dll
 G:\study\git\MySaleTools\SaleTools\obj\Debug\SaleTools.pdb
+E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.CodeAnalysis.dll
+E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+E:\Project\test\SaleTools\SaleTools\bin\roslyn\System.IO.Compression.dll
+E:\Project\test\SaleTools\SaleTools\bin\roslyn\VBCSCompiler.exe
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\csc.exe
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\csc.exe.config
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\csc.rsp
@@ -189,13 +195,9 @@ E:\Project\test\SaleTools\SaleTools\bin\roslyn\csi.exe
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\csi.exe.config
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\csi.rsp
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
-E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.CodeAnalysis.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
-E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.CSharp.Core.targets
-E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.VisualBasic.Core.targets
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.Win32.Primitives.dll
@@ -205,7 +207,6 @@ E:\Project\test\SaleTools\SaleTools\bin\roslyn\System.Console.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\System.Diagnostics.Process.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\System.Diagnostics.StackTrace.dll
-E:\Project\test\SaleTools\SaleTools\bin\roslyn\System.IO.Compression.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\System.IO.FileSystem.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\System.IO.FileSystem.Primitives.dll
@@ -228,11 +229,7 @@ E:\Project\test\SaleTools\SaleTools\bin\roslyn\System.Xml.XPath.XDocument.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\vbc.exe
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\vbc.exe.config
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\vbc.rsp
-E:\Project\test\SaleTools\SaleTools\bin\roslyn\VBCSCompiler.exe
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\VBCSCompiler.exe.config
-E:\Project\test\SaleTools\SaleTools\bin\SaleTools.dll.config
-E:\Project\test\SaleTools\SaleTools\bin\SaleTools.dll
-E:\Project\test\SaleTools\SaleTools\bin\SaleTools.pdb
 E:\Project\test\SaleTools\SaleTools\bin\BLL.dll
 E:\Project\test\SaleTools\SaleTools\bin\Common.dll
 E:\Project\test\SaleTools\SaleTools\bin\EntityFramework.dll
@@ -274,3 +271,7 @@ E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.csprojResolveAssemblyRef
 E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.csproj.CoreCompileInputs.cache
 E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.dll
 E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.pdb
+E:\Project\test\SaleTools\SaleTools\bin\SaleTools.dll.config
+E:\Project\test\SaleTools\SaleTools\bin\SaleTools.dll
+E:\Project\test\SaleTools\SaleTools\bin\SaleTools.pdb
+E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.csproj.CopyComplete
