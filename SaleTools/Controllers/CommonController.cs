@@ -29,7 +29,7 @@ namespace SaleTools.Controllers
             string ex = Path.GetExtension(file.FileName);
             try
             {
-                string path = "~/GoodImg/" + DateTime.Now.ToString("yyyy_MM_dd") + "/";
+                string path = "/GoodImg/" + DateTime.Now.ToString("yyyy_MM_dd") + "/";
                 string savepath = Server.MapPath(path);//设定上传的文件路径
                 if (!Directory.Exists(savepath))
                 {
@@ -57,5 +57,6 @@ namespace SaleTools.Controllers
                 extension = ""
             });
         }
+
     }
 }

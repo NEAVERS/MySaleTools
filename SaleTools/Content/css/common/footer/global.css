@@ -1,4 +1,10 @@
-.footer{width: 100%;border-top:1px solid #d92226;clear:both;background: #f7f7f7;}
+.footer{
+    width: 100%;
+    border-top:1px solid #d92226;
+    clear:both;
+    background: #f7f7f7;
+    position : absolute;
+}
 .content3{width: 1200px;margin: 0 auto;}
 .information{float: left;font-size: 14px; }
 .information .address{

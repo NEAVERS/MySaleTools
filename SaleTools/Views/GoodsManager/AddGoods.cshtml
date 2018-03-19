@@ -1,7 +1,9 @@
 ﻿
 @using Model;
+@model GoodInfo
+
 @{
-    ViewBag.Title = "AddGoods";
+    ViewBag.Title = Model.GoodsTittle;
     var SupplierList = (List<Supplier>)ViewBag.SupplierList;
     var UserTypeList = (List<UserType>)ViewBag.UserTypeList;
     var PriceList = (List<PriceOfUserType>)ViewBag.PriceList;
@@ -245,7 +247,7 @@
                     {
                         decimal value = 0;
                         var pirceItem = PriceList.FirstOrDefault(x => x.UserTypeId == item.TypeId);
-                        if (pirceItem!=null)
+                        if (pirceItem != null)
                         {
                             value = pirceItem.Price;
                         }

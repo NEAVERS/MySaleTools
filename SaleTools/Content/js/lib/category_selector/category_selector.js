@@ -1,5 +1,5 @@
 (function($){
-    var ajax_url = "/GoodsManager/GetGoodsTypeList";
+    var ajax_url = "http://"+DOMAIN.ajax+"/category/getChildrenList";
     var tpl_header_str = "<div class=\"wgt_category_select_hd\"><div class=\"wgt_city_title\">请选择类目</div><i class=\"iconfont\">&#xe607;</i></div>";
     var tpl_body_str = "<div class=\"wgt_category_select_bd\"><div class=\"wgt_category_select_tabs\"><a class=\"wgt_category_select_tab cur\" href=\"javascript:;\">一级类目</a><a class=\"wgt_category_select_tab\" href=\"javascript:;\">二级类目</a><a class=\"wgt_category_select_tab\" href=\"javascript:;\">三级类目</a></div><div class=\"wgt_category_select_content wgt_category_select_content_show\"><dl><dd class=\"clearfix\"></dd></dl></div><div class=\"wgt_category_select_content\"><dl><dd class=\"clearfix\"></dd></dl></div><div class=\"wgt_category_select_content\"><dl><dd class=\"clearfix\"></dd></dl></div><input type=\"hidden\" name=\"fst_cat_id\" value=\"0\"><input type=\"hidden\" name=\"snd_cat_id\" value=\"0\"><input type=\"hidden\" name=\"thd_cat_id\" value=\"0\"></div>";
     var category_cache = {};
@@ -135,7 +135,7 @@
                 elements.fdd.on("click", "a", function(){
                     var _this = $(this);
                     if (!_this.hasClass("cur")) {
-                        var cid = _this.data("id");
+                        var cid = parseInt(_this.data("id"));
                         elements.sdd.html("");
                         elements.tdd.html("");
                         elements.shidden.val(0);
@@ -146,7 +146,7 @@
                         that.getCategoryList(cid, function(result){
                             var html_str = "";
                             for (var k in result) {
-                                html_str += "<a href=\"javascript:;\" data-id=\"" + result[k].Id + "\">" + result[k].TypeName+"</a>";
+                                html_str += "<a href=\"javascript:;\" data-id=\""+result[k].id+"\">"+result[k].cnname+"</a>";
                             }
 
                             elements.sdd.html(html_str);
@@ -166,7 +166,7 @@
                 elements.sdd.on("click", "a", function(){
                     var _this = $(this);
                     if (!_this.hasClass("cur")) {
-                        var cid = _this.data("id");
+                        var cid = parseInt(_this.data("id"));
                         elements.tdd.html("");
                         elements.thidden.val(0);
                         elements.thidden.data("name", "");
@@ -174,7 +174,7 @@
                         that.getCategoryList(cid, function(result){
                             var html_str = "";
                             for (var k in result) {
-                                html_str += "<a href=\"javascript:;\" data-id=\"" + result[k].Id + "\">" + result[k].TypeName+"</a>";
+                                html_str += "<a href=\"javascript:;\" data-id=\""+result[k].id+"\">"+result[k].cnname+"</a>";
                             }
 
                             elements.tdd.html(html_str);
@@ -193,7 +193,7 @@
                 });
                 elements.tdd.on("click", "a", function(){
                     var _this = $(this);
-                    var cid = _this.data("id");
+                    var cid = parseInt(_this.data("id"));
 
                     _this.addClass("cur");
                     _this.siblings("a").removeClass("cur");
@@ -358,64 +358,56 @@
             this.getCategoryList(0, function(result){
                 $(that.container).each(function(index){
                     var elems = that.elements[index];
-                    var fid = "";
-
-                    if ($("#FirstTypeId").val())
-                        fid = $("#FirstTypeId").val();
+                    var fid = parseInt(elems.fhidden.val());
                     var html = "";
                     var cur_class = "";
 
+                    fid = isNaN(fid) ? 0 : fid;
 
                     for (var k in result) {
                         cur_class = "";
-                        if (result[k].Id == fid) {
+                        if (result[k].id == fid) {
                             cur_class = "class=\"cur\"";
-                            elems.fhidden.data("name", result[k].TypeName);
+                            elems.fhidden.data("name", result[k].cnname);
                         }
-                        html += "<a href=\"javascript:;\" " + cur_class + " data-id=\"" + result[k].Id + "\">" + result[k].TypeName+"</a>";
+                        html += "<a href=\"javascript:;\" "+cur_class+" data-id=\""+result[k].id+"\">"+result[k].cnname+"</a>";
                     }
 
                     elems.fdd.html(html);
                     that.tipShow(index);
                     
-                    if (fid != "") {
+                    if (fid > 0) {
                         // callback
                         that.configs.afterFstSelect(fid);
 
                         // 初始化二级类目
                         that.getCategoryList(fid, function(result){
-                            var sid = "";;
-                            if ($("#SecondTypeId").val())
-                                sid = $("#SecondTypeId").val();
-
+                            var sid = parseInt(elems.shidden.val());
                             var html = "";
                             var cur_class = "";
 
+                            sid = isNaN(sid) ? 0 : sid;
 
                             for (var k in result) {
                                 cur_class = "";
-                                if (result[k].Id == sid) {
+                                if (result[k].id == sid) {
                                     cur_class = "class=\"cur\"";
-                                    elems.shidden.data("name", result[k].TypeName);
+                                    elems.shidden.data("name", result[k].cnname);
                                 }
-                                html += "<a href=\"javascript:;\" " + cur_class + " data-id=\"" + result[k].Id + "\">" + result[k].TypeName+"</a>";
+                                html += "<a href=\"javascript:;\" "+cur_class+" data-id=\""+result[k].id+"\">"+result[k].cnname+"</a>";
                             }
 
                             elems.sdd.html(html);
                             that.tipShow(index);
                             that.tabShow(index, 2);
 
-                            if (sid !="") {
+                            if (sid > 0) {
                                 // callback
                                 that.configs.afterSndSelect(sid);
 
                                 // 初始化三级类目
-                                that.getCategoryList(sid, function (result) {
-
-                                    var tid = "";
-                                    if ($("#ThirdTYypeId").val())
-                                        sid = $("#ThirdTYypeId").val();
-
+                                that.getCategoryList(sid, function(result){
+                                    var tid = parseInt(elems.thidden.val());
                                     var html = "";
                                     var cur_class = "";
 
@@ -423,11 +415,11 @@
 
                                     for (var k in result) {
                                         cur_class = "";
-                                        if (result[k].Id == tid) {
+                                        if (result[k].id == tid) {
                                             cur_class = "class=\"cur\"";
-                                            elems.thidden.data("name", result[k].TypeName);
+                                            elems.thidden.data("name", result[k].cnname);
                                         }
-                                        html += "<a href=\"javascript:;\" " + cur_class + " data-id=\"" + result[k].Id + "\">" + result[k].TypeName+"</a>";
+                                        html += "<a href=\"javascript:;\" "+cur_class+" data-id=\""+result[k].id+"\">"+result[k].cnname+"</a>";
                                     }
 
                                     elems.tdd.html(html);
@@ -454,10 +446,10 @@
             else {
                 $.ajax({
                     "type": "POST",
-                    "url": "/GoodsManager/GetGoodsTypeList",
-                    "dataType": "json",
+                    "url": ajax_url,
+                    "dataType": "jsonp",
                     "data": {
-                        "id": parent_id,
+                        "parent_id": parent_id,
                         "type" : type
                     },
                     "success": function(result) {

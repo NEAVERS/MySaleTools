@@ -82,5 +82,13 @@ namespace SaleTools.Controllers
 
         }
 
+
+
+        public ActionResult ProductDetail(Guid Id)
+        {
+            var product = _manager.GetGoodInfoById(Id);
+            return View(product);
+        }
+
     }
 }

@@ -187,12 +187,7 @@
     top :-22px;
     /*transition:all 0.5s;*/
 }
-.header .nav .list li:hover img {
-    -webkit-animation : antMove 0.55s;
-    -o-animation      : antMove 0.55s;
-    animation         : antMove 0.55s;
-    display: block;
-}
+
 @keyframes antMove{
     from {
         opacity :0;

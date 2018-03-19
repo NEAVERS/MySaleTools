@@ -331,7 +331,6 @@
                             <a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a>
                             <img src="/Content/images/christmas-tree.png" alt="">
                         </li>
-
                     }
 
                 </ul>
@@ -1612,9 +1611,9 @@
                 $.post("/Home/LoadProduct", { firstTypeId: typeId }, function (e) {
                     $(e.ListData).each(function () {
                         html += '<li class="item_box"><div class="item_pic" >';
-                        html += '<a href= "/product/detail?id=975597" target= "_blank" > <img src="http://i8.yunmayi.com/upload/2017/12/07/b267ef23187012a8eb35bfab94b6d642.jpgXXXXX!!!!!_300x300.jpg"></a></div>';
-                        html += '<div class="item_name"><a href="/product/detail?id=975597" target="_blank">上好佳80g特惠装原味薯条</a></div>';
-                        html += '<div class="item_price"><span >￥60.00 / 箱</span ><b>规格:250ml*24</b></div >';
+                        html += '<a href= "/Home/ProductDetail/' + this.Id + '" target= "_blank" > <img src="' + this.pic1 + '"></a></div>';
+                        html += '<div class="item_name"><a href="/product/detail?id=975597" target="_blank">' + this.GoodsTittle + '</a></div>';
+                        html += '<div class="item_price"><span >￥60.00 / ' + this.Unit + '</span ><b>规格:' + this.Spec + '</b></div >';
                         html += ' <div class="item_action clearfix">';
                         html += '<span class="J_AddCollectBtn add_collect_btn" id="847289" data-id="847289">收藏</span>';
                         html += '<div class="rfloat"><div class="item_quantity" >';

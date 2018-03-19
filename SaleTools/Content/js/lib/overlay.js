@@ -6,7 +6,7 @@
             // 初始渲染
         	$("body").append('<div class="overlay">\
         		<section class="wrapper">\
-		            <p class="close"><img src="/Content/images/buyer/close-round.png" alt="" class="btn-close"></p>\
+		            <p class="close"><img src="/statics/images/buyer/close-round.png" alt="" class="btn-close"></p>\
 		            <p class="title"></p>\
 		            <p class="contentt"></p>\
 		            <p class="btn-box"><span class="ui-btn ui-btn-red btn-confirm">确定</span><span class="ui-btn ui-btn-gray btn-close">取消</span></p>\
@@ -29,13 +29,13 @@
             var data = $.extend({}, defaluts, i);
             $('.overlay .wrapper .contentt').text(data.info[i].content);
             $('.overlay .wrapper .title').text(data.info[i].title);
-            $('.overlay .wrapper .title').css("background","url(/Content/images/buyer/"+data.info[i].url+") no-repeat"); 
+            $('.overlay .wrapper .title').css("background","url(/statics/images/buyer/"+data.info[i].url+") no-repeat"); 
             $('.overlay').show(300);
         },
         "alertInfo":function(info,target){
              var render2='<div class="overlay">\
                 <section class="wrapper">\
-                    <p class="close"><img src="/Content/images/buyer/close-round.png" alt="" class="btn-close"></p>\
+                    <p class="close"><img src="/statics/images/buyer/close-round.png" alt="" class="btn-close"></p>\
                     <p class="title"></p>\
                     <p class="contentt"></p>\
                     <p class="btn-box"><span class="ui-btn ui-btn-red btn-close">确定</span></p>\
@@ -46,9 +46,9 @@
             $("body").append(render2);
             $('.overlay .wrapper .title').text(info);
             if(target){
-                $('.overlay .wrapper .title').css("background","url(/Content/images/buyer/"+"0116-01.png"+") no-repeat");
+                $('.overlay .wrapper .title').css("background","url(/statics/images/buyer/"+"0116-01.png"+") no-repeat");
             }else{
-                $('.overlay .wrapper .title').css("background","url(/Content/images/buyer/"+"0113-03.png"+") no-repeat");
+                $('.overlay .wrapper .title').css("background","url(/statics/images/buyer/"+"0113-03.png"+") no-repeat");
             }            
             $('.overlay').show(300);
             $('.btn-close').on('click',function(){

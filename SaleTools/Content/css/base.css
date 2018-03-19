@@ -305,7 +305,7 @@ ul.page .cur a {
 
 .rpopup {
     background: #cc5e5e;
-    background-image: url(/Content/images/lg/170602.jpg);
+    background-image: url(/statics/images/worning.png);
     background-position: 15px 11px;
     background-repeat: no-repeat;
     background-size: 30px;
@@ -313,7 +313,7 @@ ul.page .cur a {
 
 .gpopup {
     background: #64cc5e;
-    background-image: url(/Content/images/suc.png);
+    background-image: url(/statics/images/suc.png);
     background-position: 15px 11px;
     background-repeat: no-repeat;
     background-size: 30px;
