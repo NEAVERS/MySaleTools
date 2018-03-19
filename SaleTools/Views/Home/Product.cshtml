@@ -605,3 +605,29 @@
     </div>
 </div>
 
+<script>
+    function LoadProduct() {
+            var typeId = $(this).data("id");
+            var ul = $(this).find("ul");
+            var html = "";
+            $.post("/Home/LoadProduct", { firstTypeId: typeId }, function (e) {
+                $(e.ListData).each(function () {
+                    html += '<li class="item_box"><div class="item_pic" >';
+                    html += '<a href= "/Home/ProductDetail/' + this.Id + '" target= "_blank" > <img src="' + this.pic1 + '"></a></div>';
+                    html += '<div class="item_name"><a href="/product/detail?id=975597" target="_blank">' + this.GoodsTittle + '</a></div>';
+                    html += '<div class="item_price"><span >￥60.00 / ' + this.Unit + '</span ><b>规格:' + this.Spec + '</b></div >';
+                    html += ' <div class="item_action clearfix">';
+                    html += '<span class="J_AddCollectBtn add_collect_btn" id="847289" data-id="847289">收藏</span>';
+                    html += '<div class="rfloat"><div class="item_quantity" >';
+                    html += ' <a href="javascript:;" class="decrement J_Decrement">-</a>';
+                    html += '<input type="text" value="1" data-min="1" data-max="986" class="quantity_input J_QuantityInput">';
+                    html += '<a href="javascript:;" class="increment J_Increment">+</a></div>'
+                    html += '<a href="#" class="J_AddCartBtn add_cart_btn" data-id="847289" data-start="0" data-end="0" data-num="0">进货</a>';
+                    html += '</div></div ></li >';
+                });
+                ul.append(html);
+
+            }, "json")
+    }
+
+</script>
