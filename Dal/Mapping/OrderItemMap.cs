@@ -1,0 +1,33 @@
+﻿using Model;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Dal.Mapping
+{
+    public class OrderItemMap : EntityTypeConfiguration<OrderItem>
+    {
+        public OrderItemMap()
+        {
+            this.HasKey(t => t.Id);
+            this.ToTable("OrderItem");
+            this.Property(t => t.Id).HasColumnName("Id");
+            this.Property(t => t.OrderNum).HasColumnName("OrderNum");
+            this.Property(t => t.OrderId).HasColumnName("OrderId");
+            this.Property(t => t.ProductId).HasColumnName("ProductId");
+            this.Property(t => t.ProductTittle).HasColumnName("ProductTittle");
+            this.Property(t => t.Price).HasColumnName("Price");
+            this.Property(t => t.RealPrice).HasColumnName("RealPrice");
+            this.Property(t => t.Count).HasColumnName("Count");
+            this.Property(t => t.TotalPrice).HasColumnName("TotalPrice");
+            this.Property(t => t.LessPrice).HasColumnName("LessPrice");
+            this.Property(t => t.IsDelete).HasColumnName("IsDelete");
+            this.Property(t => t.IsEffective).HasColumnName("IsEffective");
+            this.Property(t => t.IsInShoppingCar).HasColumnName("IsInShoppingCar");
+
+        }
+    }
+}

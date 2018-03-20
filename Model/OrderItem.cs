@@ -64,6 +64,13 @@ namespace Model
         /// 是否有效
         /// </summary>
         public bool IsEffective { get; set; }
+
+
+        /// <summary>
+        /// 是否在购物车中
+        /// </summary>
+        public bool IsInShoppingCar { get; set; }
+
         public OrderItem()
         {
             this.Id = Guid.Empty;
@@ -78,6 +85,7 @@ namespace Model
             this.LessPrice = 0;
             this.IsDelete = false;
             this.IsEffective = false;
+            this.IsInShoppingCar = true;
         }
 
     }

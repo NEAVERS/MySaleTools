@@ -30,6 +30,10 @@ namespace Dal
 
         public DbSet<PriceOfUserType> PriceOfUserTypes { get; set; }
 
+        public DbSet<OrderInfo> OrderInfoes { get; set; }
+
+        public DbSet<OrderItem> OrderItems { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new UserInfoMap());
@@ -40,7 +44,9 @@ namespace Dal
             modelBuilder.Configurations.Add(new BrandOfGoodsTypeMap());
             modelBuilder.Configurations.Add(new GoodsTypeMap());
             modelBuilder.Configurations.Add(new GoodInfoMap()); 
-            modelBuilder.Configurations.Add(new PriceOfUserTypeMap()); 
+            modelBuilder.Configurations.Add(new PriceOfUserTypeMap());
+            modelBuilder.Configurations.Add(new OrderInfoMap());
+            modelBuilder.Configurations.Add(new OrderItemMap());
         }
     }
 }
