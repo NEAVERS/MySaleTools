@@ -48,7 +48,6 @@
     <Compile Include="OrderInfo.cs" />
     <Compile Include="OrderItem.cs" />
     <Compile Include="PriceOfUserType.cs" />
-    <Compile Include="ShoppingCar.cs" />
     <Compile Include="Supplier.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

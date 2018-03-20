@@ -53,6 +53,8 @@
     <Compile Include="Mapping\GoodInfoMap.cs" />
     <Compile Include="Mapping\GoodsBrandMap.cs" />
     <Compile Include="Mapping\GoodsTypeMap.cs" />
+    <Compile Include="Mapping\OrderInfoMap.cs" />
+    <Compile Include="Mapping\OrderItemMap.cs" />
     <Compile Include="Mapping\PriceOfUserTypeMap.cs" />
     <Compile Include="Mapping\SupplierMap.cs" />
     <Compile Include="Mapping\UserInfoMap.cs" />
