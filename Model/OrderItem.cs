@@ -71,6 +71,11 @@ namespace Model
         /// </summary>
         public bool IsInShoppingCar { get; set; }
 
+        /// <summary>
+        /// 创建人Id
+        /// </summary>
+        public Guid CreateUserId { get; set; }
+
         public OrderItem()
         {
             this.Id = Guid.Empty;
@@ -86,6 +91,7 @@ namespace Model
             this.IsDelete = false;
             this.IsEffective = false;
             this.IsInShoppingCar = true;
+            this.CreateUserId = Guid.Empty;
         }
 
     }

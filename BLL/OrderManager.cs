@@ -17,7 +17,12 @@ namespace BLL
 
         public List<OrderItem> GetShoppingCar(Guid userId)
         {
-            return null;
+            var q = from c in _context.OrderItems
+                    where c.IsInShoppingCar
+                    && !c.IsDelete
+                    && c.IsEffective
+                    select c;
+            return q.ToList();
         }
 
     }
