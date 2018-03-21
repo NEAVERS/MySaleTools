@@ -35,6 +35,6 @@ E:\Project\test\SaleTools\Dal\bin\Debug\EntityFramework.xml
 E:\Project\test\SaleTools\Dal\bin\Debug\EntityFramework.SqlServer.xml
 E:\Project\test\SaleTools\Dal\obj\Debug\Dal.csprojResolveAssemblyReference.cache
 E:\Project\test\SaleTools\Dal\obj\Debug\Dal.csproj.CoreCompileInputs.cache
+E:\Project\test\SaleTools\Dal\obj\Debug\Dal.csproj.CopyComplete
 E:\Project\test\SaleTools\Dal\obj\Debug\Dal.dll
 E:\Project\test\SaleTools\Dal\obj\Debug\Dal.pdb
-E:\Project\test\SaleTools\Dal\obj\Debug\Dal.csproj.CopyComplete

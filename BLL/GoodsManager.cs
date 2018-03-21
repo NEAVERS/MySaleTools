@@ -127,9 +127,9 @@ namespace BLL
             return q.ToList();
         }
 
-        public PageData<GoodInfo> GetGoodsList(Guid CreaetUserId, int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId, string keyWord)
+        public PageData<GoodsWithPrice> GetGoodsList(Guid CreaetUserId, int userTypeId , int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId, string keyWord)
         {
-            PageData<GoodInfo> page = new PageData<GoodInfo>();
+            PageData<GoodsWithPrice> page = new PageData<GoodsWithPrice>();
             page.PageIndex = index;
             page.PageSize = size;
             var q = from c in _context.GoodInfoes
@@ -150,7 +150,15 @@ namespace BLL
 
             q = q.OrderByDescending(x => x.SortId).ThenBy(x=>x.CreateTime);
             var list = q.Skip((index - 1) * size).Take(size).ToList();
-            page.ListData = list;
+            var listData = new List<GoodsWithPrice>();
+            list.ForEach(x =>
+            {
+                GoodsWithPrice item = new GoodsWithPrice();
+                item.info = x;
+                item.price = GetPriceOfUserType(x.Id, userTypeId);
+                listData.Add(item);
+            });
+            page.ListData = listData;
             return page;
         }
 
@@ -269,6 +277,17 @@ namespace BLL
                 return null;
             }
             return _context.GoodsTypes.FirstOrDefault(x => x.Id.ToString() == typeId);
+        }
+
+
+        public PriceOfUserType GetPriceOfUserType(Guid goodsId, int typeId)
+        {
+            var model = _context.PriceOfUserTypes.FirstOrDefault(x => x.GoodsId == goodsId && x.UserTypeId == typeId);
+            if(model==null)
+            {
+                model = _context.PriceOfUserTypes.FirstOrDefault(x => x.GoodsId == goodsId && x.UserTypeId == 0);
+            }
+            return model;
         }
     }
 }

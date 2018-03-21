@@ -259,8 +259,13 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public string GetGoodsList(int index,int size,string SupplierId = "",string fstTypeId = "",string secTypeId="",string thdTypeId = "",string keyWord="")
         {
-            var loginUser = (UserInfo)Session["LoginUser"];   
-            var page = _manager.GetGoodsList(loginUser.UserId, index, size, SupplierId, fstTypeId, secTypeId, thdTypeId, keyWord);
+            var loginUser = (UserInfo)Session["LoginUser"];
+            Guid userId = loginUser.CreateUserId;
+            if(ViewBag.IsAdmin)
+            {
+                userId = loginUser.UserId;
+            }
+            var page = _manager.GetGoodsList(userId, loginUser.TypeId, index, size, SupplierId, fstTypeId, secTypeId, thdTypeId, keyWord);
             return Utils.SerializeObject(page);
         }
         /// <summary>

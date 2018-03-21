@@ -1611,9 +1611,9 @@
                 $.post("/Home/LoadProduct", { firstTypeId: typeId }, function (e) {
                     $(e.ListData).each(function () {
                         html += '<li class="item_box"><div class="item_pic" >';
-                        html += '<a href= "/Home/ProductDetail/' + this.Id + '" target= "_blank" > <img src="' + this.pic1 + '"></a></div>';
-                        html += '<div class="item_name"><a href="/product/detail?id=975597" target="_blank">' + this.GoodsTittle + '</a></div>';
-                        html += '<div class="item_price"><span >￥60.00 / ' + this.Unit + '</span ><b>规格:' + this.Spec + '</b></div >';
+                        html += '<a href= "/Home/ProductDetail/' + this.info.Id + '" target= "_blank" > <img src="' + this.info.pic1 + '"></a></div>';
+                        html += '<div class="item_name"><a href="/product/detail?id=975597" target="_blank">' + this.info.GoodsTittle + '</a></div>';
+                        html += '<div class="item_price"><span >￥' + this.price.Price +' / ' + this.info.Unit + '</span ><b>规格:' + this.info.Spec + '</b></div >';
                         html += ' <div class="item_action clearfix">';
                         html += '<span class="J_AddCollectBtn add_collect_btn" id="847289" data-id="847289">收藏</span>';
                         html += '<div class="rfloat"><div class="item_quantity" >';

@@ -46,7 +46,7 @@ namespace SaleTools.Controllers
                     extension = ex
                 });
             }
-            catch (Exception exception)
+            catch (Exception exception )
             {
             }
             return Json(new

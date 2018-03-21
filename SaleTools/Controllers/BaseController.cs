@@ -11,6 +11,7 @@ namespace SaleTools.Controllers
     public class BaseController : Controller
     {
         private GoodsManager _manager = new GoodsManager();
+        private UserManager _user = new UserManager();
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -33,9 +34,16 @@ namespace SaleTools.Controllers
             //TODO   传的Id要根据用户的类型（管理员传自己的用户Id 普通用户传创建人Id）
             if (user != null)
             {
-                var list = _manager.GetGoddsTypeTree(user.UserId);
+                var userType = _user.GetUserType(user.TypeId);
+                var isAdmin = userType == null ? true : userType.IsAdmin;
+                ViewBag.IsAdmin = isAdmin;
+                Guid userid = user.CreateUserId;
+                if (isAdmin)
+                    userid = user.UserId;
+                var list = _manager.GetGoddsTypeTree(userid);
                 ViewBag.GoddsTypeTree = list;
                 ViewBag.User = user;
+
 
             }
             //当前登录用户的组织名称

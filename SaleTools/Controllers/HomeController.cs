@@ -22,7 +22,13 @@ namespace SaleTools.Controllers
         public string LoadProduct(string firstTypeId)
         {
             var loginUser = (UserInfo)Session["LoginUser"];
-            var list = _manager.GetGoodsList(loginUser.CreateUserId, 1, 10, "", firstTypeId, "", "", "");
+            Guid userId = loginUser.CreateUserId;
+            if (ViewBag.IsAdmin)
+            {
+                userId = loginUser.UserId;
+            }
+
+            var list = _manager.GetGoodsList(userId, loginUser.TypeId, 1, 10, "", firstTypeId, "", "", "");
             return Utils.SerializeObject(list);
         }
 
@@ -68,7 +74,7 @@ namespace SaleTools.Controllers
                 if (model != null)
                 {
                     BrandList = new List<GoodsBrand>()
-                    {model };
+                    { model };
                 }
             }
             ViewBag.TypeList = TypeList;

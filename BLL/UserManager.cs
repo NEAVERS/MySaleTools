@@ -199,5 +199,11 @@ namespace BLL
                 return "添加成功！";
             return "添加失败";
         }
+
+        public UserType GetUserType(int typeId)
+        {
+            var model = _context.UserTypes.FirstOrDefault(x => x.TypeId == typeId);
+            return model;
+        }
     }
 }

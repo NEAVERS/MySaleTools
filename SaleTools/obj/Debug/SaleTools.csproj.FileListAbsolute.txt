@@ -188,6 +188,9 @@ E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.CodeAnalysis.VisualBasi
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\System.IO.Compression.dll
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\VBCSCompiler.exe
+E:\Project\test\SaleTools\SaleTools\bin\SaleTools.dll.config
+E:\Project\test\SaleTools\SaleTools\bin\SaleTools.dll
+E:\Project\test\SaleTools\SaleTools\bin\SaleTools.pdb
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\csc.exe
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\csc.exe.config
 E:\Project\test\SaleTools\SaleTools\bin\roslyn\csc.rsp
@@ -269,9 +272,6 @@ E:\Project\test\SaleTools\SaleTools\bin\zh-Hans\System.Web.Helpers.resources.dll
 E:\Project\test\SaleTools\SaleTools\bin\zh-Hans\System.Web.Mvc.resources.dll
 E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.csprojResolveAssemblyReference.cache
 E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.csproj.CoreCompileInputs.cache
+E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.csproj.CopyComplete
 E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.dll
 E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.pdb
-E:\Project\test\SaleTools\SaleTools\bin\SaleTools.dll.config
-E:\Project\test\SaleTools\SaleTools\bin\SaleTools.dll
-E:\Project\test\SaleTools\SaleTools\bin\SaleTools.pdb
-E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.csproj.CopyComplete

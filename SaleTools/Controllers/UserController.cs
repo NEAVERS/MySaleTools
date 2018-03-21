@@ -59,7 +59,7 @@ namespace SaleTools.Controllers
             if (user.UserId == Guid.Empty)
             {
                 user.CreateUser = loginUser.UserName;
-                user.CreateUserId = user.UserId;
+                user.CreateUserId = loginUser.UserId;
                 user.UserId = Guid.NewGuid();
                 res = manager.UserReg(user);
             }
@@ -132,6 +132,8 @@ namespace SaleTools.Controllers
             if (model == null)
                 return RedirectToAction("AddNewUser", "User");
             else return View(model);
-        }     
+        }    
+        
+     
     }
 }

@@ -56,7 +56,7 @@ namespace Dal.Mapping
             this.Property(t => t.IsDelete).HasColumnName("IsDelete");
             this.Property(t => t.CreateTime).HasColumnName("CreateTime");
             this.Property(t => t.LastUpdateTime).HasColumnName("LastUpdateTime");
-
+            
             this.Property(t => t.IsUpShelves).HasColumnName("IsUpShelves");
             this.Property(t => t.SortId).HasColumnName("SortId");
 

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\GoddsTypeTree.cs" />
+    <Compile Include="Entities\GoodsWithPrice.cs" />
     <Compile Include="Entities\PageData.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

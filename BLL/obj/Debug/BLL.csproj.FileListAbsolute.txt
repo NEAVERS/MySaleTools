@@ -52,6 +52,6 @@ E:\Project\test\SaleTools\BLL\bin\Debug\EntityFramework.SqlServer.xml
 E:\Project\test\SaleTools\BLL\bin\Debug\Newtonsoft.Json.xml
 E:\Project\test\SaleTools\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 E:\Project\test\SaleTools\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+E:\Project\test\SaleTools\BLL\obj\Debug\BLL.csproj.CopyComplete
 E:\Project\test\SaleTools\BLL\obj\Debug\BLL.dll
 E:\Project\test\SaleTools\BLL\obj\Debug\BLL.pdb
-E:\Project\test\SaleTools\BLL\obj\Debug\BLL.csproj.CopyComplete

@@ -163,8 +163,52 @@ namespace Model
 
         public GoodInfo()
         {
-            IsUpShelves = false;
+
+            Id = Guid.Empty;
+            GoodsNum = string.Empty;
+            BarCode = string.Empty;
+            MiddleCode = string.Empty;
+            BoxCode = string.Empty;
+            SupplierId = -1;
+            SupplierNum = string.Empty;
+            SupplierName = string.Empty;
+            FirstTypeId = Guid.Empty;
+            FirstTypeName = string.Empty;
+            SecondTypeId = Guid.Empty;
+            SecondTypeName = string.Empty;
+            ThirdTYypeId = Guid.Empty;
+            ThirdTypeName = string.Empty;
+            GoodsTittle = string.Empty;
+            GoodsSubTittle = string.Empty;
+            BrandId = Guid.Empty;
+            BrandName = string.Empty;
+            RetailtPrice = 0;
+            MarketPrice = 0;
+            CostPrice = 0;
+            Stock = 0;
+            IsLockStork = false;
+            BoxSpec = string.Empty;
+            Spec = string.Empty;
+            Unit = string.Empty;
+            Weight = 0;
+            Size = string.Empty;
+            ShelfLife = 0;
+            MinCount = 1;
+            LimitCount = 100;
+            pic1 = string.Empty;
+            pic2 = string.Empty;
+            pic3 = string.Empty;
+            pic4 = string.Empty;
+            pic5 = string.Empty;
+            KeyWord = string.Empty;
+            Detail = string.Empty;
+            CreateUserId = Guid.Empty;
+            CreateUserName = string.Empty;
+            IsDelete = false;
+            CreateTime = DateTime.MinValue;
+            LastUpdateTime = DateTime.MinValue;
             SortId = 0;
+            IsUpShelves = true;
         }
 
     }
