@@ -94,6 +94,12 @@ namespace Model
         /// 创建人用户类型
         /// </summary>
         public string CreateUserType { get; set; }
+
+
+        /// <summary>
+        /// 是否删除
+        /// </summary>
+        public bool IsDelete { get; set; }
         public OrderInfo()
         {
             this.Id = Guid.NewGuid();
@@ -115,6 +121,7 @@ namespace Model
             this.CreateUserName = string.Empty;
             this.CreateUserTypeId = 0;
             this.CreateUserType = string.Empty;
+            this.IsDelete = false;
         }
     }
 }
