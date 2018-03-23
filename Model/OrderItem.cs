@@ -89,7 +89,7 @@ namespace Model
             this.TotalPrice = 0;
             this.LessPrice = 0;
             this.IsDelete = false;
-            this.IsEffective = false;
+            this.IsEffective = true;
             this.IsInShoppingCar = true;
             this.CreateUserId = Guid.Empty;
         }

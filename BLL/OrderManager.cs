@@ -30,6 +30,25 @@ namespace BLL
         }
 
 
+        public bool IsExitInCar(Guid goodsId ,Guid createUserId,out OrderItem baseItem)
+        {
+            var model = _context.OrderItems.FirstOrDefault(x => x.ProductId == goodsId
+            && x.IsInShoppingCar
+            && !x.IsDelete
+            &&x.CreateUserId == createUserId
+            && x.IsEffective);
+            baseItem = model;
+            if (model == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+
         /// <summary>
         /// 将购物车中的商品生成订单
         /// </summary>
@@ -52,22 +71,27 @@ namespace BLL
             return _context.SaveChanges() > 0;
         }
 
+
+        public bool AddOrderItem(OrderItem item)
+        {
+            _context.OrderItems.Add(item);
+            return _context.SaveChanges()>0;
+        }
         /// <summary>
         /// 修改商品数量
         /// </summary>
         /// <param name="itemId"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public OrderItem SaveOrderItem(Guid itemId,int count)
+        public bool SaveOrderItem(Guid itemId,int count)
         {
             var item = _context.OrderItems.FirstOrDefault(x => x.Id == itemId);
             if(item!=null)
             {
                 item.Count = count;
                 item.TotalPrice = count * item.Price;
-                _context.SaveChanges();
             }
-            return item;
+            return _context.SaveChanges()>0;
         }
 
         /// <summary>
@@ -105,6 +129,8 @@ namespace BLL
             }
             return _context.SaveChanges() > 0;
         }
+
+
     }
 
 }

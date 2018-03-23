@@ -1615,12 +1615,12 @@
                         html += '<div class="item_name"><a href="/product/detail?id=975597" target="_blank">' + this.info.GoodsTittle + '</a></div>';
                         html += '<div class="item_price"><span >￥' + this.price.Price +' / ' + this.info.Unit + '</span ><b>规格:' + this.info.Spec + '</b></div >';
                         html += ' <div class="item_action clearfix">';
-                        html += '<span class="J_AddCollectBtn add_collect_btn" id="847289" data-id="847289">收藏</span>';
+                        html += '<span class="J_AddCollectBtn add_collect_btn" id="' + this.info.Id + '" data-id="' + this.info.Id + '">收藏</span>';
                         html += '<div class="rfloat"><div class="item_quantity" >';
                         html += ' <a href="javascript:;" class="decrement J_Decrement">-</a>';
                         html += '<input type="text" value="1" data-min="1" data-max="986" class="quantity_input J_QuantityInput">';
                         html += '<a href="javascript:;" class="increment J_Increment">+</a></div>'
-                        html += '<a href="#" class="J_AddCartBtn add_cart_btn" data-id="847289" data-start="0" data-end="0" data-num="0">进货</a>';
+                        html += '<a href="#" class="J_AddCartBtn add_cart_btn" data-id="' + this.info.Id + '" data-start="0" data-end="0" data-num="0">进货</a>';
                         html += '</div></div ></li >';
                     });
                     ul.append(html);
@@ -1676,8 +1676,9 @@
 
 
 
+
             // 商品加入购物相关操作
-            $(".J_Decrement").on("click", function () {
+            $(document).on("click", ".J_Decrement", function () {
                 var _input = $(this).siblings("input.J_QuantityInput");
                 var min = parseInt(_input.data("min"));
                 var max = parseInt(_input.data("max"));
@@ -1691,7 +1692,8 @@
                 quantity = quantity < min ? min : quantity;
                 _input.val(quantity);
             });
-            $(".J_Increment").on("click", function () {
+
+            $(document).on("click", ".J_Increment", function () {
                 var _input = $(this).siblings("input.J_QuantityInput");
                 var min = parseInt(_input.data("min"));
                 var max = parseInt(_input.data("max"));
@@ -1705,7 +1707,8 @@
                 quantity = quantity < min ? min : quantity;
                 _input.val(quantity);
             });
-            $(".J_QuantityInput").on("blur", function () {
+
+            $(document).on("click", ".J_QuantityInput", function () {
                 var _this = $(this);
                 var max = _this.data("max");
                 var min = _this.data("min");
@@ -1714,7 +1717,7 @@
                 quantity = quantity < min ? min : quantity;
                 _this.val(quantity);
             });
-            $(".J_AddCartBtn").on("click", function (event) {
+            $(document).on("click", ".J_AddCartBtn", function (event) {
                 $('.add_cart_btn').removeClass("J_AddCartBtn");
                 var _this = $(this);
                 var _input = _this.prev(".item_quantity").children(".J_QuantityInput");
@@ -1740,11 +1743,11 @@
                 }
                 $.ajax({
                     "type": "POST",
-                    "url": "/cart/ajaxAddItemToCart",
+                    "url": "/Home/AddToShoppingCar",
                     "dataType": "json",
                     "data": {
-                        "product_id": productId,
-                        "quantity": quantity, //_input.val()
+                        "goodId": productId,
+                        "count": quantity, //_input.val()
                         "is_cart": 1
                     },
                     "success": function (result) {

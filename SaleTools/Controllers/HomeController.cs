@@ -13,6 +13,7 @@ namespace SaleTools.Controllers
     {
 
         private GoodsManager _manager = new GoodsManager();
+        private OrderManager _order = new OrderManager();
         // GET: Home
         public ActionResult Index()
         {
@@ -94,6 +95,43 @@ namespace SaleTools.Controllers
         {
             var product = _manager.GetGoodInfoById(Id);
             return View(product);
+        }
+
+
+        public string AddToShoppingCar(Guid goodId,int count)
+        {
+            bool res = false;
+            var loginUser = (UserInfo)Session["LoginUser"];
+            OrderItem basItem = new OrderItem();
+            if (_order.IsExitInCar(goodId,loginUser.UserId, out basItem))
+            {
+                count += basItem.Count;
+                res = _order.SaveOrderItem(basItem.Id, count);
+            }
+            else
+            {
+                var model = _manager.GetGoodsWithPrice(goodId, 1);
+                OrderItem item = new OrderItem();
+                item.Count = count;
+                item.CreateUserId = loginUser.CreateUserId;
+                item.Id = Guid.NewGuid();
+                item.LessPrice = 0;
+                item.Price = model.price.Price;
+                item.RealPrice = item.Price - item.LessPrice;
+                item.ProductId = model.info.Id;
+                item.ProductTittle = model.info.GoodsTittle;
+                item.TotalPrice = item.RealPrice * count;
+                res = _order.AddOrderItem(item);
+            }
+            return Utils.SerializeObject(res);
+        }
+
+
+        public string LoadShoopingCarCount()
+        {
+            var loginUser = (UserInfo)Session["LoginUser"];
+            var list = _order.GetShoppingCar(loginUser.UserId);
+            return Utils.SerializeObject(list.Count);
         }
 
     }

@@ -289,5 +289,14 @@ namespace BLL
             }
             return model;
         }
+
+
+        public GoodsWithPrice GetGoodsWithPrice(Guid goodsId,int typeId)
+        {
+            GoodsWithPrice model = new GoodsWithPrice();
+            model.info = GetGoodInfoById(goodsId);
+            model.price = GetPriceOfUserType(goodsId, typeId);
+            return model;
+        }
     }
 }
