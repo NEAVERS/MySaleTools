@@ -34,7 +34,9 @@ namespace Dal.Mapping
             this.Property(t => t.CreateUserTypeId).HasColumnName("CreateUserTypeId");
             this.Property(t => t.CreateUserType).HasColumnName("CreateUserType");
             this.Property(t => t.IsDelete).HasColumnName("IsDelete");
-            
+            this.Property(t => t.SaleManGuid).HasColumnName("SaleManGuid");
+            this.Property(t => t.SaleManName).HasColumnName("SaleManName");
+
         }
 
     }

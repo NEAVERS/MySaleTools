@@ -35,6 +35,12 @@ namespace Model
         /// </summary>
         public bool IsLocked { get; set; }
 
+
+
+        /// <summary>
+        /// 电话号码
+        /// </summary>
+        public string Tel { get; set; }
         /// <summary>
         /// 用户类型Id
         /// </summary>
@@ -93,6 +99,16 @@ namespace Model
         /// 是否被删除
         /// </summary>
         public bool IsDelete { get; set; }
+
+        /// <summary>
+        /// 业务员ID
+        /// </summary>
+        public Guid SaleManGuid { get; set; }
+
+        /// <summary>
+        /// 业务员姓名
+        /// </summary>
+        public string SaleManName { get; set; }
         public UserInfo()
         {
             UserId = Guid.Empty;
@@ -101,9 +117,12 @@ namespace Model
             UserName = string.Empty;
             PassWord = string.Empty;
             CreateTime = DateTime.Now;
+            Tel = string.Empty;
             IsLocked = false;
             CreateUser = string.Empty;
             CreateUserId = Guid.Empty;
+            this.SaleManGuid = Guid.Empty;
+            this.SaleManName = string.Empty;
         }
     }
 }

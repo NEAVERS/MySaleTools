@@ -33,8 +33,12 @@ namespace Dal.Mapping
             this.Property(t => t.CityNum).HasColumnName("CityNum");
             this.Property(t => t.Area).HasColumnName("Area");
             this.Property(t => t.AreaNum).HasColumnName("AreaNum");
+            this.Property(t => t.Tel).HasColumnName("Tel");
+            this.Property(t => t.SaleManGuid).HasColumnName("SaleManGuid");
+            this.Property(t => t.SaleManName).HasColumnName("SaleManName");
 
-
+            
+            
         }
     }
 }

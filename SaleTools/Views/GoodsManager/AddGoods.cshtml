@@ -21,684 +21,696 @@
         height: 24px !important;
     }
 </style>
+<div class="col_main_hd">
+    <h2>
+        加盟商个人中心 <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/ziling/index.php" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">系统操作说明</a></button>
+    </h2>
+</div>
 <div class="col_main_bd">
     <div class="inner">
         <div class="col_main_content">
-            <table class="table table_border_td_none">
-                <tbody>
-                    <tr>
-                        <td class="right">
-                            商品条形码：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="bar_code" id="J_BarCode" value="@Model.BarCode.Trim()">
-                            <span class="highlight">
-                                （商品最小单位条形码，比如一包清风纸上的条形码）
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            商品中码：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="middle_code" id="middle_code" value="@Model.MiddleCode.Trim()">
-                            <span class="highlight">
-                                （商品大包装里面中包装条形码，比如一提清风纸外包装上的条形码）
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            商品箱码：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="box_code" id="box_code" value="@Model.BoxCode.Trim()">
-                            <span class="highlight">
-                                （商品大包装上的条形码，比如清风纸箱子上的条形码；）
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            <span class="highlight">
-                                *
-                            </span> 供应商：
-                        </td>
-                        <td>
-                            <select name="seller_id" class="seller-id" id="seller_id">
-                                <option value="0">
-                                    请选择
-                                </option>
-                                @foreach (var item in SupplierList)
-                                {
-                                    <option value="@item.Id" data-num="@item.SupplierNum" @(item.Id == Model.SupplierId ? "selected='selected'" : "")>
-                                        @item.SupplierCompany
-                                    </option>
-                                }
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right" width="120">
-                            <span class="highlight">
-                                *
-                            </span> 商品类目：
-                        </td>
-                        <td>
-                            <!-- category selector -->
-                            <div class="wgt_category_select" id="J_CategorySelector" data-fid="0" data-sid="0" data-tid="0">
-                                <div class="wgt_category_select_hd">
-                                    <div class="wgt_category_title">
-                                        请选择类目
-                                    </div>
-                                    <i class="iconfont">
-                                        
-                                    </i>
-                                </div>
-                                <div class="wgt_category_select_bd">
-                                    <div class="wgt_category_select_tabs">
-                                        <a class="wgt_category_select_tab cur" href="javascript:;">
-                                            一级类目
-                                        </a>
-                                        <a class="wgt_category_select_tab" href="javascript:;">
-                                            二级类目
-                                        </a>
-                                        <a class="wgt_category_select_tab" href="javascript:;">
-                                            三级类目
-                                        </a>
-                                    </div>
-                                    <div class="wgt_category_select_contents">
-                                        <div class="wgt_category_select_content wgt_category_select_content_show">
-                                            <dl>
-                                                <dd class="clearfix">
-                                                </dd>
-                                            </dl>
-                                        </div>
-                                        <div class="wgt_category_select_content">
-                                            <dl>
-                                                <dd class="clearfix">
-                                                </dd>
-                                            </dl>
-                                        </div>
-                                        <div class="wgt_category_select_content">
-                                            <dl>
-                                                <dd class="clearfix">
-                                                </dd>
-                                            </dl>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            <span class="highlight">
-                                *
-                            </span> 商品标题：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:400px;" name="title" id="J_Title" value="@Model.GoodsTittle.Trim()">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            商品副标题：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:400px;" name="sub_title" id="J_SubTitle" value="@Model.GoodsSubTittle.Trim()">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            品牌：
-                        </td>
-                        <td>
-                            <div id="brand_id" class="selectpicker" data-clear="true" data-live="true">
-                                <a href="#" class="clear" style="padding-top: 8px;">
-                                    <span class="cancel">
-                                        ❌
-                                    </span>
-                                    <span class="sr-only">
-                                        Cancel the selection
-                                    </span>
-                                </a>
-                                <button data-id="prov" type="button" class="btn btn-lg btn-block btn-default dropdown-toggle">
-                                    <span class="placeholder">
-                                        请选择
-                                    </span>
-                                    <span class="caret">
-                                    </span>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <div class="live-filtering" data-clear="true" data-autocomplete="true" data-keys="true">
-                                        <label class="sr-only" for="input-bts-ex-5">
-                                            Search in the list
-                                        </label>
-                                        <div class="search-box">
-                                            <div class="input-group">
-                                                <span class="input-group-addon" id="search-icon5">
-                                                    <span class="search">
-                                                        🔍
-                                                    </span>
-                                                    <a href="#" class="fa fa-times hide filter-clear">
-                                                        <span class="sr-only">
-                                                            Clear filter
-                                                        </span>
+
+            <div class="col_main_bd">
+                <div class="inner">
+                    <div class="col_main_content">
+                        <table class="table table_border_td_none">
+                            <tbody>
+                                <tr>
+                                    <td class="right">
+                                        商品条形码：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:150px;" name="bar_code" id="J_BarCode" value="@Model.BarCode.Trim()">
+                                        <span class="highlight">
+                                            （商品最小单位条形码，比如一包清风纸上的条形码）
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        商品中码：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:150px;" name="middle_code" id="middle_code" value="@Model.MiddleCode.Trim()">
+                                        <span class="highlight">
+                                            （商品大包装里面中包装条形码，比如一提清风纸外包装上的条形码）
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        商品箱码：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:150px;" name="box_code" id="box_code" value="@Model.BoxCode.Trim()">
+                                        <span class="highlight">
+                                            （商品大包装上的条形码，比如清风纸箱子上的条形码；）
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        <span class="highlight">
+                                            *
+                                        </span> 供应商：
+                                    </td>
+                                    <td>
+                                        <select name="seller_id" class="seller-id" id="seller_id">
+                                            <option value="0">
+                                                请选择
+                                            </option>
+                                            @foreach (var item in SupplierList)
+                                            {
+                                                <option value="@item.Id" data-num="@item.SupplierNum" @(item.Id == Model.SupplierId ? "selected='selected'" : "")>
+                                                    @item.SupplierCompany
+                                                </option>
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right" width="120">
+                                        <span class="highlight">
+                                            *
+                                        </span> 商品类目：
+                                    </td>
+                                    <td>
+                                        <!-- category selector -->
+                                        <div class="wgt_category_select" id="J_CategorySelector" data-fid="0" data-sid="0" data-tid="0">
+                                            <div class="wgt_category_select_hd">
+                                                <div class="wgt_category_title">
+                                                    请选择类目
+                                                </div>
+                                                <i class="iconfont">
+                                                    
+                                                </i>
+                                            </div>
+                                            <div class="wgt_category_select_bd">
+                                                <div class="wgt_category_select_tabs">
+                                                    <a class="wgt_category_select_tab cur" href="javascript:;">
+                                                        一级类目
                                                     </a>
+                                                    <a class="wgt_category_select_tab" href="javascript:;">
+                                                        二级类目
+                                                    </a>
+                                                    <a class="wgt_category_select_tab" href="javascript:;">
+                                                        三级类目
+                                                    </a>
+                                                </div>
+                                                <div class="wgt_category_select_contents">
+                                                    <div class="wgt_category_select_content wgt_category_select_content_show">
+                                                        <dl>
+                                                            <dd class="clearfix">
+                                                            </dd>
+                                                        </dl>
+                                                    </div>
+                                                    <div class="wgt_category_select_content">
+                                                        <dl>
+                                                            <dd class="clearfix">
+                                                            </dd>
+                                                        </dl>
+                                                    </div>
+                                                    <div class="wgt_category_select_content">
+                                                        <dl>
+                                                            <dd class="clearfix">
+                                                            </dd>
+                                                        </dl>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        <span class="highlight">
+                                            *
+                                        </span> 商品标题：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:400px;" name="title" id="J_Title" value="@Model.GoodsTittle.Trim()">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        商品副标题：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:400px;" name="sub_title" id="J_SubTitle" value="@Model.GoodsSubTittle.Trim()">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        品牌：
+                                    </td>
+                                    <td>
+                                        <div id="brand_id" class="selectpicker" data-clear="true" data-live="true">
+                                            <a href="#" class="clear" style="padding-top: 8px;">
+                                                <span class="cancel">
+                                                    ❌
                                                 </span>
-                                                <div style="position: relative; height: 34px; display: block;">
-                                                    <input type="text" class="form-control live-search hint" aria-describedby="search-icon5" tabindex="-1" style="background-color: transparent; position: absolute;">
-                                                    <input type="text" placeholder="Search in the list" id="input-bts-ex-5" class="form-control live-search" aria-describedby="search-icon5" tabindex="1" style="background-color: transparent; position: relative;">
+                                                <span class="sr-only">
+                                                    Cancel the selection
+                                                </span>
+                                            </a>
+                                            <button data-id="prov" type="button" class="btn btn-lg btn-block btn-default dropdown-toggle">
+                                                <span class="placeholder">
+                                                    请选择
+                                                </span>
+                                                <span class="caret">
+                                                </span>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <div class="live-filtering" data-clear="true" data-autocomplete="true" data-keys="true">
+                                                    <label class="sr-only" for="input-bts-ex-5">
+                                                        Search in the list
+                                                    </label>
+                                                    <div class="search-box">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="search-icon5">
+                                                                <span class="search">
+                                                                    🔍
+                                                                </span>
+                                                                <a href="#" class="fa fa-times hide filter-clear">
+                                                                    <span class="sr-only">
+                                                                        Clear filter
+                                                                    </span>
+                                                                </a>
+                                                            </span>
+                                                            <div style="position: relative; height: 34px; display: block;">
+                                                                <input type="text" class="form-control live-search hint" aria-describedby="search-icon5" tabindex="-1" style="background-color: transparent; position: absolute;">
+                                                                <input type="text" placeholder="Search in the list" id="input-bts-ex-5" class="form-control live-search" aria-describedby="search-icon5" tabindex="1" style="background-color: transparent; position: relative;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="list-to-filter">
+                                                        <ul class="list-unstyled">
+                                                            <li class="optgroup">
+                                                                <ul id="J_Brand" class="list-unstyled"></ul>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="no-search-results" style="display: none;">
+                                                            <div class="alert alert-warning" role="alert">
+                                                                <i class="fa fa-warning margin-right-sm">
+                                                                </i> No entry for
+                                                                <strong>
+                                                                    '
+                                                                    <span>
+                                                                    </span>
+                                                                    '
+                                                                </strong> was found.
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <input type="hidden" name="brand_id" id="Mbrand_id" brandName="" value="@Model.BrandId">
                                         </div>
-                                        <div class="list-to-filter">
-                                            <ul class="list-unstyled">
-                                                <li class="optgroup">
-                                                    <ul id="J_Brand" class="list-unstyled"></ul>
-                                                </li>
-                                            </ul>
-                                            <div class="no-search-results" style="display: none;">
-                                                <div class="alert alert-warning" role="alert">
-                                                    <i class="fa fa-warning margin-right-sm">
-                                                    </i> No entry for
-                                                    <strong>
-                                                        '
-                                                        <span>
-                                                        </span>
-                                                        '
-                                                    </strong> was found.
-                                                </div>
-                                            </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        <span class="highlight">
+                                            *
+                                        </span> 参考价：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:80px;" name="market_price" id="J_MarketPrice" value="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        <span class="highlight">
+                                            *
+                                        </span> 销售价：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext prices" style="width:80px;" typeId="0" name="sell_price" id="J_SellPrice" value="">
+                                        <span class="highlight">
+                                        </span>
+                                        默认客户类型可看
+                                    </td>
+                                </tr>
+                                @foreach (var item in UserTypeList)
+                                {
+                                    decimal value = 0;
+                                    var pirceItem = PriceList.FirstOrDefault(x => x.UserTypeId == item.TypeId);
+                                    if (pirceItem != null)
+                                    {
+                                        value = pirceItem.Price;
+                                    }
+                                    <tr>
+                                        <td class="right">
+                                            @item.TypeName 销售价：
+                                        </td>
+                                        <td>
+                                            <input type="text" class="inputtext prices" style="width:80px;" typeId="@item.TypeId" name="sell_price_a" value="@value">
+                                            @item.TypeName 客户类型可看
+                                        </td>
+                                    </tr>
+
+                                }
+
+
+                                <tr>
+                                    <td class="right">
+                                        <span class="highlight">
+                                            *
+                                        </span> 成本价：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:80px;" name="cost_price" id="J_CostPrice" value="@Model.CostPrice">
+                                        <span class="highlight">
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        <span class="highlight">
+                                            *
+                                        </span> 商品库存：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:80px;" name="stock" id="J_Stock" value="@Model.Stock">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        锁定库存：
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" value="1" name="is_lock_stock" id="is_lock_stock" @(Model.IsLockStork ? "checked='checked'" : "")>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        商品编号：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:150px;" name="number" id="J_Number" value="@Model.GoodsNum.Trim()">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        商品规格信息：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:200px;" name="spec" id="J_Spec" value="@Model.Spec.Trim()">
+                                        <span class="highlight">
+                                            仅显示10个字符
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        商品单位：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:80px;" name="unit" id="J_Unit" value="@Model.Unit.Trim()">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        单位总数：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:80px;" name="unit_total" id="J_UnitTotal" value="@Model.BoxSpec.Trim()">
+                                        <span class="highlight">
+                                            （商品单位总数，比如一箱农夫山泉有24瓶，则一箱农夫山泉的单位总数为24）
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        商品重量：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:80px;" name="weight" id="weight" value="@Model.Weight"> 克
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        商品体积：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:80px;" name="size" id="size" value="@Model.Size.Trim()" placeholder="1*1*1">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        商品保质期：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:80px;" name="shelf_life" id="shelf_life" value="@Model.ShelfLife"> 天
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        最小起批数量：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:40px;" name="min_sold_num" id="min_sold_num" value="@Model.MinCount">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        限购数量：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:40px;" name="limit_buy_num" id="limit_buy_num" value="@Model.LimitCount">
+                                    </td>
+                                </tr>
+                                <tr style="display: none;">
+                                    <td class="right">
+                                        是否同步：
+                                    </td>
+                                    <td>
+                                        <input type="radio" class="inputtext" name="is_synchro" value="0" checked=""> &nbsp;同步&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="radio" class="inputtext" name="is_synchro" value="1"> &nbsp;不同步
+                                    </td>
+                                </tr>
+                                <!-- 商品组图 -->
+                                <tr>
+                                    <td class="right">
+                                        商品组图：
+                                    </td>
+                                    <td style="color:#999999;">
+                                        图片推荐尺寸：800x800
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right" style="color:#999999;">
+                                        第1张：
+                                    </td>
+                                    <td style="height:300px;">
+                                        <div id="uploader-demo" style="height:24px;">
+
+                                            <!--用来存放item-->
+
+                                            <div id="fileList" class="uploader-list"></div>
+
+                                            <div id="filePicker">选择图片</div>
+
                                         </div>
-                                    </div>
-                                </div>
-                                <input type="hidden" name="brand_id" id="Mbrand_id" brandName="" value="@Model.BrandId">
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            <span class="highlight">
-                                *
-                            </span> 参考价：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="market_price" id="J_MarketPrice" value="">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            <span class="highlight">
-                                *
-                            </span> 销售价：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext prices" style="width:80px;" typeId="0" name="sell_price" id="J_SellPrice" value="">
-                            <span class="highlight">
-                            </span>
-                            默认客户类型可看
-                        </td>
-                    </tr>
-                    @foreach (var item in UserTypeList)
-                    {
-                        decimal value = 0;
-                        var pirceItem = PriceList.FirstOrDefault(x => x.UserTypeId == item.TypeId);
-                        if (pirceItem != null)
-                        {
-                            value = pirceItem.Price;
-                        }
-                        <tr>
-                            <td class="right">
-                                @item.TypeName 销售价：
-                            </td>
-                            <td>
-                                <input type="text" class="inputtext prices" style="width:80px;" typeId="@item.TypeId" name="sell_price_a" value="@value">
-                                @item.TypeName 客户类型可看
-                            </td>
-                        </tr>
 
-                    }
+                                        <div id="list"> </div>
+                                    </td>
+                                </tr>
 
-
-                    <tr>
-                        <td class="right">
-                            <span class="highlight">
-                                *
-                            </span> 成本价：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="cost_price" id="J_CostPrice" value="@Model.CostPrice">
-                            <span class="highlight">
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            <span class="highlight">
-                                *
-                            </span> 商品库存：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="stock" id="J_Stock" value="@Model.Stock">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            锁定库存：
-                        </td>
-                        <td>
-                            <input type="checkbox" value="1" name="is_lock_stock" id="is_lock_stock" @(Model.IsLockStork ? "checked='checked'" : "")>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            商品编号：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="number" id="J_Number" value="@Model.GoodsNum.Trim()">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            商品规格信息：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:200px;" name="spec" id="J_Spec" value="@Model.Spec.Trim()">
-                            <span class="highlight">
-                                仅显示10个字符
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            商品单位：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="unit" id="J_Unit" value="@Model.Unit.Trim()">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            单位总数：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="unit_total" id="J_UnitTotal" value="@Model.BoxSpec.Trim()">
-                            <span class="highlight">
-                                （商品单位总数，比如一箱农夫山泉有24瓶，则一箱农夫山泉的单位总数为24）
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            商品重量：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="weight" id="weight" value="@Model.Weight"> 克
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            商品体积：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="size" id="size" value="@Model.Size.Trim()" placeholder="1*1*1">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            商品保质期：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:80px;" name="shelf_life" id="shelf_life" value="@Model.ShelfLife"> 天
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            最小起批数量：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:40px;" name="min_sold_num" id="min_sold_num" value="@Model.MinCount">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            限购数量：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:40px;" name="limit_buy_num" id="limit_buy_num" value="@Model.LimitCount">
-                        </td>
-                    </tr>
-                    <tr style="display: none;">
-                        <td class="right">
-                            是否同步：
-                        </td>
-                        <td>
-                            <input type="radio" class="inputtext" name="is_synchro" value="0" checked=""> &nbsp;同步&nbsp;&nbsp;&nbsp;&nbsp;
-                            <input type="radio" class="inputtext" name="is_synchro" value="1"> &nbsp;不同步
-                        </td>
-                    </tr>
-                    <!-- 商品组图 -->
-                    <tr>
-                        <td class="right">
-                            商品组图：
-                        </td>
-                        <td style="color:#999999;">
-                            图片推荐尺寸：800x800
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right" style="color:#999999;">
-                            第1张：
-                        </td>
-                        <td style="height:300px;">
-                            <div id="uploader-demo" style="height:24px;">
-
-                                <!--用来存放item-->
-
-                                <div id="fileList" class="uploader-list"></div>
-
-                                <div id="filePicker">选择图片</div>
-
-                            </div>
-
-                            <div id="list"> </div>
-                        </td>
-                    </tr>
-
-                    <!-- 商品组图 -->
-                    <tr>
-                        <td class="right">
-                            关键字：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:400px;" name="keyword" id="J_Keyword" value="@Model.KeyWord.Trim()">
-                            <span class="highlight" style="margin-left:10px;">
-                                关键字之间请用逗号隔开
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            商品详情：
-                        </td>
-                        <!-- id="J_KindEditor"-->
-                        <td>
-                            <textarea id="content" name="content" style="width: 100%; height: 350px;">
+                                <!-- 商品组图 -->
+                                <tr>
+                                    <td class="right">
+                                        关键字：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext" style="width:400px;" name="keyword" id="J_Keyword" value="@Model.KeyWord.Trim()">
+                                        <span class="highlight" style="margin-left:10px;">
+                                            关键字之间请用逗号隔开
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        商品详情：
+                                    </td>
+                                    <!-- id="J_KindEditor"-->
+                                    <td>
+                                        <textarea id="content" name="content" style="width: 100%; height: 350px;">
 @Model.Detail.Trim()
                                                         </textarea>
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            &nbsp;
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn_confirm" id="save">
-                                发布商品
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        &nbsp;
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn_confirm" id="save">
+                                            发布商品
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
         </div>
     </div>
-</div>
-<input type="hidden" id="goodInfoId" value="@Model.Id" />
-<input type="hidden" id="FirstTypeId" value="@Model.FirstTypeId" />
-<input type="hidden" id="SecondTypeId" value="@Model.SecondTypeId" />
-<input type="hidden" id="ThirdTYypeId" value="@Model.ThirdTYypeId" />
-<script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js">
-</script>
-<script type="text/javascript">
-    var DOMAIN = {
-        "main": "pifa.yunmayi.com",
-        "passport": "passport.pifa.yunmayi.com",
-        "buyer": "buyer.pifa.yunmayi.com",
-        "seller": "seller.pifa.yunmayi.com",
-        "ajax": "ajax.pifa.yunmayi.com",
-        "agent": "agent.pifa.yunmayi.com"
-    };
-</script>
-<script type="text/javascript" src="/Content/js/lib/help.js">
-</script>
-<script type="text/javascript" src="/Content/js/lib/category_selector/category_selector.js">
-</script>
-<script type="text/javascript" src="/Content/js/lib/kindeditor-4.1.10/kindeditor-min.js">
-</script>
-<script type="text/javascript" src="/Content/js/lib/select_js/bootstrap-select.js">
-</script>
-<script type="text/javascript" src="/Content/js/lib/select_js/livefilter.min.js">
-</script>
-<script type="text/javascript" src="/Content/js/lib/select_js/tabcomplete.min.js">
-</script>
-<script type="text/javascript">
-    // category selector
-    $("#J_CategorySelector").CategorySelector({
-        afterThdSelect: function (cid) {
-            // 品牌信息
-            $.ajax({
-                "type": "POST",
-                "url": "/GoodsManager/GetBrandList",
-                "dataType": "json",
-                "data": {
-                    "typeId": cid
-                },
-                "success": function (result) {
-                    var bhtml = "";
-                    "<li class='filter-item items' data-filter='请选择' data-value='0'></li>";
-                    for (var k in result) {
-                        bhtml += "<li class='filter-item items' data-filter=\"" + result[k].BrandName + "\"  data-value=\"" + result[k].Id + "\">" + result[k].BrandName + "</li>";
+            <input type="hidden" id="goodInfoId" value="@Model.Id" />
+            <input type="hidden" id="FirstTypeId" value="@Model.FirstTypeId" />
+            <input type="hidden" id="SecondTypeId" value="@Model.SecondTypeId" />
+            <input type="hidden" id="ThirdTYypeId" value="@Model.ThirdTYypeId" />
+            <script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js">
+            </script>
+            <script type="text/javascript">
+                var DOMAIN = {
+                    "main": "pifa.yunmayi.com",
+                    "passport": "passport.pifa.yunmayi.com",
+                    "buyer": "buyer.pifa.yunmayi.com",
+                    "seller": "seller.pifa.yunmayi.com",
+                    "ajax": "ajax.pifa.yunmayi.com",
+                    "agent": "agent.pifa.yunmayi.com"
+                };
+            </script>
+            <script type="text/javascript" src="/Content/js/lib/help.js">
+            </script>
+            <script type="text/javascript" src="/Content/js/lib/category_selector/category_selector.js">
+            </script>
+            <script type="text/javascript" src="/Content/js/lib/kindeditor-4.1.10/kindeditor-min.js">
+            </script>
+            <script type="text/javascript" src="/Content/js/lib/select_js/bootstrap-select.js">
+            </script>
+            <script type="text/javascript" src="/Content/js/lib/select_js/livefilter.min.js">
+            </script>
+            <script type="text/javascript" src="/Content/js/lib/select_js/tabcomplete.min.js">
+            </script>
+            <script type="text/javascript">
+                // category selector
+                $("#J_CategorySelector").CategorySelector({
+                    afterThdSelect: function (cid) {
+                        // 品牌信息
+                        $.ajax({
+                            "type": "POST",
+                            "url": "/GoodsManager/GetBrandList",
+                            "dataType": "json",
+                            "data": {
+                                "typeId": cid
+                            },
+                            "success": function (result) {
+                                var bhtml = "";
+                                "<li class='filter-item items' data-filter='请选择' data-value='0'></li>";
+                                for (var k in result) {
+                                    bhtml += "<li class='filter-item items' data-filter=\"" + result[k].BrandName + "\"  data-value=\"" + result[k].Id + "\">" + result[k].BrandName + "</li>";
+                                }
+                                $("#J_Brand").html(bhtml);
+                            }
+                        });
                     }
-                    $("#J_Brand").html(bhtml);
+                });
+
+                // kindeditor
+                //KindEditor.ready(function (K) {
+                //    K.create("#content", {
+                //        items: ['undo', 'redo', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript', 'clearhtml', 'selectall', '|', 'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', '|', 'image', 'multiimage', 'table', 'link', 'unlink']
+                //    });
+                //});
+
+                //供应商选择
+                var warehouse_list = [16692616];
+
+                function validate_warehosue(value) {
+                    var count = warehouse_list.length;
+                    for (i = 0; i < count; i++) {
+                        var item = parseInt(warehouse_list[i]);
+                        if (item == value) {
+                            return true;
+                        }
+                    }
+                    return false;
                 }
-            });
-        }
-    });
 
-    // kindeditor
-    //KindEditor.ready(function (K) {
-    //    K.create("#content", {
-    //        items: ['undo', 'redo', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript', 'clearhtml', 'selectall', '|', 'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', '|', 'image', 'multiimage', 'table', 'link', 'unlink']
-    //    });
-    //});
+                $(".seller-id").on("change",
+                    function () {
+                        var value = parseInt($(this).find("option:selected").val());
+                        var is_warehouse = validate_warehosue(value);
+                        if (is_warehouse) {
+                            $("#J_Stock").val(0).attr("disabled", "disabled");
+                        } else {
+                            $("#J_Stock").removeAttr("disabled");
+                        }
 
-    //供应商选择
-    var warehouse_list = [16692616];
+                    });
 
-    function validate_warehosue(value) {
-        var count = warehouse_list.length;
-        for (i = 0; i < count; i++) {
-            var item = parseInt(warehouse_list[i]);
-            if (item == value) {
-                return true;
-            }
-        }
-        return false;
-    }
+                // 商品条形码失去焦点,获取杭州和上海对应条形码的商品价格信息
+                $("#J_BarCode").on("blur",
+                    function () {
+                        var barcode = $(this).val().trim();
+                        if (barcode.length == 0) {
+                            return false;
+                        }
 
-    $(".seller-id").on("change",
-        function () {
-            var value = parseInt($(this).find("option:selected").val());
-            var is_warehouse = validate_warehosue(value);
-            if (is_warehouse) {
-                $("#J_Stock").val(0).attr("disabled", "disabled");
-            } else {
-                $("#J_Stock").removeAttr("disabled");
-            }
+                        $.ajax({
+                            url: "/product/queryPriceMessageByBarcodeForPublish",
+                            type: "get",
+                            dataType: "json",
+                            data: {
+                                barcode: barcode
+                            },
+                            success: function (result) {
+                                $("#J_SellPrice").siblings("span").text(result.data.sell);
+                                $("#J_CostPrice").siblings("span").text(result.data.cost);
+                            }
+                        });
+                        return true;
+                    });
+            </script>
 
-        });
+            <script src="/Scripts/jquery-1.10.2.min.js"></script>
+            <script src="/Scripts/webuploader/webuploader.min.js"></script>
 
-    // 商品条形码失去焦点,获取杭州和上海对应条形码的商品价格信息
-    $("#J_BarCode").on("blur",
-        function () {
-            var barcode = $(this).val().trim();
-            if (barcode.length == 0) {
-                return false;
-            }
+            <script>
 
-            $.ajax({
-                url: "/product/queryPriceMessageByBarcodeForPublish",
-                type: "get",
-                dataType: "json",
-                data: {
-                    barcode: barcode
-                },
-                success: function (result) {
-                    $("#J_SellPrice").siblings("span").text(result.data.sell);
-                    $("#J_CostPrice").siblings("span").text(result.data.cost);
-                }
-            });
-            return true;
-        });
-</script>
-
-<script src="/Scripts/jquery-1.10.2.min.js"></script>
-<script src="/Scripts/webuploader/webuploader.min.js"></script>
-
-<script>
-
-    $(document).on("click", "#save", function () {
-        var obj = {};
-        obj.Id = $("#goodInfoId").val();
-        obj.GoodsNum = $("#J_Number").val();
-        obj.BarCode = $("#J_BarCode").val();
-        obj.MiddleCode = $("#middle_code").val();
-        obj.BoxCode = $("#box_code").val();
-        obj.SupplierId = $("#seller_id").val();
-        obj.SupplierNum = $("#seller_id").find("option:selected").attr("data-num");
-        obj.SupplierName = $("#seller_id").find("option:selected").text();
-        obj.FirstTypeId = $("input:hidden[name=fst_cat_id]", $("#J_CategorySelector")).val();
-        obj.FirstTypeName = $("#J_Number").val();
-        obj.SecondTypeId = $("input:hidden[name=snd_cat_id]", $("#J_CategorySelector")).val();
-        obj.SecondTypeName = $("#J_Number").val();
-        obj.ThirdTYypeId = $("input:hidden[name=thd_cat_id]", $("#J_CategorySelector")).val();
-        obj.ThirdTypeName = $("#J_Number").val();
-        obj.GoodsTittle = $("#J_Title").val();
-        obj.GoodsSubTittle = $("#J_SubTitle").val();
-        obj.BrandId = $("#Mbrand_id").val();
-        obj.BrandName = $("#brand_id").find(".text").text();
-        obj.RetailtPrice = $("#J_Number").val();
-        obj.MarketPrice = $("#J_MarketPrice").val();
-        obj.CostPrice = $("#J_CostPrice").val();
-        obj.Stock = $("#J_Stock").val();
-        obj.IsLockStork = $("#is_lock_stock").prop("checked");
-        obj.BoxSpec = $("#J_UnitTotal").val();
-        obj.Spec = $("#J_Spec").val();
-        obj.Unit = $("#J_Unit").val();
-        obj.Weight = $("#weight").val();
-        obj.Size = $("#size").val();
-        obj.ShelfLife = $("#shelf_life").val();
-        obj.MinCount = $("#min_sold_num").val();
-        obj.LimitCount = $("#limit_buy_num").val();
-        obj.pic1 = $("#WU_FILE_0").attr("filepath");
-        obj.pic2 = $("#WU_FILE_1").attr("filepath");
-        obj.pic3 = $("#WU_FILE_2").attr("filepath");
-        obj.pic4 = $("#WU_FILE_3").attr("filepath");
-        obj.pic5 = $("#WU_FILE_4").attr("filepath");
-        obj.KeyWord = $("#J_Keyword").val();
-        obj.Detail = $("#content").val();
-        var price = [];
-        $(".prices").each(function () {
-            price.push($(this).attr("typeid") + "," + $(this).val());
-        })
-        $.post("/GoodsManager/SaveGoods", { goods: obj, price: price }, function (e) {
-            alert(e);
-        })
+                $(document).on("click", "#save", function () {
+                    var obj = {};
+                    obj.Id = $("#goodInfoId").val();
+                    obj.GoodsNum = $("#J_Number").val();
+                    obj.BarCode = $("#J_BarCode").val();
+                    obj.MiddleCode = $("#middle_code").val();
+                    obj.BoxCode = $("#box_code").val();
+                    obj.SupplierId = $("#seller_id").val();
+                    obj.SupplierNum = $("#seller_id").find("option:selected").attr("data-num");
+                    obj.SupplierName = $("#seller_id").find("option:selected").text();
+                    obj.FirstTypeId = $("input:hidden[name=fst_cat_id]", $("#J_CategorySelector")).val();
+                    obj.FirstTypeName = $("#J_Number").val();
+                    obj.SecondTypeId = $("input:hidden[name=snd_cat_id]", $("#J_CategorySelector")).val();
+                    obj.SecondTypeName = $("#J_Number").val();
+                    obj.ThirdTYypeId = $("input:hidden[name=thd_cat_id]", $("#J_CategorySelector")).val();
+                    obj.ThirdTypeName = $("#J_Number").val();
+                    obj.GoodsTittle = $("#J_Title").val();
+                    obj.GoodsSubTittle = $("#J_SubTitle").val();
+                    obj.BrandId = $("#Mbrand_id").val();
+                    obj.BrandName = $("#brand_id").find(".text").text();
+                    obj.RetailtPrice = $("#J_Number").val();
+                    obj.MarketPrice = $("#J_MarketPrice").val();
+                    obj.CostPrice = $("#J_CostPrice").val();
+                    obj.Stock = $("#J_Stock").val();
+                    obj.IsLockStork = $("#is_lock_stock").prop("checked");
+                    obj.BoxSpec = $("#J_UnitTotal").val();
+                    obj.Spec = $("#J_Spec").val();
+                    obj.Unit = $("#J_Unit").val();
+                    obj.Weight = $("#weight").val();
+                    obj.Size = $("#size").val();
+                    obj.ShelfLife = $("#shelf_life").val();
+                    obj.MinCount = $("#min_sold_num").val();
+                    obj.LimitCount = $("#limit_buy_num").val();
+                    obj.pic1 = $("#WU_FILE_0").attr("filepath");
+                    obj.pic2 = $("#WU_FILE_1").attr("filepath");
+                    obj.pic3 = $("#WU_FILE_2").attr("filepath");
+                    obj.pic4 = $("#WU_FILE_3").attr("filepath");
+                    obj.pic5 = $("#WU_FILE_4").attr("filepath");
+                    obj.KeyWord = $("#J_Keyword").val();
+                    obj.Detail = $("#content").val();
+                    var price = [];
+                    $(".prices").each(function () {
+                        price.push($(this).attr("typeid") + "," + $(this).val());
+                    })
+                    $.post("/GoodsManager/SaveGoods", { goods: obj, price: price }, function (e) {
+                        alert(e);
+                    })
 
 
-    })
-</script>
-<script>
+                })
+            </script>
+            <script>
 
-    var $list = $("#list");
+                var $list = $("#list");
 
-    var uploader = WebUploader.create({
+                var uploader = WebUploader.create({
 
-        // 选完文件后，是否自动上传。
+                    // 选完文件后，是否自动上传。
 
-        auto: true,
+                    auto: true,
 
-        // swf文件路径
+                    // swf文件路径
 
-        swf: '/Scripts/webuploader/Uploader.swf',
-        // 文件接收服务端。
-        server: '/Common/Upload',
+                    swf: '/Scripts/webuploader/Uploader.swf',
+                    // 文件接收服务端。
+                    server: '/Common/Upload',
 
-        // 选择文件的按钮。可选。
+                    // 选择文件的按钮。可选。
 
-        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-        pick: '#filePicker',
+                    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                    pick: '#filePicker',
 
-        // 只允许选择图片文件。
-        accept: {
-            title: 'Images',
-            extensions: 'gif,jpg,jpeg,bmp,png',
-            mimeTypes: 'image/*'
-        }
-    });
-    uploader.on('fileQueued', function (file) {
-        var $li = $(
-            '<div id="' + file.id + '" class="file-item thumbnail">' +
-            '<img>' +
-            '<div class="info">' + file.name + '</div>' +
-            '</div>'
-        ),
-            $img = $li.find('img');
-        // $list为容器jQuery实例
+                    // 只允许选择图片文件。
+                    accept: {
+                        title: 'Images',
+                        extensions: 'gif,jpg,jpeg,bmp,png',
+                        mimeTypes: 'image/*'
+                    }
+                });
+                uploader.on('fileQueued', function (file) {
+                    var $li = $(
+                        '<div id="' + file.id + '" class="file-item thumbnail">' +
+                        '<img>' +
+                        '<div class="info">' + file.name + '</div>' +
+                        '</div>'
+                    ),
+                        $img = $li.find('img');
+                    // $list为容器jQuery实例
 
-        $list.append($li);
+                    $list.append($li);
 
-        // 创建缩略图
+                    // 创建缩略图
 
-        // 如果为非图片文件，可以不用调用此方法。
+                    // 如果为非图片文件，可以不用调用此方法。
 
-        // thumbnailWidth x thumbnailHeight 为 100 x 100
+                    // thumbnailWidth x thumbnailHeight 为 100 x 100
 
-        uploader.makeThumb(file, function (error, src) {
-            if (error) {
-                $img.replaceWith('<span>不能预览</span>');
-                return;
-            }
-            $img.attr('src', src);
-        }, 100, 100);
-    });
-    uploader.on('uploadProgress', function (file, percentage) {
-        var $li = $('#' + file.id),
-            $percent = $li.find('.progress span');
-        // 避免重复创建
-        if (!$percent.length) {
-            $percent = $('<p class="progress"><span></span></p>')
-                .appendTo($li)
-                .find('span');
-        }
-        $percent.css('width', percentage * 100 + '%');
-    });
+                    uploader.makeThumb(file, function (error, src) {
+                        if (error) {
+                            $img.replaceWith('<span>不能预览</span>');
+                            return;
+                        }
+                        $img.attr('src', src);
+                    }, 100, 100);
+                });
+                uploader.on('uploadProgress', function (file, percentage) {
+                    var $li = $('#' + file.id),
+                        $percent = $li.find('.progress span');
+                    // 避免重复创建
+                    if (!$percent.length) {
+                        $percent = $('<p class="progress"><span></span></p>')
+                            .appendTo($li)
+                            .find('span');
+                    }
+                    $percent.css('width', percentage * 100 + '%');
+                });
 
-    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-    uploader.on('uploadSuccess', function (file, resporse) {
-        $('#' + file.id).addClass('upload-state-done');
-        $('#' + file.id).attr('Filepath', resporse.filePath);
+                // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+                uploader.on('uploadSuccess', function (file, resporse) {
+                    $('#' + file.id).addClass('upload-state-done');
+                    $('#' + file.id).attr('Filepath', resporse.filePath);
 
-    });
-    // 文件上传失败，显示上传出错。
-    uploader.on('uploadError', function (file) {
-        var $li = $('#' + file.id),
-            $error = $li.find('div.error');
-        // 避免重复创建
-        if (!$error.length) {
-            $error = $('<div class="error"></div>').appendTo($li);
-        }
-        $error.text('上传失败');
-    });
+                });
+                // 文件上传失败，显示上传出错。
+                uploader.on('uploadError', function (file) {
+                    var $li = $('#' + file.id),
+                        $error = $li.find('div.error');
+                    // 避免重复创建
+                    if (!$error.length) {
+                        $error = $('<div class="error"></div>').appendTo($li);
+                    }
+                    $error.text('上传失败');
+                });
 
-    // 完成上传完了，成功或者失败，先删除进度条。
+                // 完成上传完了，成功或者失败，先删除进度条。
 
-    uploader.on('uploadComplete', function (file) {
-        $('#' + file.id).find('.progress').remove();
-    });
+                uploader.on('uploadComplete', function (file) {
+                    $('#' + file.id).find('.progress').remove();
+                });
 
-</script>
+            </script>

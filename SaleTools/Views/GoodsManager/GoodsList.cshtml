@@ -14,484 +14,496 @@
         border: 1px solid #dddddd;
     }
 </style>
-<div class="col_main_content">
-    <div class="search_bar">
-        <form action="http://agent.pifa.yunmayi.com/product" method="GET">
-            <ul class="search_item_list">
-                <li class="search_item">
-                    <label>
-                        供应商:
-                    </label>
-                    <div class="item  item_li">
-                        <div id="seller_id" class="selectpicker" data-clear="true" data-live="true">
-                            <a href="#" class="clear" style="padding-top: 8px;">
-                                <span class="cancel">
-                                    ❌
-                                </span>
-                                <span class="sr-only">
-                                    Cancel the selection
-                                </span>
-                            </a>
-                            <button data-id="prov" type="button" class="btn btn-lg btn-block btn-default dropdown-toggle">
-                                <span class="placeholder text">
-                                    请选择
-                                </span>
-                                <span class="caret">
-                                </span>
-                            </button>
-                            <div class="dropdown-menu">
-                                <div class="live-filtering" data-clear="true" data-autocomplete="true" data-keys="true">
-                                    <label class="sr-only" for="input-bts-ex-5">
-                                        Search in the list
-                                    </label>
-                                    <div class="search-box">
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="search-icon5">
-                                                <span class="search">
-                                                    🔍
-                                                </span>
-                                                <a href="#" class="fa fa-times hide filter-clear">
-                                                    <span class="sr-only">
-                                                        Clear filter
-                                                    </span>
-                                                </a>
-                                            </span>
-                                            <div style="position: relative; height: 34px; display: block;">
-                                                <input type="text" class="form-control live-search hint" aria-describedby="search-icon5" tabindex="-1" autocomplete="off" style="background-color: transparent; position: absolute;">
-                                                <input type="text" placeholder="Search in the list" id="input-bts-ex-5" class="form-control live-search" aria-describedby="search-icon5" tabindex="1" autocomplete="off" style="background-color: transparent; position: relative;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="list-to-filter">
-                                        <ul class="list-unstyled">
-                                            <li class="optgroup">
-                                                <ul id="J_Seller" class="list-unstyled">
-                                                    @foreach (var item in SupplierList)
-                                                    {
-                                                        <li class="filter-item items" data-filter="@item.SupplierCompany" data-value="@item.Id">
-                                                            @item.SupplierCompany
-                                                        </li>
-
-                                                    }
-
-
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                        <div class="no-search-results" style="display: none;">
-                                            <div class="alert alert-warning" role="alert">
-                                                <i class="fa fa-warning margin-right-sm">
-                                                </i> No entry for
-                                                <strong>
-                                                    '
-                                                    <span>
-                                                    </span>
-                                                    '
-                                                </strong> was found.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <input type="hidden" name="seller_id" id="Sid" value="0">
-                        </div>
-                    </div>
-                </li>
-                <li class="search_item">
-                    <label>
-                        &nbsp;&nbsp;状态:
-                    </label>
-                    <select name="state" id="state">
-                        <option value="0" selected="selected">
-                            全部
-                        </option>
-                        <option value="-1">
-                            下架
-                        </option>
-                        <option value="1">
-                            上架
-                        </option>
-                    </select>
-                </li>
-                <li class="search_item">
-                    <label>
-                        类目:
-                    </label>
-                    <div class="item">
-                        <div class="wgt_category_select" id="J_CategorySelector" data-fid="0" data-sid="0" data-tid="0">
-                            <div class="wgt_category_select_hd">
-                                <div class="wgt_category_title">
-                                    请选择类目
-                                </div>
-                                <i class="iconfont">
-                                    
-                                </i>
-                            </div>
-                            <div class="wgt_category_select_bd">
-                                <div class="wgt_category_select_tabs">
-                                    <a class="wgt_category_select_tab cur" href="javascript:;">
-                                        一级类目
-                                    </a>
-                                    <a class="wgt_category_select_tab" href="javascript:;">
-                                        二级类目
-                                    </a>
-                                    <a class="wgt_category_select_tab" href="javascript:;">
-                                        三级类目
-                                    </a>
-                                </div>
-                                <div class="wgt_category_select_contents">
-                                    <div class="wgt_category_select_content wgt_category_select_content_show">
-                                        <dl>
-                                            <dd class="clearfix">
-                                                <a href="javascript:;" data-id="1002">
-                                                    日用洗护
-                                                </a>
-                                                <a href="javascript:;" data-id="1030">
-                                                    食品零食
-                                                </a>
-                                                <a href="javascript:;" data-id="1041">
-                                                    粮油调味
-                                                </a>
-                                                <a href="javascript:;" data-id="1051">
-                                                    酒水饮料
-                                                </a>
-                                                <a href="javascript:;" data-id="1085">
-                                                    家用百货
-                                                </a>
-                                                <a href="javascript:;" data-id="1957">
-                                                    折扣专区
-                                                </a>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                    <div class="wgt_category_select_content">
-                                        <dl>
-                                            <dd class="clearfix">
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                    <div class="wgt_category_select_content">
-                                        <dl>
-                                            <dd class="clearfix">
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                                <input type="hidden" name="fst_cat_id" value="0">
-                                <input type="hidden" name="snd_cat_id" value="0">
-                                <input type="hidden" name="thd_cat_id" value="0">
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <!--隐藏sort排序-->
-                <input type="hidden" name="sort" value="">
-                <li class="search_item">
-                    <label>
-                        因价格变动或规格变动的下架商品:
-                    </label>
-                    <input type="checkbox" name="price_change" value="1">
-                </li>
-                <li class="search_item">
-                    <label>
-                        因系统调整下架的商品:
-                    </label>
-                    <input type="checkbox" name="change" value="1">
-                </li>
-                <li class="search_item">
-                    <label>
-                        限购商品:
-                    </label>
-                    <input type="checkbox" name="limit_buy_num" value="1">
-                </li>
-                <li class="search_item">
-                    <label>
-                        是否允许同步：
-                    </label>
-                    <select name="is_allowsynchron">
-                        <option value="99" selected="">
-                            全部
-                        </option>
-                        <option value="0">
-                            不允许同步
-                        </option>
-                        <option value="1">
-                            允许同步
-                        </option>
-                    </select>
-                </li>
-                <li class="clearfix">
-                </li>
-                <li class="search_item">
-                    <input type="checkbox" value="1" name="notLike"> 不包含
-                    <label>
-                        关键字:
-                    </label>
-                    <input type="text" name="search_value" style="height:22px; margin-left:10px;" value="" id="search_value">
-                </li>
-                <li class="search_item">
-                    <label>
-                        客户类型:
-                    </label>
-                    <select name="customer_type" id="customer_type">
-                        <option value="">
-                            全部
-                        </option>
-                        @foreach (var item in UserTypeList)
-                        {
-                            <option value="@item.TypeId">
-                                @item.TypeName
-                            </option>
-
-                        }
-                    </select>
-                </li>
-                <li class="search_item">
-                    <input type="checkbox" value="1" name="repeat"> 重复商品
-                </li>
-                <li class="search_item">
-                    <button type="submit">
-                        搜索
-                    </button>
-                </li>
-                <li class="search_item">
-                    <button type="button" id="goodExport">
-                        <a href="http://agent.pifa.yunmayi.com/product/export?sellerId=0&amp;state=0&amp;fst_cat_id=0&amp;snd_cat_id=0&amp;thd_cat_id=0&amp;customer_type=" style="color:white">
-                            商品导出
-                        </a>
-                    </button>
-                </li>
-                <li class="search_item" style="color:#d70000;">
-                    商品总数为:1877
-                </li>
-                <li class="clearfix">
-                </li>
-            </ul>
-        </form>
-        <form method="post" action="http://agent.pifa.yunmayi.com/product/phpexcel" enctype="multipart/form-data">
-            <div style="margin:5px;">
-                商品批量导入：
-                <input type="file" name="file_stu">
-                <input type="submit" value="导入">
-                <a href="/商品模板.xlsx" style="margin:0 10px 0 10px;">
-                    商品模板下载
-                </a>
-                <a href="/类目名称对应类目ID.xlsx">
-                    类目名称对应类目ID下载
-                </a>
-            </div>
-        </form>
-    </div>
-    <table class="table table_border product_list">
-        <thead class="bg_color">
-            <tr>
-                <th class="center" width="20">
-                </th>
-                <th class="product center" width="200">
-                    商品
-                </th>
-                <th class="price center clickSort change" width="60">
-                    单价
-                    <span class="dot-top clickDot">
-                    </span>
-                    <span class="dot-bottom clickDot">
-                    </span>
-                </th>
-                <th class="sales_volume center clickSort change" width="80">
-                    销量
-                    <span class="dot-top clickDot">
-                    </span>
-                    <span class="dot-bottom clickDot">
-                    </span>
-                </th>
-                <th class="quantity center clickSort change" width="80">
-                    库存
-                    <span class="dot-top clickDot">
-                    </span>
-                    <span class="dot-bottom clickDot">
-                    </span>
-                </th>
-                <th class="buyer center clickSort change" width="60">
-                    备仓
-                    <span class="dot-top clickDot">
-                    </span>
-                    <span class="dot-bottom clickDot">
-                    </span>
-                </th>
-                <th class="state center" width="130">
-                    编辑时间
-                </th>
-                <th class="clickSort change">
-                    起批量
-                    <span class="dot-top clickDot">
-                    </span>
-                    <span class="dot-bottom clickDot">
-                    </span>
-                </th>
-                <th class="sort center clickSort change">
-                    排序
-                    <span class="dot-top clickDot">
-                    </span>
-                    <span class="dot-bottom clickDot">
-                    </span>
-                </th>
-                <th class="total center">
-                    操作
-                </th>
-            </tr>
-        </thead>
-        <!-- -->
-
-    </table>
-    <div class="box">
-        <input type="checkbox" name="pass[]" id="checkall">
-        <span>
-            全选
-        </span>
-        <button type="submit" id="btn_text">
-            批量上架
-        </button>
-        <button type="submit" id="btn_down">
-            批量下架
-        </button>
-        <button type="submit" id="btn_del">
-            批量删除
-        </button>
-        <button type="submit" id="btn_delRemark">
-            批量删除前缀
-        </button>
-        <button type="submit" id="btn_remark">
-            批量新增前缀
-        </button>
-        <button type="submit" id="btn_delTypeFilter">
-            批量删除客户
-        </button>
-        <button type="submit" id="btn_typeFilter">
-            批量新增客户
-        </button>
-
-    </div>
-    <div id="page" class="page_div"></div>
+<div class="col_main_hd">
+    <h2>
+        加盟商个人中心 <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/ziling/index.php" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">系统操作说明</a></button>
+    </h2>
 </div>
+<div class="col_main_bd">
+    <div class="inner">
+        <div class="col_main_content">
 
-<script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
+            <div class="col_main_content">
+                <div class="search_bar">
+                    <form action="http://agent.pifa.yunmayi.com/product" method="GET">
+                        <ul class="search_item_list">
+                            <li class="search_item">
+                                <label>
+                                    供应商:
+                                </label>
+                                <div class="item  item_li">
+                                    <div id="seller_id" class="selectpicker" data-clear="true" data-live="true">
+                                        <a href="#" class="clear" style="padding-top: 8px;">
+                                            <span class="cancel">
+                                                ❌
+                                            </span>
+                                            <span class="sr-only">
+                                                Cancel the selection
+                                            </span>
+                                        </a>
+                                        <button data-id="prov" type="button" class="btn btn-lg btn-block btn-default dropdown-toggle">
+                                            <span class="placeholder text">
+                                                请选择
+                                            </span>
+                                            <span class="caret">
+                                            </span>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <div class="live-filtering" data-clear="true" data-autocomplete="true" data-keys="true">
+                                                <label class="sr-only" for="input-bts-ex-5">
+                                                    Search in the list
+                                                </label>
+                                                <div class="search-box">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon" id="search-icon5">
+                                                            <span class="search">
+                                                                🔍
+                                                            </span>
+                                                            <a href="#" class="fa fa-times hide filter-clear">
+                                                                <span class="sr-only">
+                                                                    Clear filter
+                                                                </span>
+                                                            </a>
+                                                        </span>
+                                                        <div style="position: relative; height: 34px; display: block;">
+                                                            <input type="text" class="form-control live-search hint" aria-describedby="search-icon5" tabindex="-1" autocomplete="off" style="background-color: transparent; position: absolute;">
+                                                            <input type="text" placeholder="Search in the list" id="input-bts-ex-5" class="form-control live-search" aria-describedby="search-icon5" tabindex="1" autocomplete="off" style="background-color: transparent; position: relative;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="list-to-filter">
+                                                    <ul class="list-unstyled">
+                                                        <li class="optgroup">
+                                                            <ul id="J_Seller" class="list-unstyled">
+                                                                @foreach (var item in SupplierList)
+                                                                {
+                                                                    <li class="filter-item items" data-filter="@item.SupplierCompany" data-value="@item.Id">
+                                                                        @item.SupplierCompany
+                                                                    </li>
 
-<script type="text/javascript" src="/Content/js/lib/help.js">
-</script>
-<script type="text/javascript" src="/Content/js/lib/category_selector/category_selector.js">
-</script>
-<script type="text/javascript" src="/Content/js/lib/overlay.js">
-</script>
-<script type="text/javascript" src="/Content/js/lib/select_js/bootstrap-select.js">
-</script>
-<script type="text/javascript" src="/Content/js/lib/select_js/livefilter.min.js">
-</script>
-<script type="text/javascript" src="/Content/js/lib/select_js/tabcomplete.min.js">
-</script>
-<script type="text/javascript" src="/Content/js/lib/paging.js"></script>
+                                                                }
 
-<script>
-    LoadList(1);
-    $(function () {
-       
-    })
-    $("#J_CategorySelector").CategorySelector({
-        afterThdSelect: function (cid) {
-            // 品牌信息
-            LoadList();
-        }
-    });
 
-    function LoadList(pageIndex) {
-        var postData = {};
-        postData.index = pageIndex;
-        postData.size = 10;
-        postData.SupplierId = $("#Sid").val();
-        postData.SupplierId = $("#Sid").val();
-        postData.fstTypeId = $("input:hidden[name=fst_cat_id]", $("#J_CategorySelector")).val();
-        postData.secTypeId = $("input:hidden[name=snd_cat_id]", $("#J_CategorySelector")).val();
-        postData.thdTypeId = $("input:hidden[name=thd_cat_id]", $("#J_CategorySelector")).val();
-        postData.keyWord = $("#search_value").val();
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="no-search-results" style="display: none;">
+                                                        <div class="alert alert-warning" role="alert">
+                                                            <i class="fa fa-warning margin-right-sm">
+                                                            </i> No entry for
+                                                            <strong>
+                                                                '
+                                                                <span>
+                                                                </span>
+                                                                '
+                                                            </strong> was found.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="seller_id" id="Sid" value="0">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="search_item">
+                                <label>
+                                    &nbsp;&nbsp;状态:
+                                </label>
+                                <select name="state" id="state">
+                                    <option value="0" selected="selected">
+                                        全部
+                                    </option>
+                                    <option value="-1">
+                                        下架
+                                    </option>
+                                    <option value="1">
+                                        上架
+                                    </option>
+                                </select>
+                            </li>
+                            <li class="search_item">
+                                <label>
+                                    类目:
+                                </label>
+                                <div class="item">
+                                    <div class="wgt_category_select" id="J_CategorySelector" data-fid="0" data-sid="0" data-tid="0">
+                                        <div class="wgt_category_select_hd">
+                                            <div class="wgt_category_title">
+                                                请选择类目
+                                            </div>
+                                            <i class="iconfont">
+                                                
+                                            </i>
+                                        </div>
+                                        <div class="wgt_category_select_bd">
+                                            <div class="wgt_category_select_tabs">
+                                                <a class="wgt_category_select_tab cur" href="javascript:;">
+                                                    一级类目
+                                                </a>
+                                                <a class="wgt_category_select_tab" href="javascript:;">
+                                                    二级类目
+                                                </a>
+                                                <a class="wgt_category_select_tab" href="javascript:;">
+                                                    三级类目
+                                                </a>
+                                            </div>
+                                            <div class="wgt_category_select_contents">
+                                                <div class="wgt_category_select_content wgt_category_select_content_show">
+                                                    <dl>
+                                                        <dd class="clearfix">
+                                                            <a href="javascript:;" data-id="1002">
+                                                                日用洗护
+                                                            </a>
+                                                            <a href="javascript:;" data-id="1030">
+                                                                食品零食
+                                                            </a>
+                                                            <a href="javascript:;" data-id="1041">
+                                                                粮油调味
+                                                            </a>
+                                                            <a href="javascript:;" data-id="1051">
+                                                                酒水饮料
+                                                            </a>
+                                                            <a href="javascript:;" data-id="1085">
+                                                                家用百货
+                                                            </a>
+                                                            <a href="javascript:;" data-id="1957">
+                                                                折扣专区
+                                                            </a>
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                                <div class="wgt_category_select_content">
+                                                    <dl>
+                                                        <dd class="clearfix">
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                                <div class="wgt_category_select_content">
+                                                    <dl>
+                                                        <dd class="clearfix">
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="fst_cat_id" value="0">
+                                            <input type="hidden" name="snd_cat_id" value="0">
+                                            <input type="hidden" name="thd_cat_id" value="0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <!--隐藏sort排序-->
+                            <input type="hidden" name="sort" value="">
+                            <li class="search_item">
+                                <label>
+                                    因价格变动或规格变动的下架商品:
+                                </label>
+                                <input type="checkbox" name="price_change" value="1">
+                            </li>
+                            <li class="search_item">
+                                <label>
+                                    因系统调整下架的商品:
+                                </label>
+                                <input type="checkbox" name="change" value="1">
+                            </li>
+                            <li class="search_item">
+                                <label>
+                                    限购商品:
+                                </label>
+                                <input type="checkbox" name="limit_buy_num" value="1">
+                            </li>
+                            <li class="search_item">
+                                <label>
+                                    是否允许同步：
+                                </label>
+                                <select name="is_allowsynchron">
+                                    <option value="99" selected="">
+                                        全部
+                                    </option>
+                                    <option value="0">
+                                        不允许同步
+                                    </option>
+                                    <option value="1">
+                                        允许同步
+                                    </option>
+                                </select>
+                            </li>
+                            <li class="clearfix">
+                            </li>
+                            <li class="search_item">
+                                <input type="checkbox" value="1" name="notLike"> 不包含
+                                <label>
+                                    关键字:
+                                </label>
+                                <input type="text" name="search_value" style="height:22px; margin-left:10px;" value="" id="search_value">
+                            </li>
+                            <li class="search_item">
+                                <label>
+                                    客户类型:
+                                </label>
+                                <select name="customer_type" id="customer_type">
+                                    <option value="">
+                                        全部
+                                    </option>
+                                    @foreach (var item in UserTypeList)
+                                    {
+                                        <option value="@item.TypeId">
+                                            @item.TypeName
+                                        </option>
 
-        $.ajax({
-            url: "/GoodsManager/GetGoodsList",
-            async: false,
-            type: "POST",
-            data: postData,
-            dataType: "json",
-            success: function (e) {
-                var html = "";
-                $(e.ListData).each(function () {
-                    html += '<tbody>< tr ><td colspan="10" class="sep_row">&nbsp;</td></tr >'
-                    html += '<tr class="product_hd"><th colspan="10">条形码:'
-                    html += ' <input type="text" style="width:150px;padding:5px;" class="J_QuickBarCode" data-id="' + this.Id + '" data-bar-code="' + this.BarCode + '" value="' + this.BarCode + '"> 商品ID:' + this.GoodsNum + ' &nbsp;';
-                    html += ' <span style="float:right;">' + this.SupplierName + '</span></th></tr>';
-                    html += '< tr class="product_bd" ><td class="center"><input type="checkbox" name="pass" value="' + this.Id + '"></td>'
-                    html += '<td class="product"><a href="" class="lfloat"><img src="' + this.pic1 + '"></a>';
-                    html += ' <div class="title"><a href="">' + this.GoodsTittle + '</a></div></td>';
-                    html += '<td class="center">2.30</td>';
-                    html += '<td class="center">2362</td>';
-                    html += '<td class="center">9657</td>';
-                    html += '<td class="center">0</td>';
-                    html += '<td class="center">' + this.LastUpdateTime + '</td>'
-                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum" data-id="808105" data-num="10" value="10"></td>';
-                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" data-id="808105" data-sort="341" value="341"></td>';
-                    html += '<td class="center"><a href="http://agent.pifa.yunmayi.com/product/onlysee?id=808105">商品详情</a><br><br>';
-                    html += '<a href="http://agent.pifa.yunmayi.com/product/copyadd?id=808105">复制新增</a><br><br>';
-                    html += '<a href="/GoodsManager/AddGoods/' + this.Id + '">编辑商品</a><br><br>';
-                    html += '<a href="http://agent.pifa.yunmayi.com/product/warehouse?id=808105">备仓库存</a><br><br>';
-                    var strShelves = "上架";
-                    if (this.IsUpShelves) {
-                        strShelves = "下架"
-                    }
-                    html += '<button type="button" class="btn btn_confirm J_UpShelves" data-isShelves="' + this.IsUpShelves + '" data-id="' + this.Id + '">' + strShelves + '</button>';
-                    html += '<input type="button" class="delpro btn" value="删除" data-id="' + this.Id + '" style="margin-top:3px;"></td></tr></tbody>';
-                });
-                $(".product_list").find("tbody").remove();
+                                    }
+                                </select>
+                            </li>
+                            <li class="search_item">
+                                <input type="checkbox" value="1" name="repeat"> 重复商品
+                            </li>
+                            <li class="search_item">
+                                <button type="submit">
+                                    搜索
+                                </button>
+                            </li>
+                            <li class="search_item">
+                                <button type="button" id="goodExport">
+                                    <a href="http://agent.pifa.yunmayi.com/product/export?sellerId=0&amp;state=0&amp;fst_cat_id=0&amp;snd_cat_id=0&amp;thd_cat_id=0&amp;customer_type=" style="color:white">
+                                        商品导出
+                                    </a>
+                                </button>
+                            </li>
+                            <li class="search_item" style="color:#d70000;">
+                                商品总数为:1877
+                            </li>
+                            <li class="clearfix">
+                            </li>
+                        </ul>
+                    </form>
+                    <form method="post" action="http://agent.pifa.yunmayi.com/product/phpexcel" enctype="multipart/form-data">
+                        <div style="margin:5px;">
+                            商品批量导入：
+                            <input type="file" name="file_stu">
+                            <input type="submit" value="导入">
+                            <a href="/商品模板.xlsx" style="margin:0 10px 0 10px;">
+                                商品模板下载
+                            </a>
+                            <a href="/类目名称对应类目ID.xlsx">
+                                类目名称对应类目ID下载
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                <table class="table table_border product_list">
+                    <thead class="bg_color">
+                        <tr>
+                            <th class="center" width="20">
+                            </th>
+                            <th class="product center" width="200">
+                                商品
+                            </th>
+                            <th class="price center clickSort change" width="60">
+                                单价
+                                <span class="dot-top clickDot">
+                                </span>
+                                <span class="dot-bottom clickDot">
+                                </span>
+                            </th>
+                            <th class="sales_volume center clickSort change" width="80">
+                                销量
+                                <span class="dot-top clickDot">
+                                </span>
+                                <span class="dot-bottom clickDot">
+                                </span>
+                            </th>
+                            <th class="quantity center clickSort change" width="80">
+                                库存
+                                <span class="dot-top clickDot">
+                                </span>
+                                <span class="dot-bottom clickDot">
+                                </span>
+                            </th>
+                            <th class="buyer center clickSort change" width="60">
+                                备仓
+                                <span class="dot-top clickDot">
+                                </span>
+                                <span class="dot-bottom clickDot">
+                                </span>
+                            </th>
+                            <th class="state center" width="130">
+                                编辑时间
+                            </th>
+                            <th class="clickSort change">
+                                起批量
+                                <span class="dot-top clickDot">
+                                </span>
+                                <span class="dot-bottom clickDot">
+                                </span>
+                            </th>
+                            <th class="sort center clickSort change">
+                                排序
+                                <span class="dot-top clickDot">
+                                </span>
+                                <span class="dot-bottom clickDot">
+                                </span>
+                            </th>
+                            <th class="total center">
+                                操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <!-- -->
 
-                $(".product_list").append(html);
-                $("#page").paging({
-                    pageNo: pageIndex,
-                    totalPage: e.TotalPage,
-                    totalSize: e.TotalCount,
-                    callback: function (num) {
-                        if (pageIndex != num)
-                            LoadList(num);
-                    }
+                </table>
+                <div class="box">
+                    <input type="checkbox" name="pass[]" id="checkall">
+                    <span>
+                        全选
+                    </span>
+                    <button type="submit" id="btn_text">
+                        批量上架
+                    </button>
+                    <button type="submit" id="btn_down">
+                        批量下架
+                    </button>
+                    <button type="submit" id="btn_del">
+                        批量删除
+                    </button>
+                    <button type="submit" id="btn_delRemark">
+                        批量删除前缀
+                    </button>
+                    <button type="submit" id="btn_remark">
+                        批量新增前缀
+                    </button>
+                    <button type="submit" id="btn_delTypeFilter">
+                        批量删除客户
+                    </button>
+                    <button type="submit" id="btn_typeFilter">
+                        批量新增客户
+                    </button>
+
+                </div>
+                <div id="page" class="page_div"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+            <script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
+
+            <script type="text/javascript" src="/Content/js/lib/help.js">
+            </script>
+            <script type="text/javascript" src="/Content/js/lib/category_selector/category_selector.js">
+            </script>
+            <script type="text/javascript" src="/Content/js/lib/overlay.js">
+            </script>
+            <script type="text/javascript" src="/Content/js/lib/select_js/bootstrap-select.js">
+            </script>
+            <script type="text/javascript" src="/Content/js/lib/select_js/livefilter.min.js">
+            </script>
+            <script type="text/javascript" src="/Content/js/lib/select_js/tabcomplete.min.js">
+            </script>
+            <script type="text/javascript" src="/Content/js/lib/paging.js"></script>
+
+            <script>
+                LoadList(1);
+                $(function () {
+
                 })
-            }
-        })
-    }
-    $(document).on("click", ".delpro", function () {
-        var goodsIds = [];
-        goodsIds.push($(this).data("id"));
-        DeleteGoods(goodsIds);
-    });
+                $("#J_CategorySelector").CategorySelector({
+                    afterThdSelect: function (cid) {
+                        // 品牌信息
+                        LoadList();
+                    }
+                });
+
+                function LoadList(pageIndex) {
+                    var postData = {};
+                    postData.index = pageIndex;
+                    postData.size = 10;
+                    postData.SupplierId = $("#Sid").val();
+                    postData.SupplierId = $("#Sid").val();
+                    postData.fstTypeId = $("input:hidden[name=fst_cat_id]", $("#J_CategorySelector")).val();
+                    postData.secTypeId = $("input:hidden[name=snd_cat_id]", $("#J_CategorySelector")).val();
+                    postData.thdTypeId = $("input:hidden[name=thd_cat_id]", $("#J_CategorySelector")).val();
+                    postData.keyWord = $("#search_value").val();
+
+                    $.ajax({
+                        url: "/GoodsManager/GetGoodsList",
+                        async: false,
+                        type: "POST",
+                        data: postData,
+                        dataType: "json",
+                        success: function (e) {
+                            var html = "";
+                            $(e.ListData).each(function () {
+                                html += '<tbody>< tr ><td colspan="10" class="sep_row">&nbsp;</td></tr >'
+                                html += '<tr class="product_hd"><th colspan="10">条形码:'
+                                html += ' <input type="text" style="width:150px;padding:5px;" class="J_QuickBarCode" data-id="' + this.info.Id + '" data-bar-code="' + this.info.BarCode + '" value="' + this.info.BarCode + '"> 商品ID:' + this.info.GoodsNum + ' &nbsp;';
+                                html += ' <span style="float:right;">' + this.info.SupplierName + '</span></th></tr>';
+                                html += '< tr class="product_bd" ><td class="center"><input type="checkbox" name="pass" value="' + this.info.Id + '"></td>'
+                                html += '<td class="product"><a href="" class="lfloat"><img src="' + this.info.pic1 + '"></a>';
+                                html += ' <div class="title"><a href="">' + this.info.GoodsTittle + '</a></div></td>';
+                                html += '<td class="center">2.30</td>';
+                                html += '<td class="center">2362</td>';
+                                html += '<td class="center">9657</td>';
+                                html += '<td class="center">0</td>';
+                                html += '<td class="center">' + this.info.LastUpdateTime + '</td>'
+                                html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum" data-id="808105" data-num="10" value="10"></td>';
+                                html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" data-id="808105" data-sort="341" value="341"></td>';
+                                html += '<td class="center"><a href="http://agent.pifa.yunmayi.com/product/onlysee?id=808105">商品详情</a><br><br>';
+                                html += '<a href="http://agent.pifa.yunmayi.com/product/copyadd?id=808105">复制新增</a><br><br>';
+                                html += '<a href="/GoodsManager/AddGoods/' + this.Id + '">编辑商品</a><br><br>';
+                                html += '<a href="http://agent.pifa.yunmayi.com/product/warehouse?id=808105">备仓库存</a><br><br>';
+                                var strShelves = "上架";
+                                if (this.info.IsUpShelves) {
+                                    strShelves = "下架"
+                                }
+                                html += '<button type="button" class="btn btn_confirm J_UpShelves" data-isShelves="' + this.info.IsUpShelves + '" data-id="' + this.info.Id + '">' + strShelves + '</button>';
+                                html += '<input type="button" class="delpro btn" value="删除" data-id="' + this.info.Id + '" style="margin-top:3px;"></td></tr></tbody>';
+                            });
+                            $(".product_list").find("tbody").remove();
+
+                            $(".product_list").append(html);
+                            $("#page").paging({
+                                pageNo: pageIndex,
+                                totalPage: e.TotalPage,
+                                totalSize: e.TotalCount,
+                                callback: function (num) {
+                                    if (pageIndex != num)
+                                        LoadList(num);
+                                }
+                            })
+                        }
+                    })
+                }
+                $(document).on("click", ".delpro", function () {
+                    var goodsIds = [];
+                    goodsIds.push($(this).data("id"));
+                    DeleteGoods(goodsIds);
+                });
 
 
-    $(document).on("click", ".J_UpShelves", function () {
-        var goodsIds = [];
-        goodsIds.push($(this).data("id"));
-        var isShelves = !$(this).data("isshelves")
-        ToggleShelves(goodsIds, isShelves);
-    });
+                $(document).on("click", ".J_UpShelves", function () {
+                    var goodsIds = [];
+                    goodsIds.push($(this).data("id"));
+                    var isShelves = !$(this).data("isshelves")
+                    ToggleShelves(goodsIds, isShelves);
+                });
 
-    function DeleteGoods(goodsList) {
-        $.post("/GoodsManager/DeleteGoods", { goodsIds :goodsList}, function (e) {
-            if (e) {
-                LoadList(1);
-            }
-        }, "json");
-    }
+                function DeleteGoods(goodsList) {
+                    $.post("/GoodsManager/DeleteGoods", { goodsIds: goodsList }, function (e) {
+                        if (e) {
+                            LoadList(1);
+                        }
+                    }, "json");
+                }
 
 
-    function ToggleShelves(goodsList, isShelves) {
-        $.post("/GoodsManager/ToggleShelves", { goodsIds: goodsList, isShelves: isShelves }, function (e) {
-            if (e) {
-                LoadList(1);
-            }
-        }, "json");
+                function ToggleShelves(goodsList, isShelves) {
+                    $.post("/GoodsManager/ToggleShelves", { goodsIds: goodsList, isShelves: isShelves }, function (e) {
+                        if (e) {
+                            LoadList(1);
+                        }
+                    }, "json");
 
-    }
+                }
 
-</script>
+            </script>

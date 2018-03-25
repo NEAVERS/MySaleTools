@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Enums.cs" />
     <Compile Include="Entities\GoddsTypeTree.cs" />
     <Compile Include="Entities\GoodsWithPrice.cs" />
     <Compile Include="Entities\PageData.cs" />

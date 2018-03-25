@@ -1,5 +1,6 @@
 ﻿using BLL;
 using Common;
+using Common.Entities;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,18 @@ namespace SaleTools.Controllers
         // GET: Usei
         public ActionResult Index()
         {
+            var loginUser = (UserInfo)ViewBag.User;
+            var list = manager.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
+            ViewBag.SaleManList = list;
             return View();
         }
 
+
+        public string SetSaleMan(Guid userId, Guid saleManId,string saleManName)
+        {
+            var res = manager.SetSaleMan(userId, saleManId, saleManName);
+            return Utils.SerializeObject(res);
+        }
 
         public ActionResult AddNewUser()
         {
@@ -134,6 +144,27 @@ namespace SaleTools.Controllers
             else return View(model);
         }    
         
+
+        public ActionResult AddSysAccount(int type)
+        {
+            string userTypeName = ((SystemUserType)type).ToString();
+            ViewBag.UserTypeName = userTypeName;
+            ViewBag.UserType = type;
+            return View();
+        }
+
+
+        public ActionResult SysAccount(int type)
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            string userTypeName = ((SystemUserType)type).ToString();
+            ViewBag.UserTypeName = userTypeName;
+            ViewBag.UserType = type;
+
+            var list = manager.GetSysUser(type,loginUser.UserId);
+            ViewBag.List = list;
+            return View();
+        }
      
     }
 }

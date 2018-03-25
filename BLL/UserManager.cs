@@ -152,6 +152,16 @@ namespace BLL
             return _context.UserInfoes.FirstOrDefault(x => x.UserId == userId);
         }
 
+
+        public List<UserInfo> GetSysUser(int type,Guid createUsrId)
+        {
+            var q = from c in _context.UserInfoes
+                    where !c.IsDelete
+                    && c.CreateUserId == createUsrId
+                    && c.TypeId == type
+                    select c;
+            return q.ToList();
+        }
         /// <summary>
         /// 解锁
         /// </summary>
@@ -205,5 +215,25 @@ namespace BLL
             var model = _context.UserTypes.FirstOrDefault(x => x.TypeId == typeId);
             return model;
         }
+
+
+        /// <summary>
+        /// 给客户设置业务员
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="saleManId"></param>
+        /// <param name="saleManName"></param>
+        /// <returns></returns>
+        public bool SetSaleMan(Guid userId, Guid saleManId, string saleManName)
+        {
+            var model = _context.UserInfoes.FirstOrDefault(x => x.UserId == userId);
+            if(model!=null)
+            {
+                model.SaleManGuid = saleManId;
+                model.SaleManName = saleManName;
+            }
+            return _context.SaveChanges() > 0;
+        }
+
     }
 }

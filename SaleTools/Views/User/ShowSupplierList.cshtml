@@ -2,44 +2,55 @@
 @{
     ViewBag.Title = "ShowSupplierList";
 }
+<div class="col_main_hd">
+    <h2>
+        加盟商个人中心 <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/ziling/index.php" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">系统操作说明</a></button>
+    </h2>
+</div>
+<div class="col_main_bd">
+    <div class="inner">
+        <div class="col_main_content">
 
-<table class="table table_border">
-    <thead class="bg_color">
-        <tr>
-            <th class="center" width="10%">供应商Id</th>
-            <th class="center" width="13%">用户名</th>
-            <th class="center" width="13%">供应商编号</th>
-            <th class="center" width="13%">公司名称</th>
-            <th class="center" width="13%">联系方式</th>
-            <th class="center" width="25%">操作</th>
-        </tr>
-    </thead>
-    <tbody id="dataList">
-        @foreach(var item in Model)
-        {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.SupplierNum</td>
-                <td>@item.SupplierName</td>
-                <td>@item.SupplierCompany</td>
-                <td>@item.Tel</td>
-                <td>
-                    <a href="/User/SupplierDeltie/@item.Id">编辑</a>
-                    <a href="#"  onclick="Delete(@item.Id)">删除</a>
-                </td>
-            </tr>
-        }
-    </tbody>
+            <table class="table table_border">
+                <thead class="bg_color">
+                    <tr>
+                        <th class="center" width="10%">供应商Id</th>
+                        <th class="center" width="13%">用户名</th>
+                        <th class="center" width="13%">供应商编号</th>
+                        <th class="center" width="13%">公司名称</th>
+                        <th class="center" width="13%">联系方式</th>
+                        <th class="center" width="25%">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="dataList">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.SupplierNum</td>
+                            <td>@item.SupplierName</td>
+                            <td>@item.SupplierCompany</td>
+                            <td>@item.Tel</td>
+                            <td>
+                                <a href="/User/SupplierDeltie/@item.Id">编辑</a>
+                                <a href="#" onclick="Delete(@item.Id)">删除</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
 
-</table>
-<script>
-    function Delete(id)
-    {
-        $.post("/User/DeleteSupplier", { id: id }, function (e) {
-            if (e) {
-                alert("删除成功！")
-            }
-            location.reload();
-        },"json")
-    }
-</script>
+            </table>
+            </div>
+        </div>
+    </div>
+
+            <script>
+                function Delete(id) {
+                    $.post("/User/DeleteSupplier", { id: id }, function (e) {
+                        if (e) {
+                            alert("删除成功！")
+                        }
+                        location.reload();
+                    }, "json")
+                }
+            </script>

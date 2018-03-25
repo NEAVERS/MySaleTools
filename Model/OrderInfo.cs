@@ -100,6 +100,16 @@ namespace Model
         /// 是否删除
         /// </summary>
         public bool IsDelete { get; set; }
+
+        /// 业务员ID
+        /// </summary>
+        public Guid SaleManGuid { get; set; }
+
+        /// <summary>
+        /// 业务员姓名
+        /// </summary>
+        public string SaleManName { get; set; }
+
         public OrderInfo()
         {
             this.Id = Guid.NewGuid();
@@ -122,6 +132,8 @@ namespace Model
             this.CreateUserTypeId = 0;
             this.CreateUserType = string.Empty;
             this.IsDelete = false;
+            this.SaleManGuid = Guid.Empty;
+            this.SaleManName = string.Empty;
         }
     }
 }

@@ -1,36 +1,52 @@
-﻿
+﻿@using Model;
 @{
     ViewBag.Title = "Index";
+    var saleList = (List<UserInfo>)ViewBag.SaleManList;
 }
+<div class="col_main_hd">
+    <h2>
+        加盟商个人中心 <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/ziling/index.php" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">系统操作说明</a></button>
+    </h2>
+</div>
+<div class="col_main_bd">
+    <div class="inner">
+        <div class="col_main_content">
 
 
-<table class="table table_border">
-    <thead class="bg_color">
-        <tr>
-            <th class="center" width="10%">用户账号</th>
-            <th class="center" width="13%">用户名</th>
-            <th class="center" width="13%">创建时间</th>
-            <th class="center" width="13%">创建人</th>
-            <th class="center" width="13%">是否锁定</th>
-            <th class="center" width="25%">操作</th>
-        </tr>
-    </thead>
-    <tbody id="dataList"></tbody>
+            <table class="table table_border">
+                <thead class="bg_color">
+                    <tr>
+                        <th class="center" width="10%">用户账号</th>
+                        <th class="center" width="13%">用户名</th>
+                        <th class="center" width="13%">创建时间</th>
+                        <th class="center" width="13%">创建人</th>
+                        <th class="center" width="13%">是否锁定</th>
+                        <th class="center" width="25%">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="dataList"></tbody>
+            </table>
+            <table></table>
+        </div>
+    </div>
+</div>
 
-</table>
-
-
-<table>
-   
-</table>
+<div style="display:none;" id="selecetSaleMandDiv">
+    <select id="saleManList">
+        @foreach (var item in saleList)
+        {
+            <option value="@item.UserId">@item.UserName</option>
+        }
+    </select>
+</div>
+<script src="~/Scripts/layer/layer.js"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script>
     $(function () {
         LoadData(1);
     })
 
-    function LoadData(index)
-    {
+    function LoadData(index) {
         var para = {};
         para.index = index;
         para.size = 10;
@@ -50,12 +66,42 @@
                 html += '<button class="active lock"  userId = "' + this.UserId + '" >' + (this.IsLocked ? "解除锁定" : "锁定") + '</button>'
                 html += '<button class="active  del"  userId = "' + this.UserId + '" >删除</button>'
                 html += '<button class="active  edit"  userId = "' + this.UserId + '" >编辑</button>'
+                html += '<button class="active  setSaleMan"  userId = "' + this.UserId + '" >设置业务员</button>'
                 html += "</td>";
                 html += "</tr>";
             })
             $("#dataList").html(html);
-        },"json")
+        }, "json")
     }
+    $(document).on("click", ".setSaleMan", function () {
+        var userId = $(this).attr("userId");
+
+        layer.confirm($('#selecetSaleMandDiv'), {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            var para = {};
+            para.userId = userId;
+            para.saleManId = $("#saleManList").val();
+            para.saleManName = $("#saleManList").find("option:selected").text();
+            $.post("/User/SetSaleMan", para, function (e) {
+                if (e) {
+                    layer.close();
+                    layer.msg("设置成功", { icon: 1 });
+                }
+                else {
+                    layer.close();
+                    layer.msg("设置失败，请刷新后重试", { icon: 2 });
+
+                }
+
+            },"json")
+
+            }, function () {
+                layer.close();
+        });
+    })
+
+    
 
     $(document).on("click", ".lock", function () {
         var id = $(this).attr("userId");
