@@ -95,7 +95,7 @@ namespace BLL
         }
 
         /// <summary>
-        /// 删除订单及购物车中的商品
+        /// 删除订单或购物车中的商品
         /// </summary>
         /// <param name="itemId"></param>
         /// <returns></returns>

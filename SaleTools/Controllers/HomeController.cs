@@ -22,7 +22,7 @@ namespace SaleTools.Controllers
 
         public string LoadProduct(string firstTypeId)
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser = (UserInfo)ViewBag.User;
             Guid userId = loginUser.CreateUserId;
             if (ViewBag.IsAdmin)
             {
@@ -39,7 +39,7 @@ namespace SaleTools.Controllers
             var fstType = _manager.GetGoodsType(fst);
             var secType = _manager.GetGoodsType(sec);
             var trdType = _manager.GetGoodsType(trd);
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser = (UserInfo)ViewBag.User;
             string para = "fst";
             Guid parentId = Guid.Empty;
             var TypeList = new List<GoodsType>();
@@ -101,7 +101,7 @@ namespace SaleTools.Controllers
         public string AddToShoppingCar(Guid goodId,int count)
         {
             bool res = false;
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser = (UserInfo)ViewBag.User;
             OrderItem basItem = new OrderItem();
             if (_order.IsExitInCar(goodId,loginUser.UserId, out basItem))
             {
@@ -129,10 +129,27 @@ namespace SaleTools.Controllers
 
         public string LoadShoopingCarCount()
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser = (UserInfo)ViewBag.User;
             var list = _order.GetShoppingCar(loginUser.UserId);
             return Utils.SerializeObject(list.Count);
         }
 
+
+        public void CreateOrder()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var order = new OrderInfo();
+            order.Id = Guid.NewGuid();
+            order.CreateTime = DateTime.Now;
+            order.CreateUserId = loginUser.UserId;
+            order.CreateUserName = loginUser.UserName;
+            order.CreateUserType = loginUser.TypeName;
+            order.CreateUserTypeId = loginUser.TypeId;
+            order.RootUserId = loginUser.CreateUserId;
+            order.RootUserName = loginUser.CreateUser;
+            order.SaleManGuid = loginUser.SaleManGuid;
+            order.SaleManName = loginUser.SaleManName;
+            
+        }
     }
 }
