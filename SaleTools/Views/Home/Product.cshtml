@@ -5,629 +5,1385 @@
     var TypeList = (List<GoodsType>)ViewBag.TypeList;
     var BrandList = (List<GoodsBrand>)ViewBag.BrandList;
     Layout = "~/Views/Shared/_UserLayout.cshtml";
-    GoodsType fstType =  (GoodsType)ViewBag.FstType ;
-    GoodsType secType =(GoodsType)ViewBag.SecType;
-    GoodsType trdType =(GoodsType)ViewBag.TrdType;
+    GoodsType fstType = (GoodsType)ViewBag.FstType;
+    GoodsType secType = (GoodsType)ViewBag.SecType;
+    GoodsType trdType = (GoodsType)ViewBag.TrdType;
 }
+<div class="header" id="header">
+    <div class="topfixeds" style="display: none;">
+        <div class="topfixed top clearfix">
+            <h2 class="topMenuList"><i style="padding-right: 13px;"><img src="/Content/images/index/04151605.png"></i>全部商品分类</h2>
+            <div class="searchbar lfloat" style="padding-top:5px;">
+                <form action="http://pifa.yunmayi.com/search/index" method="GET" id="C_GlobalSearchFormOne">
+                    <input type="text" name="q" class="search_input" id="C_GlobalSearchInputOne" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+                    <!--                <input type="hidden" name="cid" value="" id="cid"/>-->
+                    <button type="submit" class="search_btn">搜索</button>
+                </form>
+            </div>
+            <div class="toolbar lfloat" style="padding-top:6px;">
+                <a href="/cart/">
+                    购物车
+                    <i style="font-style: normal;color: #ff0000;font-size: 15px;" id="C_GlobalCartItemNum_fixed">0</i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="module top clearfix">
+        <div class="logo lfloat">
+            <div class="logoImg">
+                <a href="http://www.yunmayi.com"><img src="/Content/images/new_log.png" href="/cart/"></a>
+            </div>
+            <div class="logoFont">
+                <a href="http://pifa.yunmayi.com/"><img src="/Content/images/index/04171124.png" style="width:100%;"></a>
+            </div>
+        </div>
+        <div class="searchbar lfloat">
+            <form action="http://pifa.yunmayi.com/search/index" method="GET" id="C_GlobalSearchForm">
+                <input type="text" name="q" class="search_input" id="C_GlobalSearchInput" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+                <button type="submit" class="search_btn">搜索</button>
+            </form>
+        </div>
+        <div class="toolbar lfloat">
+            <a href="/cart1/" class="shopCart">
+                购物车
+                <i style="font-style: normal;color: red;" id="C_GlobalCartItemNum">0</i>
+            </a>
+        </div>
+    </div>
+    <div class="module nav clearfix">
+        <div class="category lfloat" id="C_CategoryBox" data-fixed="0">
+            <h2 class="topMenuList"><i style="padding-right: 13px;"><img src="/Content/images/index/04151605.png"></i>全部商品分类</h2>
+            <div class="dropdown_menu" style="display: none;">
+                <!-- first category -->
+                <ul class="menu_nav_container" id="C_CategoryList">
+                    <li data-source="">
+                        <div class="menu_nav_fst">
+                            <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1030">食品零食</a></h3>
+                            <div class="fst_cat_child">
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1031">膨化食品</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1039">饼干点心</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1040">方便食品</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1169">核果蜜饯</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1298">糖果巧克力</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1819">早餐食品</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1996">进口食品</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=2003">散称专区</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=2333">麻辣食品</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li data-source="">
+                        <div class="menu_nav_fst">
+                            <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1002">日用洗护</a></h3>
+                            <div class="fst_cat_child">
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1095">洗发用品         </a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1155">洗浴用品     </a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1173">口腔护理</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1221">日常用纸</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1232">女性护理</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1239">洁衣用品</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1385">家用清洁</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1742">护肤用品</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1798">身体护理</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li data-source="">
+                        <div class="menu_nav_fst">
+                            <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1041">粮油调味</a></h3>
+                            <div class="fst_cat_child">
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1043">调味品</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1250">粮食干货</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1924">水产干货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li data-source="">
+                        <div class="menu_nav_fst">
+                            <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1051">酒水饮料</a></h3>
+                            <div class="fst_cat_child">
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1052">饮料</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1053">啤酒</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1054">果酒</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1055">白酒</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=2025">黄酒</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li data-source="">
+                        <div class="menu_nav_fst">
+                            <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1085">家用百货</a></h3>
+                            <div class="fst_cat_child">
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1086">日用杂品</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1313">针棉用品</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1833">文具/办公用品</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1834">体育/娱乐用品</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1835">玩具</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1836">电子电器</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1837">工具五金</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1838">饰品</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1839">针棉织品</a>
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1840">其他</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li data-source="">
+                        <div class="menu_nav_fst">
+                            <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1957">折扣专区</a></h3>
+                            <div class="fst_cat_child">
+                                <a href="http://pifa.yunmayi.com/product/list?cid=1958">折扣专区</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul class="list clearfix">
+            <li>
+                <a href="/Home/Index">首页</a>
+                <img src="/Content/images/christmas-tree.png" alt="">
+            </li>
+            @foreach (var item in typeList)
+            {
+                <li>
+                    <a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a>
+                    <img src="/Content/images/christmas-tree.png" alt="">
+                </li>
+
+            }
+        </ul>
+    </div>
+</div>
+<script>
+    document.onkeydown = function (event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 13) { // enter 键
+            if (event.target.value == '' || event.target.value == NULL) {
+                return false;
+            }
+            window.location.href = 'http://pifa.v2.com/search/index?q=' + event.target.value;
+        }
+    };
+
+    var test = window.location.pathname; //获取当前页面的url的路径部分
+    if (test != "/") { //当不为首页时
+        $("#C_CategoryBox").find("h2").addClass('topMenuList');
+    }
+    $(".topMenuList").mouseover(function () {
+        $(".dropdown_menu").css({
+            display: 'block'
+        });
+        var scrollTop = $(document).scrollTop();
+        if (scrollTop < 130) {
+            if ($(".dropdown_menu").height() > windowH - $(".topfixeds").height()) {
+                $(".dropdown_menu .menu_nav_container").css({
+                    height: windowH - $(".topfixeds").height() + 'px'
+                })
+            }
+        } else {
+            $(".header .nav .category").addClass('topShow');
+        }
+        $(".header .nav .category").removeClass('fixed');
+        $(".header .nav .category").addClass('show');
+    })
+    $(".topMenuList").mouseleave(function () {
+        if ($(".header .nav .category").data("fixed") == 0) {
+            $(".dropdown_menu").css({
+                display: 'none'
+            });
+        } else {
+            $(".header .nav .category").addClass('fixed');
+        }
+        $(".header .nav .category").removeClass('show');
+        $(".header .nav .category").removeClass('topShow');
+
+    });
+    var windowH = $(window).height();
+    $(".dropdown_menu").mouseenter(function () {
+        $(".dropdown_menu").css({
+            display: 'block'
+        });
+        var scrollTop = $(document).scrollTop();
+        if (scrollTop > 130) {
+            $(".header .nav .category").addClass('topShow');
+            if ($(".dropdown_menu").height() > windowH - $(".topfixeds").height()) {
+                $(".dropdown_menu .menu_nav_container").css({
+                    height: windowH - $(".topfixeds").height() + 'px'
+                })
+            }
+        }
+        $(".header .nav .category").removeClass('fixed');
+        $(".header .nav .category").addClass('show');
+    });
+    $(".dropdown_menu").mouseleave(function () {
+        if ($(".header .nav .category").data("fixed") == 0) {
+            $(".dropdown_menu").css({
+                display: 'none'
+            });
+        } else {
+            $(".header .nav .category").addClass('fixed');
+        }
+        $(".dropdown_menu .menu_nav_container").css({
+            height: ''
+        })
+        $(".header .nav .category").removeClass('show');
+        $(".header .nav .category").removeClass('topShow');
+    });
+    $(window).on('scroll', function () {
+        var scrollTop = $(document).scrollTop();
+        if (scrollTop > 130) {
+            $(".topfixeds").css({ display: "block" });
+        } else {
+            $(".topfixeds").css({ display: "none" });
+            $(".header .nav .category").removeClass('topShow');
+            $(".dropdown_menu").css({
+                display: ''
+            });
+        }
+    });
+</script>
 
 
-
-<div class="container" id="J_List">
-    <div class="pro_list">
-        <div class="ctg_info" id="productStyle1">
-            <div class="path" style="overflow:hidden;">
-                <div style="float:left;" id="C_Crumbs">
-                    <a href="#" class="C_cat" data-id="0">全部商品</a>&gt;
-                    <a href="/Home/Product?fst=@fstType.Id" class="C_cat" data-id="1030" data-name="@fstType.TypeName">@fstType.TypeName</a>
-                    @if (secType != null)
-                    {
-                        var para = ">";
-                @para<a href="/Home/Product?sec=@secType.Id" class="C_cat" data-id="1031" data-name="@secType.TypeName">@secType.TypeName</a>
-                        if (trdType != null)
+<div class="main" id="main">
+    <div class="container" id="J_List">
+        <div class="pro_list">
+            <div class="ctg_info" id="productStyle1">
+                <div class="path" style="overflow:hidden;">
+                    <div style="float:left;" id="C_Crumbs">
+                        <a href="#" class="C_cat" data-id="0">全部商品</a>&gt;
+                        <a href="/Home/Product?fst=@fstType.Id" class="C_cat" data-id="1030" data-name="@fstType.TypeName">@fstType.TypeName</a>
+                        @if (secType != null)
                         {
-                @para<a href="/Home/Product?trd=@trdType.Id" class="C_cat" data-id="1031" data-name="@trdType.TypeName">@trdType.TypeName</a>
+                            var para = ">";
+                            @para<a href="/Home/Product?sec=@secType.Id" class="C_cat" data-id="1031" data-name="@secType.TypeName">@secType.TypeName</a>
+                            if (trdType != null)
+                            {
+                                @para<a href="/Home/Product?trd=@trdType.Id" class="C_cat" data-id="1031" data-name="@trdType.TypeName">@trdType.TypeName</a>
+                            }
                         }
-                    }
+                    </div>
+                    <div class="search_box">
+                        <!--input type="text" class="text_value" id="searchInput" value="{{ q is defined ? q : '' }}" />
+                        <input type="button" class="search_btn" id="searchBtn" value="搜索" /-->
+                    </div>
                 </div>
-            <div class="search_box">
-                <!--input type="text" class="text_value" id="searchInput" value="{{ q is defined ? q : '' }}" />
-    <input type="button" class="search_btn" id="searchBtn" value="搜索" /-->
-            </div>
-            </div>
-            <div class="category_con">
-                <h3 style="height: 35px;line-height: 35px;">类目</h3>
-                <div class="list" id="C_CatList">
-                    @foreach (var item in TypeList)
-                    {
-                        <a href="/Home/Product?@(ViewBag.Para)=@item.Id" class="C_cat" data-id="@item.Id" data-name="@item.TypeName">@item.TypeName</a>
-                    }
+                <div class="category_con">
+                    <h3 style="height: 35px;line-height: 35px;">类目</h3>
+                    <div class="list" id="C_CatList">
+                        @foreach (var item in TypeList)
+                        {
+                            <a href="/Home/Product?@(ViewBag.Para)=@item.Id" class="C_cat" data-id="@item.Id" data-name="@item.TypeName">@item.TypeName</a>
+                        }
+                    </div>
+                </div>
+                <div class="brand_con">
+                    <h3 style="display: inline-block; min-height: 50px; height: 80px;">品牌</h3>
+                    <div class="list fixed_height" id="C_BrandList">
+                        @foreach (var item in BrandList)
+                        {
+                            <a href="/Home/Product?@(ViewBag.Para)=@(ViewBag.ParentGuid)&brandId=@item.Id" class="C_brand" data-id="@item.Id" data-name="@item.BrandName">@item.BrandName</a>
+                        }
+                    </div>
+                    <a href="#" id="brandShowMore">更多</a>
+                    <i></i>
                 </div>
             </div>
-            <div class="brand_con">
-                <h3 style="display: inline-block; min-height: 50px; height: 80px;">品牌</h3>
-                <div class="list fixed_height" id="C_BrandList">
-                    @foreach (var item in BrandList)
-                    {
-                        <a href="/Home/Product?@(ViewBag.Para)=@(ViewBag.ParentGuid)&brandId=@item.Id" class="C_brand" data-id="@item.Id" data-name="@item.BrandName">@item.BrandName</a>
-                    }
+            <div class="product_all" id="productStyle2">
+                <div class="title">
+                    <h3 id="moren_sort" data-index="id" class="btnClicked">默认</h3>
+                    <h3 id="soldNum_sort" style="" data-index="sold">销量</h3>
+                    <h3 id="price_sort" data-index="price_down">
+                        价格
+                        <ul>
+                            <li><h3 style="margin-left:1px;" id="price_sort_down" data-index="price_down">价格从高到低</h3></li>
+                            <li>
+                                <h3 style="margin-left:1px;" id="price_sort_up" data-index="price_up">价格从低到高</h3>
+                            </li>
+                        </ul>
+                    </h3>
+                    <div class="shop_num">共<span id="totalProductNumTip">107</span>个商品</div>
                 </div>
-                <a href="#" id="brandShowMore">更多</a>
-                <i></i>
+                <ul class="pro_content" id="productList">
+                    <li class="C_Item" data-productid="269381">
+                        <div class="pro_img"><a href="/product/detail?id=269381" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/05/28/2b79ef6ed2d2b7a0c58fa12bd3d9fa85.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=269381" target="_blank">添乐15g熊出没伊脆薯条番茄味</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.85/盒</p>
+                            <p class="norms">规格:1*36</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="269381" data-id="269381">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="5" data-min="5" data-max="1378" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="269381 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264634">
+                        <div class="pro_img"><a href="/product/detail?id=264634" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/12/08/7e3eab53c3de5a4b1c16161f7eaf6334.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264634" target="_blank">上好佳40g鲜虾片</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:20包/件</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264634" data-id="264634">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="83476" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264634 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="290903">
+                        <div class="pro_img"><a href="/product/detail?id=290903" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/06/07/aa7db97cd4003ce0e3af1eaa0c13e135.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=290903" target="_blank">洽洽51g喀吱脆薯片麻辣香锅味</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.00/条</p>
+                            <p class="norms">规格:1*4*12</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="290903" data-id="290903">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="12" data-min="12" data-max="6637" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="290903 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="308994">
+                        <div class="pro_img"><a href="/product/detail?id=308994" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/06/18/109a0dd49f55447dab37a706017fbdf9.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=308994" target="_blank">40g乐事薯片-意大利红烩味 *10包/组</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">27.00/组</p>
+                            <p class="norms">规格:40G*5*10</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="308994" data-id="308994">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="1" data-min="1" data-max="0" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><span class="J_Nostock">售罄</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="308995">
+                        <div class="pro_img"><a href="/product/detail?id=308995" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/01/02/83c13c321f2458330f2d5b40e3c713a1.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=308995" target="_blank">40g乐事薯片黄瓜味*10包/组</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">27.00/组</p>
+                            <p class="norms">规格:40G*5*10</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="308995" data-id="308995">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="1" data-min="1" data-max="0" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><span class="J_Nostock">售罄</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="308989">
+                        <div class="pro_img"><a href="/product/detail?id=308989" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/06/18/4b7be61738b352ab8dce7261b369c9c4.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=308989" target="_blank">40g乐事薯片-德克萨斯烧烤味 *10包/组</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">27.00/组</p>
+                            <p class="norms">规格:40G*5*10</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="308989" data-id="308989">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="1" data-min="1" data-max="0" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><span class="J_Nostock">售罄</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="308991">
+                        <div class="pro_img"><a href="/product/detail?id=308991" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/03/26/4766ca8945b82a332072ffa61dfb580c.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=308991" target="_blank">40g乐事薯片 墨西哥鸡汁番茄味*10/组</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">27.00/组</p>
+                            <p class="norms">规格:40G*5*10</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="308991" data-id="308991">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="1" data-min="1" data-max="0" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><span class="J_Nostock">售罄</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="808053">
+                        <div class="pro_img"><a href="/product/detail?id=808053" target="_blank"><img src="http://i8.yunmayi.com/upload/2017/06/05/ce5d4c6695146a9b63763e037d29fb3c.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=808053" target="_blank">上好佳35g鱼余</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/袋</p>
+                            <p class="norms">规格:35g/袋*20</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="808053" data-id="808053">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="8635" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="808053 data-start=0 data-end=0 data-num=30">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264652">
+                        <div class="pro_img"><a href="/product/detail?id=264652" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/12/08/de8a4232c363dfd83a421cc4d721dd69.pngXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264652" target="_blank">上好佳40g鲜虾条</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:20包/件</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264652" data-id="264652">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="6120" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264652 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264653">
+                        <div class="pro_img"><a href="/product/detail?id=264653" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/795ef6968cde556b9130d75cdf82cc7f.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264653" target="_blank">上好佳40g辣味虾条</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:（40g*20包）/箱</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264653" data-id="264653">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="8720" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264653 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264655">
+                        <div class="pro_img"><a href="/product/detail?id=264655" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/a6b95713bf7cbbe9816b436361f37ac7.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264655" target="_blank">上好佳40g芝士条</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:（40g*20包）/箱</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264655" data-id="264655">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="4910" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264655 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264660">
+                        <div class="pro_img"><a href="/product/detail?id=264660" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/1868ef2fd669ea7773a13234af027407.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264660" target="_blank">上好佳40g玉米口味</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:（40g*20包）/箱</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264660" data-id="264660">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="3445" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264660 data-start=0 data-end=0 data-num=30">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264683">
+                        <div class="pro_img"><a href="/product/detail?id=264683" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/8897d8c4eb942740c3f9cc013a4ac168.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264683" target="_blank">上好佳40g朱古力粟米条</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:（40g*20包）/箱</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264683" data-id="264683">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="5939" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264683 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264685">
+                        <div class="pro_img"><a href="/product/detail?id=264685" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/835a158cea28f3fcab578ec44b47c0b9.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264685" target="_blank">上好佳40g哈蜜瓜粟米条</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:20包/件</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264685" data-id="264685">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="3150" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264685 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264686">
+                        <div class="pro_img"><a href="/product/detail?id=264686" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/16fe3e520c6e3c293a7340926cdc0a7c.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264686" target="_blank">上好佳40g橙子粟米条</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:（40g*20包）/箱</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264686" data-id="264686">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="2205" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264686 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264690">
+                        <div class="pro_img"><a href="/product/detail?id=264690" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/f9c5979f491ccd948db49fbcfc69b8e2.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264690" target="_blank">上好佳40g汉堡球</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:（40g*20包）/箱</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264690" data-id="264690">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="4064" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264690 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264695">
+                        <div class="pro_img"><a href="/product/detail?id=264695" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/03/30/491e92592450f8729ed7b1121ef54df9.pngXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264695" target="_blank">上好佳40g麦醇经典口味</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/袋</p>
+                            <p class="norms">规格:1箱=20袋</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264695" data-id="264695">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="8977" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264695 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264805">
+                        <div class="pro_img"><a href="/product/detail?id=264805" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/07/24/8e1a05f0143fedba994b65d3a355cc9d.pngXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264805" target="_blank">上好佳45g可可豆奶巧滋圈</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">3.10/包</p>
+                            <p class="norms">规格:45g</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264805" data-id="264805">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="8011" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264805 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264806">
+                        <div class="pro_img"><a href="/product/detail?id=264806" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/03/30/c0defe33adb9c7c97a2f91417d4f1f65.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264806" target="_blank">上好佳45g巧克力巧滋圈</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">3.10/袋</p>
+                            <p class="norms">规格:1箱=20袋</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264806" data-id="264806">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="4614" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264806 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264808">
+                        <div class="pro_img"><a href="/product/detail?id=264808" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/03/28/639f8bfe8c87044101e12e071112d185.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264808" target="_blank">上好佳45g番茄空心薯笛</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/袋</p>
+                            <p class="norms">规格:1箱=20袋</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264808" data-id="264808">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="9999584" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264808 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264809">
+                        <div class="pro_img"><a href="/product/detail?id=264809" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/07/15/e08a6d1457badcf24c36f539d0574f68.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264809" target="_blank">上好佳45g黄瓜空心薯笛</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:45g</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264809" data-id="264809">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="1904" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264809 data-start=0 data-end=0 data-num=30">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264811">
+                        <div class="pro_img"><a href="/product/detail?id=264811" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/07/15/b716cde26e3de29c13b4b42906e9ab10.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264811" target="_blank">上好佳45g蓝莓空心薯笛</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:45g</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264811" data-id="264811">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="6956" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264811 data-start=0 data-end=0 data-num=30">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264812">
+                        <div class="pro_img"><a href="/product/detail?id=264812" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/dc188f6f4949c4b04775f07c1be04ebc.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264812" target="_blank">上好佳45g蟹味逸族(膨化)</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:（40g*20包）/箱</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264812" data-id="264812">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="4813" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264812 data-start=0 data-end=0 data-num=30">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264814">
+                        <div class="pro_img"><a href="/product/detail?id=264814" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/08/10/3788cb17e44f273b885ff490624e6d94.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264814" target="_blank">上好佳45g海苔花梨苔条</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/袋</p>
+                            <p class="norms">规格:45g*20包</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264814" data-id="264814">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="9017" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264814 data-start=0 data-end=0 data-num=30">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="290861">
+                        <div class="pro_img"><a href="/product/detail?id=290861" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/06/08/688527efd863fd71ea234a27312435f1.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=290861" target="_blank">上好佳50g羊肉天然薯片</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:50Ｇ*1*20</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="290861" data-id="290861">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="93402" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="290861 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="780665">
+                        <div class="pro_img"><a href="/product/detail?id=780665" target="_blank"><img src="http://i8.yunmayi.com/upload/2017/05/03/334634e45f99d881b086ba2454e4734f.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=780665" target="_blank">上好佳50g八宝酱味田园薯片</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:（50g*20包）/箱</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="780665" data-id="780665">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="80230" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="780665 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264658">
+                        <div class="pro_img"><a href="/product/detail?id=264658" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/03/30/f876e76777791a9e1b0ade000e234315.pngXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264658" target="_blank">上好佳50g果仁玉米花</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/袋</p>
+                            <p class="norms">规格:1箱=20袋</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264658" data-id="264658">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="77288" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264658 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264662">
+                        <div class="pro_img"><a href="/product/detail?id=264662" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/12/08/cea51b4f47f93168dba7c1d5e785fd0e.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264662" target="_blank">上好佳50g番茄天然薯片</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:20包/件</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264662" data-id="264662">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="5638" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264662 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264665">
+                        <div class="pro_img"><a href="/product/detail?id=264665" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/06/16/c658a99240da8f184d1137fbe6078b2a.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264665" target="_blank">上好佳50g烤肉天然薯片</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/包</p>
+                            <p class="norms">规格:1箱=20包</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264665" data-id="264665">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="52360" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264665 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="C_Item" data-productid="264667">
+                        <div class="pro_img"><a href="/product/detail?id=264667" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/03/28/3a04f39b5cd71107a736be1e27e1c904.jpgXXXXX!!!!!_300x300.jpg"></a></div>
+                        <div class="sell_title"><a href="/product/detail?id=264667" target="_blank">上好佳50g宫保鸡丁田园薯片</a></div>
+                        <div class="sell_info clearfix">
+                            <p class="price">2.80/袋</p>
+                            <p class="norms">规格:50G*20</p>
+                        </div>
+                        <div class="sell_btn clearfix">
+                            <span class="J_AddCollectBtn add_collect_btn" id="264667" data-id="264667">收藏</span>
+                            <div class="rfloat">
+                                <div class="item_quantity">
+                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                    <input type="text" value="10" data-min="10" data-max="1049" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
+                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264667 data-start=0 data-end=0 data-num=0">进货</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div id="msg">已成功加入购物车！</div>
             </div>
-        </div>
-        <div class="product_all" id="productStyle2">
-            <div class="title">
-                <h3 id="moren_sort" data-index="id" class="btnClicked">默认</h3>
-                <h3 id="soldNum_sort" style="" data-index="sold">销量</h3>
-                <h3 id="price_sort" data-index="price_down">
-                    价格
-                    <ul>
-                        <li><h3 style="margin-left:1px;" id="price_sort_down" data-index="price_down">价格从高到低</h3></li>
-                        <li>
-                            <h3 style="margin-left:1px;" id="price_sort_up" data-index="price_up">价格从低到高</h3>
-                        </li>
-                    </ul>
-                </h3>
-                <div class="shop_num">共<span id="totalProductNumTip">107</span>个商品</div>
+            <!-- <div class="product_all" id="productStyle2">
+                <div class="title">
+                    <h3 style="width: 90px;">所有商品</h3>
+                    <div class="shop_num">共<span id="totalProductNumTip"></span>个商品</div>
+                </div>
+                <ul class="pro_content" id="productList"></ul>
+            </div> -->
+            <div class="page" style="margin:20px 0;" id="C_page">
+                <ul class="page">
+                    <li class="item cur ">1</li>
+                    <li class="item "><a href="?q=0&amp;page=2" data-page="2">2</a></li>
+                    <li class="item "><a href="?q=0&amp;page=3" data-page="3">3</a></li>
+                    <li class="item last"><a href="?q=0&amp;page=4" data-page="4">4</a></li>
+                    <li class="next"><a href="?q=0&amp;page=2" data-page="2">下一页</a></li>
+                    <span style="font-size: 14px;">跳<input onblur="window.location.href=&quot;?q=0&amp;page=1&amp;page=&quot;+this.value+&quot;&quot;" style="width: 25px;height: 26px;" type="text" value="1">页</span>&nbsp;
+                    <li class="total">共4页</li>
+                </ul>
             </div>
-            <ul class="pro_content" id="productList">
-                <li class="C_Item" data-productid="269381">
-                    <div class="pro_img"><a href="/product/detail?id=269381" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/05/28/2b79ef6ed2d2b7a0c58fa12bd3d9fa85.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=269381" target="_blank">添乐15g熊出没伊脆薯条番茄味</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.85/盒</p>
-                        <p class="norms">规格:1*36</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="269381" data-id="269381">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="5" data-min="5" data-max="1378" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="269381 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264634">
-                    <div class="pro_img"><a href="/product/detail?id=264634" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/12/08/7e3eab53c3de5a4b1c16161f7eaf6334.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264634" target="_blank">上好佳40g鲜虾片</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:20包/件</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264634" data-id="264634">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="83476" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264634 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="290903">
-                    <div class="pro_img"><a href="/product/detail?id=290903" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/06/07/aa7db97cd4003ce0e3af1eaa0c13e135.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=290903" target="_blank">洽洽51g喀吱脆薯片麻辣香锅味</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.00/条</p>
-                        <p class="norms">规格:1*4*12</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="290903" data-id="290903">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="12" data-min="12" data-max="6637" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="290903 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="308994">
-                    <div class="pro_img"><a href="/product/detail?id=308994" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/06/18/109a0dd49f55447dab37a706017fbdf9.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=308994" target="_blank">40g乐事薯片-意大利红烩味 *10包/组</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">27.00/组</p>
-                        <p class="norms">规格:40G*5*10</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="308994" data-id="308994">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="1" data-min="1" data-max="0" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><span class="J_Nostock">售罄</span>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="308995">
-                    <div class="pro_img"><a href="/product/detail?id=308995" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/01/02/83c13c321f2458330f2d5b40e3c713a1.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=308995" target="_blank">40g乐事薯片黄瓜味*10包/组</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">27.00/组</p>
-                        <p class="norms">规格:40G*5*10</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="308995" data-id="308995">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="1" data-min="1" data-max="0" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><span class="J_Nostock">售罄</span>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="308989">
-                    <div class="pro_img"><a href="/product/detail?id=308989" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/06/18/4b7be61738b352ab8dce7261b369c9c4.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=308989" target="_blank">40g乐事薯片-德克萨斯烧烤味 *10包/组</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">27.00/组</p>
-                        <p class="norms">规格:40G*5*10</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="308989" data-id="308989">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="1" data-min="1" data-max="0" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><span class="J_Nostock">售罄</span>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="308991">
-                    <div class="pro_img"><a href="/product/detail?id=308991" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/03/26/4766ca8945b82a332072ffa61dfb580c.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=308991" target="_blank">40g乐事薯片 墨西哥鸡汁番茄味*10/组</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">27.00/组</p>
-                        <p class="norms">规格:40G*5*10</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="308991" data-id="308991">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="1" data-min="1" data-max="0" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><span class="J_Nostock">售罄</span>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="808053">
-                    <div class="pro_img"><a href="/product/detail?id=808053" target="_blank"><img src="http://i8.yunmayi.com/upload/2017/06/05/ce5d4c6695146a9b63763e037d29fb3c.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=808053" target="_blank">上好佳35g鱼余</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/袋</p>
-                        <p class="norms">规格:35g/袋*20</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="808053" data-id="808053">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="8635" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="808053 data-start=0 data-end=0 data-num=30">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264652">
-                    <div class="pro_img"><a href="/product/detail?id=264652" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/12/08/de8a4232c363dfd83a421cc4d721dd69.pngXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264652" target="_blank">上好佳40g鲜虾条</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:20包/件</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264652" data-id="264652">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="6120" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264652 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264653">
-                    <div class="pro_img"><a href="/product/detail?id=264653" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/795ef6968cde556b9130d75cdf82cc7f.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264653" target="_blank">上好佳40g辣味虾条</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:（40g*20包）/箱</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264653" data-id="264653">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="8720" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264653 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264655">
-                    <div class="pro_img"><a href="/product/detail?id=264655" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/a6b95713bf7cbbe9816b436361f37ac7.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264655" target="_blank">上好佳40g芝士条</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:（40g*20包）/箱</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264655" data-id="264655">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="4910" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264655 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264660">
-                    <div class="pro_img"><a href="/product/detail?id=264660" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/1868ef2fd669ea7773a13234af027407.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264660" target="_blank">上好佳40g玉米口味</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:（40g*20包）/箱</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264660" data-id="264660">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="3445" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264660 data-start=0 data-end=0 data-num=30">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264683">
-                    <div class="pro_img"><a href="/product/detail?id=264683" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/8897d8c4eb942740c3f9cc013a4ac168.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264683" target="_blank">上好佳40g朱古力粟米条</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:（40g*20包）/箱</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264683" data-id="264683">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="5939" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264683 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264685">
-                    <div class="pro_img"><a href="/product/detail?id=264685" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/835a158cea28f3fcab578ec44b47c0b9.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264685" target="_blank">上好佳40g哈蜜瓜粟米条</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:20包/件</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264685" data-id="264685">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="3150" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264685 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264686">
-                    <div class="pro_img"><a href="/product/detail?id=264686" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/16fe3e520c6e3c293a7340926cdc0a7c.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264686" target="_blank">上好佳40g橙子粟米条</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:（40g*20包）/箱</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264686" data-id="264686">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="2205" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264686 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264690">
-                    <div class="pro_img"><a href="/product/detail?id=264690" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/f9c5979f491ccd948db49fbcfc69b8e2.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264690" target="_blank">上好佳40g汉堡球</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:（40g*20包）/箱</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264690" data-id="264690">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="4064" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264690 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264695">
-                    <div class="pro_img"><a href="/product/detail?id=264695" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/03/30/491e92592450f8729ed7b1121ef54df9.pngXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264695" target="_blank">上好佳40g麦醇经典口味</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/袋</p>
-                        <p class="norms">规格:1箱=20袋</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264695" data-id="264695">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="8977" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264695 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264805">
-                    <div class="pro_img"><a href="/product/detail?id=264805" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/07/24/8e1a05f0143fedba994b65d3a355cc9d.pngXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264805" target="_blank">上好佳45g可可豆奶巧滋圈</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">3.10/包</p>
-                        <p class="norms">规格:45g</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264805" data-id="264805">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="8011" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264805 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264806">
-                    <div class="pro_img"><a href="/product/detail?id=264806" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/03/30/c0defe33adb9c7c97a2f91417d4f1f65.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264806" target="_blank">上好佳45g巧克力巧滋圈</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">3.10/袋</p>
-                        <p class="norms">规格:1箱=20袋</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264806" data-id="264806">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="4614" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264806 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264808">
-                    <div class="pro_img"><a href="/product/detail?id=264808" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/03/28/639f8bfe8c87044101e12e071112d185.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264808" target="_blank">上好佳45g番茄空心薯笛</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/袋</p>
-                        <p class="norms">规格:1箱=20袋</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264808" data-id="264808">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="9999584" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264808 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264809">
-                    <div class="pro_img"><a href="/product/detail?id=264809" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/07/15/e08a6d1457badcf24c36f539d0574f68.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264809" target="_blank">上好佳45g黄瓜空心薯笛</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:45g</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264809" data-id="264809">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="1904" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264809 data-start=0 data-end=0 data-num=30">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264811">
-                    <div class="pro_img"><a href="/product/detail?id=264811" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/07/15/b716cde26e3de29c13b4b42906e9ab10.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264811" target="_blank">上好佳45g蓝莓空心薯笛</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:45g</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264811" data-id="264811">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="6956" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264811 data-start=0 data-end=0 data-num=30">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264812">
-                    <div class="pro_img"><a href="/product/detail?id=264812" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/09/17/dc188f6f4949c4b04775f07c1be04ebc.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264812" target="_blank">上好佳45g蟹味逸族(膨化)</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:（40g*20包）/箱</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264812" data-id="264812">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="4813" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264812 data-start=0 data-end=0 data-num=30">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264814">
-                    <div class="pro_img"><a href="/product/detail?id=264814" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/08/10/3788cb17e44f273b885ff490624e6d94.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264814" target="_blank">上好佳45g海苔花梨苔条</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/袋</p>
-                        <p class="norms">规格:45g*20包</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264814" data-id="264814">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="9017" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264814 data-start=0 data-end=0 data-num=30">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="290861">
-                    <div class="pro_img"><a href="/product/detail?id=290861" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/06/08/688527efd863fd71ea234a27312435f1.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=290861" target="_blank">上好佳50g羊肉天然薯片</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:50Ｇ*1*20</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="290861" data-id="290861">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="93402" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="290861 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="780665">
-                    <div class="pro_img"><a href="/product/detail?id=780665" target="_blank"><img src="http://i8.yunmayi.com/upload/2017/05/03/334634e45f99d881b086ba2454e4734f.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=780665" target="_blank">上好佳50g八宝酱味田园薯片</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:（50g*20包）/箱</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="780665" data-id="780665">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="80230" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="780665 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264658">
-                    <div class="pro_img"><a href="/product/detail?id=264658" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/03/30/f876e76777791a9e1b0ade000e234315.pngXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264658" target="_blank">上好佳50g果仁玉米花</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/袋</p>
-                        <p class="norms">规格:1箱=20袋</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264658" data-id="264658">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="77288" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264658 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264662">
-                    <div class="pro_img"><a href="/product/detail?id=264662" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/12/08/cea51b4f47f93168dba7c1d5e785fd0e.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264662" target="_blank">上好佳50g番茄天然薯片</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:20包/件</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264662" data-id="264662">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="5638" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264662 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264665">
-                    <div class="pro_img"><a href="/product/detail?id=264665" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/06/16/c658a99240da8f184d1137fbe6078b2a.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264665" target="_blank">上好佳50g烤肉天然薯片</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/包</p>
-                        <p class="norms">规格:1箱=20包</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264665" data-id="264665">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="52360" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264665 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="C_Item" data-productid="264667">
-                    <div class="pro_img"><a href="/product/detail?id=264667" target="_blank"><img src="http://i8.yunmayi.com/upload/2016/03/28/3a04f39b5cd71107a736be1e27e1c904.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                    <div class="sell_title"><a href="/product/detail?id=264667" target="_blank">上好佳50g宫保鸡丁田园薯片</a></div>
-                    <div class="sell_info clearfix">
-                        <p class="price">2.80/袋</p>
-                        <p class="norms">规格:50G*20</p>
-                    </div>
-                    <div class="sell_btn clearfix">
-                        <span class="J_AddCollectBtn add_collect_btn" id="264667" data-id="264667">收藏</span>
-                        <div class="rfloat">
-                            <div class="item_quantity">
-                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                <input type="text" value="10" data-min="10" data-max="1049" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                            </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264667 data-start=0 data-end=0 data-num=0">进货</a>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <div id="msg">已成功加入购物车！</div>
-        </div>
-        <!-- <div class="product_all" id="productStyle2">
-            <div class="title">
-                <h3 style="width: 90px;">所有商品</h3>
-                <div class="shop_num">共<span id="totalProductNumTip"></span>个商品</div>
-            </div>
-            <ul class="pro_content" id="productList"></ul>
-        </div> -->
-        <div class="page" style="margin:20px 0;" id="C_page">
-            <ul class="page">
-                <li class="item cur ">1</li>
-                <li class="item "><a href="?q=0&amp;page=2" data-page="2">2</a></li>
-                <li class="item "><a href="?q=0&amp;page=3" data-page="3">3</a></li>
-                <li class="item last"><a href="?q=0&amp;page=4" data-page="4">4</a></li>
-                <li class="next"><a href="?q=0&amp;page=2" data-page="2">下一页</a></li>
-                <span style="font-size: 14px;">跳<input onblur="window.location.href=&quot;?q=0&amp;page=1&amp;page=&quot;+this.value+&quot;&quot;" style="width: 25px;height: 26px;" type="text" value="1">页</span>&nbsp;
-                <li class="total">共4页</li>
-            </ul>
         </div>
     </div>
 </div>
 
 <script>
     function LoadProduct() {
-            var typeId = $(this).data("id");
-            var ul = $(this).find("ul");
-            var html = "";
-            $.post("/Home/LoadProduct", { firstTypeId: typeId }, function (e) {
-                $(e.ListData).each(function () {
-                    html += '<li class="item_box"><div class="item_pic" >';
-                    html += '<a href= "/Home/ProductDetail/' + this.Id + '" target= "_blank" > <img src="' + this.pic1 + '"></a></div>';
-                    html += '<div class="item_name"><a href="/product/detail?id=975597" target="_blank">' + this.GoodsTittle + '</a></div>';
-                    html += '<div class="item_price"><span >￥60.00 / ' + this.Unit + '</span ><b>规格:' + this.Spec + '</b></div >';
-                    html += ' <div class="item_action clearfix">';
-                    html += '<span class="J_AddCollectBtn add_collect_btn" id="847289" data-id="847289">收藏</span>';
-                    html += '<div class="rfloat"><div class="item_quantity" >';
-                    html += ' <a href="javascript:;" class="decrement J_Decrement">-</a>';
-                    html += '<input type="text" value="1" data-min="1" data-max="986" class="quantity_input J_QuantityInput">';
-                    html += '<a href="javascript:;" class="increment J_Increment">+</a></div>'
-                    html += '<a href="#" class="J_AddCartBtn add_cart_btn" data-id="847289" data-start="0" data-end="0" data-num="0">进货</a>';
-                    html += '</div></div ></li >';
-                });
-                ul.append(html);
+        var typeId = $(this).data("id");
+        var ul = $(this).find("ul");
+        var html = "";
+        $.post("/Home/LoadProduct", { firstTypeId: typeId }, function (e) {
+            $(e.ListData).each(function () {
+                html += '<li class="item_box"><div class="item_pic" >';
+                html += '<a href= "/Home/ProductDetail/' + this.Id + '" target= "_blank" > <img src="' + this.pic1 + '"></a></div>';
+                html += '<div class="item_name"><a href="/product/detail?id=975597" target="_blank">' + this.GoodsTittle + '</a></div>';
+                html += '<div class="item_price"><span >￥60.00 / ' + this.Unit + '</span ><b>规格:' + this.Spec + '</b></div >';
+                html += ' <div class="item_action clearfix">';
+                html += '<span class="J_AddCollectBtn add_collect_btn" id="847289" data-id="847289">收藏</span>';
+                html += '<div class="rfloat"><div class="item_quantity" >';
+                html += ' <a href="javascript:;" class="decrement J_Decrement">-</a>';
+                html += '<input type="text" value="1" data-min="1" data-max="986" class="quantity_input J_QuantityInput">';
+                html += '<a href="javascript:;" class="increment J_Increment">+</a></div>'
+                html += '<a href="#" class="J_AddCartBtn add_cart_btn" data-id="847289" data-start="0" data-end="0" data-num="0">进货</a>';
+                html += '</div></div ></li >';
+            });
+            ul.append(html);
 
-            }, "json")
+        }, "json")
     }
 
+</script>
+
+
+<script text="text/javascript">
+    $(function () {
+        var curCatId = 1031;
+        var curPage = 1;
+        var curBrandId = 0;
+        var pageSize = 30;
+        var keyword = "0";
+        var sort = "id";
+        var is_brand_search = false;
+        // 搜索
+        $('#searchBtn').on('click', function () {
+            keyword = $.trim($('#searchInput').val());
+            ProductList();
+        });
+
+        // 页码切换
+        $('#C_page').on('click', 'a', function () {
+            curPage = $(this).data('page');
+            $(document).scrollTop(180);
+            if (curBrandId) {
+                is_brand_search = true;
+            }
+            ProductList();
+            return false;
+        });
+
+        //页面跳转
+        $("#J_List").on('focus', '.page input', function () {
+            $(this).removeAttr("onblur");
+        });
+        $("#J_List").on('blur', '.page input', function () {
+            event.preventDefault();
+            curPage = parseInt($(this).val());
+            $(document).scrollTop(180);
+            ProductList();
+            return false;
+        });
+
+        // 品牌展开更多
+        $('#brandShowMore').on('click', function () {
+            var tip = $.trim($(this).html());
+            switch (tip) {
+                case '更多':
+                    tip = '收起';
+                    $('#C_BrandList').removeClass('fixed_height');
+                    $('.brand_con i').css('background', 'url(/Content/images/index/arrow-up.png)');
+                    $('.brand_con i').css('background-size', 'contain');
+                    $('.brand_con i').css('background-repeat', 'no-repeat');
+                    $('.brand_con h3').height($('#C_BrandList').height() + 10)
+                    break;
+                case '收起':
+                    tip = '更多';
+                    $('#C_BrandList').addClass('fixed_height');
+                    $('.brand_con i').css('background', 'url(/Content/images/index/arrow-down.png)');
+                    $('.brand_con i').css('background-size', 'contain');
+                    $('.brand_con i').css('background-repeat', 'no-repeat');
+                    $('.brand_con h3').height($('#C_BrandList').height() + 10)
+                    break;
+            }
+            $(this).html(tip);
+            return false;
+        });
+
+        // 商品加入购物相关操作
+        $("#J_List").on("click", ".J_Decrement", function () {
+            var _input = $(this).siblings("input.J_QuantityInput");
+            var min = parseInt(_input.data("min"));
+            var max = parseInt(_input.data("max"));
+            if (max < min) {
+                build("red", "商品库存不足", "Decrement");
+                return false;
+            }
+            var quantity = parseInt(_input.val());
+            --quantity;
+            quantity = quantity > max ? max : quantity;
+            quantity = quantity < min ? min : quantity;
+            _input.val(quantity);
+        });
+        $("#J_List").on("click", ".J_Increment", function () {
+            var _input = $(this).siblings("input.J_QuantityInput");
+            var min = parseInt(_input.data("min"));
+            var max = parseInt(_input.data("max"));
+            if (max < min) {
+                build("red", "商品库存不足", "Increment");
+                return false;
+            }
+            var quantity = parseInt(_input.val());
+            ++quantity;
+            quantity = quantity > max ? max : quantity;
+            quantity = quantity < min ? min : quantity;
+            _input.val(quantity);
+        });
+        $("#J_List").on("blur", ".J_QuantityInput", function () {
+            var _this = $(this);
+            var max = _this.data("max");
+            var min = _this.data("min");
+            var quantity = _this.val();
+            quantity = quantity > max ? max : quantity;
+            quantity = quantity < min ? min : quantity;
+            _this.val(quantity);
+        });
+        $("#J_List").on("click", ".J_AddCartBtn", function (event) {
+            $(".add_cart_btn").removeClass("J_AddCartBtn");
+            var _this = $(this);
+            var _input = _this.prev(".item_quantity").children(".J_QuantityInput");
+            var quantity = _input.val();
+            var limit_start_time = _this.data("start");
+            var limit_end_time = _this.data("end");
+            var limit_buy_num = _this.data("num");
+            var curentTime = Date.parse(new Date()) / 1000;
+            var productId = _this.data("id");
+            var items = [];
+            var html = "";
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '/cart/isPresaleItem',
+                data: {
+                    pid: productId
+                },
+                success: function (res) {
+                    items = res;
+                    if (items.length != 0) {
+                        presaleShow = true;
+                        $(".explain").addClass('j_display');
+                        html += '   <ul class="explain_mian">';
+                        html += '       <li class="header">';
+                        html += '           <span>预售活动</span>';
+                        html += '           <span>商品剩余数量</span>';
+                        html += '           <span>购买数量</span>';
+                        html += '           <span>加入购物车</span>';
+                        html += '       </li>';
+                        for (var k in items) {
+                            html += '       <li class="items">';
+                            html += '           <span>' + items[k].title + '</span>';
+                            html += '           <span class="amountNum">' + items[k].amount + '</span>';
+                            html += '           <div class="presaleItems">';
+                            html += '               <a  href="javascript:;" class="decrementPresales"> - </a>';
+                            html += '               <input type="text" value="1" class="presaleInput" data-max=' + items[k].amount + '>';
+                            html += '               <a  href="javascript:;" class="addPresale"> + </a>';
+                            html += '           </div>';
+                            html += '           <button class="buyButton addPresaleCart" data-id=' + items[k].id + ' data-product-id=' + items[k].product_id + '>进货</button>';
+                            html += '       </li>';
+                        }
+                        html += '       <button class="coloseButton" onclick="closeExplain()"> x </button>';
+                        html += '   </ul>';
+                        $('.add_cart_btn').addClass("J_AddCartBtn");
+                        $(".explain").html(html);
+                    } else {
+                        if (limit_start_time > 0 && limit_end_time > 0) {
+                            if (curentTime >= limit_start_time && curentTime <= limit_end_time) {
+                                if (quantity > limit_buy_num) {
+                                    build("red", "该商品限购", productId, limit_buy_num);
+                                    return false;
+                                }
+                            }
+                        }
+                        if (limit_start_time == 0 && limit_end_time == 0 && limit_buy_num > 0) {
+                            if (quantity > limit_buy_num) {
+                                build("red", "该商品限购", productId, limit_buy_num);
+                                return false;
+                            }
+                        }
+                        $.ajax({
+                            "type": "POST",
+                            "url": "/cart/ajaxAddItemToCart",
+                            "dataType": "json",
+                            "data": {
+                                "product_id": productId,
+                                "quantity": _input.val(), //_input.val()
+                                "is_cart": 1
+                            },
+                            "success": function (result) {
+                                $('.add_cart_btn').addClass("J_AddCartBtn");
+                                GlobalCartItemNum();
+                                if (!result.error) {
+                                    var addcar = _this;
+                                    var img = addcar.parent().parent().parent().find('img').attr('src');
+                                    var flyer = $('<img class="u-flyer" src="' + img + '">');
+                                    var address1 = $('#C_GlobalCartItemNum_fixed');
+                                    var address2 = $('#C_GlobalCartItemNum');
+                                    var scrollTop = $(document).scrollTop();
+                                    if (scrollTop > 130) {
+                                        flyer.fly({
+                                            start: {
+                                                left: event.clientX,
+                                                top: event.clientY,
+                                            },
+                                            end: {
+                                                left: address1[0].offsetLeft,
+                                                top: address1[0].offsetTop,
+                                                width: 0,
+                                                height: 0
+                                            },
+                                            onEnd: function () {
+                                                $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
+                                                this.destory();
+                                            }
+                                        })
+                                    } else {
+                                        flyer.fly({
+                                            start: {
+                                                left: event.clientX,
+                                                top: event.clientY,
+                                            },
+                                            end: {
+                                                left: address2[0].offsetLeft,
+                                                top: address2[0].offsetTop - 20,
+                                                width: 0,
+                                                height: 0
+                                            },
+                                            onEnd: function () {
+                                                $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
+                                                this.destory();
+                                            }
+                                        })
+                                    }
+                                } else {
+                                    build("red", result.info, productId);
+                                }
+                            }
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+            return false;
+        });
+        // 收藏商品
+        /* $("#J_List").on("click", ".J_AddCollectBtn", function(){
+             $.post(
+                 "/product/addCollect",
+                 {
+                     "product_id": $(this).data("id")
+                 },
+                 function(result){
+                     alert(result.info);
+                 },
+                 "json"
+             );
+         });*/
+
+        function C_Initialize() {
+            Crumb();
+            CatList();
+            Brand();
+            ProductList();
+        }
+
+        function Crumb() {
+            $.ajax({
+                type: 'get',
+                url: '/product/crumb',
+                dataType: 'json',
+                data: {
+                    id: curCatId
+                },
+                success: function (result) {
+                    var _html = '<a href="#" class="C_cat" data-id="0">全部商品</a>';
+                    if (result.length > 0) {
+                        for (var k in result) {
+                            _html += '&gt;<a href="#" class="C_cat" data-id="' + result[k].id + '" data-name="' + result[k].name + '">' + result[k].name + '</a>';
+                        }
+                    }
+                    $('#C_Crumbs').html(_html);
+                },
+                error: function () { }
+            });
+        }
+
+
+        function CatList() {
+            $.ajax({
+                type: 'get',
+                url: '/product/categoryList',
+                dataType: 'json',
+                data: {
+                    id: curCatId,
+                    brand_id: curBrandId
+                },
+                success: function (result) {
+                    var _html = '';
+                    if (result.length > 0) {
+                        for (var k in result) {
+                            _html += '<a href="#" class="C_cat" data-id="' + result[k].id + '" data-name="' + result[k].name + '">' + result[k].name + '</a>';
+                        }
+                    }
+                    $('#C_CatList').html(_html);
+                },
+                error: function () { }
+            });
+        }
+
+        function Brand() {
+            $.ajax({
+                type: 'get',
+                url: '/product/brandList',
+                dataType: 'json',
+                data: {
+                    cid: curCatId
+                },
+                success: function (result) {
+                    var _html = '';
+                    if (result.length > 0) {
+                        for (var k in result) {
+                            _html += '<a href="#" class="C_brand" data-id="' + result[k].id + '" data-name="' + result[k].name + '">' + result[k].name + '</a>'
+                        }
+                    }
+                    $('#C_BrandList').html(_html);
+                    $('.brand_con h3').height($('.brand_con').height());
+                    $('.category_con h3').height($('.category_con').height())
+                },
+                error: function () { }
+            });
+        }
+
+        $("#J_List").on("click", ".J_AddCollectBtn", function () {
+            var productId = $(this).attr("data-id");
+            $("#" + productId).addClass('disable')
+            if ($(this).hasClass("collected_btn")) {
+                $.post("/index/delCollect", { "pid": productId }, function (data) {
+                    if (data.state) {
+                        $("#" + productId).text('收藏');
+                        $("#" + productId).removeClass('collected_btn');
+                        $("#" + productId).addClass('add_collect_btn');
+                        $("#" + productId).removeClass("disable");
+                        build("green", "已取消收藏！", productId);
+                    } else {
+                        build("green", "失败!请重试!", productId);
+                    }
+                }, 'json')
+            } else {
+                $.get("/index/productFav", { "id": productId }, function (data) {
+                    if (data.state) {
+                        $("#" + productId).text('已收藏');
+                        $("#" + productId).removeClass('add_collect_btn');
+                        $("#" + productId).addClass('collected_btn');
+                        $("#" + productId).removeClass("disable");
+                        build("green", "收藏成功！", productId);
+                    } else {
+                        build("green", "失败!请重试!", productId);
+                    }
+                }, 'json')
+            }
+        });
+
+        function ProductList() {
+            if (is_brand_search) {
+                var tmpCurId = curCatId;
+                var tmpKeyword = keyword;
+                curCatId = 0;
+                keyword = "";
+            }
+            $.ajax({
+                type: 'get',
+                url: '/product/ajaxSearch',
+                dataType: 'json',
+                data: {
+                    cid: curCatId,
+                    bid: curBrandId,
+                    q: keyword,
+                    page: curPage,
+                    sort: sort,
+                    page_size: pageSize
+                },
+                success: function (result) {
+                    if (result instanceof Object) {
+                        var _productListHtml = '';
+                        for (var k in result.list) {
+                            _productListHtml += '<li class="C_Item" data-productid="' + result.list[k].id + '">';
+                            _productListHtml += '<div class="pro_img">';
+                            _productListHtml += '<a href="/product/detail?id=' + result.list[k].id + '" target="_blank"><img src="http://i8.yunmayi.com' + result.list[k].pic_url + 'XXXXX!!!!!_300x300.jpg" /></a>';
+                            _productListHtml += '</div>';
+                            _productListHtml += '<div class="sell_title"><a href="/product/detail?id=' + result.list[k].id + '" target="_blank">' + result.list[k].title + '</a></div>';
+                            _productListHtml += '<div class="sell_info clearfix">';
+                            _productListHtml += '<p class="price">' + (result.list[k].sell_price / 100).toFixed(2);
+                            if (result.list[k].unit != '') {
+                                _productListHtml += '/' + result.list[k].unit;
+                            }
+                            _productListHtml += '</p>';
+                            if (result.list[k].spec != '') {
+                                _productListHtml += '<p class="norms">规格:' + result.list[k].spec + '</p>';
+                            }
+                            _productListHtml += '</div>';
+                            _productListHtml += '<div class="sell_btn clearfix">';
+                            if (!result.list[k].is_collect)
+                                _productListHtml += '<span class="J_AddCollectBtn add_collect_btn" id="' + result.list[k].id + '" data-id="' + result.list[k].id + '">收藏</span>';
+                            else
+                                _productListHtml += '<span class="J_AddCollectBtn collected_btn" id="' + result.list[k].id + '" data-id="' + result.list[k].id + '">已收藏</span>';
+                            _productListHtml += '<div class="rfloat">';
+                            _productListHtml += '<div class="item_quantity">';
+                            _productListHtml += '<a href="javascript:;" class="decrement J_Decrement">-</a>';
+                            _productListHtml += '<input type="text" value="' + result.list[k].min_sold_num + '" data-min="' + result.list[k].min_sold_num + '" data-max="' + Math.max(result.list[k].stock_info.stock, result.list[k].stock_info.warehouse_stock) + '" class="quantity_input J_QuantityInput">';
+                            _productListHtml += '<a href="javascript:;" class="increment J_Increment">+</a>';
+                            _productListHtml += '</div>';
+                            if (result.list[k].stock_info.stock < result.list[k].min_sold_num && result.list[k].stock_info.warehouse_stock < result.list[k].min_sold_num) {
+                                _productListHtml += '<span class="J_Nostock">售罄</span>';
+                            } else {
+                                _productListHtml += '<a href="#" class="J_AddCartBtn add_cart_btn" data-id="' + result.list[k].id + ' data-start=' + result.list[k].limit_start_time + ' data-end=' + result.list[k].limit_end_time + ' data-num=' + result.list[k].limit_buy_num + '">进货</a>';
+                            }
+
+                            _productListHtml += '</div>';
+                            //_productListHtml += '<a href="#" class="add_pro" data-productid="'+result.productList[k].productId+'">进货</a>';
+                            //_productListHtml += '<div class="add_num"><span class="del_pro_num"></span><input type="text" class="pro_num" data-minnum="'+result.productList[k].minSoldNum+'" value="'+result.productList[k].minSoldNum+'" /><span class="add_pro_num"></span></div>';
+                            //_productListHtml += '<a href="#" class="favorite">收藏</a>';
+                            //_productListHtml += '<div class="fav" data-id="'+result.productList[k].productId+'">收藏</div>';
+
+                            _productListHtml += '</div>';
+                            _productListHtml += '</li>';
+                        }
+                        $('#productList').html(_productListHtml);
+                        $('#totalProductNumTip').html(result.count);
+                        $('#C_page').html(result.page_str);
+                        if (is_brand_search) {
+                            curCatId = tmpCurId;
+                            keyword = tmpKeyword;
+                            is_brand_search = false;
+                        }
+                        // addFixed()
+                    } else {
+                        $('#productList').html('');
+                        $('#totalProductNumTip').html(0);
+                        $('#C_page').html('');
+                        // addFixed()
+                    }
+                },
+                error: function () {
+                    // addFixed()
+                }
+            });
+        }
+
+        C_Initialize();
+        $('.pro_list .product_all .title>h3').click(function () {
+            $(this).addClass('btnClicked');
+            $(this).siblings().removeClass('btnClicked')
+            sort = $(this).attr('data-index');
+            ProductList();
+            return false;
+        });
+        $('#price_sort').hover(function () {
+            $('.title ul').show()
+        }, function () {
+            $('.title ul').hide()
+        });
+        // //按价格从高到低
+        $("#price_sort_down").on("click", function () {
+            $('#price_sort').attr('data-index', 'price_down');
+        });
+        // //按价格从低到低
+        $("#price_sort_up").on("click", function () {
+            $('#price_sort').attr('data-index', 'price_up');
+        });
+
+        // function addFixed(){
+        //     var screen_height=document.body.clientHeight;//body的高度
+        //     var body_height=document.documentElement.clientHeight;//当前页面的高度
+        //     if(screen_height<body_height){
+        //        $('.product_all').css('height','500px')
+        //     }
+        // }
+        // $(window).resize(function() {
+        //     addFixed()
+        // });
+
+    });
+
+    //关闭预售html 弹出框
+    function closeExplain() {
+        $('.explain').removeClass('j_display');
+    }
+    //预售加减数量
+    $("#explain").on("click", ".decrementPresales", function () {
+        var _input = $(this).siblings("input.presaleInput");
+        var quantity = _input.val();
+        quantity--;
+        quantity = quantity > 0 ? quantity : 1;
+        _input.val(quantity);
+    })
+        .on('click', '.addPresale', function () {
+            var _input = $(this).siblings("input.presaleInput");
+            var max = parseInt(_input.data("max"));
+            var quantity = _input.val();
+            quantity++;
+            quantity = quantity > max ? max : quantity;
+            _input.val(quantity);
+        })
+        .on('click', '.addPresaleCart', function () {
+            var id = $(this).data("id");
+            var productId = $(this).data("productId");
+            var _input = $(this).prev(".presaleItems").children(".presaleInput");
+            var quantity = _input.val();
+            var _amount = $(this).siblings('.amountNum');
+            $.ajax({
+                type: "post",
+                url: "/cart/addPresaleItemToCart",
+                dataType: "json",
+                data: {
+                    product_id: productId,
+                    quantity: quantity, //_input.val()
+                    mode: 1,
+                    presaleId: id
+                },
+                success: function (res) {
+                    if (res.error) {
+                        build("red", res.info, "pressaleError")
+                    } else {
+                        GlobalCartItemNum();
+                        _amount.html(_amount.html() - quantity);
+                        $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+        });
 </script>

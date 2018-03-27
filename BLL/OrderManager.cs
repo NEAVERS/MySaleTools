@@ -94,17 +94,34 @@ namespace BLL
             return _context.SaveChanges()>0;
         }
 
+        public bool ClearShopping(Guid userId)
+        {
+            var list = from c in _context.OrderItems
+                       where c.CreateUserId == userId
+                       && c.IsInShoppingCar
+                       && !c.IsDelete
+                       select c;
+            foreach(var item in list)
+            {
+                item.IsDelete = true;
+            }
+            return _context.SaveChanges() > 0;
+        }
+
         /// <summary>
         /// 删除订单或购物车中的商品
         /// </summary>
         /// <param name="itemId"></param>
         /// <returns></returns>
-        public bool DeleteOrderItem(Guid itemId)
+        public bool DeleteOrderItem(List<Guid> itemIds)
         {
-            var item = _context.OrderItems.FirstOrDefault(x => x.Id == itemId);
-            if (item != null)
+            var list = _context.OrderItems.Where(x => itemIds.Contains(x.Id));
+            if (list != null)
             {
-                item.IsDelete = true;
+                foreach (var item in list)
+                {
+                    item.IsDelete = true;
+                }
             }
             return _context.SaveChanges()>0;
         }

@@ -1,0 +1,210 @@
+﻿@using Model
+@{
+    ViewBag.Title = "购物车";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    var list = (List<OrderItem>)ViewBag.List;
+    decimal totalPrice = 0;
+}
+
+<link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
+<link rel="stylesheet" type="text/css" href="/Content/css/base.css">
+<!-- 公用css -->
+<link rel="stylesheet" type="text/css" href="/Content/css/common/header/global.css?04260915">
+<link rel="stylesheet" type="text/css" href="/Content/css/common/footer/global.css?04260915">
+<link rel="stylesheet" href="/Content/css/pages/cart/v2.css">
+
+<div class="header">
+    <div class="container clearfix">
+        <div class="cart-logo">
+            <a href="/" class="logo" title="返回首页">云蚂蚁</a>
+            <p class="txt">购物车</p>
+        </div>
+        <div class="cart-search-wrap">
+            <form action="/product/keywordList" method="get">
+                <input type="text" name="q" placeholder="支持商品关键字、品牌、条码搜索">
+                <button type="submit">搜&nbsp;索</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="main" id="main">
+    <div class="container">
+        <div class="cart-area" id="J_CartArea">
+            <div class="cart-head">
+                <span class="head-checkbox" style="cursor:default;">
+                    <p class="checkboxes" style="display: none;"><input class="allcheck" id="allchecked" type="checkbox" name="itemChecked">全选</p>
+                </span>
+                <span class="product">商品</span>
+                <span class="price">蚂蚁价(元)</span>
+                <span class="quantity">数量</span>
+                <span class="total">总价(元)</span>
+                <span class="opt" style="padding-left:5px;width: 155px;">操作</span>
+            </div>
+            <div class="cart-list">
+                <div class="cart-deliver">
+                    <p style="position:relative;">
+                        <input class="allcheck checkboxes" id="groupchecked" type="checkbox" name="itemChecked" data-gid="platform" style="display: none;">
+                        <span style="margin-left:13px;">订单由平台【<b>温州</b>】提供配送</span>
+                    </p>
+                </div>
+                <ul class="cart-group">
+                    @foreach (var item in list)
+                    {
+                        totalPrice += item.TotalPrice;
+                    <li class="cart-item">
+                        <div class="cart-cell checked">
+                            <input class="allcheck itemcheck checkboxes" id="itemchecked" type="checkbox" name="itemChecked" data-prid="@item.Id" style="display: none;">
+                        </div>
+                        <div class="cart-cell product" style="width:533px; ">
+                            <a href="/Home/ProductDetail/@item.ProductId" class="image" target="_blank">
+                                <img src="@item.Pic">
+                            </a>
+                            <div class="info">
+                                <a href="/Home/ProductDetail/@item.ProductId" target="_blank" class="title">@item.ProductTittle</a>
+                            </div>
+                        </div>
+                        <div class="cart-cell price">
+                            <span>@item.Price</span>
+                        </div>
+                        <div class="cart-cell quantity">
+                            <a href="javascript:;" class="q-minus">-</a>
+                            <input type="text" value="@item.Count" data-quantity="2" data-cid="26235064" data-pid="268695" class="q-input q-input1">
+                            <a href="javascript:;" class="q-add">+</a>
+                            <input type="hidden" data-min="1" data-old="2" data-pid="268695">
+                        </div>
+                        <div class="cart-cell total">
+                            <span>@item.TotalPrice</span>
+                        </div>
+                        <div class="cart-cell opt">
+                            <p>
+                                <a href="javascript:;" class="delete-cart-item" data-cid="@item.Id" style="padding-left: 6px;">删除</a>
+                            </p>
+                        </div>
+                    </li>
+                    }
+                </ul>
+                <ul class="cart-group" style="padding-top:10px;border-top:1px solid #f3f3f3;">
+                    <li class="cart-event ">
+                        <p class="event-normal">
+                            享受<b>3.90</b>元类目折扣优惠
+                        </p>
+                        <span class="line"></span>
+                        <span class="line line2"></span>
+                        <em class="ball"></em>
+                        <span class="tag">类目折扣</span>
+                    </li>
+                    <li class="cart-event event-prompt">
+                        <p class="event-normal">
+                            再进<b>541.00</b>元 即可享受 货到付款减<b>11.00</b>元 线上支付减<b>11.00</b>元
+                        </p>
+                        <span class="line"></span>
+                        <span class="line line2"></span>
+                        <em class="ball"></em>
+                        <span class="tag">满就减</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="cart-action-bar">
+                <div class="action-left">
+                    <span class="head-checkbox" id="choose">批量删除</span>
+                    <span class="head-checkbox">|</span>
+                    <span class="head-checkbox checkboxes" id="J_deletPro" style="width: 60px; height: 0px; display: none;">删除商品</span>
+                    <span class="head-checkbox checkboxes" style="width: 70px; height: 0px; display: none;">已选择<b class="number">0</b><b>件</b></span>
+                    <span class="head-checkbox toggle" id="J_ClearCart" onclick=" ClearShoppingCar()">清空购物车</span>
+                </div>
+                <div class="action-right">
+                    <div class="total-price">
+                        <p class="main-price">
+                            <span>商品总计：</span>
+                            <b>
+                                ¥ @totalPrice
+
+                            </b>
+                        </p>
+                        <p class="promo-price"></p>
+                    </div>
+                    <form action="/trade/confirm" method="post" id="J_GoConfirmForm">
+                        <a href="javascript:;" id="J_GoConfirmBtn">去结算</a>
+                    </form>
+                </div>
+            </div>
+            <div class="cart-cover"></div>
+        </div>
+    </div>
+</div>
+<script>
+    var List;
+
+    $(document).on("click", ".delete-cart-item", function () {
+        var id = $(this).data("cid");
+        var list = [];
+        list.push(id);
+        DeleteItem(list);
+    }).on("click", "#choose", function () {//批量删除按钮
+        $(".checkboxes").slideToggle();
+        }).on("click", "#allchecked", function () {//全选
+            if ($(this).prop("checked")) {
+                $(":checkbox").each(function () {
+                    $(this).prop("checked", true);
+                });
+            } else {
+                $(":checkbox").each(function () {
+                    $(this).prop("checked", false);
+                });
+            }
+            getnum();
+        }).on("click", "#groupchecked", function () {//供应商选择
+            var gCheck = $(this).data("gid");
+            $("#allchecked").prop("checked", false);
+            if ($(this).prop("checked")) {
+                $(this).parents(".cart-list").find("input[type='checkbox']").each(function () {
+                    $(this).prop("checked", true);
+                });
+            } else {
+                $(this).parents(".cart-list").find("input[type='checkbox']").each(function () {
+                    $(this).prop("checked", false);
+                })
+            }
+            getnum();
+        }).on("click", ".itemcheck", function () {//商品选择
+            List = [];
+            $("#allchecked").prop("checked", false);
+            $(this).parents(".cart-list").children('.cart-deliver').find("input[id='groupchecked']").prop("checked", false);
+            getnum();
+        }).on("click", "#J_deletPro", function () {//批量删除 删除按钮
+            if (confirm("确认删除选中商品?")) {
+                var idList = [];
+                $.each(List, function (i, val) {
+                    cartId = val;
+                    $("#J_CartArea").addClass("cart-reloading");
+                    idList.push(cartId);
+                })
+                DeleteItem(idList);
+            }
+        })
+
+    function DeleteItem(ids) {
+        $.post("/Home/DeleteItems", { itemIds: ids }, function (e) {
+            if (e)
+                location.href = "/Home/ShoppingCar";
+        },"json")
+    }
+
+    function ClearShoppingCar() {
+        $.post("/Home/ClearShoppingCar", {}, function (e) {
+            if (e)
+                location.href = "/Home/ShoppingCar";
+        }, "json")
+
+    }
+    function getnum() {
+        List = [];
+        $(":checkbox").each(function () {
+            if ($(this).prop("checked") && this.id == 'itemchecked') {
+                var prCheck = $(this).data("prid");
+                List.push(prCheck);
+            }
+        });
+        $(".number").html(List.length);
+    }
+</script>

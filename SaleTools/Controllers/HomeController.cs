@@ -135,6 +135,33 @@ namespace SaleTools.Controllers
         }
 
 
+
+
+        public ActionResult ShoppingCar()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var list = _order.GetShoppingCar(loginUser.UserId);
+            ViewBag.List = list;
+            return View();
+        }
+
+
+        public string DeleteItems(List<Guid> itemIds)
+        {
+            var res = _order.DeleteOrderItem(itemIds);
+            return Utils.SerializeObject(res);
+        }
+
+
+        public string ClearShoppingCar()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            var res = _order.ClearShopping(loginUser.UserId);
+            return Utils.SerializeObject(res);
+
+        }
+
         public void CreateOrder()
         {
             var loginUser = (UserInfo)ViewBag.User;

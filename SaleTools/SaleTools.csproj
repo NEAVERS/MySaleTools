@@ -111,6 +111,7 @@
     <Content Include="Content\css\common\header\global.css" />
     <Content Include="Content\css\normalize.css" />
     <Content Include="Content\css\pages\buyer\overlay\overlay.css" />
+    <Content Include="Content\css\pages\cart\v2.css" />
     <Content Include="Content\css\pages\home\index\index.css" />
     <Content Include="Content\css\pages\home\index\overlay.css" />
     <Content Include="Content\css\pages\home\product\detail.css" />
@@ -138,6 +139,7 @@
     <Content Include="Content\images\lg\170602.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\new_log.png" />
+    <Content Include="Content\js\lib\artTemplate.js" />
     <Content Include="Content\js\lib\category_selector\category_selector.css" />
     <Content Include="Content\js\lib\category_selector\category_selector.js" />
     <Content Include="Content\js\lib\help.js" />
@@ -275,6 +277,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Home\ShoppingCar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

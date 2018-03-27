@@ -76,6 +76,10 @@ namespace Model
         /// </summary>
         public Guid CreateUserId { get; set; }
 
+        /// <summary>
+        /// 图片链接
+        /// </summary>
+        public string Pic { get; set; }
         public OrderItem()
         {
             this.Id = Guid.Empty;
@@ -92,6 +96,7 @@ namespace Model
             this.IsEffective = true;
             this.IsInShoppingCar = true;
             this.CreateUserId = Guid.Empty;
+            this.Pic = string.Empty;
         }
 
     }

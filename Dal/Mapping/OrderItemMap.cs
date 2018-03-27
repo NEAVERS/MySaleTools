@@ -28,7 +28,7 @@ namespace Dal.Mapping
             this.Property(t => t.IsEffective).HasColumnName("IsEffective");
             this.Property(t => t.IsInShoppingCar).HasColumnName("IsInShoppingCar");
             this.Property(t => t.CreateUserId).HasColumnName("CreateUserId");
-            
+            this.Property(t => t.Pic).HasColumnName("Pic");
         }
     }
 }
