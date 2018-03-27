@@ -1,11 +1,189 @@
 ﻿@using Model;
+@using Common.Entities;
+
 @model GoodInfo
 @{
     ViewBag.Title = "商品详情";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
+    var typeList = (List<GoddsTypeTree>)ViewBag.GoddsTypeTree;
+
 
 }
 <link href="~/Content/css/pages/home/product/detail.css" rel="stylesheet" />
+<div class="header" id="header">
+    <div class="topfixeds">
+        <div class="topfixed top clearfix">
+            <h2 class="topMenuList"><i style="padding-right: 13px;"><img src="/Content/images/index/04151605.png"></i>全部商品分类</h2>
+            <div class="searchbar lfloat" style="padding-top:5px;">
+                <form action="http://pifa.yunmayi.com/search/index" method="GET" id="C_GlobalSearchFormOne">
+                    <input type="text" name="q" class="search_input" id="C_GlobalSearchInputOne" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+                    <!--                <input type="hidden" name="cid" value="" id="cid"/>-->
+                    <button type="submit" class="search_btn">搜索</button>
+                </form>
+            </div>
+            <div class="toolbar lfloat" style="padding-top:6px;">
+                <a href="/Home/ShoppingCar">
+                    购物车
+                    <i style="font-style: normal;color: #ff0000;font-size: 15px;" id="C_GlobalCartItemNum_fixed">0</i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="module top clearfix">
+        <div class="logo lfloat">
+            <div class="logoImg">
+                <a href="http://www.yunmayi.com"><img src="/Content/images/new_log.png" href="/cart/"></a>
+            </div>
+            <div class="logoFont">
+                <a href="http://pifa.yunmayi.com/"><img src="/Content/images/index/04171124.png" style="width:100%;"></a>
+            </div>
+        </div>
+        <div class="searchbar lfloat">
+            <form action="http://pifa.yunmayi.com/search/index" method="GET" id="C_GlobalSearchForm">
+                <input type="text" name="q" class="search_input" id="C_GlobalSearchInput" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+                <button type="submit" class="search_btn">搜索</button>
+            </form>
+        </div>
+        <div class="toolbar lfloat">
+            <a href="/Home/ShoppingCar" class="shopCart">
+                购物车
+                <i style="font-style: normal;color: red;" id="C_GlobalCartItemNum">0</i>
+            </a>
+        </div>
+    </div>
+    <div class="module nav clearfix">
+        <div class="category lfloat fixed" id="C_CategoryBox" data-fixed="1">
+            <h2><i style="padding-right: 13px;"><img src="/Content/images/index/04151605.png"></i>全部商品分类</h2>
+            <div class="dropdown_menu">
+                <!-- first category -->
+                <ul class="menu_nav_container" id="C_CategoryList">
+
+                    @foreach (var item in typeList)
+                    {
+                        <li data-source="">
+                            <div class="menu_nav_fst">
+                                <h3 class="fst_cat_title"><a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a></h3>
+                                <div class="fst_cat_child">
+                                    @foreach (var child in item.TypeList)
+                                    {
+                                        <a href="/Home/Product?sec=@child.GoodsType.Id">@child.GoodsType.TypeName</a>
+
+                                    }
+
+
+                                </div>
+                            </div>
+                        </li>
+
+                    }
+
+                </ul>
+            </div>
+        </div>
+        <ul class="list clearfix">
+            <li>
+                <a href="/Home/Index">首页</a>
+                <img src="/Content/images/christmas-tree.png" alt="">
+            </li>
+            @foreach (var item in typeList)
+            {
+                <li>
+                    <a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a>
+                    <img src="/Content/images/christmas-tree.png" alt="">
+                </li>
+            }
+
+        </ul>
+    </div>
+</div>
+<script>
+    document.onkeydown = function (event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 13) { // enter 键
+            if (event.target.value == '' || event.target.value == NULL) {
+                return false;
+            }
+            window.location.href = 'http://pifa.v2.com/search/index?q=' + event.target.value;
+        }
+    };
+
+    var test = window.location.pathname; //获取当前页面的url的路径部分
+    if (test != "/") { //当不为首页时
+        $("#C_CategoryBox").find("h2").addClass('topMenuList');
+    }
+    $(".topMenuList").mouseover(function () {
+        $(".dropdown_menu").css({
+            display: 'block'
+        });
+        var scrollTop = $(document).scrollTop();
+        if (scrollTop < 130) {
+            if ($(".dropdown_menu").height() > windowH - $(".topfixeds").height()) {
+                $(".dropdown_menu .menu_nav_container").css({
+                    height: windowH - $(".topfixeds").height() + 'px'
+                })
+            }
+        } else {
+            $(".header .nav .category").addClass('topShow');
+        }
+        $(".header .nav .category").removeClass('fixed');
+        $(".header .nav .category").addClass('show');
+    })
+    $(".topMenuList").mouseleave(function () {
+        if ($(".header .nav .category").data("fixed") == 0) {
+            $(".dropdown_menu").css({
+                display: 'none'
+            });
+        } else {
+            $(".header .nav .category").addClass('fixed');
+        }
+        $(".header .nav .category").removeClass('show');
+        $(".header .nav .category").removeClass('topShow');
+
+    });
+    var windowH = $(window).height();
+    $(".dropdown_menu").mouseenter(function () {
+        $(".dropdown_menu").css({
+            display: 'block'
+        });
+        var scrollTop = $(document).scrollTop();
+        if (scrollTop > 130) {
+            $(".header .nav .category").addClass('topShow');
+            if ($(".dropdown_menu").height() > windowH - $(".topfixeds").height()) {
+                $(".dropdown_menu .menu_nav_container").css({
+                    height: windowH - $(".topfixeds").height() + 'px'
+                })
+            }
+        }
+        $(".header .nav .category").removeClass('fixed');
+        $(".header .nav .category").addClass('show');
+    });
+    $(".dropdown_menu").mouseleave(function () {
+        if ($(".header .nav .category").data("fixed") == 0) {
+            $(".dropdown_menu").css({
+                display: 'none'
+            });
+        } else {
+            $(".header .nav .category").addClass('fixed');
+        }
+        $(".dropdown_menu .menu_nav_container").css({
+            height: ''
+        })
+        $(".header .nav .category").removeClass('show');
+        $(".header .nav .category").removeClass('topShow');
+    });
+    $(window).on('scroll', function () {
+        var scrollTop = $(document).scrollTop();
+        if (scrollTop > 130) {
+            $(".topfixeds").css({ display: "block" });
+        } else {
+            $(".topfixeds").css({ display: "none" });
+            $(".header .nav .category").removeClass('topShow');
+            $(".dropdown_menu").css({
+                display: ''
+            });
+        }
+    });
+</script>
 <div class="main" id="main">
     <div class="container">
         <div class="prompt">
@@ -143,8 +321,8 @@
                         </div>
                     </div>
                 </div>
-                <a href="javascript:;" class="actbtn cartbtn" id="CartDetailBtn" data-productid="277664">加入购物车</a>
-                <a class="J_AddCollectBtn collect" data-id="277664">&nbsp;收藏商品</a>
+                <a href="javascript:;" class="actbtn cartbtn" id="CartDetailBtn" data-productid="@Model.Id">加入购物车</a>
+                <a class="J_AddCollectBtn collect" data-id="@Model.Id">&nbsp;收藏商品</a>
                 <!--                             <span class="J_AddCollectBtn add_collect_btn" id="277664" data-id="277664">收藏</span>
                  -->
             </div>
@@ -181,7 +359,15 @@
         offset: 16
     });
 
+    function loacCarCount() {
+        $.post("/Home/LoadShoopingCarCount", {}, function (e) {
+            $("#C_GlobalCartItemNum").html(e);
+        }, "json")
+    }
+
+
     $(function () {
+        loacCarCount();
         //点击评论，页面滑动
         /*jQuery.scrollTo=function(scrolldom,scrolltime){
             $(scrolldom).click(function(){
@@ -289,7 +475,7 @@
             _this.addClass('selected');
             _this.parent().siblings().children('a').removeClass('selected');
         });
-        
+
         //为小图添加hover事件
         $('.small-pic').on('mouseover', function () {
             var _this = $(this),
@@ -309,115 +495,73 @@
             var _minSoldNum = $('#C_MinSoldNum');
             var _stock = $('#C_Stock');
             var _ProAmount = $('#ProAmount');
-            var productId = parseInt(_this.data('productid'));
+            var productId = _this.data('productid');
             var minSoldNum = parseInt(_minSoldNum.val());
             var stock = parseInt(_stock.val());
             var quantity = parseInt(_ProAmount.val());
             var remark = $('#remark').val();
             var html = "";
             var items = [];
+
             $.ajax({
                 type: 'post',
+                url: '/Home/AddToShoppingCar',
                 dataType: 'json',
-                url: '/cart/isPresaleItem',
                 data: {
-                    pid: productId
+                    goodId: productId,
+                    remark: remark,
+                    count: quantity
                 },
-                success: function (res) {
-                    items = res;
-                    if (items.length != 0) {
-                        presaleShow = true;
-                        console.log(res)
-                        $(".explain").addClass('j_display');
-                        html += '   <ul class="explain_mian">';
-                        html += '       <li class="header">';
-                        html += '           <span>预售活动</span>';
-                        html += '           <span>商品剩余数量</span>';
-                        html += '           <span>购买数量</span>';
-                        html += '           <span>加入购物车</span>';
-                        html += '       </li>';
-                        for (var k in items) {
-                            html += '       <li class="items">';
-                            html += '           <span>' + items[k].title + '</span>';
-                            html += '           <span class="amountNum">' + items[k].amount + '</span>';
-                            html += '           <div class="presaleItems">';
-                            html += '               <a  href="javascript:;" class="decrementPresales"> - </a>';
-                            html += '               <input type="text" value="1" class="presaleInput" data-max=' + items[k].amount + '>';
-                            html += '               <a  href="javascript:;" class="addPresale"> + </a>';
-                            html += '           </div>';
-                            html += '           <button class="buyButton addPresaleCart" data-id=' + items[k].id + ' data-product-id=' + items[k].product_id + '>进货</button>';
-                            html += '       </li>';
-                        }
-                        html += '       <button class="coloseButton" onclick="closeExplain()"> x </button>';
-                        html += '   </ul>';
-                        $(".explain").html(html);
-                    } else {
-                        $.ajax({
-                            type: 'post',
-                            url: '/cart/ajaxAddItemToCart',
-                            dataType: 'json',
-                            data: {
-                                product_id: productId,
-                                remark: remark,
-                                quantity: quantity
-                            },
-                            success: function (result) {
-                                $(".actbtn").attr("id", "CartDetailBtn");
-                                if (result.info != "出现异常") {
-                                    var img = $(".big-pic").children('img').attr('src');
-                                    var flyer = $('<img class="u-flyer" src="' + img + '">');
-                                    var address1 = $('#C_GlobalCartItemNum_fixed');
-                                    var address2 = $('#C_GlobalCartItemNum');
-                                    var scrollTop = $(document).scrollTop();
-                                    if (scrollTop > 130) {
-                                        flyer.fly({
-                                            start: {
-                                                left: event.clientX,
-                                                top: event.clientY,
-                                            },
-                                            end: {
-                                                left: address1[0].offsetLeft,
-                                                top: address1[0].offsetTop,
-                                                width: 0,
-                                                height: 0
-                                            },
-                                            onEnd: function () {
-                                                $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
-                                                this.destory();
-                                            }
-                                        })
-                                    } else {
-                                        flyer.fly({
-                                            start: {
-                                                left: event.clientX,
-                                                top: event.clientY
-                                            },
-                                            end: {
-                                                left: address2[0].offsetLeft,
-                                                top: address2[0].offsetTop - 20,
-                                                width: 0,
-                                                height: 0
-                                            },
-                                            onEnd: function () {
-                                                $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
-                                                this.destory();
-                                            }
-                                        })
-                                    }
-                                } else {
-                                    build("red", result.info, productId);
+                success: function (result) {
+                    $(".actbtn").attr("id", "CartDetailBtn");
+                    if (result.info != "出现异常") {
+                        var img = $(".big-pic").children('img').attr('src');
+                        var flyer = $('<img class="u-flyer" src="' + img + '">');
+                        var address1 = $('#C_GlobalCartItemNum_fixed');
+                        var address2 = $('#C_GlobalCartItemNum');
+                        var scrollTop = $(document).scrollTop();
+                        if (scrollTop > 130) {
+                            flyer.fly({
+                                start: {
+                                    left: event.clientX,
+                                    top: event.clientY,
+                                },
+                                end: {
+                                    left: address1[0].offsetLeft,
+                                    top: address1[0].offsetTop,
+                                    width: 0,
+                                    height: 0
+                                },
+                                onEnd: function () {
+                                    $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
+                                    this.destory();
                                 }
-                                // 更新页头购物车数量信息
-                                GlobalCartItemNum();
-                            }
-                        });
+                            })
+                        } else {
+                            flyer.fly({
+                                start: {
+                                    left: event.clientX,
+                                    top: event.clientY
+                                },
+                                end: {
+                                    left: address2[0].offsetLeft,
+                                    top: address2[0].offsetTop - 20,
+                                    width: 0,
+                                    height: 0
+                                },
+                                onEnd: function () {
+                                    $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
+                                    this.destory();
+                                }
+                            })
+                        }
+                    } else {
+                        build("red", result.info, productId);
                     }
-                },
-                error: function (error) {
-                    console.log(error)
+                    // 更新页头购物车数量信息
+                    loacCarCount();
                 }
             });
-
 
 
 
@@ -509,11 +653,11 @@
             var _amount = $(this).siblings('.amountNum');
             $.ajax({
                 type: "post",
-                url: "/cart/addPresaleItemToCart",
+                url: " /Home/AddToShoppingCar",
                 dataType: "json",
                 data: {
-                    product_id: productId,
-                    quantity: quantity, //_input.val()
+                    goodId: productId,
+                    count: quantity, //_input.val()
                     mode: 1,
                     presaleId: id
                 },
