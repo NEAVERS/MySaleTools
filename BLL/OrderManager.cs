@@ -61,12 +61,20 @@ namespace BLL
                        && !c.IsDelete
                        && c.IsEffective
                        select c;
+            decimal totalPrice = 0;
+            decimal realPrice = 0;
             foreach (var item in list)
             {
                 item.OrderId = order.Id;
                 item.OrderNum = order.OrderNum;
                 item.IsInShoppingCar = false;
+                totalPrice += item.TotalPrice;
+                realPrice += item.TotalPrice - item.LessPrice;
             }
+
+            order.TotalMoney = totalPrice;
+            order.PayMoney = realPrice;
+
             _context.OrderInfoes.Add(order);
             return _context.SaveChanges() > 0;
         }

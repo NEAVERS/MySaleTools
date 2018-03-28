@@ -13,4 +13,12 @@ namespace Common.Entities
         业务员  =-2,
         送货员 = -3
     }
+
+    public enum OrderStatus
+    {
+        退货=-1,
+        下单 =1,
+        发货 = 2,
+        完成=3,   
+    }
 }

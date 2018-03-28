@@ -207,4 +207,12 @@
         });
         $(".number").html(List.length);
     }
-</script>
+    $(document).on("click", "#J_GoConfirmBtn", function () {
+        $.post("/Home/CreateOrder", {}, function (e) {
+            if (e)
+                location.href = "/Home/ShoppingCar";
+        }, "json")
+
+    });
+
+</script> 
