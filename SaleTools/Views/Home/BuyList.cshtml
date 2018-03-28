@@ -1,0 +1,49 @@
+﻿
+@using Model;
+@{
+    ViewBag.Title = "BuyList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var list = (List<OrderInfo>)ViewBag.OrderList;
+
+}
+
+<table class="table table_border">
+    <thead class="bg_color">
+        <tr>
+            <th width="150">订单编号</th>
+            <th width="120">订单时间</th>
+            <!--th>收货人</th-->
+            <th width="120">订单金额</th>
+            <th width="85">交易状态</th>
+            <th width="80">配送员</th>
+            <th width="100">配送员电话</th>
+            <th class="center">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in list)
+    {
+        <tr>
+            <td>@item.OrderNum</td>
+            <td>@item.CreateTime</td>
+            <!--td></td-->
+            <td>
+                <span class="highlight">@item.TotalMoney</span>&nbsp;&nbsp;
+                [货到付款]
+            </td>
+            <td>
+                交易完成
+            </td>
+            <td>@item.SendPeople</td>
+            <td>@item.SendPeople</td>
+            <td class="center">
+                <a href="http://buyer.pifa.yunmayi.com/trade/orderDetail?order_id=1803232224504776">订单详情</a>
+                <div class="extra">
+                    <a href="" class="inline_block buy_again J_BuyAgain" data-order-id="1803232224504776"></a>
+                </div>
+            </td>
+        </tr>
+
+}
+    </tbody>
+</table>

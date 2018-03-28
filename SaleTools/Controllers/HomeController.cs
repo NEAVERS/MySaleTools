@@ -180,5 +180,17 @@ namespace SaleTools.Controllers
             var res = _order.SaveOrder(order);
             
         }
+
+
+        public ActionResult BuyList(string start= "",string end ="")
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            DateTime startTime = Utils.GetTime(start, true);
+            DateTime endTime = Utils.GetTime(end);
+
+            var list = _order.GetOrderListByCreateUserId(startTime, endTime, loginUser.UserId);
+            ViewBag.OrderList = list;
+            return View();
+        }
     }
 }

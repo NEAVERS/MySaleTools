@@ -156,6 +156,16 @@ namespace BLL
         }
 
 
+        public List<OrderInfo> GetOrderListByCreateUserId(DateTime start,DateTime end, Guid createUserId)
+        {
+            var q = from c in _context.OrderInfoes
+                    where c.CreateTime > start
+                    && c.CreateTime < end
+                    &&c.CreateUserId ==createUserId
+                    select c;
+            return q.ToList();
+
+        }
     }
 
 }
