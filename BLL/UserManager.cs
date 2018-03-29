@@ -41,8 +41,17 @@ namespace BLL
                 model.City = user.City;
                 model.AreaNum = user.CityNum;
                 model.Area = user.AreaNum;
+                model.ReceiveName = string.Empty;
+                model.SaleManGuid = user.SaleManGuid;
+                model.SaleManName = user.SaleManName;
+                model.Addr = user.Addr;
+                model.StoreArea = user.StoreArea;
+                model.SotreName = user.SotreName;
+                model.Email = user.Email;
+                model.Remark = user.Remark;
+
             }
-            
+
             return _context.SaveChanges() > 0;
         }
         public bool DelUser(Guid userid)
@@ -132,7 +141,7 @@ namespace BLL
         /// <param name="key"></param>
         /// <param name="isDelete"></param>
         /// <returns></returns>
-        public List<UserInfo> GetUserByPage(int index ,int size,DateTime start,DateTime end, string key,bool isDelete)
+        public List<UserInfo> GetUserByPage(int index ,int size,DateTime start,DateTime end, string province, string city, string area, string saleManId, int userType, string key,bool isDelete)
         {
             var q = from c in _context.UserInfoes
                     where c.Account.Contains(key)
@@ -142,6 +151,16 @@ namespace BLL
             
             q = q.Where(x => x.CreateTime > start && x.CreateTime < end);
             q = q.Where(x => !x.IsDelete);
+            if (province != "-1"&&!string.IsNullOrWhiteSpace(province))
+                q = q.Where(x => x.ProvinceNum == province);
+            if (city != "-1" && !string.IsNullOrWhiteSpace(city))
+                q = q.Where(x => x.CityNum == city);
+            if (area != "-1" && !string.IsNullOrWhiteSpace(area))
+                q = q.Where(x => x.AreaNum == area);
+            if (saleManId != "0" && !string.IsNullOrWhiteSpace(saleManId))
+                q = q.Where(x => x.SaleManGuid.ToString() == saleManId);
+            if (userType != 0)
+                q = q.Where(x => x.TypeId == userType);
             var list = q.OrderByDescending(x=>x.CreateTime).Skip((index - 1) * size).Take(size).ToList();
             return list;
         }

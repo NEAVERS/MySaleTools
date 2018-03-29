@@ -16,6 +16,9 @@ namespace SaleTools.Controllers
         // GET: Usei
         public ActionResult Index()
         {
+            var typelist = manager.GetTypeList();
+            ViewBag.TypeList = typelist;
+
             var loginUser = (UserInfo)ViewBag.User;
             var list = manager.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
             ViewBag.SaleManList = list;
@@ -48,11 +51,11 @@ namespace SaleTools.Controllers
 
 
 
-        public string GetList(int index , int size , string  start, string end, string  key = "")
+        public string GetList(int index , int size , string  start, string end,string province,string city,string area,string saleManId, int userType, string  key = "")
         {
             var startTime = Utils.GetTime(start, true);
             var endTime = Utils.GetTime(end);
-            var list = manager.GetUserByPage(index, size, startTime, endTime, key, false);
+            var list = manager.GetUserByPage(index, size, startTime, endTime,  province,  city,  area,  saleManId,  userType, key, false);
 
             return Utils.SerializeObject(list);
         }

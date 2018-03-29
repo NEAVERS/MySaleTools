@@ -261,6 +261,14 @@
         para.City = $("#city").find("option:selected").text();
         para.AreaNum = $("#area").val();
         para.Area = $("#area").find("option:selected").text();
+        para.SotreName = $("#storeName").val();
+        para.Tel = $("#tel").val();
+        para.Email = $("#email").val();
+        para.Addr = $("#addr").val();
+        para.StoreArea = $("#storeArea").val();
+        para.Remark = $("#remark").val();
+        para.SaleManGuid = $("#saleMan").val();
+        para.SaleManName = $("#saleMan").find("option:selected").text();
         $.post("/User/SaveUser", para, function (e) {
             alert(e);
         }, "json")

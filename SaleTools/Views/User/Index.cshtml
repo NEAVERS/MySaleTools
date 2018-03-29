@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "Index";
     var saleList = (List<UserInfo>)ViewBag.SaleManList;
+    var typeList = (List<UserType>)ViewBag.TypeList;
+
+
 }
 <div class="col_main_hd">
     <h2>
@@ -11,21 +14,40 @@
 <div class="col_main_bd">
     <div class="inner">
         <div class="col_main_content">
+            <select id="province"></select>
+            <select id="city"></select>
+            <select id="area"></select>
+            <select id="saleMan">
+                <option value="0">请选择业务员</option>
+                @foreach (var item in saleList)
+        {
+            <option value="@item.UserId">@item.UserName</option>
+}
+            </select>
+            <select id="userType" class="seller-id">
+                <option value="0">用户类型</option>
 
+                @foreach (var item in typeList)
+    {
+            <option value="@item.TypeId">@item.TypeName </option>
+}
+            </select>
+
+            <button id="search"> 搜索</button>
 
             <table class="table table_border">
                 <thead class="bg_color">
                     <tr>
                         <th class="center" width="10%">小店ID</th>
-                        <th class="center" width="13%">用户名</th>
-                        <th class="center" width="13%">小店编号</th>
-                        <th class="center" width="13%">小店名称</th>
-                        <th class="center" width="13%">联系方式</th>
+                        <th class="center" width="10%">用户名</th>
+                        <th class="center" width="10%">小店编号</th>
+                        <th class="center" width="10%">小店名称</th>
+                        <th class="center" width="10%">联系方式</th>
                         <th class="center" width="10%">业务员</th>
-                        <th class="center" width="13%">小店地址</th>
-                        <th class="center" width="13%">客户类型</th>
-                        <th class="center" width="13%">是否锁定</th>
-                        <th class="center" width="25%">操作</th>
+                        <th class="center" width="10%">小店地址</th>
+                        <th class="center" width="10%">客户类型</th>
+                        <th class="center" width="10%">是否锁定</th>
+                        <th class="center" width="10%">操作</th>
                     </tr>
                 </thead>
                 <tbody id="dataList"></tbody>
@@ -35,28 +57,49 @@
     </div>
 </div>
 
-<div style="display:none;" id="selecetSaleMandDiv">
-    <select id="saleManList">
-        @foreach (var item in saleList)
-        {
-            <option value="@item.UserId">@item.UserName</option>
-        }
-    </select>
-</div>
 <script src="~/Scripts/layer/layer.js"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script>
     $(function () {
         LoadData(1);
+        $(document).on("change", "#province", function () {
+            LoadArea($(this).val(), $("#city"))
+        });
+        $(document).on("change", "#city", function () {
+            LoadArea($(this).val(), $("#area"))
+        });
+        LoadArea("0", $("#province"));
     })
+
+    $("#search").click(function () {
+        LoadData(1);
+    });
+    function LoadArea(num, obj) {
+        $.post("/Common/GetAreaList", { num: num }, function (res) {
+            var html = "<option value='-1'> 请选择</option>";
+            $(res).each(function () {
+                html += '<option value="' + this.Num + '">' + this.Name + '</option>';
+            });
+            obj.html(html);
+            obj.change();
+        }, "json");
+    }
+
 
     function LoadData(index) {
         var para = {};
+        
         para.index = index;
         para.size = 10;
         para.start = "";
         para.end = "";
         para.key = "";
+        para.province = $("#province").val();
+        para.city = $("#city").val();
+        para.area = $("#area").val();
+        para.stutas = 0;
+        para.saleManId = $("#saleMan").val();
+        para.userType = $("#userType").val();
         $.post("/User/GetList", para, function (data) {
             var html = "";
             $(data).each(function () {
