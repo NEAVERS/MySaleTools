@@ -109,6 +109,37 @@ namespace Model
         /// 业务员姓名
         /// </summary>
         public string SaleManName { get; set; }
+
+        /// <summary>
+        /// 收货人姓名
+        /// </summary>
+        public string ReceiveName { get; set; }
+
+        /// <summary>
+        /// 收货地址
+        /// </summary>
+        public string Addr { get; set; }
+
+        /// <summary>
+        /// 小店面积
+        /// </summary>
+        public decimal StoreArea { get; set; }
+
+        /// <summary>
+        /// 小店名称
+        /// </summary>
+        public string SotreName { get; set; }
+
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// 送货备注
+        /// </summary>
+        public string Remark { get; set; }
+
         public UserInfo()
         {
             UserId = Guid.Empty;
@@ -123,6 +154,12 @@ namespace Model
             CreateUserId = Guid.Empty;
             this.SaleManGuid = Guid.Empty;
             this.SaleManName = string.Empty;
+            ReceiveName = string.Empty;
+            Addr = string.Empty;
+            StoreArea = 0;
+            SotreName = string.Empty;
+            Email = string.Empty;
+            Remark = string.Empty;
         }
     }
 }

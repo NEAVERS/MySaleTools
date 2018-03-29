@@ -16,9 +16,12 @@ namespace Common.Entities
 
     public enum OrderStatus
     {
-        退货=-1,
-        下单 =1,
-        发货 = 2,
-        完成=3,   
+        等待商家发货 =0,
+        商家已发货,
+        交易完成,
+        订单取消中,
+        订单取消成功,
+        退货中,
+        退货成功,
     }
 }

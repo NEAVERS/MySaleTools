@@ -176,7 +176,7 @@ namespace SaleTools.Controllers
             order.RootUserName = loginUser.CreateUser;
             order.SaleManGuid = loginUser.SaleManGuid;
             order.SaleManName = loginUser.SaleManName;
-            order.Stutas = (int)Common.Entities.OrderStatus.下单;
+            order.Stutas = (int)Common.Entities.OrderStatus.等待商家发货;
             var res = _order.SaveOrder(order);
             
         }

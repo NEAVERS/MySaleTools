@@ -3,10 +3,12 @@
 @{
     ViewBag.Title = "AddNewUser";
     var typeList = (List<UserType>)ViewBag.TypeList;
+    var saleList = (List<UserInfo>)ViewBag.SaleManList;
+
 }
 <div class="col_main_hd">
     <h2>
-        加盟商个人中心 <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/ziling/index.php" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">系统操作说明</a></button>
+       新增小店用户
     </h2>
 </div>
 <div class="col_main_bd">
@@ -15,22 +17,6 @@
 
             <table class="table table_border_td_none">
                 <tbody>
-                    <tr>
-                        <td class="right">
-                            用户名：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="userName" id="userName" value="">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="right">
-                            用户编号：
-                        </td>
-                        <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="userNum" id="userNum" value="">
-                        </td>
-                    </tr>
 
                     <tr>
                         <td class="right">
@@ -61,22 +47,46 @@
                         </td>
                     </tr>
 
-
                     <tr>
                         <td class="right">
-                            用户类型：
+                            小店编号：
                         </td>
                         <td>
-                            <select id="userType" class="seller-id">
-                                @foreach (var item in typeList)
-                                {
-                                    <option value="@item.TypeId">@item.TypeName </option>
-                                }
-                            </select>
+                            <input type="text" class="inputtext" style="width:150px;" name="userNum" id="userNum" value="">
                         </td>
                     </tr>
-
-
+                    <tr>
+                        <td class="right">
+                            名字：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="userName" id="userName" value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            小店名称：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="storeName" id="storeName" value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            手机：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="tel" id="tel" value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            邮箱：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="email" id="email" value="">
+                        </td>
+                    </tr>
                     <tr>
                         <td class="right">
                             区域：
@@ -87,6 +97,65 @@
                             <select id="area"></select>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td class="right">
+                            地址：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="addr" id="addr" value="">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="right">
+                            小店平米数：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="storeArea" id="storeArea" value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            送货备注：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="remark" id="remark" value="">
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="right">
+                            请选择业务员：
+                        </td>
+                        <td>
+                            <select id="saleMan">
+                                <option value="0">请选择业务员</option>
+                                @foreach (var item in saleList)
+    {
+                            <option value="@item.UserId">@item.UserName</option>
+}
+                            </select>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="right">
+                            用户类型：
+                        </td>
+                        <td>
+                            <select id="userType" class="seller-id">
+                                @foreach (var item in typeList)
+                {
+                    <option value="@item.TypeId">@item.TypeName </option>
+}
+                            </select>
+                        </td>
+                    </tr>
+
+
 
                 </tbody>
             </table>
@@ -160,6 +229,14 @@
         para.City = $("#city").find("option:selected").text();
         para.AreaNum = $("#area").val();
         para.Area = $("#area").find("option:selected").text();
+        para.SotreName = $("#storeName").val();
+        para.Tel = $("#tel").val();
+        para.Email = $("#email").val();
+        para.Addr = $("#addr").val();
+        para.StoreArea = $("#storeArea").val();
+        para.Remark = $("#remark").val();
+        para.SaleManGuid = $("#saleMan").val();
+        para.SaleManName = $("#saleMan").find("option:selected").text();
         $.post("/User/SaveUser", para, function (e) {
             alert(e);
         }, "json")

@@ -31,8 +31,12 @@ namespace SaleTools.Controllers
 
         public ActionResult AddNewUser()
         {
+            var loginUser = (UserInfo)ViewBag.User;
             var list = manager.GetTypeList();
             ViewBag.TypeList = list;
+            var saleList = manager.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
+            ViewBag.SaleManList = saleList;
+
             return View();
         }
 
@@ -135,10 +139,15 @@ namespace SaleTools.Controllers
 
         public ActionResult EditUserInfo(Guid id)
         {
+            var loginUser = (UserInfo)ViewBag.User;
+
             var list = manager.GetTypeList();
             ViewBag.TypeList = list;
 
             var model = manager.GetUserByUserId(id);
+            var saleList = manager.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
+            ViewBag.SaleManList = saleList;
+
             if (model == null)
                 return RedirectToAction("AddNewUser", "User");
             else return View(model);

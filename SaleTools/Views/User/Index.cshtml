@@ -16,10 +16,14 @@
             <table class="table table_border">
                 <thead class="bg_color">
                     <tr>
-                        <th class="center" width="10%">用户账号</th>
+                        <th class="center" width="10%">小店ID</th>
                         <th class="center" width="13%">用户名</th>
-                        <th class="center" width="13%">创建时间</th>
-                        <th class="center" width="13%">创建人</th>
+                        <th class="center" width="13%">小店编号</th>
+                        <th class="center" width="13%">小店名称</th>
+                        <th class="center" width="13%">联系方式</th>
+                        <th class="center" width="10%">业务员</th>
+                        <th class="center" width="13%">小店地址</th>
+                        <th class="center" width="13%">客户类型</th>
                         <th class="center" width="13%">是否锁定</th>
                         <th class="center" width="25%">操作</th>
                     </tr>
@@ -57,10 +61,16 @@
             var html = "";
             $(data).each(function () {
                 html += "<tr>";
+                html += "<td class='center'>" + this.UserId + "</td>"
+
                 html += "<td class='center'>" + this.Account + "</td>"
-                html += "<td class='center'>" + this.UserName + "</td>"
-                html += "<td class='center'>" + this.CreateTime + "</td>"
-                html += "<td class='center'>" + this.CreateUser + "</td>"
+                html += "<td class='center'>" + this.UserNum + "</td>"
+                html += "<td class='center'>" + this.SotreName + "</td>"
+
+                html += "<td class='center'>" + this.Tel + "</td>"
+                html += "<td class='center'>" + this.SaleManName + "</td>"
+                html += "<td class='center'>" + this.Addr + "</td>"
+                html += "<td class='center'>" + this.TypeName + "</td>"
                 html += "<td class='center'>" + (this.IsLocked ? "已锁定" : "未锁定") + "</td>"
                 html += "<td class='center'>";
                 html += '<button class="active lock"  userId = "' + this.UserId + '" >' + (this.IsLocked ? "解除锁定" : "锁定") + '</button>'
