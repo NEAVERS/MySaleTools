@@ -155,16 +155,58 @@ namespace BLL
             return _context.SaveChanges() > 0;
         }
 
-
+        /// <summary>
+        /// 根据创建人获取订单列表
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="createUserId"></param>
+        /// <returns></returns>
         public List<OrderInfo> GetOrderListByCreateUserId(DateTime start,DateTime end, Guid createUserId)
         {
             var q = from c in _context.OrderInfoes
                     where c.CreateTime > start
                     && c.CreateTime < end
-                    &&c.CreateUserId ==createUserId
+                    && c.CreateUserId == createUserId
                     select c;
             return q.ToList();
 
+        }
+
+    public List<OrderInfo> GetOrderList(DateTime start,DateTime end, string province,string city,string area,int stutas,string saleManId, int userType,string key, Guid managerId, bool isAdmin = false)
+        {
+            var q = from c in _context.OrderInfoes
+                    where c.CreateTime > start
+                    && c.CreateTime < end
+                    select c;
+            if (province != "-1" && !string.IsNullOrWhiteSpace(province))
+                q = q.Where(x => x.ProvinceNum == province);
+            if (city != "-1" && !string.IsNullOrWhiteSpace(city))
+                q = q.Where(x => x.CityNum == city);
+            if (area != "-1" && !string.IsNullOrWhiteSpace(area))
+                q = q.Where(x => x.AreaNum == area);
+            if (saleManId != "0" && !string.IsNullOrWhiteSpace(saleManId))
+                q = q.Where(x => x.SaleManGuid.ToString() == saleManId);
+            if (userType != 0)
+                q = q.Where(x => x.CreateUserTypeId == userType);
+            if (stutas != 0)
+                q = q.Where(x => x.Stutas == stutas);
+            if (managerId != Guid.Empty)
+            {
+                if (isAdmin)
+                    q = q.Where(x => x.RootUserId == managerId);///系统管理员查看
+                else
+                    q = q.Where(x => x.SaleManGuid == managerId);//业务员查看
+            }
+            return q.ToList();
+        }
+
+        public OrderDetail GetOrderDetail(Guid orderId)
+        {
+            var detail = new OrderDetail();
+            detail.Info = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
+            detail.Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar).ToList();
+            return detail;
         }
     }
 

@@ -71,6 +71,35 @@ namespace Model
 
 
         /// <summary>
+        /// 省份编号
+        /// </summary>
+        public string ProvinceNum { get; set; }
+
+        /// <summary>
+        /// 省份
+        /// </summary>
+        public string Province { get; set; }
+
+        /// <summary>
+        /// 城市编号
+        /// </summary>
+        public string CityNum { get; set; }
+
+        /// <summary>
+        /// 城市名
+        /// </summary>
+        public string City { get; set; }
+
+        /// <summary>
+        /// 行政区编号
+        /// </summary>
+        public string AreaNum { get; set; }
+        /// <summary>
+        /// 行政区名
+        /// </summary>
+        public string Area { get; set; }
+
+        /// <summary>
         /// 用户的创建人Id
         /// </summary>
         public Guid RootUserId { get; set; }
