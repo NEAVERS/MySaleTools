@@ -109,20 +109,31 @@
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\common\footer\global.css" />
     <Content Include="Content\css\common\header\global.css" />
+    <Content Include="Content\css\laydate.css" />
     <Content Include="Content\css\normalize.css" />
     <Content Include="Content\css\pages\buyer\overlay\overlay.css" />
+    <Content Include="Content\css\pages\buyer\trade\buy_list.css" />
     <Content Include="Content\css\pages\cart\v2.css" />
     <Content Include="Content\css\pages\home\index\index.css" />
     <Content Include="Content\css\pages\home\index\overlay.css" />
     <Content Include="Content\css\pages\home\product\detail.css" />
+    <Content Include="Content\css\pages\home\trade\confirmV2.css" />
     <Content Include="Content\css\pages\passport\lg\pifa.css" />
     <Content Include="Content\css\pages\ucenter.css" />
     <Content Include="Content\images\04171707.png" />
+    <Content Include="Content\images\activity.jpg" />
+    <Content Include="Content\images\buyer\buyer.png" />
+    <Content Include="Content\images\buyer\buy_again.png" />
+    <Content Include="Content\images\buyer\close-round %281%29.png" />
     <Content Include="Content\images\buyer\close-round.png" />
+    <Content Include="Content\images\buyer\logo.png" />
     <Content Include="Content\images\christmas-tree.png" />
+    <Content Include="Content\images\confirm\qmark02.png" />
+    <Content Include="Content\images\confirm\selected-icon.png" />
     <Content Include="Content\images\dda.png" />
     <Content Include="Content\images\detail\collect.png" />
     <Content Include="Content\images\detail\dda.png" />
+    <Content Include="Content\images\ewm.jpg" />
     <Content Include="Content\images\home_sprite.png" />
     <Content Include="Content\images\index\04151549%281%29.png" />
     <Content Include="Content\images\index\04151549.png" />
@@ -139,9 +150,14 @@
     <Content Include="Content\images\lg\170602.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\new_log.png" />
+    <Content Include="Content\images\order\orderBottomBorder.png" />
+    <Content Include="Content\images\RainbowSquare.gif" />
+    <Content Include="Content\images\worning.png" />
     <Content Include="Content\js\lib\artTemplate.js" />
     <Content Include="Content\js\lib\category_selector\category_selector.css" />
     <Content Include="Content\js\lib\category_selector\category_selector.js" />
+    <Content Include="Content\js\lib\city_selector\city_selector.css" />
+    <Content Include="Content\js\lib\city_selector\city_selector.js" />
     <Content Include="Content\js\lib\help.js" />
     <Content Include="Content\js\lib\jquery-1.11.1.min.js" />
     <Content Include="Content\js\lib\jquery.flexslider-min.js" />
@@ -156,6 +172,10 @@
     <Content Include="Content\js\lib\laydate\skins\ymy\laydate.css" />
     <Content Include="Content\js\lib\overlay.js" />
     <Content Include="Content\js\lib\paging.js" />
+    <Content Include="Content\js\lib\poshytip\jquery.poshytip.js" />
+    <Content Include="Content\js\lib\poshytip\tip-yellow\tip-yellow.css" />
+    <Content Include="Content\js\lib\poshytip\tip-yellow\tip-yellow.png" />
+    <Content Include="Content\js\lib\poshytip\tip-yellow\tip-yellow_arrows.png" />
     <Content Include="Content\js\lib\requestAnimationFrame.js" />
     <Content Include="Content\js\lib\select_js\bootstrap-select.js" />
     <Content Include="Content\js\lib\select_js\livefilter.min.js" />
@@ -280,6 +300,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\ShoppingCar.cshtml" />
     <Content Include="Views\Home\BuyList.cshtml" />
+    <Content Include="Views\Order\CreateOrder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -292,7 +313,6 @@
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Common\" />
-    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">

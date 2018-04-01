@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>订单结算页</title>
+    <!-- global css -->
+    <link rel="stylesheet" type="text/css" href="statics/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/base.css">
+    <!-- 公用css -->
+    <link rel="stylesheet" type="text/css" href="statics/css/common/header/global.css?04260915">
+    <link rel="stylesheet" type="text/css" href="statics/css/common/footer/global.css?04260915">
+    <link rel="stylesheet" href="statics/js/lib/poshytip/tip-yellow/tip-yellow.css">
+    <link rel="stylesheet" href="statics/css/pages/home/trade/confirmV2.css">
+    <!-- global js -->
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <style id="poshytip-css-tip-yellow" type="text/css">
+    div.tip-yellow {
+        visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    div.tip-yellow table.tip-table,
+    div.tip-yellow table.tip-table td {
+        margin: 0;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        font-style: inherit;
+        font-variant: inherit;
+        vertical-align: middle;
+    }
+
+    div.tip-yellow td.tip-bg-image span {
+        display: block;
+        font: 1px/1px sans-serif;
+        height: 10px;
+        width: 10px;
+        overflow: hidden;
+    }
+
+    div.tip-yellow td.tip-right {
+        background-position: 100% 0;
+    }
+
+    div.tip-yellow td.tip-bottom {
+        background-position: 100% 100%;
+    }
+
+    div.tip-yellow td.tip-left {
+        background-position: 0 100%;
+    }
+
+    div.tip-yellow div.tip-inner {
+        background-position: -10px -10px;
+    }
+
+    div.tip-yellow div.tip-arrow {
+        visibility: hidden;
+        position: absolute;
+        overflow: hidden;
+        font: 1px/1px sans-serif;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="wraper">
+        <!-- 全局顶部导航 -->
+        <div class="topbar" id="topbar" style="width: 1200px;">
+            <div class="pace"></div>
+            <div class="module clearfix">
+                <div class="lfloat">
+                    <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                    <span class="hello">您好，</span>
+                    <span class="username">13616631303</span>
+                    <span>
+                                ，欢迎来到温州批发平台
+                <!-- ,客服电话:0577-86000802 -->
+                                            </span>
+                </div>
+                <div class="rfloat">
+                    <ul class="clearfix">
+                        <!-- <li><a href="http://www.yunmayi.com" target="_blank">云蚂蚁首页</a></li> -->
+                        <li style="margin-right:10px;"><a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">快递代收</a></li>
+                        <li><a href="http://pifa.yunmayi.com/">批发首页</a></li>
+                        <li><a href="http://pifa.yunmayi.com/index/ucenter">会员中心</a></li>
+                        <li><a href="http://pifa.yunmayi.com/cashier/application">当面付申请</a></li>
+                        <li><a href="http://pifa.yunmayi.com/product/collect" class="">收藏中心</a></li>
+                        <li><a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">帮助中心</a></li>
+                        <li class="mobile_btn remark">手机下单
+                            <div class="content" style="color:#000;position: absolute; z-index: 99; text-align: center; display: none;"><img width="84" height="84" src="statics/images/ewm.jpg" alt="微信关注"></div>
+                        </li>
+                        <li><a href="http://pifa.yunmayi.com/cart1">购物车</a></li>
+                        <li><a href="http://passport.pifa.yunmayi.com/logout">退出</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script>
+        (function($) {
+            $.fn.snow = function(options) {
+                var $flake = $('<div id="flake" />').css({
+                        'position': 'absolute',
+                        'top': '-50px',
+                        'z-index': '99999999'
+                    }).html('&#10052;'),
+                    documentHeight = $(document).height(),
+                    documentWidth = $(document).width(),
+                    defaults = {
+                        minSize: 10,
+                        maxSize: 20,
+                        newOn: 2000,
+                        flakeColor: "red"
+                    },
+                    options = $.extend({}, defaults, options);
+                var interval = setInterval(function() {
+                        documentHeight = $(document).height();
+                        var startPositionLeft = Math.random() * documentWidth - 100,
+                            startOpacity = 0.5 + Math.random(),
+                            sizeFlake = options.minSize + Math.random() * options.maxSize,
+                            endPositionTop = documentHeight - options.maxSize,
+                            endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                            durationFall = documentHeight * 10 + Math.random() * 5000;
+                        $flake.clone().appendTo('body').css({
+                            left: startPositionLeft,
+                            opacity: startOpacity,
+                            'font-size': sizeFlake,
+                            color: options.flakeColor
+                        }).animate({
+                                top: endPositionTop,
+                                left: endPositionLeft,
+                                opacity: 0.2
+                            },
+                            durationFall, 'linear',
+                            function() {
+                                $(this).remove()
+                            });
+                    },
+                    options.newOn);
+            };
+        })(jQuery);
+        //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+
+
+        //鼠标跟随 留言信息窗口
+        $('.remark').mousemove(function(e) {
+            $(this).children('.content').show();
+            $(this).children('.content').show().css({
+                "top": e.pageY + 20,
+                "left": e.pageX + 20
+            })
+        });
+        //滑出隐藏
+        $('.remark').mouseout(function() {
+            $(this).children('.content').hide();
+        });
+        $(window).resize(function() {
+            /* Act on the event */
+            if (document.documentElement.clientWidth < 1200) {
+                $('#topbar').width(1200);
+            } else {
+                $('#topbar').width('100%');
+            }
+        });
+        //加载效果
+        var paces = {
+            pace: $('#topbar .pace'),
+            timer: "",
+            w: 0,
+            start: function() {
+                var _this = this;
+                _this.w = 0;
+                if (_this.timer) {
+                    _this.w = 0;
+                    _this.pace.width(_this.w + "%");
+                    clearInterval(_this.timer);
+                } else {
+                    _this.timer = setInterval(function() {
+                        ++_this.w;
+                        _this.pace.width(_this.w + "%");
+                        if (_this.w >= 55) {
+                            clearInterval(_this.timer);
+                        }
+                    }, 0)
+                }
+
+
+            },
+            end: function() {
+                var _this = this;
+                _this.w = parseInt(_this.pace[0].style.width);
+                clearInterval(_this.timer);
+                _this.timer = setInterval(function() {
+                    ++_this.w;
+                    _this.pace.width(_this.w + "%");
+                    if (_this.w >= 100) {
+                        clearInterval(_this.timer);
+                        var setTimer = setTimeout(function() {
+                            _this.w = 0;
+                            _this.pace.width(_this.w);
+                            clearInterval(_this.timer);
+                        }, 1000);
+                        clearTimeout(clearTimeout);
+                        return false
+                    }
+                }, 10)
+            }
+        };
+
+        /*弹框 popup*/
+        function build(status, comment, id, num) {
+            if (!$(".globalPopContainer").length > 0) {
+                $(document.body).append('<div class="globalPopContainer"></div>');
+            }
+            if (!num) {
+                num = '';
+            }
+            if (status == "red") {
+                var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+                html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+                html += "<div class='progress rprogress'></div>";
+            } else {
+                var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+                html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+                html += "<div class='progress gprogress'></div>";
+            }
+            html += "<span class='closePop'>x</span>";
+            html += "</div>";
+            $(".globalPopContainer").prepend(html); // 追加新元素   
+            $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth())
+            Popup(id, $("#popup_" + id).outerWidth());
+        }
+
+        function Popup(id, popWidth) {
+            $("#popup_" + id).find(".progress").animate({ width: 0 + 'px' }, 3000, function() {
+                $("#popup_" + id).animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            });
+            $("#popup_" + id).mouseout(function() {
+                $(this).stop(true, false);
+                $(this).find(".progress").stop(true, false);
+                $(this).find(".progress").animate({ width: 0 + 'px' }, function() {
+                    $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                        $(this).remove();
+                    })
+                })
+            });
+            $("#popup_" + id).mouseover(function() {
+                var proWidth = $(this).outerWidth()
+                $(this).stop(true, false);
+                $(this).find(".progress").stop(true, false);
+                $(this).animate({ right: 0 + 'px' }, function() {
+                    $(this).find(".progress").animate({ width: proWidth + 'px' });
+                });
+            });
+            $("#popup_" + id).find(".closePop").on('click', function(event) {
+                $(this).parent().unbind("mouseover");
+                $(this).parent().unbind("mouseout");
+                $(this).siblings('.progress').animate({ width: 0 + 'px' }, function() {
+                    $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                        $(this).remove();
+                    })
+                })
+            })
+        }
+        </script>
+        <div class="header">
+            <div class="container clearfix">
+                <div class="trade-logo">
+                    <a href="/" class="logo" title="返回首页">云蚂蚁</a>
+                    <p class="txt">结算页</p>
+                </div>
+                <div class="trade-search-wrap">
+                    <form action="/product/keywordList" method="get" target="_blank">
+                        <input type="text" name="q" placeholder="支持商品关键字、品牌、条码搜索">
+                        <button type="submit">搜&nbsp;索</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="main" id="main">
+            <div class="container">
+                <a href="/notice/detail?id=2">
+                <img src="statics/images/activity.jpg">
+            </a>
+                <div id="JConfirmMain">
+                    <h2 class="confirm-main-tit">核对订单信息</h2>
+                    <div class="confirm-main-steps">
+                        <!-- 收货人信息 -->
+                        <div class="step-tit">
+                            <h3>收货人信息</h3>
+                        </div>
+                        <div class="step-cont">
+                            <div class="addr-detail">
+                                <span class="addr-name">陈孟冉</span>
+                                <span class="addr-info">浙江省 温州市 鹿城区 高翔工业区大政路2号 </span>
+                                <span class="addr-tel">13616631303</span>
+                            </div>
+                        </div>
+                        <div class="step-hr"></div>
+                        <!-- 支付方式 -->
+                        <div class="step-tit">
+                            <h3>支付方式</h3>
+                        </div>
+                        <div class="step-cont">
+                            <div class="payment-list">
+                                <ul id="JPaymentList">
+                                    <li>
+                                        <a href="javascript:;" data-platform="cod" class="pay-type selected" title="">
+                            <span>货到付款</span>
+                            <b></b>
+                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" data-platform="balance" class="pay-type " title="余额: 0.00元, 信用额度: 0元, 可用余额: 0.00元">
+                            <span>余额支付</span>
+                            <b></b>
+                            <i class="payment-qmark"></i>
+                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" data-platform="abc" class="pay-type " title="享受和余额支付一样的优惠活动，实际收货时如出现差异，差异金额将退到余额账户里，和余额支付一样">
+                            <span>中国农业银行</span>
+                            <b></b>
+                            <i class="payment-qmark"></i>
+                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="http://183.131.13.228:8080/buyer/%E4%BA%A4%E6%98%93%E7%AE%A1%E7%90%86-%E5%86%9C%E8%A1%8C%E6%94%AF%E4%BB%98.htm" class=" " target="_blank" style="color: #0707fb;border: none;text-align: left;padding-left: 0px;">农行支付说明</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="step-hr"></div>
+                        <!-- 送货清单 -->
+                        <div class="step-tit">
+                            <h3>送货清单</h3>
+                        </div>
+                        <div class="step-cont">
+                            <div class="orders">
+                                <div class="order_hd">
+                                    <span class="thinfo">商品信息</span>
+                                    <span class="thprice">单价(元)</span>
+                                    <span class="thquantity">数量</span>
+                                    <span class="thpromotion">促销信息</span>
+                                    <span class="thtotal">小计(元)</span>
+                                </div>
+                                <div class="order-deliver">订单由平台【<b>温州</b>】提供配送</div>
+                                <div class="list">
+                                    <!-- 正常购买商品 -->
+                                    <div class="order">
+                                        <div class="cell thinfo clearfix">
+                                            <a href="javascript:;" class="pic"><img src="http://i8.yunmayi.com/upload/2016/03/28/71ac9e9f9966b7abf63160ff3ec7f26e.jpgXXXXX!!!!!_160x160.jpg"></a>
+                                            <div class="info">
+                                                <a href="javascript:;">9折限时促销! 唯新115g木糖醇肉酥</a>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                        <div class="cell thprice">
+                                            <span>19.50</span>
+                                        </div>
+                                        <div class="cell thquantity">
+                                            <span>20</span>
+                                        </div>
+                                        <div class="cell thpromotion">
+                                        </div>
+                                        <div class="cell thtotal">
+                                            <span>390.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-hr"></div>
+                        <!-- 订单备注 -->
+                        <div class="step-tit">
+                            <h3>订单备注</h3>
+                        </div>
+                        <div class="step-cont">
+                            <div class="remark-detail">
+                                <textarea id="JRemarkInput"></textarea>
+                            </div>
+                        </div>
+                        <div class="step-hr"></div>
+                        <!-- 优惠券 -->
+                        <div class="step-tit">
+                            <h3>优惠券</h3>
+                        </div>
+                        <div class="step-cont">
+                            <div class="coupon-cont">
+                                <ul class="coupon-tabs">
+                                    <li class="coupon-tab current" data-type="common">通用优惠券</li>
+                                    <li class="coupon-tab " data-type="brand">品牌优惠券</li>
+                                    <li class="coupon-tab " data-type="vendor">供应商优惠券</li>
+                                </ul>
+                                <div class="coupon-panels">
+                                    <!-- 通用优惠券 -->
+                                    <div class="coupon-panel panel-selected">
+                                        <!-- 可用优惠券 -->
+                                        <div class="coupon-enable">
+                                            <ul>
+                                            </ul>
+                                        </div>
+                                        <!-- div class="coupon-hr"></div -->
+                                        <!-- 不可用优惠券 -->
+                                        <!-- div class="coupon-disable"></div -->
+                                    </div>
+                                    <!-- 品牌优惠券 -->
+                                    <div class="coupon-panel hidden_elem">
+                                        <div class="coupon-enable">
+                                        </div>
+                                    </div>
+                                    <!-- 供应商优惠券 -->
+                                    <div class="coupon-panel hidden_elem">
+                                        <div class="coupon-enable">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="coupon-used-count">
+                                    <h4>优惠券共抵扣金额<b id="JCouponUsedCount">￥0.00</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-summary">
+                        <div class="summary-list">
+                            <div class="summary-item">
+                                <span><i>20</i>件商品，总商品金额：</span>
+                                <em>￥390.00</em>
+                            </div>
+                            <div class="summary-item">
+                                <span>满就减：</span>
+                                <em>-￥0.00</em>
+                            </div>
+                            <div class="summary-item">
+                                <span>优惠券：</span>
+                                <em>-￥0.00</em>
+                            </div>
+                            <div class="summary-item">
+                                <span>类目折扣：</span>
+                                <em>-￥39.00</em>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div class="order-info">
+                            <div class="order-payment-main">
+                                <div class="order-payment">
+                                    <span class="payment-tit">应付总额：</span>
+                                    <em class="payment-price">￥351.00</em>
+                                </div>
+                            </div>
+                            <div class="order-addr-detail">
+                                <span>寄送至：浙江省 温州市 鹿城区 高翔工业区大政路2号 </span>
+                                <span>收货人：陈孟冉 13616631303</span>
+                            </div>
+                        </div>
+                        <div class="order-confirm-btn-wrap" id="JTradeConfirmForm">
+                            <form action="/trade/create" method="post">
+                                <a href="/cart/index" class="back-cart">返回购物车</a>
+                                <button type="submit" id="JSubmitButton">提交订单</button>
+                                <input type="hidden" name="payType" value="1">
+                                <input type="hidden" name="payPlatform" value="cod">
+                                <input type="hidden" name="remark" value="">
+                                <input type="hidden" name="couponId" value="0">
+                                <input type="hidden" name="brandCouponIds" value="">
+                                <input type="hidden" name="vendorCouponIds" value="">
+                                <input type="hidden" name="brandMjsIds" value="">
+                                <input type="hidden" name="vendorMjsIds" value="">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer -->
+        <div class="footer clearfix">
+            <div class="content3">
+                <div class="information">
+                    <p class="telephone">加盟咨询热线：<i>0577-86000802</i></p>
+                    <p class="linkLine">
+                        <a href="http://passport.pifa.yunmayi.com/login">批发平台</a>
+                        <a href="http://www.yunmayi.com/index.php">零售商城</a>
+                        <a href="http://dd.v2.yunmayi.com/passport/login">蚂蚁小店</a>
+                        <a href="http://www.yunmayi.com/home/join.html">区域加盟</a>
+                        <a href="http://www.yunmayi.com/home/supplier.html">供应商合作</a>
+                    </p>
+                    <p class="address">公司地址：浙江省杭州市拱墅区祥符街道祥园路108号中国（杭州）智慧信息产业园3期G座2号楼5楼</p>
+                    <p class="address">Copyright©2014-2017版权归浙江云之涞网络科技有限公司所有</p>
+                    <p class="copyright"><a href="http://www.beianbeian.com/beianxinxi/6f28c441-ce38-492e-8e8b-528ad2d4c307.html">网站备案/许可证号：湘ICP备14000706号-1</a></p>
+                </div>
+                <div class="loginCode">
+                    <img src="statics/images/lg/04191204.jpg">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var DOMAIN = { "main": "pifa.yunmayi.com", "passport": "passport.pifa.yunmayi.com", "buyer": "buyer.pifa.yunmayi.com", "seller": "seller.pifa.yunmayi.com", "ajax": "ajax.pifa.yunmayi.com", "agent": "agent.pifa.yunmayi.com" };
+    </script>
+    <script type="text/javascript" src="statics/js/lib/help.js"></script>
+    <!-- home common js -->
+    <script type="text/javascript" src="statics/js/pages/common/header/global.js"></script>
+    <script src="statics/js/lib/artTemplate.js"></script>
+    <script src="statics/js/lib/poshytip/jquery.poshytip.js"></script>
+    <script>
+    var tradeData = {
+        data: {},
+        page: {
+            payType: 1,
+            payPlatform: "cod",
+            payment: 0,
+            paymentHuman: "0.00",
+            codPayment: 0,
+            onlinePayment: 0,
+            mjjAmount: 0,
+            mjjAmountHuman: "0.00",
+            buyerRemark: "",
+            couponSelectedTab: "common",
+            commonCouponSelectId: 0,
+            brandCouponSelectIds: [],
+            vendorCouponSelectIds: [],
+            couponAmount: 0,
+            couponAmountHuman: "0.00",
+            couponSelectList: []
+        }
+    };
+    var payTypes = { "cod": 1, "balance": 2, "abc": 2 };
+    var payPlatforms = ["cod", "balance", "abc"];
+    var couponTabs = ["common", "brand", "vendor"];
+    $(function() {
+        // 初始化
+        $.ajax({
+            url: "/trade/data",
+            type: "get",
+            dataType: "json",
+            success: function(result) {
+                if (result.empty) {
+                    location.href = "/cart/index";
+                    return false;
+                }
+                // 数据初始化
+                tradeData.data = result;
+                // 应付金额
+                tradeData.page.payment = tradeData.data.total.origin;
+                tradeData.page.payment -= tradeData.data.discountTotal.discount;
+                tradeData.page.codPayment = tradeData.page.onlinePayment = tradeData.page.payment;
+                tradeData.page.codPayment -= tradeData.data.discountTotal.codMjj;
+                tradeData.page.onlinePayment -= tradeData.data.discountTotal.onlineMjj;
+                tradeData.page.mjjAmount = tradeData.data.discountTotal.codMjj;
+                // 支付类型
+                if (tradeData.page.onlinePayment <= tradeData.data.user.usableBalance) {
+                    tradeData.page.payType = 2;
+                    tradeData.page.payPlatform = "balance";
+                    tradeData.page.payment = tradeData.page.onlinePayment;
+                    tradeData.page.mjjAmount = tradeData.data.discountTotal.onlineMjj;
+                }
+
+                tradeData.page.mjjAmountHuman = (tradeData.page.mjjAmount / 100).toFixed(2);
+
+                for (var k in tradeData.data.commonCoupons) {
+                    if (tradeData.data.commonCoupons[k].selected) {
+                        tradeData.page.commonCouponSelectId = tradeData.data.commonCoupons[k].id;
+                        break;
+                    }
+                }
+                getPresaleItem(tradeData)
+
+                amountSelected4Coupon();
+                computerPayment();
+            }
+        });
+
+        // 预售活动调取数据
+        function getPresaleItem(tradeData) {
+            $.ajax({
+                url: "/cart/countPresaleDiscount",
+                type: "get",
+                dataType: "json",
+                success: function(res) {
+                    presale = res.data ? res.data : [];
+                    tradeData['presale'] = presale;
+                    for (var k in presale.num) {
+                        for (var i in tradeData.data.groups) {
+                            for (var z in tradeData.data.groups[i].items) {
+                                if (k == tradeData.data.groups[i].items[z].productId) {
+                                    tradeData.data.groups[i].items[z]['presalePrice'] = (presale.num[k] * tradeData.data.groups[i].items[z].price / 100).toFixed(2);
+                                }
+
+                            }
+                        }
+                    }
+                    renderPage();
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
+        }
+        // 事件绑定
+        $("#JConfirmMain")
+            .on("click", "a.pay-type", function() {
+                var platform = $(this).data("platform");
+                if (!inArray(platform, payPlatforms)) {
+                    build("red", "支付方式异常", "payType")
+                    return false;
+                }
+
+                var oldPlatform = tradeData.page.payPlatform;
+                tradeData.page.payType = payTypes[platform];
+                tradeData.page.payPlatform = platform;
+                tradeData.page.mjjAmount = platform == "cod" ? tradeData.data.discountTotal.codMjj : tradeData.data.discountTotal.onlineMjj;
+                tradeData.page.mjjAmountHuman = (tradeData.page.mjjAmount / 100).toFixed(2);
+                computerPayment();
+                if (platform == "balance" && tradeData.page.payment > tradeData.data.user.usableBalance) {
+                    tradeData.page.payType = payTypes[oldPlatform];
+                    tradeData.page.payPlatform = oldPlatform;
+                    tradeData.page.mjjAmount = oldPlatform == "cod" ? tradeData.data.discountTotal.codMjj : tradeData.data.discountTotal.onlineMjj;
+                    tradeData.page.mjjAmountHuman = (tradeData.page.mjjAmount / 100).toFixed(2);
+                    computerPayment();
+                    build("red", "余额不足，应付金额：￥" + (tradeData.page.payment / 100).toFixed(2) + "，可用余额：￥" + tradeData.data.user.usableBalanceHuman, "payType");
+                    return false;
+                }
+
+                tradeData.page.payPlatform = platform;
+                renderPage();
+            })
+            .on("click", ".coupon-tab", function() {
+                tradeData.page.couponSelectedTab = $(this).data("type");
+                renderPage();
+            })
+            .on("click", ".coupon-item", function() {
+                var _this = $(this);
+                var id = parseInt(_this.data("id"));
+                var type = parseInt(_this.data("type"));
+                var brandId = parseInt(_this.data("brand"));
+                var vendorId = parseInt(_this.data("vendor"));
+                if (_this.parent().hasClass("coupon-selected")) {
+                    id = 0;
+                }
+                if (type == 1) {
+                    tradeData.page.commonCouponSelectId = id;
+                    for (var k in tradeData.data.commonCoupons) {
+                        tradeData.data.commonCoupons[k].selected = tradeData.data.commonCoupons[k].id == id;
+                    }
+                } else if (type == 2) {
+                    for (var key in tradeData.data.brandCouponGroups) {
+                        if (tradeData.data.brandCouponGroups[key].id == brandId) {
+                            for (var k in tradeData.data.brandCouponGroups[key].list) {
+                                tradeData.data.brandCouponGroups[key].list[k].selected = tradeData.data.brandCouponGroups[key].list[k].id == id;
+                            }
+                            break;
+                        }
+                    }
+                } else if (type == 3) {
+                    for (var key in tradeData.data.vendorCouponGroups) {
+                        if (tradeData.data.vendorCouponGroups[key].id == vendorId) {
+                            for (var k in tradeData.data.vendorCouponGroups[key].list) {
+                                tradeData.data.vendorCouponGroups[key].list[k].selected = tradeData.data.vendorCouponGroups[key].list[k].id == id;
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                amountSelected4Coupon();
+                computerPayment();
+                renderPage();
+            })
+            .on("blur", "#JRemarkInput", function() {
+                tradeData.page.buyerRemark = $(this).val().trim();
+                renderPage();
+            })
+            .on("submit", "#JTradeConfirmForm", function() {
+                var minimumAmount = tradeData.data.agent.minSellPrice;
+                for (var key in tradeData.data.groups) {
+                    if (tradeData.data.groups[key].total < minimumAmount) {
+                        build("red", "订单金额不足", "JTradeConfirmForm", (minimumAmount / 100).toFixed(2));
+                        return false;
+                    }
+                }
+                $("#JSubmitButton").attr("disabled", "disabled");
+            });
+
+        function renderPage() {
+            var html = template("TConfirm", tradeData);
+            $("#JConfirmMain").html(html);
+            $(".tip-yellow").remove();
+            $(".pay-type").poshytip({
+                className: "tip-yellow",
+                alignY: "bottom"
+            });
+        }
+
+        function amountSelected4Coupon() {
+            tradeData.page.brandCouponSelectIds = [];
+            tradeData.page.vendorCouponSelectIds = [];
+            tradeData.page.couponAmount = 0;
+            tradeData.page.couponSelectList = [];
+            for (var k in tradeData.data.commonCoupons) {
+                if (tradeData.data.commonCoupons[k].selected) {
+                    tradeData.page.couponSelectList.push({
+                        type: tradeData.data.commonCoupons[k].typeCode,
+                        typeRemark: tradeData.data.commonCoupons[k].typeRemark,
+                        denomination: tradeData.data.commonCoupons[k].denomination,
+                        denominationHuman: tradeData.data.commonCoupons[k].denominationHuman
+                    });
+                    tradeData.page.couponAmount += tradeData.data.commonCoupons[k].denomination;
+                    break;
+                }
+            }
+            for (var key in tradeData.data.brandCouponGroups) {
+                for (var k in tradeData.data.brandCouponGroups[key].list) {
+                    if (tradeData.data.brandCouponGroups[key].list[k].selected) {
+                        tradeData.page.brandCouponSelectIds.push(tradeData.data.brandCouponGroups[key].list[k].id);
+                        tradeData.page.couponAmount += tradeData.data.brandCouponGroups[key].list[k].denomination;
+                        tradeData.page.couponSelectList.push({
+                            name: tradeData.data.brandCouponGroups[key].name,
+                            type: tradeData.data.brandCouponGroups[key].list[k].typeCode,
+                            typeRemark: tradeData.data.brandCouponGroups[key].list[k].typeRemark,
+                            denomination: tradeData.data.brandCouponGroups[key].list[k].denomination,
+                            denominationHuman: tradeData.data.brandCouponGroups[key].list[k].denominationHuman
+                        });
+                        break;
+                    }
+                }
+            }
+            for (var key in tradeData.data.vendorCouponGroups) {
+                for (var k in tradeData.data.vendorCouponGroups[key].list) {
+                    if (tradeData.data.vendorCouponGroups[key].list[k].selected) {
+                        tradeData.page.vendorCouponSelectIds.push(tradeData.data.vendorCouponGroups[key].list[k].id);
+                        tradeData.page.couponAmount += tradeData.data.vendorCouponGroups[key].list[k].denomination;
+                        tradeData.page.couponSelectList.push({
+                            name: tradeData.data.vendorCouponGroups[key].name,
+                            type: tradeData.data.vendorCouponGroups[key].list[k].typeCode,
+                            typeRemark: tradeData.data.vendorCouponGroups[key].list[k].typeRemark,
+                            denomination: tradeData.data.vendorCouponGroups[key].list[k].denomination,
+                            denominationHuman: tradeData.data.vendorCouponGroups[key].list[k].denominationHuman
+                        });
+                        break;
+                    }
+                }
+            }
+
+            tradeData.page.couponAmountHuman = (tradeData.page.couponAmount / 100).toFixed(2);
+        }
+
+        function computerPayment() {
+            tradeData.page.payment = tradeData.page.payPlatform == "cod" ? tradeData.page.codPayment : tradeData.page.onlinePayment;
+            tradeData.page.payment -= tradeData.page.couponAmount;
+            tradeData.page.paymentHuman = (tradeData.page.payment / 100).toFixed(2);
+        }
+
+        /**
+         * inArray
+         * @param {mixed} val
+         * @param {array} arr
+         * @returns {boolean}
+         */
+        function inArray(val, arr) {
+            var result = false;
+            for (var k in arr) {
+                if (arr[k] == val) {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
+    });
+    </script>
+    <script type="text/html" id="TConfirm">
+        <h2 class="confirm-main-tit">核对订单信息</h2>
+        <div class="confirm-main-steps">
+            <!-- 收货人信息 -->
+            <div class="step-tit">
+                <h3>收货人信息</h3>
+            </div>
+            <div class="step-cont">
+                <div class="addr-detail">
+                    <span class="addr-name">{{data.user.name}}</span>
+                    <span class="addr-info">{{data.user.provName}} {{data.user.cityName}} {{data.user.districtName}} {{data.user.address}} {{data.user.company}}</span>
+                    <span class="addr-tel">{{data.user.mobile}}</span>
+                </div>
+            </div>
+            <div class="step-hr"></div>
+            <!-- 支付方式 -->
+            <div class="step-tit">
+                <h3>支付方式</h3>
+            </div>
+            <div class="step-cont">
+                <div class="payment-list">
+                    <ul id="JPaymentList">
+                        <li>
+                            <a href="javascript:;" data-platform="cod" class="pay-type {{page.payPlatform == 'cod' ? 'selected' : ''}}">
+                            <span>货到付款</span>
+                            <b></b>
+                        </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-platform="balance" class="pay-type {{page.payPlatform == 'balance' ? 'selected' : ''}}" title="余额: {{data.user.balanceHuman}}元, 信用额度: {{data.user.creditQuota}}元, 可用余额: {{data.user.usableBalanceHuman}}元">
+                            <span>余额支付</span>
+                            <b></b>
+                            <i class="payment-qmark"></i>
+                        </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-platform="abc" class="pay-type {{page.payPlatform == 'abc' ? 'selected' : ''}}" title="享受和余额支付一样的优惠活动，实际收货时如出现差异，差异金额将退到余额账户里，和余额支付一样">
+                            <span>中国农业银行</span>
+                            <b></b>
+                            <i class="payment-qmark"></i>
+                        </a>
+                        </li>
+                        <li>
+                            <a href="http://183.131.13.228:8080/buyer/%E4%BA%A4%E6%98%93%E7%AE%A1%E7%90%86-%E5%86%9C%E8%A1%8C%E6%94%AF%E4%BB%98.htm" class=" {{page.payPlatform == 'abc' ? 'selected' : ''}}" target="_blank" style="color: #0707fb;border: none;text-align: left;padding-left: 0px;">农行支付说明</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="step-hr"></div>
+            <!-- 送货清单 -->
+            <div class="step-tit">
+                <h3>送货清单</h3>
+            </div>
+            <div class="step-cont">
+                <div class="orders">
+                    <div class="order_hd">
+                        <span class="thinfo">商品信息</span>
+                        <span class="thprice">单价(元)</span>
+                        <span class="thquantity">数量</span>
+                        <span class="thpromotion">促销信息</span>
+                        <span class="thtotal">小计(元)</span>
+                    </div>
+                    {{each data.groups as group gKey}}
+                    <div class="order-deliver">订单由{{group.isPlatform ? "平台" : "供应商"}}【<b>{{group.deliverName}}</b>】提供配送</div>
+                    <div class="list">
+                        <!-- 正常购买商品 -->
+                        {{each group.items as item}}
+                        <div class="order">
+                            <div class="cell thinfo clearfix">
+                                <a href="javascript:;" class="pic"><img src="http://i8.yunmayi.com{{item.picUrl}}XXXXX!!!!!_160x160.jpg" /></a>
+                                <div class="info">
+                                    <a href="javascript:;">{{item.title}}</a>
+                                    <span>{{item.remark}}</span>
+                                </div>
+                            </div>
+                            <div class="cell thprice">
+                                <span>{{item.priceHuman}}</span>
+                            </div>
+                            <div class="cell thquantity">
+                                <span>{{item.quantity}}</span>
+                            </div>
+                            <div class="cell thpromotion">
+                                {{if item.isMjsBlack}}
+                                <p><span class="highlight">不参与满就送活动</span></p>{{/if}} {{if item.isMjjBlack}}
+                                <p><span class="highlight">不参与满就减活动</span></p>{{/if}} {{if item.isDiscountBlack}}
+                                <p><span class="highlight">不参与类目折扣活动</span></p>{{/if}} {{if item.isCouponBlack}}
+                                <p><span class="highlight">不参与满就送优惠券活动</span></p>{{/if}} {{if item.presalePrice}}
+                                <p><span class="highlight">云仓已付:{{item.presalePrice}}</span></p>{{/if}}
+                            </div>
+                            <div class="cell thtotal">
+                                <span>{{item.totalHuman}}</span>
+                            </div>
+                        </div>
+                        {{each item.gifts as gift}} {{if !gift.isNear}}
+                        <div class="order">
+                            <div class="cell thinfo clearfix">
+                                <a href="javascript:;" class="pic"><img src="http://i8.yunmayi.com{{gift.picUrl}}XXXXX!!!!!_160x160.jpg" /></a>
+                                <div class="info">
+                                    <a href="javascript:;"><b class="highlight">【{{gift.promoName}}】</b>{{gift.title}}</a>
+                                </div>
+                            </div>
+                            <div class="cell thprice">
+                                <span>0.00</span>
+                            </div>
+                            <div class="cell thquantity">
+                                <span>{{gift.quantity}}</span>
+                            </div>
+                            <div class="cell thpromotion"></div>
+                            <div class="cell thtotal">
+                                <span>0.00</span>
+                            </div>
+                        </div>
+                        {{/if}} {{/each}} {{/each}} {{each group.gifts as gift}} {{if !gift.isNear}}
+                        <div class="order">
+                            <div class="cell thinfo clearfix">
+                                <a href="javascript:;" class="pic"><img src="http://i8.yunmayi.com{{gift.picUrl}}XXXXX!!!!!_160x160.jpg" /></a>
+                                <div class="info">
+                                    <a href="javascript:;"><b class="highlight">【{{gift.promoName}}】</b>{{gift.title}}</a>
+                                </div>
+                            </div>
+                            <div class="cell thprice">
+                                <span>0.00</span>
+                            </div>
+                            <div class="cell thquantity">
+                                <span>{{gift.quantity}}</span>
+                            </div>
+                            <div class="cell thpromotion"></div>
+                            <div class="cell thtotal">
+                                <span>0.00</span>
+                            </div>
+                        </div>
+                        {{/if}} {{/each}}
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="step-hr"></div>
+            <!-- 订单备注 -->
+            <div class="step-tit">
+                <h3>订单备注</h3>
+            </div>
+            <div class="step-cont">
+                <div class="remark-detail">
+                    <textarea id="JRemarkInput">{{page.buyerRemark}}</textarea>
+                </div>
+            </div>
+            <div class="step-hr"></div>
+            {{each data.priceDiscounts as discount}} {{if discount.promoCode == "mjj" && !discount.isNear}}
+            <!-- 满就减 -->
+            <div class="step-tit">
+                <h3>满就减</h3>
+            </div>
+            <div class="step-cont">
+                <div class="mjj-detail">
+                    <span>货到付款立减<b>￥{{discount.codDiscountHuman}}</b></span>
+                    <span>线上支付立减<b>￥{{discount.onlineDiscountHuman}}</b></span>
+                </div>
+            </div>
+            <div class="step-hr"></div>
+            {{/if}} {{/each}}
+            <!-- 优惠券 -->
+            <div class="step-tit">
+                <h3>优惠券</h3>
+            </div>
+            <div class="step-cont">
+                <div class="coupon-cont">
+                    <ul class="coupon-tabs">
+                        <li class="coupon-tab {{page.couponSelectedTab == 'common' ? 'current' : ''}}" data-type="common">通用优惠券</li>
+                        <li class="coupon-tab {{page.couponSelectedTab == 'brand' ? 'current' : ''}}" data-type="brand">品牌优惠券</li>
+                        <li class="coupon-tab {{page.couponSelectedTab == 'vendor' ? 'current' : ''}}" data-type="vendor">供应商优惠券</li>
+                    </ul>
+                    <div class="coupon-panels">
+                        <!-- 通用优惠券 -->
+                        <div class="coupon-panel {{if page.couponSelectedTab == 'common'}}panel-selected{{else}}hidden_elem{{/if}}">
+                            <!-- 可用优惠券 -->
+                            <div class="coupon-enable">
+                                <ul>
+                                    {{each data.commonCoupons as coupon}}
+                                    <li {{if coupon.selected}}class="coupon-selected" {{/if}}>
+                                        <div class="coupon-item" data-id="{{coupon.id}}" data-type="{{coupon.type}}" data-brand="{{coupon.brandId}}" data-vendor="{{coupon.vendorId}}">
+                                            <div class="coupon-price-info">
+                                                <span class="coupon-denomination">￥{{coupon.denominationHuman}}</span>
+                                                <span class="coupon-condition">满{{coupon.conditionHuman}}</span>
+                                            </div>
+                                            <div class="coupon-expire">有效期至{{coupon.endDatetime}}</div>
+                                        </div>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                            <!-- div class="coupon-hr"></div -->
+                            <!-- 不可用优惠券 -->
+                            <!-- div class="coupon-disable"></div -->
+                        </div>
+                        <!-- 品牌优惠券 -->
+                        <div class="coupon-panel {{if page.couponSelectedTab == 'brand'}}panel-selected{{else}}hidden_elem{{/if}}">
+                            <div class="coupon-enable">
+                                {{each data.brandCouponGroups as group}}
+                                <h4 class="coupon-tit">【<b>{{group.name}}</b>】品牌优惠券，消费金额：<b>￥{{group.totalHuman}}</b></h4>
+                                <ul>
+                                    {{each group.list as coupon}}
+                                    <li {{if coupon.selected}}class="coupon-selected" {{/if}}>
+                                        <div class="coupon-item" data-id="{{coupon.id}}" data-type="{{coupon.type}}" data-brand="{{coupon.brandId}}" data-vendor="{{coupon.vendorId}}">
+                                            <div class="coupon-price-info">
+                                                <span class="coupon-denomination">￥{{coupon.denominationHuman}}</span>
+                                                <span class="coupon-condition">满{{coupon.conditionHuman}}</span>
+                                            </div>
+                                            <div class="coupon-expire">有效期至{{coupon.endDatetime}}</div>
+                                        </div>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                                <div class="coupon-hr"></div>
+                                {{/each}}
+                            </div>
+                        </div>
+                        <!-- 供应商优惠券 -->
+                        <div class="coupon-panel {{if page.couponSelectedTab == 'vendor'}}panel-selected{{else}}hidden_elem{{/if}}">
+                            <div class="coupon-enable">
+                                {{each data.vendorCouponGroups as group}}
+                                <h4 class="coupon-tit">【<b>{{group.name}}</b>】品牌优惠券，消费金额：<b>￥{{group.totalHuman}}</b></h4>
+                                <ul>
+                                    {{each group.list as coupon}}
+                                    <li {{if coupon.selected}}class="coupon-selected" {{/if}}>
+                                        <div class="coupon-item" data-id="{{coupon.id}}" data-type="{{coupon.type}}" data-brand="{{coupon.brandId}}" data-vendor="{{coupon.vendorId}}">
+                                            <div class="coupon-price-info">
+                                                <span class="coupon-denomination">￥{{coupon.denominationHuman}}</span>
+                                                <span class="coupon-condition">满{{coupon.conditionHuman}}</span>
+                                            </div>
+                                            <div class="coupon-expire">有效期至{{coupon.endDatetime}}</div>
+                                        </div>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                                <div class="coupon-hr"></div>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coupon-used-count">
+                        <h4>优惠券共抵扣金额<b id="JCouponUsedCount">￥{{page.couponAmountHuman}}</b></h4> {{if page.couponSelectList.length > 0}}
+                        <ul id="JCouponUsedList">
+                            {{each page.couponSelectList as coupon}} {{if coupon.type == "common"}}
+                            <li>使用{{coupon.typeRemark}}1张，优惠<b>￥{{coupon.denominationHuman}}</b></li>
+                            {{else}}
+                            <li>使用【<b>{{coupon.name}}</b>】{{coupon.typeRemark}}1张，优惠<b>￥{{coupon.denominationHuman}}</b></li>
+                            {{/if}} {{/each}}
+                        </ul>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="order-summary">
+            <div class="summary-list">
+                <div class="summary-item">
+                    <span><i>{{data.total.quantity}}</i>件商品，总商品金额：</span>
+                    <em>￥{{data.total.originHuman}}</em>
+                </div>
+                <div class="summary-item">
+                    <span>满就减：</span>
+                    <em>-￥{{page.mjjAmountHuman}}</em>
+                </div>
+                <div class="summary-item">
+                    <span>优惠券：</span>
+                    <em>-￥{{page.couponAmountHuman}}</em>
+                </div>
+                <div class="summary-item">
+                    <span>类目折扣：</span>
+                    <em>-￥{{data.discountTotal.discountHuman}}</em>
+                </div>
+                {{if presale.discountTotal}}
+                <div class="summary-item">
+                    <span>云仓已付：</span>
+                    <em>-￥{{(presale.discountTotal/100).toFixed(2)}}</em>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+        <div class="order-footer">
+            <div class="order-info">
+                <div class="order-payment-main">
+                    <div class="order-payment">
+                        <span class="payment-tit">应付总额：</span> {{if presale.discountTotal}}
+                        <em class="payment-price">￥{{((page.payment-presale.discountTotal)/100).toFixed(2)}}</em> {{else}}
+                        <em class="payment-price">￥{{(page.payment/100).toFixed(2)}}</em> {{/if}}
+                    </div>
+                </div>
+                <div class="order-addr-detail">
+                    <span>寄送至：{{data.user.provName}} {{data.user.cityName}} {{data.user.districtName}} {{data.user.address}} {{data.user.company}}</span>
+                    <span>收货人：{{data.user.name}} {{data.user.mobile}}</span>
+                </div>
+            </div>
+            <div class="order-confirm-btn-wrap" id="JTradeConfirmForm">
+                <form action="/trade/create" method="post">
+                    <a href="/cart/index" class="back-cart">返回购物车</a>
+                    <button type="submit" id="JSubmitButton">提交订单</button>
+                    <input type="hidden" name="payType" value="{{page.payType}}">
+                    <input type="hidden" name="payPlatform" value="{{page.payPlatform}}">
+                    <input type="hidden" name="remark" value="{{page.buyerRemark}}">
+                    <input type="hidden" name="couponId" value="{{page.commonCouponSelectId}}">
+                    <input type="hidden" name="brandCouponIds" value="{{page.brandCouponSelectIds.join(',')}}">
+                    <input type="hidden" name="vendorCouponIds" value="{{page.vendorCouponSelectIds.join(',')}}">
+                    <input type="hidden" name="brandMjsIds" value="{{data.brandMjsIds.join(',')}}">
+                    <input type="hidden" name="vendorMjsIds" value="{{data.vendorMjsIds.join(',')}}">
+                </form>
+            </div>
+        </div>
+    </script>
+</body>
+
+</html>

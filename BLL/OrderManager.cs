@@ -173,8 +173,9 @@ namespace BLL
 
         }
 
-    public List<OrderInfo> GetOrderList(DateTime start,DateTime end, string province,string city,string area,int stutas,string saleManId, int userType,string key, Guid managerId, bool isAdmin = false)
+        public PageData<OrderInfo> GetOrderList(int index, int size, DateTime start, DateTime end, string province, string city, string area, int stutas, string saleManId, int userType, string key, Guid managerId, bool isAdmin = false)
         {
+            PageData<OrderInfo> pager = new PageData<OrderInfo>();
             var q = from c in _context.OrderInfoes
                     where c.CreateTime > start
                     && c.CreateTime < end
@@ -198,7 +199,11 @@ namespace BLL
                 else
                     q = q.Where(x => x.SaleManGuid == managerId);//业务员查看
             }
-            return q.ToList();
+            pager.PageIndex = index;
+            pager.PageSize = size;
+            pager.TotalCount = q.Count();
+            pager.ListData = q.OrderByDescending(x => x.CreateTime).Skip((index - 1) * size).Take(size).ToList();
+            return pager;
         }
 
         public OrderDetail GetOrderDetail(Guid orderId)

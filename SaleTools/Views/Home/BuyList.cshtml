@@ -6,44 +6,139 @@
     var list = (List<OrderInfo>)ViewBag.OrderList;
 
 }
+<link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
+<link rel="stylesheet" type="text/css" href="/Content/css/base.css">
+<link rel="stylesheet" type="text/css" href="/Content/css/pages/ucenter.css?20170429">
+<link rel="stylesheet" type="text/css" href="/Content/css/pages/buyer/trade/buy_list.css">
+<link rel="stylesheet" type="text/css" href="/Content/css/pages/buyer/overlay/overlay.css">
+<!-- 公用css -->
+<link rel="stylesheet" type="text/css" href="/Content/css/common/header/global.css?04260915">
+<link rel="stylesheet" type="text/css" href="/Content/css/common/footer/global.css?04260915">
+<style>
+    .black_overlay {
+        display: none;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 2200px;
+        background-color: black;
+        z-index: 1001;
+        /*-moz-opacity: 0.3;*/
+        opacity: .80;
+        /*filter: alpha(opacity=80);*/
+    }
 
-<table class="table table_border">
-    <thead class="bg_color">
-        <tr>
-            <th width="150">订单编号</th>
-            <th width="120">订单时间</th>
-            <!--th>收货人</th-->
-            <th width="120">订单金额</th>
-            <th width="85">交易状态</th>
-            <th width="80">配送员</th>
-            <th width="100">配送员电话</th>
-            <th class="center">操作</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in list)
-    {
-        <tr>
-            <td>@item.OrderNum</td>
-            <td>@item.CreateTime</td>
-            <!--td></td-->
-            <td>
-                <span class="highlight">@item.TotalMoney</span>&nbsp;&nbsp;
-                [货到付款]
-            </td>
-            <td>
-                交易完成
-            </td>
-            <td>@item.SendPeople</td>
-            <td>@item.SendPeople</td>
-            <td class="center">
-                <a href="http://buyer.pifa.yunmayi.com/trade/orderDetail?order_id=1803232224504776">订单详情</a>
+    .white_content {
+        display: none;
+        position: fixed;
+        top: 40%;
+        left: 50%;
+        width: 142px;
+        height: 162px;
+        padding: 20px 20px;
+        border-radius: 5px;
+        background-color: white;
+        z-index: 1002;
+    }
+</style>
+<script type="text/javascript" src="/Content/js/lib/help.js"></script>
+<script type="text/javascript" src="/Content/js/lib/laydate/laydate.js"></script>
+<script type="text/javascript" src="/Content/js/pages/buyer/trade/buy_list.js?131313"></script>
+
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/need/laydate.css">
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            已买到的商品
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="search_bar">
+                    <ul class="search_item_list">
+
+                        <li class="search_item">
+                            <label>下单时间:</label>
+                            <div class="item">
+                                <div class="calendar_input">
+                                    <input type="text" name="starttime" id="starttime" style="width: auto" value="@ViewBag.StartTime" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                                </div>
+                                到
+                                <div class="calendar_input">
+                                    <input type="text" name="endtime" id="endtime" style="width: auto" value="@ViewBag.EndTime" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="search_item">
+                            <button type="submit" class="submit">搜索</button>
+                        </li>
+                        <li class="search_item">
+                            <label class="highlight">(只可查询三十一天之内的订单信息)</label>
+                        </li>
+                        <li class="clearfix"></li>
+                    </ul>
                 <div class="extra">
-                    <a href="" class="inline_block buy_again J_BuyAgain" data-order-id="1803232224504776"></a>
+                    <p>
+                        订单记录数:<span class="highlight">3</span>, 订单总金额:
+                        <span class="highlight">1288.50</span>, 实收总金额:
+                        <span class="highlight">1249.50</span> (其中本平台实收金额是1249.50，供应商自行配送实收金额是0.00)
+                    </p>
+                    <p>订单取消说明: <span class="highlight">每天16:00以后，16:00前下的订单无法取消，如有疑问请联系客服</span></p>
                 </div>
-            </td>
-        </tr>
+            </div>
+            <div class="col_main_content">
+                <table class="table table_border">
+                    <thead class="bg_color">
+                        <tr>
+                            <th width="150">订单编号</th>
+                            <th width="120">订单时间</th>
+                            <!--th>收货人</th-->
+                            <th width="120">订单金额</th>
+                            <th width="85">交易状态</th>
+                            <th width="80">配送员</th>
+                            <th width="100">配送员电话</th>
+                            <th class="center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in list)
+                        {
+                            <tr>
+                                <td>@item.OrderNum</td>
+                                <td>@item.CreateTime</td>
+                                <!--td></td-->
+                                <td>
+                                    <span class="highlight">@item.TotalMoney</span>&nbsp;&nbsp;
+                                    [货到付款]
+                                </td>
+                                <td>
+                                    交易完成
+                                </td>
+                                <td>@item.SendPeople</td>
+                                <td>@item.SendPeople</td>
+                                <td class="center">
+                                    <a href="http://buyer.pifa.yunmayi.com/trade/orderDetail?order_id=1803232224504776">订单详情</a>
+                                    <div class="extra">
+                                        <a href="" class="inline_block buy_again J_BuyAgain" data-order-id="1803232224504776"></a>
+                                    </div>
+                                </td>
+                            </tr>
 
-}
-    </tbody>
-</table>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    $(document).on("click", ".submit", function () {
+        location.href = "/Home/BuyList?start=" + $("#starttime").val() + "&end=" + $("#endtime").val();
+    })
+</script>

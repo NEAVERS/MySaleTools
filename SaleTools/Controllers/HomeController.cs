@@ -193,7 +193,8 @@ namespace SaleTools.Controllers
             var loginUser = (UserInfo)ViewBag.User;
             DateTime startTime = Utils.GetTime(start, true);
             DateTime endTime = Utils.GetTime(end);
-
+            ViewBag.StartTime = startTime.ToString("yyyy-MM-dd HH:mm:ss");
+            ViewBag.EndTime = endTime.ToString("yyyy-MM-dd HH:mm:ss");
             var list = _order.GetOrderListByCreateUserId(startTime, endTime, loginUser.UserId);
             ViewBag.OrderList = list;
             return View();
