@@ -265,7 +265,7 @@ namespace SaleTools.Controllers
             {
                 userId = loginUser.UserId;
             }
-            var page = _manager.GetGoodsList(userId, loginUser.TypeId, index, size, SupplierId, fstTypeId, secTypeId, thdTypeId, keyWord);
+            var page = _manager.GetGoodsList(userId, loginUser.TypeId, index, size, SupplierId, fstTypeId, secTypeId, thdTypeId, "",keyWord);
             return Utils.SerializeObject(page);
         }
         /// <summary>

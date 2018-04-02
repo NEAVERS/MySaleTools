@@ -29,7 +29,7 @@ namespace SaleTools.Controllers
                 userId = loginUser.UserId;
             }
 
-            var list = _manager.GetGoodsList(userId, loginUser.TypeId, 1, 10, "", firstTypeId, "", "", "");
+            var list = _manager.GetGoodsList(userId, loginUser.TypeId, 1, 10, "", firstTypeId, "", "", "","");
             return Utils.SerializeObject(list);
         }
 
@@ -85,9 +85,27 @@ namespace SaleTools.Controllers
             ViewBag.FstType = fstType;
             ViewBag.SecType = secType;
             ViewBag.TrdType = trdType;
+            ViewBag.brandId = brandId;
+            ViewBag.fst = fst;
+            ViewBag.sec = sec;
+            ViewBag.trd = trd;
             return View();
 
         }
+
+        public string LoadProductList(int page,int size, string fst = "", string sec = "", string trd = "", string brandId = "")
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            Guid userId = loginUser.CreateUserId;
+            if (ViewBag.IsAdmin)
+            {
+                userId = loginUser.UserId;
+            }
+
+            var list = _manager.GetGoodsList(userId, loginUser.TypeId, page,size, "", fst, sec, trd, brandId,"");
+            return Utils.SerializeObject(list);
+        }
+
 
 
 

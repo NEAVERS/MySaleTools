@@ -23,11 +23,11 @@
                     <label>下单时间:</label>
                     <div class="item">
                         <div class="calendar_input">
-                            <input type="text" name="starttime" id="starttime" style="width:160px;" value="2018-03-29 16:00:00" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                            <input type="text" name="starttime" id="starttime" style="width:160px;" value="@(DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd 16:00:00"))" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
                         </div>
                         到
                         <div class="calendar_input">
-                            <input type="text" name="endtime" id="endtime" style="width:160px;" value="2018-03-30 16:00:00" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                            <input type="text" name="endtime" id="endtime" style="width:160px;" value="@(DateTime.Now.ToString("yyyy-MM-dd 16:00:00"))" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
                         </div>
                     </div>
                 </li>
@@ -108,19 +108,19 @@
                 <tbody id="dataList"></tbody>
             </table>
         </div>
-        <ul class="page">
-            <li class="item cur ">1</li>
-            <li class="item "><a href="?starttime=2018-03-27+16%3A00%3A00&amp;endtime=2018-03-30+16%3A00%3A00&amp;state=0&amp;keyword=&amp;salesman_id=&amp;customer_type=&amp;deliver_type=&amp;diff=0&amp;page=2" data-page="2">2</a></li>
-            <li class="item last"><a href="?starttime=2018-03-27+16%3A00%3A00&amp;endtime=2018-03-30+16%3A00%3A00&amp;state=0&amp;keyword=&amp;salesman_id=&amp;customer_type=&amp;deliver_type=&amp;diff=0&amp;page=3" data-page="3">3</a></li>
-            <li class="next"><a href="?starttime=2018-03-27+16%3A00%3A00&amp;endtime=2018-03-30+16%3A00%3A00&amp;state=0&amp;keyword=&amp;salesman_id=&amp;customer_type=&amp;deliver_type=&amp;diff=0&amp;page=2" data-page="2">下一页</a></li>
-            <span style="font-size: 14px;">跳<input onblur="window.location.href=&quot;?starttime=2018-03-27+16%3A00%3A00&amp;endtime=2018-03-30+16%3A00%3A00&amp;state=0&amp;keyword=&amp;salesman_id=&amp;customer_type=&amp;deliver_type=&amp;diff=0&amp;page=1&amp;page=&quot;+this.value+&quot;&quot;" style="width: 25px;height: 26px;" type="text" value="1">页</span>&nbsp;
-            <li class="total">共3页</li>
-        </ul>
+        <div id="page" class="page_div"></div>
     </div>
 </div>
+<script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
+
+<script type="text/javascript" src="/Content/js/lib/paging.js"></script>
 
 <script>
     var pageSize = 30;
+    $(function () {
+        GetData(1);
+
+    })
     // int stutas = -1, string saleManId = "", int userType = -1, string key= ""
     function GetData(index) {
         var para = {};
@@ -135,7 +135,7 @@
         para.saleManId = $("#saleManId").val();
         para.userType = $("#userType").val();
         para.key = $("#key").val();
-        $.post("/Order/GetOrderList", para, function(data) {
+        $.post("/Order/GetOrderList", para, function (data) {
             var html = "";
             $(data.ListData).each(function () {
                 html += ' <tr style="color: #ff0000;">';
@@ -154,12 +154,22 @@
 
             });
             $("#dataList").html(html);
+            $("#page").paging({
+                pageNo: index,
+                totalPage: data.TotalPage,
+                totalSize: data.TotalCount,
+                callback: function (num) {
+                    if (index != num)
+                        GetData(num);
+                }
+            })
+
         }, "json");
     }
     $(document).on("click", "#search", function () {
         GetData(1);
     })
-    
+
     function getSutas(code) {
         var res = "";
         switch (code) {

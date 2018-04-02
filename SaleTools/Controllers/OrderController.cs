@@ -29,6 +29,12 @@ namespace SaleTools.Controllers
 
         public ActionResult OrderManager()
         {
+            var loginUser = (UserInfo)ViewBag.User;
+            var list = _user.GetTypeList();
+            ViewBag.TypeList = list;
+            var saleList = _user.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
+            ViewBag.SaleManList = saleList;
+
             return View();
         }
 
@@ -57,6 +63,12 @@ namespace SaleTools.Controllers
                 managerId = loginUser.SaleManGuid;
             var pager = _order.GetOrderList(index,size,startTime,endTime,province,city,area,stutas,saleManId,userType,key,managerId, ViewBag.IsAdmin);
             return Utils.SerializeObject(pager);
+        }
+
+        public string CancelOrder(Guid orderId)
+        {
+            var res = _order.CancelOrder(orderId);
+            return Utils.SerializeObject(res);
         }
     }
 }

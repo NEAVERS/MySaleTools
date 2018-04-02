@@ -127,7 +127,7 @@ namespace BLL
             return q.ToList();
         }
 
-        public PageData<GoodsWithPrice> GetGoodsList(Guid CreaetUserId, int userTypeId , int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId, string keyWord)
+        public PageData<GoodsWithPrice> GetGoodsList(Guid CreaetUserId, int userTypeId , int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId,string brandId,  string keyWord)
         {
             PageData<GoodsWithPrice> page = new PageData<GoodsWithPrice>();
             page.PageIndex = index;
@@ -145,7 +145,8 @@ namespace BLL
                 q = q.Where(x => x.SecondTypeId.ToString() == secTypeId);
             if (!string.IsNullOrWhiteSpace(thdTypeId) && thdTypeId != "0")
                 q = q.Where(x => x.ThirdTYypeId.ToString() == thdTypeId);
-
+            if (!string.IsNullOrWhiteSpace(brandId))
+                q = q.Where(x => x.BrandId.ToString() == brandId);
             page.TotalCount = q.Count();
 
             q = q.OrderByDescending(x => x.SortId).ThenBy(x=>x.CreateTime);

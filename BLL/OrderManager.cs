@@ -74,7 +74,8 @@ namespace BLL
 
             order.TotalMoney = totalPrice;
             order.PayMoney = realPrice;
-
+            order.RealMoney = realPrice;
+            order.Stutas = 1;
             _context.OrderInfoes.Add(order);
             return _context.SaveChanges() > 0;
         }
@@ -212,6 +213,19 @@ namespace BLL
             detail.Info = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
             detail.Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar).ToList();
             return detail;
+        }
+
+        /// <summary>
+        /// 取消订单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public bool CancelOrder(Guid orderId)
+        {
+            var model = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
+            if (model != null)
+                model.Stutas =(int)OrderStatus.订单取消中;
+            return _context.SaveChanges() > 0;
         }
     }
 
