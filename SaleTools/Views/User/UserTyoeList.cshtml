@@ -12,7 +12,6 @@
         <div class="col_main_content">
 
             <label>输入类型:</label><input type="text" id="userType" />
-            <label>是否为管理员:</label><input type="checkbox" id="isAdmin" />
 
             <button id="btn_add"> 添加</button>
             <table class="table table_border">
@@ -39,7 +38,7 @@
             <script>
                 $("#btn_add").click(function () {
                     var userType = $("#userType").val();
-                    var isAdmin = $("#isAdmin").prop("checked");
+                    var isAdmin = false;
                     $.post("/User/AddUserType", { userType: userType, isAdmin: isAdmin }, function (e) {
                         alert(e);
                         location.href = "/User/UserTyoeList";

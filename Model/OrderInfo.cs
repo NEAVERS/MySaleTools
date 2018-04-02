@@ -116,6 +116,14 @@ namespace Model
         /// </summary>
         public string  CreateUserName { get; set; }
         /// <summary>
+        /// 小店编号
+        /// </summary>
+        public string CreateUserNum { get; set; }
+        /// <summary>
+        /// 小店名
+        /// </summary>
+        public string  StoreName { get; set; }
+        /// <summary>
         /// 创建人用户类型Id
         /// </summary>
         public int CreateUserTypeId { get; set; }
@@ -163,6 +171,8 @@ namespace Model
             this.IsDelete = false;
             this.SaleManGuid = Guid.Empty;
             this.SaleManName = string.Empty;
+            this.CreateUserNum = string.Empty;
+            this.StoreName = string.Empty;
         }
     }
 }

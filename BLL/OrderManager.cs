@@ -186,7 +186,7 @@ namespace BLL
                 q = q.Where(x => x.CityNum == city);
             if (area != "-1" && !string.IsNullOrWhiteSpace(area))
                 q = q.Where(x => x.AreaNum == area);
-            if (saleManId != "0" && !string.IsNullOrWhiteSpace(saleManId))
+            if (saleManId != "-1" && !string.IsNullOrWhiteSpace(saleManId))
                 q = q.Where(x => x.SaleManGuid.ToString() == saleManId);
             if (userType != 0)
                 q = q.Where(x => x.CreateUserTypeId == userType);

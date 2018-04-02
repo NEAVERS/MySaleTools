@@ -18,7 +18,7 @@
             <select id="city"></select>
             <select id="area"></select>
             <select id="saleMan">
-                <option value="0">请选择业务员</option>
+                <option value="-1">请选择业务员</option>
                 @foreach (var item in saleList)
         {
             <option value="@item.UserId">@item.UserName</option>

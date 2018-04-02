@@ -301,6 +301,8 @@
     <Content Include="Views\Home\ShoppingCar.cshtml" />
     <Content Include="Views\Home\BuyList.cshtml" />
     <Content Include="Views\Order\CreateOrder.cshtml" />
+    <Content Include="Views\Order\OrderManager.cshtml" />
+    <Content Include="Views\Order\OrderSearch.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

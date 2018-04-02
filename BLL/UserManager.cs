@@ -151,13 +151,14 @@ namespace BLL
             
             q = q.Where(x => x.CreateTime > start && x.CreateTime < end);
             q = q.Where(x => !x.IsDelete);
+            q = q.Where(x => x.TypeId > 0);//类型ID大于0的为客户  下雨
             if (province != "-1"&&!string.IsNullOrWhiteSpace(province))
                 q = q.Where(x => x.ProvinceNum == province);
             if (city != "-1" && !string.IsNullOrWhiteSpace(city))
                 q = q.Where(x => x.CityNum == city);
             if (area != "-1" && !string.IsNullOrWhiteSpace(area))
                 q = q.Where(x => x.AreaNum == area);
-            if (saleManId != "0" && !string.IsNullOrWhiteSpace(saleManId))
+            if (saleManId != "-1" && !string.IsNullOrWhiteSpace(saleManId))
                 q = q.Where(x => x.SaleManGuid.ToString() == saleManId);
             if (userType != 0)
                 q = q.Where(x => x.TypeId == userType);
