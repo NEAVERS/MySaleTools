@@ -256,6 +256,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -303,6 +304,11 @@
     <Content Include="Views\Order\CreateOrder.cshtml" />
     <Content Include="Views\Order\OrderManager.cshtml" />
     <Content Include="Views\Order\OrderSearch.cshtml" />
+    <Content Include="Views\User\ChangePwd.cshtml" />
+    <Content Include="Views\System\SendGoodsfoot.cshtml" />
+    <Content Include="Views\System\Operate.cshtml" />
+    <Content Include="Views\System\ImgSetList.cshtml" />
+    <Content Include="Views\System\AddImgSet.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

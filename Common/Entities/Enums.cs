@@ -24,4 +24,12 @@ namespace Common.Entities
         退货中,
         退货成功,
     }
+
+    public enum SysConfigTypes
+    {
+        PageBottom,
+        IsCanReturn,
+        IsShowBill,
+        ContactTell,
+    }
 }

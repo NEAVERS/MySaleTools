@@ -14,9 +14,12 @@ namespace SaleTools.Controllers
 
         private GoodsManager _manager = new GoodsManager();
         private OrderManager _order = new OrderManager();
+        private SystemManager _system = new SystemManager();
         // GET: Home
         public ActionResult Index()
         {
+            var imgSet = _system.GetImgSet();
+            ViewBag.ImgList = imgSet;
             return View();
         }
 

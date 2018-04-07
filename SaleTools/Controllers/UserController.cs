@@ -178,5 +178,18 @@ namespace SaleTools.Controllers
             return View();
         }
      
+        public ActionResult ChangePwd()
+        {
+            return View();
+        }
+
+        public string SaveNewPwd(string oldPwd, string newPwd)
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            string oldMd5 = Utils.GetMD5(oldPwd);
+            string newMd5 = Utils.GetMD5(newPwd);
+            var result = manager.ChangePwd(loginUser.UserId, oldMd5, newMd5);
+            return Utils.SerializeObject(result);
+        }
     }
 }

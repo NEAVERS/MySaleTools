@@ -1,10 +1,12 @@
 ﻿
 @using Common.Entities;
+@using Model;
 @{
     ViewBag.Title = "Index";
     var typeList = (List<GoddsTypeTree>)ViewBag.GoddsTypeTree;
     Layout = null;
     int floorIndex = 0;
+    var imgList = (List<ImgSet>)ViewBag.ImgList;
 }
 
 <html>
@@ -430,41 +432,15 @@
                     <div class="main_slide" id="J_HomeMainSlide">
                         <div class="flex-viewport" style="overflow: hidden; position: relative;">
                             <ul class="slides clearfix" style="width: 1400%; transition-duration: 0.6s; transform: translate3d(-2190px, 0px, 0px);">
+                                @foreach (var item in imgList)
+                                {
+
                                 <li class="clone" aria-hidden="true" style="width: 730px; float: left; display: block;">
-                                    <a href="" target="_blank">
-                                        <img src="upload/2017/02/07/a07fcd2291adaaace95f53df74865690.jpg" draggable="false">
+                                    <a href="@item.TurnUrl" target="_blank">
+                                        <img src="@item.ImgUrl" draggable="false">
                                     </a>
                                 </li>
-                                <li class="" style="width: 730px; float: left; display: block;">
-                                    <a href="http://pifa.yunmayi.com/product/keywordList?q=套餐" target="_blank">
-                                        <img src="upload/2017/08/22/c82ea2f32acb3fa7f6c69690356e74f5.jpg" draggable="false">
-                                    </a>
-                                </li>
-                                <li class="" style="width: 730px; float: left; display: block;">
-                                    <a href="" target="_blank">
-                                        <img src="upload/2017/02/07/2cf42770e1baab614c80c0f556015f3a.jpg" draggable="false">
-                                    </a>
-                                </li>
-                                <li class="flex-active-slide" style="width: 730px; float: left; display: block;">
-                                    <a href="" target="_blank">
-                                        <img src="upload/2017/02/07/1507c58c3bd8e6375aafee6aaf5987a4.jpg" draggable="false">
-                                    </a>
-                                </li>
-                                <li class="" style="width: 730px; float: left; display: block;">
-                                    <a href="" target="_blank">
-                                        <img src="upload/2017/02/07/6f9faab4562fb26b1013d92ba99c0236.jpg" draggable="false">
-                                    </a>
-                                </li>
-                                <li class="" style="width: 730px; float: left; display: block;">
-                                    <a href="" target="_blank">
-                                        <img src="upload/2017/02/07/a07fcd2291adaaace95f53df74865690.jpg" draggable="false">
-                                    </a>
-                                </li>
-                                <li class="clone" aria-hidden="true" style="width: 730px; float: left; display: block;">
-                                    <a href="http://pifa.yunmayi.com/product/keywordList?q=套餐" target="_blank">
-                                        <img src="upload/2017/08/22/c82ea2f32acb3fa7f6c69690356e74f5.jpg" draggable="false">
-                                    </a>
-                                </li>
+                                }
                             </ul>
                         </div>
                         <ul class="flex-direction-nav">

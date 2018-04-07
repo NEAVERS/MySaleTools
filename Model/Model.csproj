@@ -45,10 +45,13 @@
     <Compile Include="GoodInfo.cs" />
     <Compile Include="GoodsBrand.cs" />
     <Compile Include="GoodsType.cs" />
+    <Compile Include="ImgSet.cs" />
+    <Compile Include="ImgSetOfUserType.cs" />
     <Compile Include="OrderInfo.cs" />
     <Compile Include="OrderItem.cs" />
     <Compile Include="PriceOfUserType.cs" />
     <Compile Include="Supplier.cs" />
+    <Compile Include="SysConfig.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserType.cs" />

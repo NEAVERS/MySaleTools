@@ -255,5 +255,13 @@ namespace BLL
             return _context.SaveChanges() > 0;
         }
 
+
+        public bool ChangePwd(Guid userId, string oldPwd, string newPwd)
+        {
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == userId && x.PassWord == oldPwd && !x.IsDelete);
+            if (user != null)
+                user.PassWord = newPwd;
+            return _context.SaveChanges()>0 ;
+        }
     }
 }

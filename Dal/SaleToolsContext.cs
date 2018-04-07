@@ -33,6 +33,11 @@ namespace Dal
         public DbSet<OrderInfo> OrderInfoes { get; set; }
 
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<SysConfig> SysConfigs { get; set; }
+
+        public DbSet<ImgSetOfUserType> ImgSetOfUserTypes { get; set; }
+
+        public DbSet<ImgSet> ImgSets { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -47,6 +52,9 @@ namespace Dal
             modelBuilder.Configurations.Add(new PriceOfUserTypeMap());
             modelBuilder.Configurations.Add(new OrderInfoMap());
             modelBuilder.Configurations.Add(new OrderItemMap());
+            modelBuilder.Configurations.Add(new SysConfigMap());
+            modelBuilder.Configurations.Add(new ImgSetOfUserTypeMap());
+            modelBuilder.Configurations.Add(new ImgSetMap());
         }
     }
 }

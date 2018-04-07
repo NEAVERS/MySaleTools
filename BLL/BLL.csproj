@@ -51,6 +51,7 @@
     <Compile Include="GoodInfoManager.cs" />
     <Compile Include="GoodsManager.cs" />
     <Compile Include="OrderManager.cs" />
+    <Compile Include="SystemManager.cs" />
     <Compile Include="UserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

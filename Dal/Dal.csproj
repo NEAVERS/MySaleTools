@@ -53,10 +53,13 @@
     <Compile Include="Mapping\GoodInfoMap.cs" />
     <Compile Include="Mapping\GoodsBrandMap.cs" />
     <Compile Include="Mapping\GoodsTypeMap.cs" />
+    <Compile Include="Mapping\ImgSetMap.cs" />
+    <Compile Include="Mapping\ImgSetOfUserTypeMap.cs" />
     <Compile Include="Mapping\OrderInfoMap.cs" />
     <Compile Include="Mapping\OrderItemMap.cs" />
     <Compile Include="Mapping\PriceOfUserTypeMap.cs" />
     <Compile Include="Mapping\SupplierMap.cs" />
+    <Compile Include="Mapping\SysConfigMap.cs" />
     <Compile Include="Mapping\UserInfoMap.cs" />
     <Compile Include="Mapping\UserTypeMap.cs" />
     <Compile Include="SaleToolsContext.cs" />
