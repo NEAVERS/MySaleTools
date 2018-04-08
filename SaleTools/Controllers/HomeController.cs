@@ -15,6 +15,7 @@ namespace SaleTools.Controllers
         private GoodsManager _manager = new GoodsManager();
         private OrderManager _order = new OrderManager();
         private SystemManager _system = new SystemManager();
+        private UserManager _user = new UserManager();
         // GET: Home
         public ActionResult Index()
         {
@@ -134,7 +135,7 @@ namespace SaleTools.Controllers
                 var model = _manager.GetGoodsWithPrice(goodId, 1);
                 OrderItem item = new OrderItem();
                 item.Count = count;
-                item.CreateUserId = loginUser.CreateUserId;
+                item.CreateUserId = loginUser.UserId;
                 item.Id = Guid.NewGuid();
                 item.LessPrice = 0;
                 item.Price = model.price.Price;
@@ -142,6 +143,14 @@ namespace SaleTools.Controllers
                 item.ProductId = model.info.Id;
                 item.ProductTittle = model.info.GoodsTittle;
                 item.TotalPrice = item.RealPrice * count;
+                item.ProductType = model.info.FirstTypeName;
+                item.ProductTypeId = model.info.FirstTypeId;
+                item.ProductId = model.info.Id;
+                item.BarCode = model.info.BarCode;
+                item.Spec = model.info.Spec;
+                item.Unit = model.info.Unit;
+                item.SupplierId = model.info.SupplierId;
+                item.SupplierName = model.info.SupplierName;
                 res = _order.AddOrderItem(item);
             }
             return Utils.SerializeObject(res);
@@ -187,6 +196,7 @@ namespace SaleTools.Controllers
         {
             var loginUser = (UserInfo)ViewBag.User;
             var order = new OrderInfo();
+            var saleMan = _user.GetUserByUserId(loginUser.SaleManGuid);
             order.Id = Guid.NewGuid();
             order.CreateTime = DateTime.Now;
             order.CreateUserId = loginUser.UserId;
@@ -204,6 +214,7 @@ namespace SaleTools.Controllers
             order.Area = loginUser.Area;
             order.AreaNum = loginUser.AreaNum;
             order.Stutas = (int)Common.Entities.OrderStatus.等待商家发货;
+            order.SaleManTel = saleMan.Tel;
             var res = _order.SaveOrder(order);
             
         }

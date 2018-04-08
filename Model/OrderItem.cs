@@ -34,6 +34,41 @@ namespace Model
         /// </summary>
         public string ProductTittle { get; set; }
 
+
+        /// <summary>
+        /// 商品类目
+        /// </summary>
+        public string ProductType { get; set; }
+        /// <summary>
+        /// 商品类目Id
+        /// </summary>
+        public Guid ProductTypeId { get; set; }
+
+        /// <summary>
+        /// 商品条形码
+        /// </summary>
+        public string BarCode { get; set; }
+        /// <summary>
+        /// 规格信息
+        /// </summary>
+        public string Spec { get; set; }
+        /// <summary>
+        /// 单位
+        /// </summary>
+        public string Unit { get; set; }
+
+        /// <summary>
+        /// 供应商Id
+        /// </summary>
+        public int SupplierId { get; set; }
+
+        /// <summary>
+        /// 供应商名称
+        /// </summary>
+        public string SupplierName { get; set; }
+
+
+        public string Brand { get; set; }
         /// <summary>
         /// 原价  
         /// </summary>

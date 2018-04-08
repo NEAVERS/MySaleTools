@@ -70,5 +70,42 @@ namespace SaleTools.Controllers
             var res = _order.CancelOrder(orderId);
             return Utils.SerializeObject(res);
         }
+
+        public ActionResult PrintOrder(string start = "", string end = "", string province = "", string city = "", string area = "", int stutas = 0, string saleManId = "", int userType = 0, string key = "")
+        {
+
+            DateTime startTime = Utils.GetTime(start, true);
+            DateTime endTime = Utils.GetTime(end);
+            Guid managerId = Guid.NewGuid();
+            var loginUser = (UserInfo)ViewBag.User;
+            if (ViewBag.IsAdmin)
+                managerId = loginUser.UserId;
+            else
+                managerId = loginUser.SaleManGuid;
+            PageData<OrderInfo> pager = _order.GetOrderList(1, 10000, startTime, endTime, province, city, area, stutas, saleManId, userType, key, managerId, ViewBag.IsAdmin);
+            var list = new List<OrderDetail>();
+
+            pager.ListData.ForEach(x =>
+            {
+                var model = _order.GetOrderDetail(x.Id);
+                model.User = _user.GetUserByUserId(x.CreateUserId);
+                list.Add(model);
+            });
+            ViewBag.List = list;
+            return View();
+        }
+
+
+
+       public ActionResult CreateFile()
+        {
+
+
+            return View();
+        }
+
+
+
+
     }
 }

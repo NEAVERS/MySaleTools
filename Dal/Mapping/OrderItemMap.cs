@@ -29,6 +29,16 @@ namespace Dal.Mapping
             this.Property(t => t.IsInShoppingCar).HasColumnName("IsInShoppingCar");
             this.Property(t => t.CreateUserId).HasColumnName("CreateUserId");
             this.Property(t => t.Pic).HasColumnName("Pic");
+            this.Property(t => t.ProductType).HasColumnName("ProductType");
+            this.Property(t => t.ProductTypeId).HasColumnName("ProductTypeId");
+            this.Property(t => t.BarCode).HasColumnName("BarCode");
+            this.Property(t => t.Spec).HasColumnName("Spec");
+            this.Property(t => t.Unit).HasColumnName("Unit");
+            this.Property(t => t.SupplierId).HasColumnName("SupplierId");
+            this.Property(t => t.SupplierName).HasColumnName("SupplierName");
+            this.Property(t => t.Brand).HasColumnName("Brand");
+
+            
         }
     }
 }

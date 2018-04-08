@@ -11,6 +11,8 @@ namespace Common.Entities
     {
         public OrderInfo Info { get; set; }
 
+        public UserInfo User { get; set; }
+
         public List<OrderItem> Items { get; set; }
     }
 }

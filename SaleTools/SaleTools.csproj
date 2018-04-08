@@ -309,6 +309,7 @@
     <Content Include="Views\System\Operate.cshtml" />
     <Content Include="Views\System\ImgSetList.cshtml" />
     <Content Include="Views\System\AddImgSet.cshtml" />
+    <Content Include="Views\Order\PrintOrder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

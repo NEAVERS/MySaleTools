@@ -227,6 +227,85 @@ namespace BLL
                 model.Stutas =(int)OrderStatus.订单取消中;
             return _context.SaveChanges() > 0;
         }
+
+
+
+        public void GetProductBill()
+        {
+            var list = from c in _context.OrderItems
+                       where !c.IsInShoppingCar
+                       && !c.IsDelete
+                       select c;
+        }
+
+
+
+        public string CreateOrderFile()
+        {
+            var q = from c in _context.OrderInfoes
+                    join d in _context.OrderItems on c.Id equals d.OrderId
+                    select new
+                    {
+                        info = c,
+                        item = d
+                    };
+
+            System.IO.MemoryStream output = new System.IO.MemoryStream();
+
+            System.IO.StreamWriter writer = new System.IO.StreamWriter(output, System.Text.Encoding.UTF8);
+
+            writer.Write("订单号,总订单号,商品条形码,商品父级id,商品id,商品类目,商品,商品品牌,规格,单位,总金额,订货人,客户类型,电话,订货服务站,地区,卖家,订单状态,订购日期,单价,成本价,实收金额,下单数量,异常数量,编号,标记,支付类型,小店名称,业务员,送货员,分拣员,订单完成日期,订单备注,供应商编号,加盟商");//输出标题，逗号分割（注意最后一列不加逗号）
+
+            writer.WriteLine();
+            //输出内容
+            foreach(var item in q)
+            {
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.info.OrderNum + ",");//第一列
+                writer.Write(item.item.BarCode + ",");//第一列
+                writer.Write("0" + ",");//第一列
+                writer.Write(item.item.ProductId.ToString("N") + ",");//第一列
+                writer.Write(item.item.ProductTittle + ",");//第一列
+                writer.Write(item.item.Brand + ",");//第一列
+                writer.Write(item.item.Spec + ",");//第一列
+                writer.Write(item.item.Unit + ",");//第一列
+                writer.Write(item.item.TotalPrice + ",");//第一列
+                writer.Write(item.info.CreateUserName + ",");//第一列
+                writer.Write(item.info.CreateUserType + ",");//第一列
+                writer.Write(item.info.CreateUserTel + ",");//第一列
+                writer.Write("订货服务站" + ",");//第一列
+                writer.Write(item.info.Province+item.info.City+item.info.Area + ",");//第一列
+                writer.Write(item.item.SupplierName + ",");//第一列
+                writer.Write( ((OrderStatus)item.info.Stutas).ToString() + ",");//第一列
+                writer.Write(item.info.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") + ",");//第一列
+                writer.Write(item.item.Price + ",");//第一列
+                writer.Write(item.item.Price + ",");//第一列
+                writer.Write(item.item.RealPrice + ",");//第一列
+                writer.Write(item.item.Count + ",");//第一列
+                writer.Write("0" + ",");//第一列
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+
+                writer.WriteLine();
+            }
+            writer.Flush();
+
+            output.Position = 0;
+
+            //return File(output, "text/comma-separated-values", "demo1.csv");
+            return "";
+        }
     }
 
 }

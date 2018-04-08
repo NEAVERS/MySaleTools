@@ -119,6 +119,8 @@ namespace Model
         /// 小店编号
         /// </summary>
         public string CreateUserNum { get; set; }
+
+        public string CreateUserTel { get; set; }
         /// <summary>
         /// 小店名
         /// </summary>
@@ -147,6 +149,8 @@ namespace Model
         /// </summary>
         public string SaleManName { get; set; }
 
+
+        public string SaleManTel { get; set; }
         public OrderInfo()
         {
             this.Id = Guid.NewGuid();
