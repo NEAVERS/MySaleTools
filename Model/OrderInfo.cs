@@ -149,6 +149,10 @@ namespace Model
         /// </summary>
         public string SaleManName { get; set; }
 
+        /// <summary>
+        /// 订单完成时间
+        /// </summary>
+        public DateTime CompleteTime { get; set; }
 
         public string SaleManTel { get; set; }
         public OrderInfo()

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Enums.cs" />
+    <Compile Include="Entities\GetProductModel.cs" />
     <Compile Include="Entities\GoddsTypeTree.cs" />
     <Compile Include="Entities\GoodsWithPrice.cs" />
     <Compile Include="Entities\OrderDetail.cs" />

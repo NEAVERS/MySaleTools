@@ -232,10 +232,33 @@ namespace BLL
 
         public void GetProductBill()
         {
-            var list = from c in _context.OrderItems
+            var q = from c in _context.OrderItems
                        where !c.IsInShoppingCar
                        && !c.IsDelete
-                       select c;
+                       group c by c.SupplierId into g
+                       select g.Key;
+
+            List<GetProductModel> list = new List<GetProductModel>();
+            foreach(var id in q)
+            {
+                GetProductModel model = new GetProductModel();
+                model.SupplierInfo = _context.Suppliers.FirstOrDefault(x => x.Id == id);
+                var allitems = from c in _context.OrderItems
+                               where !c.IsInShoppingCar
+                                && !c.IsDelete
+                                && c.SupplierId == id
+                               select c;
+                var ids = from c in allitems
+                          group c by c.ProductId into g
+                          select g.Key;
+                foreach(var itemId in ids)
+                {
+                    var item = allitems.FirstOrDefault(x => x.ProductId == itemId);
+                    item.Count = allitems.Where(x => x.ProductId == itemId).Sum(x => x.Count);
+                    item.TotalPrice = allitems.Where(x => x.ProductId == itemId).Sum(x => x.TotalPrice);
+                    item.LessPrice = allitems.Where(x => x.ProductId == itemId).Sum(x => x.Count);
+                }
+            }
         }
 
 
@@ -244,10 +267,14 @@ namespace BLL
         {
             var q = from c in _context.OrderInfoes
                     join d in _context.OrderItems on c.Id equals d.OrderId
+                    join u in _context.UserInfoes on c.CreateUserId equals u.UserId
+                    join g in _context.GoodInfoes on d.ProductId equals g.Id
                     select new
                     {
                         info = c,
-                        item = d
+                        item = d,
+                        user = u,
+                        good= g,
                     };
 
             System.IO.MemoryStream output = new System.IO.MemoryStream();
@@ -265,6 +292,7 @@ namespace BLL
                 writer.Write(item.item.BarCode + ",");//第一列
                 writer.Write("0" + ",");//第一列
                 writer.Write(item.item.ProductId.ToString("N") + ",");//第一列
+                writer.Write(item.good.FirstTypeName + ",");//第一列
                 writer.Write(item.item.ProductTittle + ",");//第一列
                 writer.Write(item.item.Brand + ",");//第一列
                 writer.Write(item.item.Spec + ",");//第一列
@@ -283,19 +311,18 @@ namespace BLL
                 writer.Write(item.item.RealPrice + ",");//第一列
                 writer.Write(item.item.Count + ",");//第一列
                 writer.Write("0" + ",");//第一列
-                writer.Write(item.info.Id.ToString("N") + ",");//第一列
-                writer.Write(item.info.Id.ToString("N") + ",");//第一列
-                writer.Write(item.info.Id.ToString("N") + ",");//第一列
-                writer.Write(item.info.Id.ToString("N") + ",");//第一列
-                writer.Write(item.info.Id.ToString("N") + ",");//第一列
-                writer.Write(item.info.Id.ToString("N") + ",");//第一列
-                writer.Write(item.info.Id.ToString("N") + ",");//第一列
-                writer.Write(item.info.Id.ToString("N") + ",");//第一列
-                writer.Write(item.info.Id.ToString("N") + ",");//第一列
-                writer.Write(item.info.Id.ToString("N") + ",");//第一列
-                writer.Write(item.info.Id.ToString("N") + ",");//第一列
-                writer.Write(item.info.Id.ToString("N") + ",");//第一列
-                writer.Write(item.info.Id.ToString("N") + ",");//第一列
+                writer.Write(item.user.UserNum + ",");//第一列
+                writer.Write("0" + ",");//第一列
+                writer.Write(item.info.PayType + ",");//第一列
+                writer.Write(item.user.SotreName + ",");//第一列
+                writer.Write(item.user.SaleManName + ",");//第一列
+                writer.Write("" + ",");//第一列
+                writer.Write("" + ",");//第一列
+                ///订单完成时间
+                writer.Write(item.info.CompleteTime.ToString("yyyy-MM-dd HH:mm:ss") + ",");//第一列
+                writer.Write(item.info.Remark + ",");//第一列
+                writer.Write(item.item.SupplierName + ",");//第一列
+                writer.Write("");//第一列
 
                 writer.WriteLine();
             }
