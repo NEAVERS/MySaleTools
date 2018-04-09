@@ -24,6 +24,13 @@ namespace Model
         /// 供应商公司
         /// </summary>
         public string SupplierCompany { get; set; }
+
+
+
+        /// <summary>
+        /// 地址
+        /// </summary>
+        public string  Addr { get; set; }
         /// <summary>
         /// 联系电话
         /// </summary>

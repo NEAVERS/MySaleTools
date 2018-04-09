@@ -100,11 +100,54 @@ namespace SaleTools.Controllers
        public ActionResult CreateFile()
         {
 
+            return View();
+        }
+
+
+        public ActionResult OutpuFile(string start="",string end ="")
+        {
+            DateTime startTime = Utils.GetTime(start, true);
+            DateTime endTime = Utils.GetTime(end);
+            var result = _order.CreateOrderFile(startTime, endTime);
+            return File(result, "text/comma-separated-values", "demo1.csv");
+        }
+
+
+        public ActionResult GetBill()
+        {
+            var loginUser = (UserInfo)Session["LoginUser"];
+            Guid mangerId = loginUser.CreateUserId;
+            if (ViewBag.IsAdmin)
+                mangerId = loginUser.UserId;
+            var supplierList = _user.GetSupplierList(mangerId);
+            ViewBag.SupplierList = supplierList;
+            return View();
+        }
+
+
+        public ActionResult  ShowGetBill(string start = "",string end = "", int SupplierId = -1)
+        {
+            DateTime startTime = Utils.GetTime(start, true);
+            DateTime endTime = Utils.GetTime(end);
+            var result = _order.GetProductBill(startTime, endTime, SupplierId);
+            ViewBag.List = result;
+            ViewBag.Start = startTime.ToString("yyyy-MM-dd HH:mm:ss");
+            ViewBag.End = endTime.ToString("yyyy-MM-dd HH:mm:ss");
+            ViewBag.Tel = new SystemManager().GetConfig(SysConfigTypes.ContactTell).Value;
 
             return View();
         }
 
 
+        public ActionResult ShowPickUpBill(string start = "", string end = "", int SupplierId = 3)
+        {
+            DateTime startTime = Utils.GetTime(start, true);
+            DateTime endTime = Utils.GetTime(end);
+            var result = _order.GetPickUpBill(startTime, endTime, SupplierId);
+            ViewBag.List = result;
+            return View();
+
+        }
 
 
     }

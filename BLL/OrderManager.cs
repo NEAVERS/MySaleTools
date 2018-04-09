@@ -3,6 +3,7 @@ using Dal;
 using Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -230,18 +231,24 @@ namespace BLL
 
 
 
-        public void GetProductBill()
+        public List<GetProductModel> GetProductBill(DateTime start, DateTime end,int SupplierId)
         {
             var q = from c in _context.OrderItems
+                    join d in _context.OrderInfoes on c.OrderId equals d.Id
                        where !c.IsInShoppingCar
                        && !c.IsDelete
+                       &&d.CreateTime>start 
+                       &&d.CreateTime <end
+                       &&(SupplierId==-1||c.SupplierId == SupplierId)
                        group c by c.SupplierId into g
                        select g.Key;
 
             List<GetProductModel> list = new List<GetProductModel>();
-            foreach(var id in q)
+            var SupplierIds = q.ToList();
+            foreach (var id in SupplierIds)
             {
                 GetProductModel model = new GetProductModel();
+                var items = new List<GetProductItem>();
                 model.SupplierInfo = _context.Suppliers.FirstOrDefault(x => x.Id == id);
                 var allitems = from c in _context.OrderItems
                                where !c.IsInShoppingCar
@@ -251,24 +258,99 @@ namespace BLL
                 var ids = from c in allitems
                           group c by c.ProductId into g
                           select g.Key;
-                foreach(var itemId in ids)
+                var goodIds = ids.ToList();
+                foreach(var itemId in goodIds)
                 {
                     var item = allitems.FirstOrDefault(x => x.ProductId == itemId);
-                    item.Count = allitems.Where(x => x.ProductId == itemId).Sum(x => x.Count);
-                    item.TotalPrice = allitems.Where(x => x.ProductId == itemId).Sum(x => x.TotalPrice);
-                    item.LessPrice = allitems.Where(x => x.ProductId == itemId).Sum(x => x.Count);
+                    var goodsInfo = _context.GoodInfoes.FirstOrDefault(x => x.Id == item.ProductId);
+                    var gItem = new GetProductItem();
+
+                    gItem.Count = allitems.Where(x => x.ProductId == itemId).Sum(x => x.Count);
+                    gItem.ProductName = goodsInfo.GoodsTittle;
+                    gItem.BarCode = goodsInfo.BarCode;
+                    gItem.Pirce = goodsInfo.CostPrice;
+                    gItem.Spec = goodsInfo.Spec;
+                    gItem.Unit = goodsInfo.Unit;
+                    gItem.TotalPirce = gItem.Count * gItem.Pirce;
+                    gItem.Remark = "";
+                    items.Add(gItem);
                 }
+                model.Items = items;
+                list.Add(model);
             }
+            return list;
+        }
+
+        public List<PickUpModel> GetPickUpBill(DateTime start, DateTime end, int SupplierId)
+        {
+            List<PickUpModel> list = new List<PickUpModel>();
+
+            var q = from c in _context.OrderItems
+                    join d in _context.OrderInfoes on c.OrderId equals d.Id
+                    where !c.IsInShoppingCar
+                    && !c.IsDelete
+                    && d.CreateTime > start
+                    && d.CreateTime < end
+                    && (SupplierId == -1 || c.SupplierId == SupplierId)
+                    group c by c.OrderId into g
+                    select g.Key;
+            var orderIds = q.ToList();
+            foreach(var orderId in orderIds)
+            {
+                var model = new PickUpModel();
+
+                var items = new List<GetProductItem>();
+
+                var orderInfo = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
+                model.CreateTime = orderInfo.CreateTime;
+                model.OrderNum = orderInfo.OrderNum;
+                model.Mark = "乐清1";
+
+                var allitems = from c in _context.OrderItems
+                               where !c.IsInShoppingCar
+                                && !c.IsDelete
+                                && c.OrderId == orderId
+                               select c;
+                var ids = from c in allitems
+                          group c by c.ProductId into g
+                          select g.Key;
+                var goodIds = ids.ToList();
+                foreach (var itemId in goodIds)
+                {
+                    var item = allitems.FirstOrDefault(x => x.ProductId == itemId);
+                    var goodsInfo = _context.GoodInfoes.FirstOrDefault(x => x.Id == item.ProductId);
+                    var gItem = new GetProductItem();
+                    gItem.Count = allitems.Where(x => x.ProductId == itemId).Sum(x => x.Count);
+                    gItem.ProductName = goodsInfo.GoodsTittle;
+                    gItem.BarCode = goodsInfo.BarCode;
+                    gItem.Pirce = item.Price;
+                    gItem.Spec = goodsInfo.Spec;
+                    gItem.Unit = goodsInfo.Unit;
+                    gItem.TotalPirce = item.Price;
+                    gItem.Remark = "";
+                    items.Add(gItem);
+                }
+                model.Items = items;
+                list.Add(model);
+            }
+            return list;
         }
 
 
 
-        public string CreateOrderFile()
+        /// <summary>
+        /// 导出订单列表
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public MemoryStream CreateOrderFile(DateTime start,DateTime end)
         {
             var q = from c in _context.OrderInfoes
                     join d in _context.OrderItems on c.Id equals d.OrderId
                     join u in _context.UserInfoes on c.CreateUserId equals u.UserId
                     join g in _context.GoodInfoes on d.ProductId equals g.Id
+                    where c.CreateTime >start &&c.CreateTime <end
                     select new
                     {
                         info = c,
@@ -319,9 +401,9 @@ namespace BLL
                 writer.Write("" + ",");//第一列
                 writer.Write("" + ",");//第一列
                 ///订单完成时间
-                writer.Write(item.info.CompleteTime.ToString("yyyy-MM-dd HH:mm:ss") + ",");//第一列
+                writer.Write(item.info.CompleteTime.HasValue? item.info.CompleteTime.Value.ToString("yyyy-MM-dd HH:mm:ss"):"" + ",");//第一列
                 writer.Write(item.info.Remark + ",");//第一列
-                writer.Write(item.item.SupplierName + ",");//第一列
+                writer.Write(item.good.SupplierNum + ",");//第一列
                 writer.Write("");//第一列
 
                 writer.WriteLine();
@@ -331,7 +413,7 @@ namespace BLL
             output.Position = 0;
 
             //return File(output, "text/comma-separated-values", "demo1.csv");
-            return "";
+            return output;
         }
     }
 

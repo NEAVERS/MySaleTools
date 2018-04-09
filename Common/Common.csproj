@@ -49,6 +49,7 @@
     <Compile Include="Entities\GoodsWithPrice.cs" />
     <Compile Include="Entities\OrderDetail.cs" />
     <Compile Include="Entities\PageData.cs" />
+    <Compile Include="Entities\PickUpModel.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "CreateFile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/need/laydate.css">
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+<script type="text/javascript" src="/Content/js/lib/laydate/laydate.js"></script>
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            订单导出                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/交易管理-订单导出.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+        </h2>
+
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="col_main_content">
+                <table class="table table_border_td_none">
+                    <tbody>
+                        <tr>
+                            <td class="right" width="150">开始时间：</td>
+                            <td>
+                                <input type="text" class="inputtext" style="width:200px;" name="starttime" id="starttime" value="@(DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd 16:00:00"))" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss'});">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right">结束时间：</td>
+                            <td>
+                                <input type="text" class="inputtext" style="width:200px;" name="endtime" id="endtime" value="@(DateTime.Now.ToString("yyyy-MM-dd 16:00:00"))" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss'});">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right">配送类型:</td>
+                            <td>
+                                <select name="deliver_type">
+                                    <option value="" selected="">全部</option>
+                                    <option value="platform_deliver">平台配送</option>
+                                    <option value="vendor_deliver">自主配送</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right">多平台:</td>
+                            <td>
+                                <input name="morePlatform" type="checkbox" value="1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right">关键字:</td>
+                            <td>
+                                <input type="text" class="inputtext" style="width:200px;" name="keyword" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td><button type="button" class="btn btn_confirm">查询</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".btn_confirm").click(function () {
+        location.href = "/Order/OutpuFile?start" + $("#starttime").val() + "&end=" + $("#endtime").val();
+    })
+</script>
