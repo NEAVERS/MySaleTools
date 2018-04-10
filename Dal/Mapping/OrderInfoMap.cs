@@ -55,6 +55,10 @@ namespace Dal.Mapping
             this.Property(t => t.ReceiveUserName).HasColumnName("ReceiveUserName");
             this.Property(t => t.IsPay).HasColumnName("IsPay");
             this.Property(t => t.IsError).HasColumnName("IsError");
+            this.Property(t => t.AdminRemark).HasColumnName("AdminRemark");
+
+
+            
         }
 
     }

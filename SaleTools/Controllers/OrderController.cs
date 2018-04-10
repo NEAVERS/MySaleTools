@@ -146,9 +146,53 @@ namespace SaleTools.Controllers
             var result = _order.GetPickUpBill(startTime, endTime, SupplierId);
             ViewBag.List = result;
             return View();
-
         }
 
+        public ActionResult ConfirmPayRecord(string orderNum= "")
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            var Sendlist = _user.GetSysUser((int)SystemUserType.送货员, loginUser.CreateUserId);
+            ViewBag.SendPeople = Sendlist;
+            bool IsTurn = false;
+            OrderDetail model = new OrderDetail();
+            if (!string.IsNullOrWhiteSpace(orderNum))
+            {
+                model = _order.GetOrderDetail(orderNum);
+                IsTurn = true;
+            }
+            List<ErrorReason> list = _order.GetErrorReasonByType(1);
+            ViewBag.ErrorList = list;
+            ViewBag.IsTurn = IsTurn;
+            return View(model);
+        }
+
+
+        public string LoadErrorReason(string pid)
+        {
+            var list = _order.GetErrorReasonByType(2, pid);
+            return Utils.SerializeObject(list);
+        }
+
+        public string SetOrderItemError(Guid orderItemId, int count, string typeCode, string type, string reasonCode, string reason, string mark)
+        {
+            var res = _order.SetErrorInfo(orderItemId, count, typeCode, type, reasonCode, reason, mark);
+            return Utils.SerializeObject(res);
+        }
+
+        public string ConfirmOrderPay(Guid orderId,decimal paymoeney,string remark,Guid send)
+        {
+            var res = _order.ConfirmOrderPay(orderId, paymoeney, remark, send);
+            return Utils.SerializeObject(res);
+        }
+
+
+        public string SaveRemark(Guid orderId, string remark)
+        {
+            var res = _order.SaveOrderRemark(orderId, remark);
+            return Utils.SerializeObject(res);
+
+        }
 
     }
 }

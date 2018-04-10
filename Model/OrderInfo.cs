@@ -36,7 +36,7 @@ namespace Model
         /// <summary>
         /// 送货员ID
         /// </summary>
-        public Guid SendPeopleId { get; set; }
+        public Guid? SendPeopleId { get; set; }
 
         /// <summary>
         /// 送货员姓名
@@ -186,6 +186,9 @@ namespace Model
         /// 是否为异常订单
         /// </summary>
         public bool IsError { get; set; }
+
+
+        public string AdminRemark { get; set; }
         public OrderInfo()
         {
             this.Id = Guid.NewGuid();

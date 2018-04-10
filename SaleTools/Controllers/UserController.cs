@@ -25,7 +25,6 @@ namespace SaleTools.Controllers
             return View();
         }
 
-
         public string SetSaleMan(Guid userId, Guid saleManId,string saleManName)
         {
             var res = manager.SetSaleMan(userId, saleManId, saleManName);

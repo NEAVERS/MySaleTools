@@ -125,7 +125,7 @@ namespace Model
         /// <summary>
         /// 异常类型编号
         /// </summary>
-        public int ErrorTypeCode { get; set; }
+        public string ErrorTypeCode { get; set; }
 
         /// <summary>
         /// 异常类型
@@ -138,7 +138,7 @@ namespace Model
         /// <summary>
         /// 异常原因ID
         /// </summary>
-        public int ErrorReasonCode { get; set; }
+        public string ErrorReasonCode { get; set; }
 
         /// <summary>
         /// 异常原因

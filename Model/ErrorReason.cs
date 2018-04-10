@@ -10,7 +10,7 @@ namespace Model
     {
         public int Id { get; set; }
 
-        public int  ErrorCode { get; set; }
+        public string  ErrorCode { get; set; }
 
         /// <summary>
         /// 1 异常类型 2为异常原因
@@ -20,7 +20,7 @@ namespace Model
         /// <summary>
         /// 上级ID
         /// </summary>
-        public int ParentCode { get; set; }
+        public string ParentCode { get; set; }
 
         /// <summary>
         /// 具体信息

@@ -74,7 +74,6 @@ namespace BLL
             }
 
             order.TotalMoney = totalPrice;
-            order.PayMoney = realPrice;
             order.RealMoney = realPrice;
             order.Stutas = 1;
             _context.OrderInfoes.Add(order);
@@ -215,6 +214,15 @@ namespace BLL
             detail.Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar).ToList();
             return detail;
         }
+
+        public OrderDetail GetOrderDetail(string orderNUm)
+        {
+            var detail = new OrderDetail();
+            detail.Info = _context.OrderInfoes.FirstOrDefault(x => x.OrderNum == orderNUm);
+            detail.Items = _context.OrderItems.Where(x => x.OrderNum == orderNUm && !x.IsDelete && !x.IsInShoppingCar).ToList();
+            return detail;
+        }
+
 
         /// <summary>
         /// 取消订单
@@ -422,10 +430,10 @@ namespace BLL
         /// <param name="type">1为异常类型，2为异常原因</param>
         /// <param name="parent"></param>
         /// <returns></returns>
-        public List<ErrorReason> GetErrorReasonByType(int type, int parent = 0)
+        public List<ErrorReason> GetErrorReasonByType(int type, string parent = "")
         {
             var q = _context.ErrorReasons.Where(x => x.Type == type);
-            if (type == 2)
+            if (type == 2&&!string.IsNullOrEmpty(parent))
                 q = q.Where(x => x.ParentCode == parent);
             return q.ToList();
         }
@@ -441,7 +449,7 @@ namespace BLL
         /// <param name="reason"></param>
         /// <param name="mark"></param>
         /// <returns></returns>
-        public bool SetErrorInfo(Guid orderItemId, int count, int typeCode, string type, int reasonCode, string reason, string mark)
+        public bool SetErrorInfo(Guid orderItemId, int count, string typeCode, string type, string reasonCode, string reason, string mark)
         {
             var model = _context.OrderItems.FirstOrDefault(x => x.Id == orderItemId);
             if (model != null)
@@ -453,7 +461,10 @@ namespace BLL
                 model.ErrorMark = mark;
                 model.ErrorCount = count;
                 model.IsError = true;
+                var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == model.OrderId);
+                order.IsError = true;
             }
+            
             return _context.SaveChanges() > 0;
         }
 
@@ -468,7 +479,7 @@ namespace BLL
             var model = _context.OrderInfoes.FirstOrDefault(x => x.Id == ordeId);
             if (model != null)
             {
-                model.Remark = remark;
+                model.AdminRemark = remark;
             }
             return _context.SaveChanges() > 0;
         }
@@ -482,7 +493,7 @@ namespace BLL
         /// <param name="sendPeopleId"></param>
         /// <param name="ramrk"></param>
         /// <returns></returns>
-        public bool ConfirmOrderPay(Guid orderId, decimal payMoney, string remark, Guid sendPeopleId, string ramrk)
+        public bool ConfirmOrderPay(Guid orderId, decimal payMoney, string remark, Guid sendPeopleId)
         {
             var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
             if (order != null)
@@ -498,7 +509,7 @@ namespace BLL
                 }
                 order.PayTime = DateTime.Now;
                 order.IsPay = true;
-                order.Remark = remark;
+                order.AdminRemark = remark;
 
             }
             return _context.SaveChanges() > 0; ;
@@ -573,6 +584,8 @@ namespace BLL
             return q.ToList();
         }
 
+
+        
     }
 
 }
