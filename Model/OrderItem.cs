@@ -115,6 +115,43 @@ namespace Model
         /// 图片链接
         /// </summary>
         public string Pic { get; set; }
+
+
+        /// <summary>
+        /// 是否异常
+        /// </summary>
+        public bool IsError { get; set; }
+
+        /// <summary>
+        /// 异常类型编号
+        /// </summary>
+        public int ErrorTypeCode { get; set; }
+
+        /// <summary>
+        /// 异常类型
+        /// </summary>
+        public string  ErrorType { get; set; }
+        /// <summary>
+        /// 异常数量
+        /// </summary>
+        public int  ErrorCount { get; set; }
+        /// <summary>
+        /// 异常原因ID
+        /// </summary>
+        public int ErrorReasonCode { get; set; }
+
+        /// <summary>
+        /// 异常原因
+        /// </summary>
+        public string ErrorReason { get; set; }
+
+        /// <summary>
+        /// 原因备注
+        /// </summary>
+        public string ErrorMark { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public OrderItem()
         {
             this.Id = Guid.Empty;

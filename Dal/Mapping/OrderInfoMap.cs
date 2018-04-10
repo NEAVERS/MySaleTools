@@ -47,10 +47,14 @@ namespace Dal.Mapping
             this.Property(t => t.SaleManTel).HasColumnName("SaleManTel");
             this.Property(t => t.CreateUserTel).HasColumnName("CreateUserTel");
             this.Property(t => t.CompleteTime).HasColumnName("CompleteTime");
+            this.Property(t => t.SendPeopleId).HasColumnName("SendPeopleId");
+            this.Property(t => t.SendPeopleTel).HasColumnName("SendPeopleTel");
 
-            
 
-
+            this.Property(t => t.ReceiveUserId).HasColumnName("ReceiveUserId");
+            this.Property(t => t.ReceiveUserName).HasColumnName("ReceiveUserName");
+            this.Property(t => t.IsPay).HasColumnName("IsPay");
+            this.Property(t => t.IsError).HasColumnName("IsError");
         }
 
     }

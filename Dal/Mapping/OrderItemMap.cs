@@ -38,6 +38,14 @@ namespace Dal.Mapping
             this.Property(t => t.SupplierName).HasColumnName("SupplierName");
             this.Property(t => t.Brand).HasColumnName("Brand");
 
+
+            this.Property(t => t.IsError).HasColumnName("IsError");
+            this.Property(t => t.ErrorTypeCode).HasColumnName("ErrorTypeCode");
+            this.Property(t => t.ErrorType).HasColumnName("ErrorType");
+            this.Property(t => t.ErrorReasonCode).HasColumnName("ErrorReasonCode");
+            this.Property(t => t.ErrorReason).HasColumnName("ErrorReason");
+            this.Property(t => t.ErrorMark).HasColumnName("ErrorMark");
+            this.Property(t => t.ErrorCount).HasColumnName("ErrorCount");
             
         }
     }

@@ -145,21 +145,44 @@ namespace Model
         /// 商品详情
         /// </summary>
         public string Detail { get; set; }
-
+        /// <summary>
+        /// 创建人ID
+        /// </summary>
         public Guid CreateUserId { get; set; }
 
+        /// <summary>
+        /// 创建人姓名
+        /// </summary>
         public string CreateUserName { get; set; }
 
+        /// <summary>
+        /// 是否删除
+        /// </summary>
         public bool IsDelete { get; set; }
 
+        /// <summary>
+        /// 创建时间
+        /// </summary>
         public DateTime CreateTime { get; set; }
 
+        /// <summary>
+        /// 最后更新时间
+        /// </summary>
         public DateTime LastUpdateTime { get; set; }
 
+        /// <summary>
+        /// 排序ID
+        /// </summary>
         public int SortId { get; set; }
-
+        /// <summary>
+        /// 是否上架
+        /// </summary>
         public bool IsUpShelves { get; set; }
 
+        /// <summary>
+        /// erp系统中该商品的ID
+        /// </summary>
+        public string  ErpId { get; set; }
 
         public GoodInfo()
         {

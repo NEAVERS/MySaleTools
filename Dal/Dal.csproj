@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Mapping\AreaMap.cs" />
     <Compile Include="Mapping\BrandOfGoodsTypeMap.cs" />
+    <Compile Include="Mapping\ErrorReasonMap.cs" />
     <Compile Include="Mapping\GoodInfoMap.cs" />
     <Compile Include="Mapping\GoodsBrandMap.cs" />
     <Compile Include="Mapping\GoodsTypeMap.cs" />

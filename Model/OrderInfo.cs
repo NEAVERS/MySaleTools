@@ -34,6 +34,15 @@ namespace Model
         public string SendPeople { get; set; }
 
         /// <summary>
+        /// 送货员ID
+        /// </summary>
+        public Guid SendPeopleId { get; set; }
+
+        /// <summary>
+        /// 送货员姓名
+        /// </summary>
+        public string SendPeopleTel { get; set; }
+        /// <summary>
         /// 付款时间
         /// </summary>
         public DateTime? PayTime { get; set; }
@@ -154,7 +163,29 @@ namespace Model
         /// </summary>
         public DateTime? CompleteTime { get; set; }
 
+        /// <summary>
+        /// 业务员电话
+        /// </summary>
         public string SaleManTel { get; set; }
+
+        
+        /// <summary>
+        /// 收款人ID
+        /// </summary>
+        public Guid? ReceiveUserId { get; set; }
+        /// <summary>
+        /// 收款人姓名
+        /// </summary>
+        public string ReceiveUserName { get; set; }
+
+        /// <summary>
+        /// 是否收款
+        /// </summary>
+        public bool IsPay { get; set; }
+        /// <summary>
+        /// 是否为异常订单
+        /// </summary>
+        public bool IsError { get; set; }
         public OrderInfo()
         {
             this.Id = Guid.NewGuid();
@@ -181,6 +212,8 @@ namespace Model
             this.SaleManName = string.Empty;
             this.CreateUserNum = string.Empty;
             this.StoreName = string.Empty;
+            this.IsError = false;
+            this.IsPay = false;
         }
     }
 }

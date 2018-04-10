@@ -32,4 +32,6 @@ namespace Common.Entities
         IsShowBill,
         ContactTell,
     }
+
+
 }

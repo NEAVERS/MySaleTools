@@ -31,12 +31,12 @@ namespace BLL
         }
 
 
-        public bool IsExitInCar(Guid goodsId ,Guid createUserId,out OrderItem baseItem)
+        public bool IsExitInCar(Guid goodsId, Guid createUserId, out OrderItem baseItem)
         {
             var model = _context.OrderItems.FirstOrDefault(x => x.ProductId == goodsId
             && x.IsInShoppingCar
             && !x.IsDelete
-            &&x.CreateUserId == createUserId
+            && x.CreateUserId == createUserId
             && x.IsEffective);
             baseItem = model;
             if (model == null)
@@ -85,7 +85,7 @@ namespace BLL
         public bool AddOrderItem(OrderItem item)
         {
             _context.OrderItems.Add(item);
-            return _context.SaveChanges()>0;
+            return _context.SaveChanges() > 0;
         }
         /// <summary>
         /// 修改商品数量
@@ -93,15 +93,15 @@ namespace BLL
         /// <param name="itemId"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public bool SaveOrderItem(Guid itemId,int count)
+        public bool SaveOrderItem(Guid itemId, int count)
         {
             var item = _context.OrderItems.FirstOrDefault(x => x.Id == itemId);
-            if(item!=null)
+            if (item != null)
             {
                 item.Count = count;
                 item.TotalPrice = count * item.Price;
             }
-            return _context.SaveChanges()>0;
+            return _context.SaveChanges() > 0;
         }
 
         public bool ClearShopping(Guid userId)
@@ -111,7 +111,7 @@ namespace BLL
                        && c.IsInShoppingCar
                        && !c.IsDelete
                        select c;
-            foreach(var item in list)
+            foreach (var item in list)
             {
                 item.IsDelete = true;
             }
@@ -133,7 +133,7 @@ namespace BLL
                     item.IsDelete = true;
                 }
             }
-            return _context.SaveChanges()>0;
+            return _context.SaveChanges() > 0;
         }
 
 
@@ -145,7 +145,7 @@ namespace BLL
         public bool DeleteOrder(Guid orderId)
         {
             var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
-            if(order !=null)
+            if (order != null)
             {
                 order.IsDelete = true;
                 var list = _context.OrderItems.Where(x => x.OrderId == order.Id);
@@ -164,7 +164,7 @@ namespace BLL
         /// <param name="end"></param>
         /// <param name="createUserId"></param>
         /// <returns></returns>
-        public List<OrderInfo> GetOrderListByCreateUserId(DateTime start,DateTime end, Guid createUserId)
+        public List<OrderInfo> GetOrderListByCreateUserId(DateTime start, DateTime end, Guid createUserId)
         {
             var q = from c in _context.OrderInfoes
                     where c.CreateTime > start
@@ -225,23 +225,23 @@ namespace BLL
         {
             var model = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
             if (model != null)
-                model.Stutas =(int)OrderStatus.订单取消中;
+                model.Stutas = (int)OrderStatus.订单取消中;
             return _context.SaveChanges() > 0;
         }
 
 
 
-        public List<GetProductModel> GetProductBill(DateTime start, DateTime end,int SupplierId)
+        public List<GetProductModel> GetProductBill(DateTime start, DateTime end, int SupplierId)
         {
             var q = from c in _context.OrderItems
                     join d in _context.OrderInfoes on c.OrderId equals d.Id
-                       where !c.IsInShoppingCar
-                       && !c.IsDelete
-                       &&d.CreateTime>start 
-                       &&d.CreateTime <end
-                       &&(SupplierId==-1||c.SupplierId == SupplierId)
-                       group c by c.SupplierId into g
-                       select g.Key;
+                    where !c.IsInShoppingCar
+                    && !c.IsDelete
+                    && d.CreateTime > start
+                    && d.CreateTime < end
+                    && (SupplierId == -1 || c.SupplierId == SupplierId)
+                    group c by c.SupplierId into g
+                    select g.Key;
 
             List<GetProductModel> list = new List<GetProductModel>();
             var SupplierIds = q.ToList();
@@ -259,7 +259,7 @@ namespace BLL
                           group c by c.ProductId into g
                           select g.Key;
                 var goodIds = ids.ToList();
-                foreach(var itemId in goodIds)
+                foreach (var itemId in goodIds)
                 {
                     var item = allitems.FirstOrDefault(x => x.ProductId == itemId);
                     var goodsInfo = _context.GoodInfoes.FirstOrDefault(x => x.Id == item.ProductId);
@@ -295,7 +295,7 @@ namespace BLL
                     group c by c.OrderId into g
                     select g.Key;
             var orderIds = q.ToList();
-            foreach(var orderId in orderIds)
+            foreach (var orderId in orderIds)
             {
                 var model = new PickUpModel();
 
@@ -344,19 +344,19 @@ namespace BLL
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public MemoryStream CreateOrderFile(DateTime start,DateTime end)
+        public MemoryStream CreateOrderFile(DateTime start, DateTime end)
         {
             var q = from c in _context.OrderInfoes
                     join d in _context.OrderItems on c.Id equals d.OrderId
                     join u in _context.UserInfoes on c.CreateUserId equals u.UserId
                     join g in _context.GoodInfoes on d.ProductId equals g.Id
-                    where c.CreateTime >start &&c.CreateTime <end
+                    where c.CreateTime > start && c.CreateTime < end
                     select new
                     {
                         info = c,
                         item = d,
                         user = u,
-                        good= g,
+                        good = g,
                     };
 
             System.IO.MemoryStream output = new System.IO.MemoryStream();
@@ -367,7 +367,7 @@ namespace BLL
 
             writer.WriteLine();
             //输出内容
-            foreach(var item in q)
+            foreach (var item in q)
             {
                 writer.Write(item.info.Id.ToString("N") + ",");//第一列
                 writer.Write(item.info.OrderNum + ",");//第一列
@@ -384,9 +384,9 @@ namespace BLL
                 writer.Write(item.info.CreateUserType + ",");//第一列
                 writer.Write(item.info.CreateUserTel + ",");//第一列
                 writer.Write("订货服务站" + ",");//第一列
-                writer.Write(item.info.Province+item.info.City+item.info.Area + ",");//第一列
+                writer.Write(item.info.Province + item.info.City + item.info.Area + ",");//第一列
                 writer.Write(item.item.SupplierName + ",");//第一列
-                writer.Write( ((OrderStatus)item.info.Stutas).ToString() + ",");//第一列
+                writer.Write(((OrderStatus)item.info.Stutas).ToString() + ",");//第一列
                 writer.Write(item.info.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") + ",");//第一列
                 writer.Write(item.item.Price + ",");//第一列
                 writer.Write(item.item.Price + ",");//第一列
@@ -401,7 +401,7 @@ namespace BLL
                 writer.Write("" + ",");//第一列
                 writer.Write("" + ",");//第一列
                 ///订单完成时间
-                writer.Write(item.info.CompleteTime.HasValue? item.info.CompleteTime.Value.ToString("yyyy-MM-dd HH:mm:ss"):"" + ",");//第一列
+                writer.Write(item.info.CompleteTime.HasValue ? item.info.CompleteTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "" + ",");//第一列
                 writer.Write(item.info.Remark + ",");//第一列
                 writer.Write(item.good.SupplierNum + ",");//第一列
                 writer.Write("");//第一列
@@ -415,6 +415,164 @@ namespace BLL
             //return File(output, "text/comma-separated-values", "demo1.csv");
             return output;
         }
+
+        /// <summary>
+        /// 获取异常类型
+        /// </summary>
+        /// <param name="type">1为异常类型，2为异常原因</param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        public List<ErrorReason> GetErrorReasonByType(int type, int parent = 0)
+        {
+            var q = _context.ErrorReasons.Where(x => x.Type == type);
+            if (type == 2)
+                q = q.Where(x => x.ParentCode == parent);
+            return q.ToList();
+        }
+
+        /// <summary>
+        /// 设置订单子项异常
+        /// </summary>
+        /// <param name="orderItemId"></param>
+        /// <param name="count"></param>
+        /// <param name="typeCode"></param>
+        /// <param name="type"></param>
+        /// <param name="reasonCode"></param>
+        /// <param name="reason"></param>
+        /// <param name="mark"></param>
+        /// <returns></returns>
+        public bool SetErrorInfo(Guid orderItemId, int count, int typeCode, string type, int reasonCode, string reason, string mark)
+        {
+            var model = _context.OrderItems.FirstOrDefault(x => x.Id == orderItemId);
+            if (model != null)
+            {
+                model.ErrorTypeCode = typeCode;
+                model.ErrorType = type;
+                model.ErrorReasonCode = reasonCode;
+                model.ErrorReason = reason;
+                model.ErrorMark = mark;
+                model.ErrorCount = count;
+                model.IsError = true;
+            }
+            return _context.SaveChanges() > 0;
+        }
+
+        /// <summary>
+        /// 保存订单备注
+        /// </summary>
+        /// <param name="ordeId"></param>
+        /// <param name="remark"></param>
+        /// <returns></returns>
+        public bool SaveOrderRemark(Guid ordeId, string remark)
+        {
+            var model = _context.OrderInfoes.FirstOrDefault(x => x.Id == ordeId);
+            if (model != null)
+            {
+                model.Remark = remark;
+            }
+            return _context.SaveChanges() > 0;
+        }
+
+        /// <summary>
+        /// 订单收款登记
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="payMoney"></param>
+        /// <param name="remark"></param>
+        /// <param name="sendPeopleId"></param>
+        /// <param name="ramrk"></param>
+        /// <returns></returns>
+        public bool ConfirmOrderPay(Guid orderId, decimal payMoney, string remark, Guid sendPeopleId, string ramrk)
+        {
+            var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
+            if (order != null)
+            {
+                var sendPeople = _context.UserInfoes.FirstOrDefault(x => x.UserId == sendPeopleId);
+                order.Stutas = (int)OrderStatus.交易完成;
+                order.PayMoney = payMoney;
+                if (sendPeople != null)
+                {
+                    order.SendPeople = sendPeople.UserName;
+                    order.SendPeopleId = sendPeople.UserId;
+                    order.SendPeopleTel = sendPeople.Tel;
+                }
+                order.PayTime = DateTime.Now;
+                order.IsPay = true;
+                order.Remark = remark;
+
+            }
+            return _context.SaveChanges() > 0; ;
+        }
+
+        /// <summary>
+        /// 撤销付款标记
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public bool RevertIsPay(Guid orderId)
+        {
+            var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
+            if (order != null)
+            {
+                order.IsPay = false;
+            }
+            return _context.SaveChanges() > 0;
+        }
+
+        /// <summary>
+        /// 获取异常订单
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<OrderInfo> GetErrorOrders(DateTime start ,DateTime end, Guid userId)
+        {
+            var q = from c in _context.OrderInfoes
+                    where c.IsPay
+                    && c.IsError
+                    && c.PayTime > start
+                    && c.PayTime < end
+                    select c;
+            return q.ToList();
+        }
+
+
+        /// <summary>
+        /// 应收未收对比订单获取
+        /// </summary>
+        /// <param name="managerId"></param>
+        /// <param name="timeType"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="orderNum"></param>
+        /// <param name="send"></param>
+        /// <param name="sale"></param>
+        /// <param name="userTypeId"></param>
+        /// <returns></returns>
+
+        public List<OrderInfo> GetOrderForPayContrast(Guid managerId, int timeType, DateTime start,DateTime end,string orderNum,Guid send,Guid sale,int userTypeId)
+        {
+            var q = from c in _context.OrderInfoes
+                    where !c.IsDelete
+                    &&c.RootUserId == managerId
+                    select c;
+            if (timeType == 1)
+                q = q.Where(x => x.CreateTime > start && x.CreateTime < end);
+            else
+                q = q.Where(x => x.PayTime > start && x.PayTime < end);
+            if (!string.IsNullOrWhiteSpace(orderNum))
+                q = q.Where(x => x.OrderNum.Contains(orderNum));
+            if (send != Guid.Empty)
+                q = q.Where(x => x.SendPeopleId == send);
+            if(sale!=Guid.Empty)
+                q = q.Where(x => x.SaleManGuid == sale);
+            if(userTypeId!=-1)
+                q = q.Where(x => x.CreateUserTypeId == userTypeId);
+
+            return q.ToList();
+        }
+
     }
 
 }
