@@ -32,9 +32,10 @@ namespace SaleTools.Controllers
 
             var loginUser = (UserInfo)Session["LoginUser"];
             var guid = Utils.ParseGuid(id);
+            var type = _manager.GetTypeById(guid);
             var list = _manager.GetDownGoodsType(guid,loginUser.UserId);
             ViewBag.GoodsTypeList = list;
-            ViewBag.TypeId = guid;
+            ViewBag.TypeId = type!=null?type.ParentId.ToString():"";
             return View();
         }
         /// <summary>

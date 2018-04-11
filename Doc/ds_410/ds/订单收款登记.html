@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>订单收款登记 - 加盟商个人中心</title>
+    <!-- global css -->
+    <link rel="stylesheet" type="text/css" href="statics/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/base.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/pages/ucenter.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/pages/buyer/trade/order_detail.css">
+</head>
+
+<body>
+    <!-- 全局顶部导航 -->
+    <div class="topbar" id="topbar">
+        <div class="pace"></div>
+        <div class="module clearfix">
+            <div class="lfloat">
+                <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                <span class="hello">您好，</span>
+                <span class="username">57700000</span>
+                <span>
+                                ，欢迎来到温州批发平台
+                <!-- ,客服电话:0577-86000802 -->
+                                            </span>
+            </div>
+            <div class="rfloat">
+                <ul class="clearfix">
+                    <!-- <li><a href="http://www.yunmayi.com" target="_blank">云蚂蚁首页</a></li> -->
+                    <li style="margin-right:10px;"><a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">快递代收</a></li>
+                    <li><a href="http://pifa.yunmayi.com/">批发首页</a></li>
+                    <li><a href="http://pifa.yunmayi.com/index/ucenter">会员中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cashier/application">当面付申请</a></li>
+                    <li><a href="http://pifa.yunmayi.com/product/collect" class="">收藏中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">帮助中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cart1">购物车</a></li>
+                    <li><a href="http://passport.pifa.yunmayi.com/logout">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script>
+    (function($) {
+        $.fn.snow = function(options) {
+            var $flake = $('<div id="flake" />').css({
+                    'position': 'absolute',
+                    'top': '-50px',
+                    'z-index': '99999999'
+                }).html('&#10052;'),
+                documentHeight = $(document).height(),
+                documentWidth = $(document).width(),
+                defaults = {
+                    minSize: 10,
+                    maxSize: 20,
+                    newOn: 2000,
+                    flakeColor: "red"
+                },
+                options = $.extend({}, defaults, options);
+            var interval = setInterval(function() {
+                    documentHeight = $(document).height();
+                    var startPositionLeft = Math.random() * documentWidth - 100,
+                        startOpacity = 0.5 + Math.random(),
+                        sizeFlake = options.minSize + Math.random() * options.maxSize,
+                        endPositionTop = documentHeight - options.maxSize,
+                        endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                        durationFall = documentHeight * 10 + Math.random() * 5000;
+                    $flake.clone().appendTo('body').css({
+                        left: startPositionLeft,
+                        opacity: startOpacity,
+                        'font-size': sizeFlake,
+                        color: options.flakeColor
+                    }).animate({
+                            top: endPositionTop,
+                            left: endPositionLeft,
+                            opacity: 0.2
+                        },
+                        durationFall, 'linear',
+                        function() {
+                            $(this).remove()
+                        });
+                },
+                options.newOn);
+        };
+    })(jQuery);
+    //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+
+
+    //鼠标跟随 留言信息窗口
+    $('.remark').mousemove(function(e) {
+        $(this).children('.content').show();
+        $(this).children('.content').show().css({
+            "top": e.pageY + 20,
+            "left": e.pageX + 20
+        })
+    });
+    //滑出隐藏
+    $('.remark').mouseout(function() {
+        $(this).children('.content').hide();
+    });
+    $(window).resize(function() {
+        /* Act on the event */
+        if (document.documentElement.clientWidth < 1200) {
+            $('#topbar').width(1200);
+        } else {
+            $('#topbar').width('100%');
+        }
+
+    });
+    //加载效果
+    var paces = {
+        pace: $('#topbar .pace'),
+        timer: "",
+        w: 0,
+        start: function() {
+            var _this = this;
+            _this.w = 0;
+            if (_this.timer) {
+                _this.w = 0;
+                _this.pace.width(_this.w + "%");
+                clearInterval(_this.timer);
+            } else {
+                _this.timer = setInterval(function() {
+                    ++_this.w;
+                    _this.pace.width(_this.w + "%");
+                    if (_this.w >= 55) {
+                        clearInterval(_this.timer);
+                    }
+                }, 0)
+            }
+
+
+        },
+        end: function() {
+            var _this = this;
+            _this.w = parseInt(_this.pace[0].style.width);
+            clearInterval(_this.timer);
+            _this.timer = setInterval(function() {
+                ++_this.w;
+                _this.pace.width(_this.w + "%");
+                if (_this.w >= 100) {
+                    clearInterval(_this.timer);
+                    var setTimer = setTimeout(function() {
+                        _this.w = 0;
+                        _this.pace.width(_this.w);
+                        clearInterval(_this.timer);
+                    }, 1000);
+                    clearTimeout(clearTimeout);
+                    return false
+                }
+            }, 10)
+        }
+    };
+
+    /*弹框 popup*/
+    function build(status, comment, id, num) {
+        if (!$(".globalPopContainer").length > 0) {
+            $(document.body).append('<div class="globalPopContainer"></div>');
+        }
+        if (!num) {
+            num = '';
+        }
+        if (status == "red") {
+            var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress rprogress'></div>";
+        } else {
+            var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress gprogress'></div>";
+        }
+        html += "<span class='closePop'>x</span>";
+        html += "</div>";
+        $(".globalPopContainer").prepend(html); // 追加新元素   
+        $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth())
+        Popup(id, $("#popup_" + id).outerWidth());
+    }
+
+    function Popup(id, popWidth) {
+        $("#popup_" + id).find(".progress").animate({ width: 0 + 'px' }, 3000, function() {
+            $("#popup_" + id).animate({ right: -popWidth + 'px' }, function() {
+                $(this).remove();
+            })
+        });
+        $("#popup_" + id).mouseout(function() {
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).find(".progress").animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        });
+        $("#popup_" + id).mouseover(function() {
+            var proWidth = $(this).outerWidth()
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).animate({ right: 0 + 'px' }, function() {
+                $(this).find(".progress").animate({ width: proWidth + 'px' });
+            });
+        });
+        $("#popup_" + id).find(".closePop").on('click', function(event) {
+            $(this).parent().unbind("mouseover");
+            $(this).parent().unbind("mouseout");
+            $(this).siblings('.progress').animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        })
+    }
+    </script>
+    <div id="wraper">
+        <div id="main">
+            <div class="module">
+                <div class="ucenter">
+                    <div class="col_side">
+                        <!-- 侧边导航 -->
+                        <div class="menu_box">
+                            <dl class="menu">
+                                <dt class="menu_title">交易管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/list">订单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/arealist">订单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/export">订单导出</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsbills">取货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickingupgoodsbills">拣货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsalelist">多平台销售单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudpicklist">多平台拣货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsendgoodsbills">多平台取货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/expressqueryforagent">快递订单查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">商品管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/product/index">商品列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/publish">新增商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/checkprice">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/public">公共商品库</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/brandcategory">品牌管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/recommendlist">推荐商品列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账户中心</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/account/updatepassword">修改密码</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/manage">账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/deliverymanmanage">送货员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/salesmanmanage">业务员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/pickermanage">分拣员管理</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">会员管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellermanage">供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/cloudseller">云供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/buyermanage">小店管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/banklist">银行账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/checkorderbranch">快递网点查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">余额管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/balance/list">余额明细</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/recharge">余额充值</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/creditquota">信用额度</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">财务管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderconfirmpayrecord" class="selected">订单收款登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderpaycontrast">应收未收对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/bill/salebill">平台销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/offlinepresale">线下开单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/abnormalorder">收款异常查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">仓库管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderabnormalrecord">订单异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsscan">订单发货扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersendgoodscontrast">发货扫描对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodswithoutpay">已发未交查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/storemanage">商品库存管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/stocksetting">商品入库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/checkout">商品出库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/stockoperate">商品操作查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersortsearch">仓库排单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickgoodsscan">订单分拣扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/ordermanagement">订单分拣管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/checkpicklist">分拣商品查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">活动管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjslist">满就送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/couponlist">优惠券活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/dpslist">单品送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjjlist">满就减活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/blacklist">非活动商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/categoryactivity">类目活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/onlycouponlist">优惠券管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/addpresale">新增预售活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/presalelist">预售活动列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/soldpresalelist">已售活动列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">系统管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/notice/index">公告列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/diycategory">首页类目设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/homeposter">首页海报</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/sendgoodsfoot">页尾设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/systemdao/operate">系统设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/systemlist">系统日志</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">积分管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/integral/gitmanage">积分礼品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/integral/rulemanage">签到规则管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/searchgiftmanage">积分商品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/agentbalancelist">商城积分明细</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">数据统计</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordercount">订单综合统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/shopcount">商品销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalcount">异常情况统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/refundinfo">商品退货统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/agent/warehouse/inventory">商品库存统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/goodsbill">商品账单统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/countlog">商品编辑统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalnumber">异常天数统计</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">退货管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/salesmanorderlist">申请退货</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnbacklist">退货查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allreturnbacklist">客服审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/warehouseaudit">仓库审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnsellerlist">退供应商</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allbacklistformoney">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账单管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/bill/operate">异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/auditsellerlist">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/financialauditsellerlist">财务审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ financialplaysellerlist">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">供应商管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockinfo">到货条码生成</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerqr">到货扫描操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockbill">到货扫描管理</a>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col_main">
+                        <div class="col_main_hd">
+                            <h2>
+                                订单收款登记                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/财务管理-订单收款登记.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+                            </h2>
+                        </div>
+                        <div class="col_main_bd">
+                            <div class="inner">
+                                <div class="col_main_content">
+                                    <div class="search_bar">
+                                        <form action="http://agent.pifa.yunmayi.com/trade/orderConfirmPayRecord" method="POST" id="J_OrderSearchForm">
+                                            <ul class="search_item_list">
+                                                <li class="search_item">
+                                                    <label>订单编号：</label>
+                                                    <div class="item">
+                                                        <input type="text" name="order_id" id="orderId" class="inputtext" style="width:300px;font-size:18px;font-weight:bold;" value="1804101524394727">
+                                                    </div>
+                                                </li>
+                                                <li class="search_item">
+                                                    <button type="submit">搜索</button>
+                                                    <!--                                                    <span style="color: red;">【确认收款后没及时收到反馈，请耐心等待！同个订单号不要进行再次确认收款！】</span>-->
+                                                </li>
+                                                <li class="clearfix"></li>
+                                            </ul>
+                                        </form>
+                                    </div>
+                                    <table class="table info_box">
+                                        <tbody>
+                                            <tr>
+                                                <td width="120">收货地址</td>
+                                                <td>林西村望昌南路8栋对面</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="top order_info_title">订单信息</td>
+                                                <td class="order_info_detail">
+                                                    <table class="table">
+                                                        <colgroup>
+                                                            <col align="left" width="40%">
+                                                            <col align="left" width="40%">
+                                                            <col align="left" width="30%">
+                                                        </colgroup>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>订单编号：1804101524394727</td>
+                                                                <td>
+                                                                    订单状态：等待商家发货 </td>
+                                                                <td>
+                                                                    配送员： &nbsp;&nbsp; </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>下单时间：2018-04-10 15:24:39</td>
+                                                                <td>付款时间:</td>
+                                                                <td>发货时间：</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>买家备注：</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="top order_info_title">付款信息</td>
+                                                <td class="order_info_detail">
+                                                    <table class="table">
+                                                        <colgroup>
+                                                            <col align="left" width="40%">
+                                                            <col align="left" width="40%">
+                                                            <col align="left" width="30%">
+                                                        </colgroup>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>支付方式：货到付款</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    订单总金额：1004.55 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    满就减 : - 20.00 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    应付金额 : 984.55 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    实付金额 : 984.55 </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table_border" id="J_OrderDetailListBox">
+                                        <colgroup>
+                                            <col width="7%">
+                                            <col width="28%">
+                                            <col width="10%">
+                                            <col width="10%">
+                                            <col width="10%">
+                                            <col width="16%">
+                                            <col width="20%">
+                                        </colgroup>
+                                        <thead class="bg_color">
+                                            <tr>
+                                                <th class="center">序号</th>
+                                                <th class="center">商品</th>
+                                                <th class="center">单价(元)</th>
+                                                <th class="center">数量</th>
+                                                <th class="center">小计(元)</th>
+                                                <th class="center">是否异常</th>
+                                                <th class="center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="center">1</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">LL有友散装山椒凤爪2.5KG/袋</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>125.00</del>
+                                                    <br>
+                                                    <b>119.50</b>
+                                                </td>
+                                                <td class="center">1</td>
+                                                <td class="center"><b>119.50</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345821">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">2</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">上好佳 日本鱼果海苔味7g*20包/袋</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>10.00</del>
+                                                    <br>
+                                                    <b>7.20</b>
+                                                </td>
+                                                <td class="center">8</td>
+                                                <td class="center"><b>57.60</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345819">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">3</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">上好佳 洋葱圈7g*20包/袋</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>10.00</del>
+                                                    <br>
+                                                    <b>7.20</b>
+                                                </td>
+                                                <td class="center">8</td>
+                                                <td class="center"><b>57.60</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345818">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">4</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">上好佳 番茄薯条9g*20包/袋</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>10.00</del>
+                                                    <br>
+                                                    <b>7.20</b>
+                                                </td>
+                                                <td class="center">10</td>
+                                                <td class="center"><b>72.00</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345830">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">5</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">上好佳 鲜虾条7g*20包/袋</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>0.00</del>
+                                                    <br>
+                                                    <b>7.20</b>
+                                                </td>
+                                                <td class="center">8</td>
+                                                <td class="center"><b>57.60</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345815">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">6</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">上好佳 鲜虾片6g*20包/袋</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>10.00</del>
+                                                    <br>
+                                                    <b>7.20</b>
+                                                </td>
+                                                <td class="center">10</td>
+                                                <td class="center"><b>72.00</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345828">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">7</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">上好佳7g草莓粟米条*20包/袋</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>10.00</del>
+                                                    <br>
+                                                    <b>7.20</b>
+                                                </td>
+                                                <td class="center">8</td>
+                                                <td class="center"><b>57.60</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345829">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">8</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">上好佳汉堡球7g*20包/袋</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>10.00</del>
+                                                    <br>
+                                                    <b>7.20</b>
+                                                </td>
+                                                <td class="center">8</td>
+                                                <td class="center"><b>57.60</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345816">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">9</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">上好佳玉米卷7g*20包/袋</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>10.00</del>
+                                                    <br>
+                                                    <b>7.20</b>
+                                                </td>
+                                                <td class="center">10</td>
+                                                <td class="center"><b>72.00</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345820">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">10</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">上好佳芝士条 7g*20包/袋</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>10.00</del>
+                                                    <br>
+                                                    <b>7.20</b>
+                                                </td>
+                                                <td class="center">8</td>
+                                                <td class="center"><b>57.60</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345817">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">11</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">好丽友12g呀土豆薯条牛排味</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>0.00</del>
+                                                    <br>
+                                                    <b>0.90</b>
+                                                </td>
+                                                <td class="center">10</td>
+                                                <td class="center"><b>9.00</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345827">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">12</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">好丽友12g呀土豆薯条番茄味</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>0.00</del>
+                                                    <br>
+                                                    <b>0.90</b>
+                                                </td>
+                                                <td class="center">10</td>
+                                                <td class="center"><b>9.00</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345826">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">13</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">洽洽30g五香怪味花生</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>1.00</del>
+                                                    <br>
+                                                    <b>0.72</b>
+                                                </td>
+                                                <td class="center">20</td>
+                                                <td class="center"><b>14.40</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                        <option value="13">13</option>
+                                                        <option value="14">14</option>
+                                                        <option value="15">15</option>
+                                                        <option value="16">16</option>
+                                                        <option value="17">17</option>
+                                                        <option value="18">18</option>
+                                                        <option value="19">19</option>
+                                                        <option value="20">20</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345824">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">14</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">洽洽30g五香怪味豆</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>1.00</del>
+                                                    <br>
+                                                    <b>0.72</b>
+                                                </td>
+                                                <td class="center">40</td>
+                                                <td class="center"><b>28.80</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                        <option value="13">13</option>
+                                                        <option value="14">14</option>
+                                                        <option value="15">15</option>
+                                                        <option value="16">16</option>
+                                                        <option value="17">17</option>
+                                                        <option value="18">18</option>
+                                                        <option value="19">19</option>
+                                                        <option value="20">20</option>
+                                                        <option value="21">21</option>
+                                                        <option value="22">22</option>
+                                                        <option value="23">23</option>
+                                                        <option value="24">24</option>
+                                                        <option value="25">25</option>
+                                                        <option value="26">26</option>
+                                                        <option value="27">27</option>
+                                                        <option value="28">28</option>
+                                                        <option value="29">29</option>
+                                                        <option value="30">30</option>
+                                                        <option value="31">31</option>
+                                                        <option value="32">32</option>
+                                                        <option value="33">33</option>
+                                                        <option value="34">34</option>
+                                                        <option value="35">35</option>
+                                                        <option value="36">36</option>
+                                                        <option value="37">37</option>
+                                                        <option value="38">38</option>
+                                                        <option value="39">39</option>
+                                                        <option value="40">40</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345823">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">15</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">甜甜乐散装15G星球杯</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>150.00</del>
+                                                    <br>
+                                                    <b>112.00</b>
+                                                </td>
+                                                <td class="center">1</td>
+                                                <td class="center"><b>112.00</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345822">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">16</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">萨啦咪散装鸭舌500G</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>132.50</del>
+                                                    <br>
+                                                    <b>105.00</b>
+                                                </td>
+                                                <td class="center">1</td>
+                                                <td class="center"><b>105.00</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345831">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">17</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">长鼻王420g蛋黄味</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>0.00</del>
+                                                    <br>
+                                                    <b>20.50</b>
+                                                </td>
+                                                <td class="center">1</td>
+                                                <td class="center"><b>20.50</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345825">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">18</td>
+                                                <td>
+                                                    <div class="product">
+                                                        <p class="">
+                                                            <a href="">50g金恩阿凡提油渣(大)</a>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="center">
+                                                    <del>0.00</del>
+                                                    <br>
+                                                    <b>4.95</b>
+                                                </td>
+                                                <td class="center">5</td>
+                                                <td class="center"><b>24.75</b></td>
+                                                <td class="center J_AbnormalShowBox">
+                                                    无异常
+                                                </td>
+                                                <td>
+                                                    <label>异常类型：</label>
+                                                    <select class="J_AbnormalType">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1000">缺货</option>
+                                                        <option value="1001">退货</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常原因：</label>
+                                                    <select class="J_AbnormalReason">
+                                                        <option value="0">请选择</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>异常数量：</label>
+                                                    <select class="J_AbnormalNum">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>原因备注:</label>
+                                                    <input value="" type="text" class="J_AbnormalDescription">
+                                                    <br>
+                                                    <br>
+                                                    <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="23345832">提交异常</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7" style="font-size:18px;font-weight:bold;">
+                                                    <div style="text-align:right;margin-bottom:20px;">
+                                                        订单应收总金额：984.55&nbsp;&nbsp;&nbsp;&nbsp; 订单实收总金额：
+                                                        <input type="text" class="inputtext" id="J_ConfirmPayMenoy" style="width:100px;font-size:18px;" value="984.55">&nbsp;&nbsp;&nbsp;&nbsp; 金额变动提醒：
+                                                        <span id="changeClock">984.55</span>&nbsp;&nbsp;&nbsp;&nbsp; 支付方式：货到付款
+                                                        <br>
+                                                        <br> 备注：
+                                                        <input type="text" class="inputtext" id="J_ConfirmMemo" style="width:200px;font-size:18px;" value="">
+                                                        <input type="button" class="btn" id="saveMemo" value="保存备注">
+                                                    </div>
+                                                    <div style="text-align:right;">
+                                                        <label>送货员:</label>
+                                                        <select style="margin-right:10px;" id="deliveryId">
+                                                            <option value="0">请选择</option>
+                                                            <option value="16721692">
+                                                                叶集存 </option>
+                                                            <option value="16751995">
+                                                                临时送货员 </option>
+                                                            <option value="16762475">
+                                                                柯建光 </option>
+                                                            <option value="16771748">
+                                                                方勇 </option>
+                                                            <option value="16776150">
+                                                                肖仁江 </option>
+                                                            <option value="16789148">
+                                                                刘运 </option>
+                                                        </select>
+                                                        <input type="button" class="btn btn_confirm" id="J_ConfirmPay" value="确认收款">&nbsp;&nbsp;
+                                                        <button type="button" class="btn" id="J_ReturnAllGoods">整单退货</button>
+                                                        <input type="hidden" id="J_OrderId" value="1804101524394727">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- global js -->
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    var DOMAIN = { "main": "pifa.yunmayi.com", "passport": "passport.pifa.yunmayi.com", "buyer": "buyer.pifa.yunmayi.com", "seller": "seller.pifa.yunmayi.com", "ajax": "ajax.pifa.yunmayi.com", "agent": "agent.pifa.yunmayi.com" };
+    </script>
+    <script type="text/javascript" src="statics/js/lib/help.js"></script>
+    <script type="text/javascript">
+    $(function() {
+
+        //保存备注
+        $("#saveMemo").on("click", function() {
+            if (!confirm("是否保存备注？")) {
+                return false;
+            }
+            var data = {};
+            data.memo = $("#J_ConfirmMemo").val();
+            data.orderId = $("#J_OrderId").val();
+            var _this = $(this);
+            _this.val("正在保存...").attr("disabled", "disabled");
+            $.post("/trade/memoSave", data, function(data) {
+                build("green", data.msg, data.orderId);
+                _this.val("保存").removeAttr("disabled");
+            }, 'json');
+        });
+
+        // 异常类型选择
+        $(".J_AbnormalType").on("change", function() {
+            var _this = $(this),
+                _abnormal_reason = _this.siblings(".J_AbnormalReason"),
+                type_id = parseInt(_this.val()),
+                html = "<option value=\"0\">请选择</option>";
+            if (type_id == 0) {
+                _abnormal_reason.html(html);
+                return true;
+            }
+            $.ajax({
+                "type": "POST",
+                "url": "http://" + DOMAIN.ajax + "/common/getOrderAbnormalReasonListByParentId",
+                "dataType": "jsonp",
+                "data": {
+                    parent_id: type_id
+                },
+                "success": function(result) {
+                    if (result.error) {
+                        build("red", result.info, type_id);
+                    } else {
+                        for (var k in result.data) {
+                            html += "<option value=\"" + result.data[k].id + "\">" + result.data[k].title + "</option>"
+                        }
+                        _abnormal_reason.html(html);
+                    }
+                }
+            });
+        });
+
+        // 提交异常
+        $(".J_RecordAbnormal").on("click", function() {
+            if (confirm("确认提交异常?")) {
+                var _this = $(this),
+                    _abnormal_type = _this.siblings(".J_AbnormalType"),
+                    _abnormal_reason = _this.siblings(".J_AbnormalReason"),
+                    _abnormal_num = _this.siblings(".J_AbnormalNum"),
+                    _abnormal_show_box = _this.parent().siblings(".J_AbnormalShowBox"),
+                    _abnormal_description = _this.siblings(".J_AbnormalDescription"),
+                    detail_id = _this.data("detail-id"),
+                    type_id = parseInt(_abnormal_type.val()),
+                    reason_id = parseInt(_abnormal_reason.val()),
+                    quantity = parseInt(_abnormal_num.val());
+                var description = _abnormal_description.val();
+                if (type_id < 1) {
+                    build("red", "请选择异常类型", detail_id);
+                    return false;
+                } else if (reason_id < 1) {
+                    build("red", "请选择异常原因", detail_id);
+                    return false;
+                }
+
+                $.ajax({
+                    "type": "POST",
+                    "url": "/trade/submitOrderAbnormal",
+                    "dataType": "json",
+                    "data": {
+                        "detail_id": detail_id,
+                        "type_id": type_id,
+                        "reason_id": reason_id,
+                        "quantity": quantity,
+                        "description": description
+                    },
+                    "success": function(result) {
+                        build("green", result.info, detail_id);
+                        _abnormal_show_box.empty();
+                        //修改是否异常显示内容
+                        var price = (((result['dataildata']["pay_total_sell_price"] - result['dataildata']['cat_discount_price']) / result['dataildata']['quantity'] * result['dataildata']["out_of_stock_num"]) / 100).toFixed(2);
+                        var content = "异常：" + result['dataildata']['abnormal_type'] + "-" + result['dataildata']['abnormal_reason'] + " " + result['dataildata']['abnormal_type'] +
+                            "数量:" + result['dataildata']['out_of_stock_num'] + " " + result['dataildata']['abnormal_type'] + "金额:" +
+                            price + "  备注原因：" + result['dataildata']['abnormal_record_description'];
+                        if (result['order']['is_confirm_pay'] == 0) {
+                            content += "<br/><br/><button type='button' class='J_CancelAbnormal btn' data-detail-id='" + result['dataildata']['id'] + "'>取消异常</button>";
+                        }
+                        _abnormal_show_box.html(content);
+                        //修改订单实收总金额和金额变动提醒
+                        var paymoney = (result['order']['real_pay_total_sell_price'] / 100).toFixed(2);
+                        $("#J_ConfirmPayMenoy").val(0);
+                        $("#J_ConfirmPayMenoy").val(paymoney);
+                        $("#changeClock").empty();
+                        $("#changeClock").html(paymoney);
+                    }
+                });
+            }
+        });
+
+        // 取消异常
+        $("#J_OrderDetailListBox").on("click", "button.J_CancelAbnormal", function() {
+            if (confirm("确认取消异常?")) {
+                var _this = $(this),
+                    _parent = _this.parent(),
+                    detail_id = _this.data("detail-id");
+
+                $.ajax({
+                    "type": "POST",
+                    "url": "/trade/cancelOrderAbnormal",
+                    "dataType": "json",
+                    "data": {
+                        "detail_id": detail_id
+                    },
+                    "success": function(result) {
+                        build("green", result.info, detail_id);
+                        //修改是否异常显示内容
+                        _parent.empty();
+                        _parent.html("无异常");
+                        //修改订单实收总金额和金额变动提醒
+                        var paymoney = (result['order']['real_pay_total_sell_price'] / 100).toFixed(2);
+                        $("#J_ConfirmPayMenoy").val(0);
+                        $("#J_ConfirmPayMenoy").val(paymoney);
+                        $("#changeClock").empty();
+                        $("#changeClock").html(paymoney);
+                    }
+                });
+            }
+        });
+
+        // 确认收款
+        $("#J_ConfirmPay").on("click", function() {
+            if (confirm("确认收款?")) {
+                $("#J_ConfirmPay").css({ "background-color": "#f9f9f9", "color": "black", "border": "1px solid #dddddd" });
+                $("#J_ConfirmPay").attr("disabled", "disabled");
+                $("#J_ConfirmPay").val("已提交收款");
+                //送货员是否为空
+                var deliveryId = $("#deliveryId").find("option:selected").val();
+                if (deliveryId == 0) {
+                    build("red", "请选择送货员", deliveryId);
+                    $("#J_ConfirmPay").val("确认收款");
+                    $("#J_ConfirmPay").removeAttr("style");
+                    $("#J_ConfirmPay").removeAttr("disabled");
+                    return false;
+                }
+                var order_id = $("#J_OrderId").val();
+                var real_pay_total = $("#J_ConfirmPayMenoy").val();
+                var remark = $("#J_ConfirmMemo").val();
+                var deliveryId = $("#deliveryId").find("option:selected").val();
+
+                $.ajax({
+                    "type": "POST",
+                    "url": "/trade/orderConfirmPay",
+                    "dataType": "json",
+                    "data": {
+                        "order_id": order_id,
+                        "real_pay_total": real_pay_total,
+                        "remark": remark,
+                        "deliveryId": deliveryId
+                    },
+                    "success": function(result) {
+                        $("#J_ConfirmPay").val("确认收款");
+                        $("#J_ConfirmPay").removeAttr("style");
+                        $("#J_ConfirmPay").removeAttr("disabled");
+                        build("green", result.info, order_id);
+                        if (result.error == false) {
+                            $("#J_OrderSearchForm").submit();
+                            // window.location.reload();
+                        }
+                    }
+                });
+            }
+        });
+
+        // 整单退货
+        $("#J_ReturnAllGoods").on("click", function() {
+            if (confirm("确认收款?")) {
+                var order_id = $("#J_OrderId").val();
+                var remark = $("#J_ConfirmMemo").val();
+
+                $.ajax({
+                    "type": "POST",
+                    "url": "/trade/orderReturnAllGoods",
+                    "dataType": "json",
+                    "data": {
+                        "order_id": order_id,
+                        "remark": remark
+                    },
+                    "success": function(result) {
+                        build("green", result.info, order_id);
+                        if (result.error == false) {
+                            $("#J_OrderSearchForm").submit();
+                        }
+                    }
+                });
+            }
+        });
+    });
+    </script>
+</body>
+
+</html>

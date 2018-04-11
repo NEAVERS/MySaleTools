@@ -187,6 +187,10 @@ namespace Model
         /// </summary>
         public bool IsError { get; set; }
 
+        /// <summary>
+        /// 收货地址
+        /// </summary>
+        public string ReceiveAddr { get; set; }
 
         public string AdminRemark { get; set; }
         public OrderInfo()
@@ -217,6 +221,7 @@ namespace Model
             this.StoreName = string.Empty;
             this.IsError = false;
             this.IsPay = false;
+            this.ReceiveAddr = string.Empty;
         }
     }
 }

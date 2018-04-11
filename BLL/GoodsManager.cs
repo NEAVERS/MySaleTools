@@ -250,6 +250,7 @@ namespace BLL
                 obj.pic5 = newInfo.pic5;
                 obj.KeyWord = newInfo.KeyWord;
                 obj.Detail = newInfo.Detail;
+                obj.ErpId = newInfo.ErpId;
             }
 
             return _context.SaveChanges() > 0;

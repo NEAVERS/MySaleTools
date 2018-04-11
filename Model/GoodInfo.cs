@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,30 +16,38 @@ namespace Model
         /// <summary>
         /// 商品编号
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string GoodsNum { get; set; }
         /// <summary>
         /// 商品条形码
         /// </summary>
+
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string BarCode { get; set; }
         /// <summary>
         /// 商品中码
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string MiddleCode { get; set; }
         /// <summary>
         /// 商品箱码
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string BoxCode { get; set; }
         /// <summary>
         /// 供应商Id
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public int SupplierId { get; set; }
         /// <summary>
         /// 供应商编号
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string SupplierNum { get; set; }
         /// <summary>
         /// 供应商姓名
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string SupplierName { get; set; }
         /// <summary>
         /// 一级分类Id
@@ -47,6 +56,7 @@ namespace Model
         /// <summary>
         /// 一级分类名
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string FirstTypeName { get; set; }
         /// <summary>
         /// 二级分类Id
@@ -55,6 +65,7 @@ namespace Model
         /// <summary>
         /// 二级分类名
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string SecondTypeName { get; set; }
         /// <summary>
         /// 三级分类Id
@@ -63,14 +74,17 @@ namespace Model
         /// <summary>
         /// 三级分类名
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string ThirdTypeName { get; set; }
         /// <summary>
         /// 商品标题
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string GoodsTittle { get; set; }
         /// <summary>
         /// 商品副标题
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string GoodsSubTittle { get; set; }
         /// <summary>
         /// 商品品牌Id
@@ -79,6 +93,7 @@ namespace Model
         /// <summary>
         /// 商品品牌名
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string BrandName { get; set; }
         /// <summary>
         /// 建议零售价
@@ -103,14 +118,17 @@ namespace Model
         /// <summary>
         /// 整箱规格信息
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string BoxSpec { get; set; }
         /// <summary>
         /// 商品规格信息
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Spec { get; set; }
         /// <summary>
         /// 单位
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Unit { get; set; }
         /// <summary>
         /// 商品重量
@@ -119,6 +137,7 @@ namespace Model
         /// <summary>
         /// 商品体积
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Size { get; set; }
         /// <summary>
         /// 商品保质期
@@ -132,18 +151,25 @@ namespace Model
         /// 限购数量
         /// </summary>
         public int LimitCount { get; set; }
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string pic1 { get; set; }
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string pic2 { get; set; }
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string pic3 { get; set; }
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string pic4 { get; set; }
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string pic5 { get; set; }
         /// <summary>
         /// 关键字
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string KeyWord { get; set; }
         /// <summary>
         /// 商品详情
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Detail { get; set; }
         /// <summary>
         /// 创建人ID
@@ -153,6 +179,7 @@ namespace Model
         /// <summary>
         /// 创建人姓名
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string CreateUserName { get; set; }
 
         /// <summary>
@@ -182,6 +209,7 @@ namespace Model
         /// <summary>
         /// erp系统中该商品的ID
         /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string  ErpId { get; set; }
 
         public GoodInfo()

@@ -493,14 +493,17 @@ namespace BLL
         /// <param name="sendPeopleId"></param>
         /// <param name="ramrk"></param>
         /// <returns></returns>
-        public bool ConfirmOrderPay(Guid orderId, decimal payMoney, string remark, Guid sendPeopleId)
+        public bool ConfirmOrderPay(Guid confirmId, Guid orderId, decimal payMoney, string remark, Guid sendPeopleId)
         {
             var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
             if (order != null)
             {
                 var sendPeople = _context.UserInfoes.FirstOrDefault(x => x.UserId == sendPeopleId);
+                var confirmPeople = _context.UserInfoes.FirstOrDefault(x => x.UserId == confirmId);
                 order.Stutas = (int)OrderStatus.交易完成;
                 order.PayMoney = payMoney;
+                order.ReceiveUserId = confirmPeople.UserId;
+                order.ReceiveUserName = confirmPeople.UserName;
                 if (sendPeople != null)
                 {
                     order.SendPeople = sendPeople.UserName;

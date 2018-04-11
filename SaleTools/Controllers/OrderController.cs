@@ -148,6 +148,19 @@ namespace SaleTools.Controllers
 
             return View();
         }
+
+
+        public ActionResult PickUpBill()
+        {
+            var loginUser = (UserInfo)Session["LoginUser"];
+            Guid mangerId = loginUser.CreateUserId;
+            if (ViewBag.IsAdmin)
+                mangerId = loginUser.UserId;
+            var supplierList = _user.GetSupplierList(mangerId);
+            ViewBag.SupplierList = supplierList;
+
+            return View();
+        }
         /// <summary>
         /// 展示拣货单
         /// </summary>
@@ -226,7 +239,9 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public string ConfirmOrderPay(Guid orderId,decimal paymoeney,string remark,Guid send)
         {
-            var res = _order.ConfirmOrderPay(orderId, paymoeney, remark, send);
+            var loginUser = (UserInfo)ViewBag.User;
+
+            var res = _order.ConfirmOrderPay(loginUser.UserId, orderId, paymoeney, remark, send);
             return Utils.SerializeObject(res);
         }
 
@@ -297,6 +312,26 @@ namespace SaleTools.Controllers
         {
             var res = _order.RevertIsPay(orderId);
             return Utils.SerializeObject(res);
+        }
+
+        public ActionResult AbnormalOrder(string start ="",string end="")
+        {
+            DateTime startTime = new DateTime();
+            DateTime endTime = new DateTime();
+            DateTime now = DateTime.Now;
+            if (string.IsNullOrEmpty(start))
+                startTime = new DateTime(now.Year, now.Month, now.Day - 1, 16, 0, 0);
+            else
+                startTime = Utils.GetTime(start, true);
+            if (string.IsNullOrEmpty(end))
+                endTime = new DateTime(now.Year, now.Month, now.Day , 16, 0, 0);
+            else
+                endTime = Utils.GetTime(start);
+
+            var list = _order.GetOrderForPayContrast((Guid)ViewBag.ManagerId, 2, startTime, endTime, "", Guid.Empty, Guid.Empty ,- 1, 1);
+            ViewBag.List = list;
+            return View();
+
         }
     }
 }

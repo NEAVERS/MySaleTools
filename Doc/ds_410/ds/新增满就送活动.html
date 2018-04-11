@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>新增满就送活动 - 加盟商个人中心</title>
+    <!-- global css -->
+    <link rel="stylesheet" type="text/css" href="statics/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/base.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/pages/ucenter.css">
+    <style>
+    .brand-search {
+        z-index: 9999;
+    }
+
+    .brand-search,
+    .brand-search input {
+        position: relative;
+    }
+
+    #JBrandList {
+        background: #ffffff;
+        border: 1px solid #dddddd;
+        left: 0;
+        position: absolute;
+        top: 31px;
+        width: 200px;
+    }
+
+    #JBrandList li {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    #JBrandList li:last-child {
+        border-bottom: none;
+    }
+
+    #JBrandList li.prompt {
+        color: #aaaaaa;
+        padding: 15px;
+    }
+
+    #JBrandList li a {
+        display: block;
+        padding: 15px;
+        text-decoration: none;
+    }
+
+    #JBrandList li a:hover {
+        background: #c40012;
+        color: #ffffff;
+    }
+    </style>
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/laydate/need/laydate.css">
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/city/1.0.1/city.css">
+</head>
+
+<body>
+    <!-- 全局顶部导航 -->
+    <div class="topbar" id="topbar">
+        <div class="pace"></div>
+        <div class="module clearfix">
+            <div class="lfloat">
+                <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                <span class="hello">您好，</span>
+                <span class="username">57700000</span>
+                <span>
+                                ，欢迎来到温州批发平台
+                <!-- ,客服电话:0577-86000802 -->
+                                            </span>
+            </div>
+            <div class="rfloat">
+                <ul class="clearfix">
+                    <!-- <li><a href="http://www.yunmayi.com" target="_blank">云蚂蚁首页</a></li> -->
+                    <li style="margin-right:10px;"><a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">快递代收</a></li>
+                    <li><a href="http://pifa.yunmayi.com/">批发首页</a></li>
+                    <li><a href="http://pifa.yunmayi.com/index/ucenter">会员中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cashier/application">当面付申请</a></li>
+                    <li><a href="http://pifa.yunmayi.com/product/collect" class="">收藏中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">帮助中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cart1">购物车</a></li>
+                    <li><a href="http://passport.pifa.yunmayi.com/logout">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script>
+    (function($) {
+        $.fn.snow = function(options) {
+            var $flake = $('<div id="flake" />').css({
+                    'position': 'absolute',
+                    'top': '-50px',
+                    'z-index': '99999999'
+                }).html('&#10052;'),
+                documentHeight = $(document).height(),
+                documentWidth = $(document).width(),
+                defaults = {
+                    minSize: 10,
+                    maxSize: 20,
+                    newOn: 2000,
+                    flakeColor: "red"
+                },
+                options = $.extend({}, defaults, options);
+            var interval = setInterval(function() {
+                    documentHeight = $(document).height();
+                    var startPositionLeft = Math.random() * documentWidth - 100,
+                        startOpacity = 0.5 + Math.random(),
+                        sizeFlake = options.minSize + Math.random() * options.maxSize,
+                        endPositionTop = documentHeight - options.maxSize,
+                        endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                        durationFall = documentHeight * 10 + Math.random() * 5000;
+                    $flake.clone().appendTo('body').css({
+                        left: startPositionLeft,
+                        opacity: startOpacity,
+                        'font-size': sizeFlake,
+                        color: options.flakeColor
+                    }).animate({
+                            top: endPositionTop,
+                            left: endPositionLeft,
+                            opacity: 0.2
+                        },
+                        durationFall, 'linear',
+                        function() {
+                            $(this).remove()
+                        });
+                },
+                options.newOn);
+        };
+    })(jQuery);
+    //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+
+
+    //鼠标跟随 留言信息窗口
+    $('.remark').mousemove(function(e) {
+        $(this).children('.content').show();
+        $(this).children('.content').show().css({
+            "top": e.pageY + 20,
+            "left": e.pageX + 20
+        })
+    });
+    //滑出隐藏
+    $('.remark').mouseout(function() {
+        $(this).children('.content').hide();
+    });
+    $(window).resize(function() {
+        /* Act on the event */
+        if (document.documentElement.clientWidth < 1200) {
+            $('#topbar').width(1200);
+        } else {
+            $('#topbar').width('100%');
+        }
+
+    });
+    //加载效果
+    var paces = {
+        pace: $('#topbar .pace'),
+        timer: "",
+        w: 0,
+        start: function() {
+            var _this = this;
+            _this.w = 0;
+            if (_this.timer) {
+                _this.w = 0;
+                _this.pace.width(_this.w + "%");
+                clearInterval(_this.timer);
+            } else {
+                _this.timer = setInterval(function() {
+                    ++_this.w;
+                    _this.pace.width(_this.w + "%");
+                    if (_this.w >= 55) {
+                        clearInterval(_this.timer);
+                    }
+                }, 0)
+            }
+
+
+        },
+        end: function() {
+            var _this = this;
+            _this.w = parseInt(_this.pace[0].style.width);
+            clearInterval(_this.timer);
+            _this.timer = setInterval(function() {
+                ++_this.w;
+                _this.pace.width(_this.w + "%");
+                if (_this.w >= 100) {
+                    clearInterval(_this.timer);
+                    var setTimer = setTimeout(function() {
+                        _this.w = 0;
+                        _this.pace.width(_this.w);
+                        clearInterval(_this.timer);
+                    }, 1000);
+                    clearTimeout(clearTimeout);
+                    return false
+                }
+            }, 10)
+        }
+    };
+
+    /*弹框 popup*/
+    function build(status, comment, id, num) {
+        if (!$(".globalPopContainer").length > 0) {
+            $(document.body).append('<div class="globalPopContainer"></div>');
+        }
+        if (!num) {
+            num = '';
+        }
+        if (status == "red") {
+            var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress rprogress'></div>";
+        } else {
+            var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress gprogress'></div>";
+        }
+        html += "<span class='closePop'>x</span>";
+        html += "</div>";
+        $(".globalPopContainer").prepend(html); // 追加新元素   
+        $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth())
+        Popup(id, $("#popup_" + id).outerWidth());
+    }
+
+    function Popup(id, popWidth) {
+        $("#popup_" + id).find(".progress").animate({ width: 0 + 'px' }, 3000, function() {
+            $("#popup_" + id).animate({ right: -popWidth + 'px' }, function() {
+                $(this).remove();
+            })
+        });
+        $("#popup_" + id).mouseout(function() {
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).find(".progress").animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        });
+        $("#popup_" + id).mouseover(function() {
+            var proWidth = $(this).outerWidth()
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).animate({ right: 0 + 'px' }, function() {
+                $(this).find(".progress").animate({ width: proWidth + 'px' });
+            });
+        });
+        $("#popup_" + id).find(".closePop").on('click', function(event) {
+            $(this).parent().unbind("mouseover");
+            $(this).parent().unbind("mouseout");
+            $(this).siblings('.progress').animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        })
+    }
+    </script>
+    <div id="wraper">
+        <div id="main">
+            <div class="module">
+                <div class="ucenter">
+                    <div class="col_side">
+                        <!-- 侧边导航 -->
+                        <div class="menu_box">
+                            <dl class="menu">
+                                <dt class="menu_title">交易管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/list">订单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/arealist">订单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/export">订单导出</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsbills">取货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickingupgoodsbills">拣货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsalelist">多平台销售单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudpicklist">多平台拣货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsendgoodsbills">多平台取货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/expressqueryforagent">快递订单查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">商品管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/product/index">商品列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/publish">新增商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/checkprice">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/public">公共商品库</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/brandcategory">品牌管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/recommendlist">推荐商品列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账户中心</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/account/updatepassword">修改密码</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/manage">账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/deliverymanmanage">送货员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/salesmanmanage">业务员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/pickermanage">分拣员管理</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">会员管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellermanage">供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/cloudseller">云供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/buyermanage">小店管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/banklist">银行账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/checkorderbranch">快递网点查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">余额管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/balance/list">余额明细</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/recharge">余额充值</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/creditquota">信用额度</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">财务管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderconfirmpayrecord">订单收款登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderpaycontrast">应收未收对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/bill/salebill">平台销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/offlinepresale">线下开单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/abnormalorder">收款异常查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">仓库管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderabnormalrecord">订单异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsscan">订单发货扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersendgoodscontrast">发货扫描对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodswithoutpay">已发未交查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/storemanage">商品库存管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/stocksetting">商品入库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/checkout">商品出库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/stockoperate">商品操作查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersortsearch">仓库排单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickgoodsscan">订单分拣扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/ordermanagement">订单分拣管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/checkpicklist">分拣商品查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">活动管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjslist">满就送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/couponlist">优惠券活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/dpslist">单品送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjjlist">满就减活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/blacklist">非活动商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/categoryactivity">类目活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/onlycouponlist">优惠券管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/addpresale">新增预售活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/presalelist">预售活动列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/soldpresalelist">已售活动列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">系统管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/notice/index">公告列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/diycategory">首页类目设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/homeposter">首页海报</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/sendgoodsfoot">页尾设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/systemdao/operate">系统设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/systemlist">系统日志</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">积分管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/integral/gitmanage">积分礼品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/integral/rulemanage">签到规则管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/searchgiftmanage">积分商品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/agentbalancelist">商城积分明细</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">数据统计</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordercount">订单综合统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/shopcount">商品销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalcount">异常情况统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/refundinfo">商品退货统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/agent/warehouse/inventory">商品库存统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/goodsbill">商品账单统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/countlog">商品编辑统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalnumber">异常天数统计</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">退货管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/salesmanorderlist">申请退货</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnbacklist">退货查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allreturnbacklist">客服审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/warehouseaudit">仓库审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnsellerlist">退供应商</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allbacklistformoney">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账单管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/bill/operate">异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/auditsellerlist">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/financialauditsellerlist">财务审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ financialplaysellerlist">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">供应商管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockinfo">到货条码生成</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerqr">到货扫描操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockbill">到货扫描管理</a>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col_main">
+                        <div class="col_main_hd">
+                            <h2>新增满就送活动</h2>
+                        </div>
+                        <div class="col_main_bd">
+                            <div class="inner">
+                                <div class="col_main_content">
+                                    <form action="http://agent.pifa.yunmayi.com/promotion/addMjs" method="POST" id="J_PublishProductForm">
+                                        <table class="table table_border_td_none">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="right" width="120"><span class="highlight">*</span>活动标题：</td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" name="title" style="width:250px;" value="">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right"><span class="highlight">*</span>活动开始时间：</td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" name="start_time" style="width:180px;" value="" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right"><span class="highlight">*</span>活动结束时间：</td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" name="end_time" style="width:180px;" value="" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right"><span class="highlight">*</span>活动区域选择：</td>
+                                                    <td>
+                                                        <div class="wgt_city_select" id="J_CitySelector" data-pid="0" data-cid="0" data-aid="0">
+                                                            <input type="hidden" name="prov_id" value="0" data-name="">
+                                                            <input type="hidden" name="city_id" value="0" data-name="">
+                                                            <input type="hidden" name="area_id" value="0" data-name="">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                    <td>
+                                                        <a href="javascript:;" class="btn" id="J_AddArea">添加区域</a>
+                                                        <div class="hidden_elem" id="J_AreaIdListInputBox"></div>
+                                                        <div id="J_AreaIdListButtonBox" style="margin-top:10px;"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right"><span class="highlight">*</span>订单总金额：</td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" name="condition" style="width:80px;" value="0">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right"><span class="highlight">*</span>赠品ID：</td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" name="product_id" style="width:100px;" value="0">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right"><span class="highlight">*</span>赠品数量：</td>
+                                                    <td>
+                                                        <input type="text" class="inputtext" name="quantity" style="width:80px;" value="0">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right"><span class="highlight">*</span>客户类型：</td>
+                                                    <td>
+                                                        <input type="checkbox" name="show_customer[]" value="default">默认客户&nbsp;&nbsp;
+                                                        <input type="checkbox" name="show_customer[]" value="a_customer">A类客户&nbsp;&nbsp;
+                                                        <input type="checkbox" name="show_customer[]" value="b_customer">B类客户&nbsp;&nbsp;
+                                                        <input type="checkbox" name="show_customer[]" value="c_customer">C类客户&nbsp;&nbsp;
+                                                        <input type="checkbox" name="show_customer[]" value="d_customer">D类客户&nbsp;&nbsp;
+                                                        <input type="checkbox" name="show_customer[]" value="e_customer">蚂蚁连锁&nbsp;&nbsp;
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                    <td>
+                                                        <button type="submit" class="btn btn_confirm">保存</button>
+                                                        <input type="hidden" name="type" value="common">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                    <hr>
+                                    <span style="">
+                                        备注：同一个时期内，多条满送活动可以设置赠送同一个商品id，比如满1000赠送红牛一箱（商品id2123），满2000赠送红牛两箱（商品id2123），客户如果下单金额满2000，就赠送两箱红牛，订单总金额指的是商品的总金额，满就送活动支持黑名单功能。
+                                    </span>
+                                    <span style="display:none">
+                                        备注：同一时期内，多条满就送活动可以设置赠送同一个商品id，订单总金额指该品牌的商品下单总金额，做品牌活动时，一定要确认是不是该品牌商品都有维护好商品品牌，只有维护了该商品品牌的商品才参与品牌满就送活动，比如乐事满600送单品活动，下单的商品乐事刚好满600，但是其中有一个乐事没有维护乐事品牌，导致乐事品牌金额不满600，享受不了该活动。品牌满就送活动不支持黑名单功能，如果不想某些商品参与该活动，可以把品牌临时维护成空，在商品名称前注明［不参与满送］，活动做完后再把品牌维护过来。
+                                    </span>
+                                    <span style="display:none">
+                                        备注：同一时期内，多条满就送活动可以设置赠送同一个商品id，订单总金额指该供应商的商品下单总金额，做供应商活动时，确认该供应商下面的商品，供应商满就送活动不支持黑名单功能，如果想要某些商品不参与该活动，可以把该商品维护到临时的供应商下面。
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- global js -->
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    var DOMAIN = { "main": "pifa.yunmayi.com", "passport": "passport.pifa.yunmayi.com", "buyer": "buyer.pifa.yunmayi.com", "seller": "seller.pifa.yunmayi.com", "ajax": "ajax.pifa.yunmayi.com", "agent": "agent.pifa.yunmayi.com" };
+    </script>
+    <script type="text/javascript" src="statics/js/lib/help.js"></script>
+    <script type="text/javascript" src="statics/js/lib/laydate/laydate.js"></script>
+    <script type="text/javascript" src="statics/js/lib/city/1.0.1/city.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        // 省市区选择器
+        var _city = new $.yunmayi.city({
+            "containerId": "#J_CitySelector",
+            "autoInit": true
+        });
+
+        // 选择区域
+        var area_list = [];
+        var area_name_list = {};
+        $("#J_AddArea").on("click", function() {
+            var aid = parseInt(_city.elements.ahidden.val());
+            var aname = _city.elements.ahidden.data("name");
+
+            if (aid == 0) {
+                build("red", "请选择区域", aid);
+                return false;
+            }
+
+            if ($.inArray(aid, area_list) >= 0) {
+                build("red", "已选择该区域", aid);
+                return false;
+            }
+
+            area_list.push(aid);
+            area_name_list[aid] = aname;
+
+            console.log(area_list);
+            console.log(area_name_list);
+
+            createAreaListHtml();
+
+            return false;
+        });
+
+        $("#J_AreaIdListButtonBox").on("click", "a", function() {
+            if (confirm("移除该县区?")) {
+                var aid = parseInt($(this).data("id"));
+                delete area_name_list[aid];
+                for (var k in area_list) {
+                    if (area_list[k] == aid) {
+                        area_list.splice(k, 1);
+                    }
+                }
+                createAreaListHtml();
+            }
+        });
+
+        function createAreaListHtml() {
+            // hidden input html
+            var hidden_input_html = "";
+            for (var k in area_list) {
+                hidden_input_html += "<input type=\"hidden\" name=\"area_list[]\" value=\"" + area_list[k] + "\" />";
+            }
+            $("#J_AreaIdListInputBox").html(hidden_input_html);
+
+            var name_html = "";
+            for (var k in area_name_list) {
+                name_html += "<a href=\"javascript:;\" class=\"btn\" data-id=\"" + k + "\">" + area_name_list[k] + "</a>";
+            }
+            $("#J_AreaIdListButtonBox").html(name_html);
+        }
+    });
+
+    // 品牌搜索
+    (function() {
+        var brandKeyword = "";
+        var brandSearchTimer;
+        var inSearch = false;
+        var selected = false;
+        var brand = {
+            id: 0,
+            name: ""
+        };
+
+        $("#JBrandSearchKeyword")
+            .on("focus", function(event) {
+                var _this = $(this);
+                var _list = $("#JBrandList");
+                _list.removeClass("hidden_elem");
+                _list.html("<li class=\"prompt\">请输入品牌搜索关键词</li>");
+                brandSearchTimer = setInterval(function() {
+                    var keyword = _this.val().trim();
+                    if (keyword.length > 0 && !inSearch && keyword != brandKeyword) {
+                        inSearch = true;
+                        brandKeyword = keyword;
+                        _list.html("<li class=\"prompt\">搜索中...</li>");
+                        $.ajax({
+                            url: "/promotion/getList",
+                            type: "post",
+                            dataType: "json",
+                            data: {
+                                keyword: brandKeyword,
+                                type: 2
+                            },
+                            success: function(result) {
+                                if (result.length == 0) {
+                                    _list.html("<li class=\"prompt\">未搜索到相关品牌</li>");
+                                } else {
+                                    var html = "";
+                                    for (var k in result) {
+                                        html += "<li><a href='javascript:;' data-id='" + result[k].id + "'>" + result[k].name + "</a></li>";
+                                    }
+                                    _list.html(html);
+                                }
+
+                                inSearch = false;
+                            }
+                        });
+                    } else {
+
+                    }
+                }, 1000);
+            })
+            .on("click", function(event) {
+                event.stopPropagation();
+            });
+        $("#JBrandList").on("click", "a", function(event) {
+            var _this = $(this);
+            var id = _this.data("id");
+            var name = _this.text();
+
+            selected = true;
+            brand.id = id;
+            brand.name = name;
+
+            var text = "已选择品牌【" + name + "】";
+            $("#JBrandId").val(brand.id);
+            $("#JBrandSearchKeyword").val("");
+            $("#JBrandList").addClass("hidden_elem").html("").siblings("span.highlight").text(text);
+            clearInterval(brandSearchTimer);
+            brandKeyword = "";
+            event.stopPropagation();
+        });
+        $(document).on("click", function(event) {
+            $("#JBrandSearchKeyword").val("");
+            $("#JBrandList").addClass("hidden_elem").html("");
+            clearInterval(brandSearchTimer);
+            brandKeyword = "";
+            event.stopPropagation();
+        });
+    })();
+    </script>
+</body>
+
+</html>

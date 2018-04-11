@@ -1,15 +1,15 @@
-(function($){
-    var ajax_url = "http://"+DOMAIN.ajax+"/category/getChildrenList";
+(function ($) {
+    var ajax_url = "/GoodsManager/GetGoodsTypeList";
     var tpl_header_str = "<div class=\"wgt_category_select_hd\"><div class=\"wgt_city_title\">请选择类目</div><i class=\"iconfont\">&#xe607;</i></div>";
     var tpl_body_str = "<div class=\"wgt_category_select_bd\"><div class=\"wgt_category_select_tabs\"><a class=\"wgt_category_select_tab cur\" href=\"javascript:;\">一级类目</a><a class=\"wgt_category_select_tab\" href=\"javascript:;\">二级类目</a><a class=\"wgt_category_select_tab\" href=\"javascript:;\">三级类目</a></div><div class=\"wgt_category_select_content wgt_category_select_content_show\"><dl><dd class=\"clearfix\"></dd></dl></div><div class=\"wgt_category_select_content\"><dl><dd class=\"clearfix\"></dd></dl></div><div class=\"wgt_category_select_content\"><dl><dd class=\"clearfix\"></dd></dl></div><input type=\"hidden\" name=\"fst_cat_id\" value=\"0\"><input type=\"hidden\" name=\"snd_cat_id\" value=\"0\"><input type=\"hidden\" name=\"thd_cat_id\" value=\"0\"></div>";
     var category_cache = {};
     var type = $('#J_CategorySelector').data('type');
     type = type == undefined ? '' : type;
-    
-    $.fn.CategorySelector = function(options){
+
+    $.fn.CategorySelector = function (options) {
         // 配置参数
         $.extend($.fn.CategorySelector.configs, options);
-        
+
         // 容器
         $.fn.CategorySelector.container = this;
 
@@ -33,14 +33,14 @@
          * 默认配置参数
          */
         configs: {
-            afterFstSelect: function(cid){},
-            afterSndSelect: function(cid){},
-            afterThdSelect: function(cid){}
+            afterFstSelect: function (cid) { },
+            afterSndSelect: function (cid) { },
+            afterThdSelect: function (cid) { }
         },
         /**
          * 初始化
          */
-        initialize: function() {
+        initialize: function () {
             // 创建元素
             this.createElements();
             // 绑定事件
@@ -53,10 +53,10 @@
         /**
          * 创建元素
          */
-        createElements: function(){
+        createElements: function () {
             var that = this;
 
-            $(this.container).each(function(index){
+            $(this.container).each(function (index) {
                 var fid = parseInt($(this).data("fid"));
                 var sid = parseInt($(this).data("sid"));
                 var tid = parseInt($(this).data("tid"));
@@ -67,64 +67,64 @@
 
                 that.elements[index] = {};
 
-                that.elements[index].header = $("<div>", {"class": "wgt_category_select_hd"});
-                that.elements[index].title = $("<div>", {"class": "wgt_category_title", "text": "请选择类目"});
-                that.elements[index].icon = $("<i>", {"class": "iconfont", "html": "&#xe607;"});
+                that.elements[index].header = $("<div>", { "class": "wgt_category_select_hd" });
+                that.elements[index].title = $("<div>", { "class": "wgt_category_title", "text": "请选择类目" });
+                that.elements[index].icon = $("<i>", { "class": "iconfont", "html": "&#xe607;" });
 
-                that.elements[index].body = $("<div>", {"class": "wgt_category_select_bd"});
-                that.elements[index].tabs = $("<div>", {"class": "wgt_category_select_tabs"});
-                that.elements[index].ftab = $("<a>", {"class": "wgt_category_select_tab cur", "href": "javascript:;", "text": "一级类目"});
-                that.elements[index].stab = $("<a>", {"class": "wgt_category_select_tab", "href": "javascript:;", "text": "二级类目"});
-                that.elements[index].ttab = $("<a>", {"class": "wgt_category_select_tab", "href": "javascript:;", "text": "三级类目"});
-                that.elements[index].contents = $("<div>", {"class": "wgt_category_select_contents"});
-                that.elements[index].fcontent = $("<div>", {"class": "wgt_category_select_content wgt_category_select_content_show"});
-                that.elements[index].scontent = $("<div>", {"class": "wgt_category_select_content"});
-                that.elements[index].tcontent = $("<div>", {"class": "wgt_category_select_content"});
+                that.elements[index].body = $("<div>", { "class": "wgt_category_select_bd" });
+                that.elements[index].tabs = $("<div>", { "class": "wgt_category_select_tabs" });
+                that.elements[index].ftab = $("<a>", { "class": "wgt_category_select_tab cur", "href": "javascript:;", "text": "一级类目" });
+                that.elements[index].stab = $("<a>", { "class": "wgt_category_select_tab", "href": "javascript:;", "text": "二级类目" });
+                that.elements[index].ttab = $("<a>", { "class": "wgt_category_select_tab", "href": "javascript:;", "text": "三级类目" });
+                that.elements[index].contents = $("<div>", { "class": "wgt_category_select_contents" });
+                that.elements[index].fcontent = $("<div>", { "class": "wgt_category_select_content wgt_category_select_content_show" });
+                that.elements[index].scontent = $("<div>", { "class": "wgt_category_select_content" });
+                that.elements[index].tcontent = $("<div>", { "class": "wgt_category_select_content" });
                 that.elements[index].fdl = $("<dl>");
-                that.elements[index].fdd = $("<dd>", {"class": "clearfix"});
+                that.elements[index].fdd = $("<dd>", { "class": "clearfix" });
                 that.elements[index].sdl = $("<dl>");
-                that.elements[index].sdd = $("<dd>", {"class": "clearfix"});
+                that.elements[index].sdd = $("<dd>", { "class": "clearfix" });
                 that.elements[index].tdl = $("<dl>");
-                that.elements[index].tdd = $("<dd>", {"class": "clearfix"});
+                that.elements[index].tdd = $("<dd>", { "class": "clearfix" });
 
                 if (that.multMode) {
-                    that.elements[index].fhidden = $("<input>", {"type": "hidden", "name": "fst_cat_id_"+index, "value": fid});
-                    that.elements[index].shidden = $("<input>", {"type": "hidden", "name": "snd_cat_id_"+index, "value": sid});
-                    that.elements[index].thidden = $("<input>", {"type": "hidden", "name": "thd_cat_id_"+index, "value": tid});
+                    that.elements[index].fhidden = $("<input>", { "type": "hidden", "name": "fst_cat_id_" + index, "value": fid });
+                    that.elements[index].shidden = $("<input>", { "type": "hidden", "name": "snd_cat_id_" + index, "value": sid });
+                    that.elements[index].thidden = $("<input>", { "type": "hidden", "name": "thd_cat_id_" + index, "value": tid });
                 }
                 else {
-                    that.elements[index].fhidden = $("<input>", {"type": "hidden", "name": "fst_cat_id", "value": fid});
-                    that.elements[index].shidden = $("<input>", {"type": "hidden", "name": "snd_cat_id", "value": sid});
-                    that.elements[index].thidden = $("<input>", {"type": "hidden", "name": "thd_cat_id", "value": tid});
+                    that.elements[index].fhidden = $("<input>", { "type": "hidden", "name": "fst_cat_id", "value": fid });
+                    that.elements[index].shidden = $("<input>", { "type": "hidden", "name": "snd_cat_id", "value": sid });
+                    that.elements[index].thidden = $("<input>", { "type": "hidden", "name": "thd_cat_id", "value": tid });
                 }
             });
         },
         // 事件绑定
-        bindEvents: function() {
+        bindEvents: function () {
             var that = this;
 
-            $(this.container).each(function(index){
+            $(this.container).each(function (index) {
                 var elements = that.elements[index];
 
                 // 显示内容
-                elements.header.on("click", function(){
-                    elements.body.css({"display": "block"});
+                elements.header.on("click", function () {
+                    elements.body.css({ "display": "block" });
                 });
 
                 // tabs
-                elements.ftab.on("click", function(){
+                elements.ftab.on("click", function () {
                     if ($(this).hasClass("cur")) {
                         return false;
                     }
                     that.tabShow(index, 1);
                 });
-                elements.stab.on("click", function(){
+                elements.stab.on("click", function () {
                     if ($(this).hasClass("cur")) {
                         return false;
                     }
                     that.tabShow(index, 2);
                 });
-                elements.ttab.on("click", function(){
+                elements.ttab.on("click", function () {
                     if ($(this).hasClass("cur")) {
                         return false;
                     }
@@ -132,10 +132,10 @@
                 });
 
                 // content dd a
-                elements.fdd.on("click", "a", function(){
+                elements.fdd.on("click", "a", function () {
                     var _this = $(this);
                     if (!_this.hasClass("cur")) {
-                        var cid = parseInt(_this.data("id"));
+                        var cid = _this.data("id");
                         elements.sdd.html("");
                         elements.tdd.html("");
                         elements.shidden.val(0);
@@ -143,10 +143,10 @@
                         elements.thidden.val(0);
                         elements.thidden.data("name", "");
 
-                        that.getCategoryList(cid, function(result){
+                        that.getCategoryList(cid, function (result) {
                             var html_str = "";
                             for (var k in result) {
-                                html_str += "<a href=\"javascript:;\" data-id=\""+result[k].id+"\">"+result[k].cnname+"</a>";
+                                html_str += "<a href=\"javascript:;\" data-id=\"" + result[k].Id + "\">" + result[k].TypeName + "</a>";
                             }
 
                             elements.sdd.html(html_str);
@@ -163,18 +163,18 @@
                     }
                     return false;
                 });
-                elements.sdd.on("click", "a", function(){
+                elements.sdd.on("click", "a", function () {
                     var _this = $(this);
                     if (!_this.hasClass("cur")) {
-                        var cid = parseInt(_this.data("id"));
+                        var cid = _this.data("id");
                         elements.tdd.html("");
                         elements.thidden.val(0);
                         elements.thidden.data("name", "");
 
-                        that.getCategoryList(cid, function(result){
+                        that.getCategoryList(cid, function (result) {
                             var html_str = "";
                             for (var k in result) {
-                                html_str += "<a href=\"javascript:;\" data-id=\""+result[k].id+"\">"+result[k].cnname+"</a>";
+                                html_str += "<a href=\"javascript:;\" data-id=\"" + result[k].Id + "\">" + result[k].TypeName + "</a>";
                             }
 
                             elements.tdd.html(html_str);
@@ -191,9 +191,9 @@
                     }
                     return false;
                 });
-                elements.tdd.on("click", "a", function(){
+                elements.tdd.on("click", "a", function () {
                     var _this = $(this);
-                    var cid = parseInt(_this.data("id"));
+                    var cid = _this.data("id");
 
                     _this.addClass("cur");
                     _this.siblings("a").removeClass("cur");
@@ -209,7 +209,7 @@
             });
 
             // 隐藏
-            $(document.body).on("click", function(e){
+            $(document.body).on("click", function (e) {
                 var current_index = -1;
                 var is_find = false;
                 for (var key in that.elements) {
@@ -224,11 +224,11 @@
                         break;
                     }
                 }
-                $(that.container).each(function(index){
+                $(that.container).each(function (index) {
                     if (index == current_index) {
                         return true;
                     }
-                    that.elements[index].body.css({"display": "none"});
+                    that.elements[index].body.css({ "display": "none" });
                 });
             });
 
@@ -236,48 +236,48 @@
         /**
          * 创建模板
          */
-        template: function() {
+        template: function () {
             var that = this;
 
-            $(this.container).each(function(index){
+            $(this.container).each(function (index) {
                 $(this)
                     .append(
-                        that.elements[index].header
-                            .append(that.elements[index].title)
-                            .append(that.elements[index].icon)
+                    that.elements[index].header
+                        .append(that.elements[index].title)
+                        .append(that.elements[index].icon)
                     )
                     .append(
-                        that.elements[index].body
+                    that.elements[index].body
+                        .append(
+                        that.elements[index].tabs
+                            .append(that.elements[index].ftab)
+                            .append(that.elements[index].stab)
+                            .append(that.elements[index].ttab)
+                        )
+                        .append(
+                        that.elements[index].contents
                             .append(
-                                that.elements[index].tabs
-                                    .append(that.elements[index].ftab)
-                                    .append(that.elements[index].stab)
-                                    .append(that.elements[index].ttab)
+                            that.elements[index].fcontent
+                                .append(
+                                that.elements[index].fdl.append(that.elements[index].fdd)
+                                )
                             )
                             .append(
-                                that.elements[index].contents
-                                    .append(
-                                        that.elements[index].fcontent
-                                            .append(
-                                                that.elements[index].fdl.append(that.elements[index].fdd)
-                                            )
-                                    )
-                                    .append(
-                                        that.elements[index].scontent
-                                            .append(
-                                                that.elements[index].sdl.append(that.elements[index].sdd)
-                                            )
-                                    )
-                                    .append(
-                                        that.elements[index].tcontent
-                                            .append(
-                                                that.elements[index].tdl.append(that.elements[index].tdd)
-                                            )
-                                    )
+                            that.elements[index].scontent
+                                .append(
+                                that.elements[index].sdl.append(that.elements[index].sdd)
+                                )
                             )
-                            .append(that.elements[index].fhidden)
-                            .append(that.elements[index].shidden)
-                            .append(that.elements[index].thidden)
+                            .append(
+                            that.elements[index].tcontent
+                                .append(
+                                that.elements[index].tdl.append(that.elements[index].tdd)
+                                )
+                            )
+                        )
+                        .append(that.elements[index].fhidden)
+                        .append(that.elements[index].shidden)
+                        .append(that.elements[index].thidden)
                     );
             });
         },
@@ -288,7 +288,7 @@
         /**
          * tab切换
          */
-        tabShow: function(index, mode){
+        tabShow: function (index, mode) {
             var elements = this.elements[index];
             if (elements == undefined) {
                 return false;
@@ -324,7 +324,7 @@
         /**
          * 显示提示
          */
-        tipShow: function(index) {
+        tipShow: function (index) {
             var elements = this.elements[index];
             if (elements == undefined) {
                 return false;
@@ -352,74 +352,81 @@
         /**
          * 类目初始化
          */
-        categoryInit: function(){
+        categoryInit: function () {
             var that = this;
 
-            this.getCategoryList(0, function(result){
-                $(that.container).each(function(index){
+            this.getCategoryList(0, function (result) {
+                $(that.container).each(function (index) {
                     var elems = that.elements[index];
-                    var fid = parseInt(elems.fhidden.val());
+                    var fid = "";
+
+                    if ($("#FirstTypeId").val())
+                        fid = $("#FirstTypeId").val();
                     var html = "";
                     var cur_class = "";
 
-                    fid = isNaN(fid) ? 0 : fid;
 
                     for (var k in result) {
                         cur_class = "";
-                        if (result[k].id == fid) {
+                        if (result[k].Id == fid) {
                             cur_class = "class=\"cur\"";
-                            elems.fhidden.data("name", result[k].cnname);
+                            elems.fhidden.data("name", result[k].TypeName);
                         }
-                        html += "<a href=\"javascript:;\" "+cur_class+" data-id=\""+result[k].id+"\">"+result[k].cnname+"</a>";
+                        html += "<a href=\"javascript:;\" " + cur_class + " data-id=\"" + result[k].Id + "\">" + result[k].TypeName + "</a>";
                     }
 
                     elems.fdd.html(html);
                     that.tipShow(index);
-                    
-                    if (fid > 0) {
+
+                    if (fid != "") {
                         // callback
                         that.configs.afterFstSelect(fid);
 
                         // 初始化二级类目
-                        that.getCategoryList(fid, function(result){
-                            var sid = parseInt(elems.shidden.val());
+                        that.getCategoryList(fid, function (result) {
+                            var sid = "";;
+                            if ($("#SecondTypeId").val())
+                                sid = $("#SecondTypeId").val();
+
                             var html = "";
                             var cur_class = "";
 
-                            sid = isNaN(sid) ? 0 : sid;
 
                             for (var k in result) {
                                 cur_class = "";
-                                if (result[k].id == sid) {
+                                if (result[k].Id == sid) {
                                     cur_class = "class=\"cur\"";
-                                    elems.shidden.data("name", result[k].cnname);
+                                    elems.shidden.data("name", result[k].TypeName);
                                 }
-                                html += "<a href=\"javascript:;\" "+cur_class+" data-id=\""+result[k].id+"\">"+result[k].cnname+"</a>";
+                                html += "<a href=\"javascript:;\" " + cur_class + " data-id=\"" + result[k].Id + "\">" + result[k].TypeName + "</a>";
                             }
 
                             elems.sdd.html(html);
                             that.tipShow(index);
                             that.tabShow(index, 2);
 
-                            if (sid > 0) {
+                            if (sid != "") {
                                 // callback
                                 that.configs.afterSndSelect(sid);
 
                                 // 初始化三级类目
-                                that.getCategoryList(sid, function(result){
-                                    var tid = parseInt(elems.thidden.val());
+                                that.getCategoryList(sid, function (result) {
+
+                                    var tid = "";
+                                    if ($("#ThirdTYypeId").val())
+                                        tid = $("#ThirdTYypeId").val();
+
                                     var html = "";
                                     var cur_class = "";
 
-                                    tid = isNaN(tid) ? 0 : tid;
 
                                     for (var k in result) {
                                         cur_class = "";
-                                        if (result[k].id == tid) {
+                                        if (result[k].Id == tid) {
                                             cur_class = "class=\"cur\"";
-                                            elems.thidden.data("name", result[k].cnname);
+                                            elems.thidden.data("name", result[k].TypeName);
                                         }
-                                        html += "<a href=\"javascript:;\" "+cur_class+" data-id=\""+result[k].id+"\">"+result[k].cnname+"</a>";
+                                        html += "<a href=\"javascript:;\" " + cur_class + " data-id=\"" + result[k].Id + "\">" + result[k].TypeName + "</a>";
                                     }
 
                                     elems.tdd.html(html);
@@ -439,20 +446,20 @@
         /**
          * 获取类目信息列表
          */
-        getCategoryList: function(parent_id, callback){
+        getCategoryList: function (parent_id, callback) {
             if (category_cache[parent_id] != undefined) {
                 callback(category_cache[parent_id]);
             }
             else {
                 $.ajax({
                     "type": "POST",
-                    "url": ajax_url,
-                    "dataType": "jsonp",
+                    "url": "/GoodsManager/GetGoodsTypeList",
+                    "dataType": "json",
                     "data": {
-                        "parent_id": parent_id,
-                        "type" : type
+                        "id": parent_id,
+                        "type": type
                     },
-                    "success": function(result) {
+                    "success": function (result) {
                         category_cache[parent_id] = result;
                         callback(result);
                     }

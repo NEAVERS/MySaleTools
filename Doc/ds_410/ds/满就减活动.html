@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>满就减活动 - 加盟商个人中心</title>
+    <!-- global css -->
+    <link rel="stylesheet" type="text/css" href="statics/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/base.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/pages/ucenter.css">
+    <style>
+    #envon {
+        width: 300px;
+        background-color: #FFFFFF;
+        border-radius: 10px;
+        padding: 20px 20px;
+        overflow: hidden;
+        display: none;
+    }
+
+    #envon input {
+        margin-top: 20px;
+        width: 290px;
+        font-size: 15px;
+        height: 25px
+    }
+
+    #envon button {
+        background: #FF6709;
+        border: none;
+        border-radius: 5px;
+        width: 60px;
+        font-size: 15px;
+        height: 25px;
+        float: left;
+        margin-top: 20px;
+    }
+
+    #envon a {
+        text-decoration: none;
+        color: black;
+        margin-top: 20px;
+        display: block;
+        border-radius: 5px;
+        width: 60px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+        background: #ccc;
+        float: right;
+    }
+    </style>
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/laydate/need/laydate.css">
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+</head>
+
+<body>
+    <!-- 全局顶部导航 -->
+    <div class="topbar" id="topbar">
+        <div class="pace"></div>
+        <div class="module clearfix">
+            <div class="lfloat">
+                <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                <span class="hello">您好，</span>
+                <span class="username">57700000</span>
+                <span>
+                                ，欢迎来到温州批发平台
+                <!-- ,客服电话:0577-86000802 -->
+                                            </span>
+            </div>
+            <div class="rfloat">
+                <ul class="clearfix">
+                    <!-- <li><a href="http://www.yunmayi.com" target="_blank">云蚂蚁首页</a></li> -->
+                    <li style="margin-right:10px;"><a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">快递代收</a></li>
+                    <li><a href="http://pifa.yunmayi.com/">批发首页</a></li>
+                    <li><a href="http://pifa.yunmayi.com/index/ucenter">会员中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cashier/application">当面付申请</a></li>
+                    <li><a href="http://pifa.yunmayi.com/product/collect" class="">收藏中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">帮助中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cart1">购物车</a></li>
+                    <li><a href="http://passport.pifa.yunmayi.com/logout">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script>
+    (function($) {
+        $.fn.snow = function(options) {
+            var $flake = $('<div id="flake" />').css({
+                    'position': 'absolute',
+                    'top': '-50px',
+                    'z-index': '99999999'
+                }).html('&#10052;'),
+                documentHeight = $(document).height(),
+                documentWidth = $(document).width(),
+                defaults = {
+                    minSize: 10,
+                    maxSize: 20,
+                    newOn: 2000,
+                    flakeColor: "red"
+                },
+                options = $.extend({}, defaults, options);
+            var interval = setInterval(function() {
+                    documentHeight = $(document).height();
+                    var startPositionLeft = Math.random() * documentWidth - 100,
+                        startOpacity = 0.5 + Math.random(),
+                        sizeFlake = options.minSize + Math.random() * options.maxSize,
+                        endPositionTop = documentHeight - options.maxSize,
+                        endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                        durationFall = documentHeight * 10 + Math.random() * 5000;
+                    $flake.clone().appendTo('body').css({
+                        left: startPositionLeft,
+                        opacity: startOpacity,
+                        'font-size': sizeFlake,
+                        color: options.flakeColor
+                    }).animate({
+                            top: endPositionTop,
+                            left: endPositionLeft,
+                            opacity: 0.2
+                        },
+                        durationFall, 'linear',
+                        function() {
+                            $(this).remove()
+                        });
+                },
+                options.newOn);
+        };
+    })(jQuery);
+    //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+
+
+    //鼠标跟随 留言信息窗口
+    $('.remark').mousemove(function(e) {
+        $(this).children('.content').show();
+        $(this).children('.content').show().css({
+            "top": e.pageY + 20,
+            "left": e.pageX + 20
+        })
+    });
+    //滑出隐藏
+    $('.remark').mouseout(function() {
+        $(this).children('.content').hide();
+    });
+    $(window).resize(function() {
+        /* Act on the event */
+        if (document.documentElement.clientWidth < 1200) {
+            $('#topbar').width(1200);
+        } else {
+            $('#topbar').width('100%');
+        }
+
+    });
+    //加载效果
+    var paces = {
+        pace: $('#topbar .pace'),
+        timer: "",
+        w: 0,
+        start: function() {
+            var _this = this;
+            _this.w = 0;
+            if (_this.timer) {
+                _this.w = 0;
+                _this.pace.width(_this.w + "%");
+                clearInterval(_this.timer);
+            } else {
+                _this.timer = setInterval(function() {
+                    ++_this.w;
+                    _this.pace.width(_this.w + "%");
+                    if (_this.w >= 55) {
+                        clearInterval(_this.timer);
+                    }
+                }, 0)
+            }
+
+
+        },
+        end: function() {
+            var _this = this;
+            _this.w = parseInt(_this.pace[0].style.width);
+            clearInterval(_this.timer);
+            _this.timer = setInterval(function() {
+                ++_this.w;
+                _this.pace.width(_this.w + "%");
+                if (_this.w >= 100) {
+                    clearInterval(_this.timer);
+                    var setTimer = setTimeout(function() {
+                        _this.w = 0;
+                        _this.pace.width(_this.w);
+                        clearInterval(_this.timer);
+                    }, 1000);
+                    clearTimeout(clearTimeout);
+                    return false
+                }
+            }, 10)
+        }
+    };
+
+    /*弹框 popup*/
+    function build(status, comment, id, num) {
+        if (!$(".globalPopContainer").length > 0) {
+            $(document.body).append('<div class="globalPopContainer"></div>');
+        }
+        if (!num) {
+            num = '';
+        }
+        if (status == "red") {
+            var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress rprogress'></div>";
+        } else {
+            var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress gprogress'></div>";
+        }
+        html += "<span class='closePop'>x</span>";
+        html += "</div>";
+        $(".globalPopContainer").prepend(html); // 追加新元素   
+        $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth())
+        Popup(id, $("#popup_" + id).outerWidth());
+    }
+
+    function Popup(id, popWidth) {
+        $("#popup_" + id).find(".progress").animate({ width: 0 + 'px' }, 3000, function() {
+            $("#popup_" + id).animate({ right: -popWidth + 'px' }, function() {
+                $(this).remove();
+            })
+        });
+        $("#popup_" + id).mouseout(function() {
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).find(".progress").animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        });
+        $("#popup_" + id).mouseover(function() {
+            var proWidth = $(this).outerWidth()
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).animate({ right: 0 + 'px' }, function() {
+                $(this).find(".progress").animate({ width: proWidth + 'px' });
+            });
+        });
+        $("#popup_" + id).find(".closePop").on('click', function(event) {
+            $(this).parent().unbind("mouseover");
+            $(this).parent().unbind("mouseout");
+            $(this).siblings('.progress').animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        })
+    }
+    </script>
+    <div id="wraper">
+        <div id="main">
+            <div class="module">
+                <div class="ucenter">
+                    <div class="col_side">
+                        <!-- 侧边导航 -->
+                        <div class="menu_box">
+                            <dl class="menu">
+                                <dt class="menu_title">交易管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/list">订单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/arealist">订单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/export">订单导出</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsbills">取货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickingupgoodsbills">拣货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsalelist">多平台销售单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudpicklist">多平台拣货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsendgoodsbills">多平台取货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/expressqueryforagent">快递订单查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">商品管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/product/index">商品列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/publish">新增商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/checkprice">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/public">公共商品库</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/brandcategory">品牌管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/recommendlist">推荐商品列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账户中心</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/account/updatepassword">修改密码</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/manage">账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/deliverymanmanage">送货员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/salesmanmanage">业务员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/pickermanage">分拣员管理</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">会员管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellermanage">供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/cloudseller">云供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/buyermanage">小店管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/banklist">银行账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/checkorderbranch">快递网点查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">余额管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/balance/list">余额明细</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/recharge">余额充值</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/creditquota">信用额度</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">财务管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderconfirmpayrecord">订单收款登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderpaycontrast">应收未收对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/bill/salebill">平台销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/offlinepresale">线下开单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/abnormalorder">收款异常查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">仓库管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderabnormalrecord">订单异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsscan">订单发货扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersendgoodscontrast">发货扫描对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodswithoutpay">已发未交查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/storemanage">商品库存管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/stocksetting">商品入库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/checkout">商品出库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/stockoperate">商品操作查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersortsearch">仓库排单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickgoodsscan">订单分拣扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/ordermanagement">订单分拣管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/checkpicklist">分拣商品查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">活动管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjslist">满就送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/couponlist">优惠券活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/dpslist">单品送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjjlist" class="selected">满就减活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/blacklist">非活动商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/categoryactivity">类目活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/onlycouponlist">优惠券管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/addpresale">新增预售活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/presalelist">预售活动列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/soldpresalelist">已售活动列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">系统管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/notice/index">公告列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/diycategory">首页类目设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/homeposter">首页海报</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/sendgoodsfoot">页尾设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/systemdao/operate">系统设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/systemlist">系统日志</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">积分管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/integral/gitmanage">积分礼品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/integral/rulemanage">签到规则管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/searchgiftmanage">积分商品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/agentbalancelist">商城积分明细</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">数据统计</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordercount">订单综合统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/shopcount">商品销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalcount">异常情况统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/refundinfo">商品退货统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/agent/warehouse/inventory">商品库存统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/goodsbill">商品账单统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/countlog">商品编辑统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalnumber">异常天数统计</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">退货管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/salesmanorderlist">申请退货</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnbacklist">退货查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allreturnbacklist">客服审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/warehouseaudit">仓库审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnsellerlist">退供应商</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allbacklistformoney">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账单管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/bill/operate">异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/auditsellerlist">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/financialauditsellerlist">财务审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ financialplaysellerlist">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">供应商管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockinfo">到货条码生成</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerqr">到货扫描操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockbill">到货扫描管理</a>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col_main">
+                        <div class="col_main_hd">
+                            <h2>
+                                满就减活动                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/活动管理-满就减活动.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+                            </h2>
+                        </div>
+                        <div class="col_main_bd">
+                            <div class="inner">
+                                <div class="col_main_content">
+                                    <div class="search_bar">
+                                        <ul class="search_item_list">
+                                            <li class="search_item">
+                                                <a href="http://agent.pifa.yunmayi.com/promotion/addMjj">新增满就减活动</a>
+                                            </li>
+                                            <li class="clearfix"></li>
+                                        </ul>
+                                    </div>
+                                    <table class="table table_border">
+                                        <thead class="bg_color">
+                                            <tr>
+                                                <th>&nbsp;</th>
+                                                <th class="center" width="150">活动时间</th>
+                                                <th class="center" width="200">活动区域</th>
+                                                <th class="center">订单总金额</th>
+                                                <th class="center">减少金额</th>
+                                                <th class="center">余额支付减少金额</th>
+                                                <th class="center">客户类型</th>
+                                                <th class="center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="2066" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2018-01-15 00:00:00 至 2018-04-15 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp;
+                                                </td>
+                                                <td class="center">4500.00</td>
+                                                <td class="center">90.00</td>
+                                                <td class="center">90.00</td>
+                                                <td class="center">D类客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=2066" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="2066">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="2065" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2018-01-15 00:00:00 至 2018-04-15 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp;
+                                                </td>
+                                                <td class="center">4500.00</td>
+                                                <td class="center">90.00</td>
+                                                <td class="center">90.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=2065" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="2065">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="2058" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2018-01-13 00:00:00 至 2018-04-30 00:00:00 </td>
+                                                <td class="center">
+                                                    瑞安市&nbsp; 鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 乐清市&nbsp;
+                                                </td>
+                                                <td class="center">5500.00</td>
+                                                <td class="center">110.00</td>
+                                                <td class="center">110.00</td>
+                                                <td class="center">D类客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=2058" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="2058">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="2057" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2018-01-13 00:00:00 至 2018-04-30 00:00:00 </td>
+                                                <td class="center">
+                                                    瑞安市&nbsp; 鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 乐清市&nbsp;
+                                                </td>
+                                                <td class="center">5500.00</td>
+                                                <td class="center">110.00</td>
+                                                <td class="center">110.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=2057" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="2057">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="2002" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-10-28 00:00:00 至 2017-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">5.50</td>
+                                                <td class="center">5.50</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=2002" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="2002">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1975" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-08-08 16:00:00 至 2019-12-31 16:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">580.00</td>
+                                                <td class="center">11.00</td>
+                                                <td class="center">11.00</td>
+                                                <td class="center">D类客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1975" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1975">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1758" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-01-12 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">6000.00</td>
+                                                <td class="center">120.00</td>
+                                                <td class="center">120.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1758" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1758">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="923" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2016-05-30 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">5000.00</td>
+                                                <td class="center">100.00</td>
+                                                <td class="center">100.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=923" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="923">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1557" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2016-11-14 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">15000.00</td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1557" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1557">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1073" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2016-07-07 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">20000.00</td>
+                                                <td class="center">400.00</td>
+                                                <td class="center">400.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1073" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1073">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1072" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2016-07-07 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">10000.00</td>
+                                                <td class="center">200.00</td>
+                                                <td class="center">200.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1072" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1072">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1071" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2016-07-07 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">1500.00</td>
+                                                <td class="center">30.00</td>
+                                                <td class="center">30.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1071" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1071">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="922" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2016-05-30 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">4000.00</td>
+                                                <td class="center">80.00</td>
+                                                <td class="center">80.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=922" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="922">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="921" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2016-05-30 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">3000.00</td>
+                                                <td class="center">60.00</td>
+                                                <td class="center">60.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=921" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="921">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="920" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2016-05-30 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">2000.00</td>
+                                                <td class="center">40.00</td>
+                                                <td class="center">40.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=920" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="920">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="919" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2016-05-30 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">1000.00</td>
+                                                <td class="center">20.00</td>
+                                                <td class="center">20.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=919" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="919">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1759" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-01-12 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">7000.00</td>
+                                                <td class="center">140.00</td>
+                                                <td class="center">140.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1759" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1759">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1760" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-01-12 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">8000.00</td>
+                                                <td class="center">160.00</td>
+                                                <td class="center">160.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1760" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1760">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1761" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-01-12 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">9000.00</td>
+                                                <td class="center">180.00</td>
+                                                <td class="center">180.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1761" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1761">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1762" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-01-12 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">11000.00</td>
+                                                <td class="center">220.00</td>
+                                                <td class="center">220.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1762" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1762">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1763" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-01-12 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">12000.00</td>
+                                                <td class="center">240.00</td>
+                                                <td class="center">240.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1763" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1763">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1764" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-01-12 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">13000.00</td>
+                                                <td class="center">260.00</td>
+                                                <td class="center">260.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1764" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1764">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1765" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-01-12 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">14000.00</td>
+                                                <td class="center">280.00</td>
+                                                <td class="center">280.00</td>
+                                                <td class="center">默认客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1765" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1765">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1952" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-06-27 00:00:00 至 2019-12-31 16:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">2000.00</td>
+                                                <td class="center">40.00</td>
+                                                <td class="center">40.00</td>
+                                                <td class="center">D类客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1952" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1952">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1953" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-06-27 00:00:00 至 2019-12-31 16:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">3000.00</td>
+                                                <td class="center">60.00</td>
+                                                <td class="center">60.00</td>
+                                                <td class="center">D类客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1953" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1953">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1954" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-06-27 00:00:00 至 2019-12-31 16:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp;
+                                                </td>
+                                                <td class="center">4000.00</td>
+                                                <td class="center">80.00</td>
+                                                <td class="center">80.00</td>
+                                                <td class="center">D类客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1954" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1954">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1955" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-06-27 00:00:00 至 2019-12-31 16:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">5000.00</td>
+                                                <td class="center">100.00</td>
+                                                <td class="center">100.00</td>
+                                                <td class="center">D类客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1955" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1955">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1956" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-06-27 00:00:00 至 2019-12-31 16:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">6000.00</td>
+                                                <td class="center">120.00</td>
+                                                <td class="center">120.00</td>
+                                                <td class="center">D类客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1956" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1956">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1957" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-06-27 00:00:00 至 2019-12-31 16:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">7000.00</td>
+                                                <td class="center">140.00</td>
+                                                <td class="center">140.00</td>
+                                                <td class="center">D类客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1957" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1957">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1958" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-06-27 00:00:00 至 2019-12-31 00:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">8000.00</td>
+                                                <td class="center">160.00</td>
+                                                <td class="center">160.00</td>
+                                                <td class="center">D类客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1958" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1958">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1959" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-06-27 00:00:00 至 2019-12-31 16:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">9000.00</td>
+                                                <td class="center">180.00</td>
+                                                <td class="center">180.00</td>
+                                                <td class="center">D类客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1959" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1959">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1960" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-06-27 00:00:00 至 2019-12-31 16:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">10000.00</td>
+                                                <td class="center">200.00</td>
+                                                <td class="center">200.00</td>
+                                                <td class="center">D类客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1960" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1960">删除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    <input type="checkbox" name="pass[]" value="1961" class="checkone">
+                                                </td>
+                                                <td class="center">
+                                                    2017-06-27 00:00:00 至 2019-12-31 16:00:00 </td>
+                                                <td class="center">
+                                                    鹿城区&nbsp; 龙湾区&nbsp; 瓯海区&nbsp; 洞头县&nbsp; 永嘉县&nbsp; 平阳县&nbsp; 苍南县&nbsp; 文成县&nbsp; 泰顺县&nbsp; 瑞安市&nbsp; 乐清市&nbsp; 青田县&nbsp;
+                                                </td>
+                                                <td class="center">11000.00</td>
+                                                <td class="center">220.00</td>
+                                                <td class="center">220.00</td>
+                                                <td class="center">D类客户</td>
+                                                <td class="center">
+                                                    <a href="/promotion/editorMjj?id=1961" class="btn btn_confirm">编辑</a>
+                                                    <a href="" class="J_DelPromo btn btn_confirm" data-id="1961">删除</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="10">
+                                                    <input type="checkbox" name="pass[]" id="checkall"> 全选
+                                                    <span style="float: right;">
+                                                    <button type="submit" style="float:right;" onclick="EV_modeAlert('envon',2)">批量修改活动结束时间</button>
+                                                </span>
+                                                    <span style="float: right;">
+                                                    <button type="button" style="float:right;" onclick="EV_modeAlert('envon',1)">批量修改活动开始时间</button>
+                                                </span>
+                                                    <span style="float: right;">
+                                                    <button type="submit" style="float:right;" class="J_DeletePromo">批量删除</button>
+                                                </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <ul class="page">
+                                        <li class="item cur ">1</li>
+                                        <li class="item last"><a href="?page=2" data-page="2">2</a></li>
+                                        <li class="next"><a href="?page=2" data-page="2">下一页</a></li><span style="font-size: 14px;">跳<input onblur="window.location.href=&quot;?page=1&amp;page=&quot;+this.value+&quot;&quot;" style="width: 25px;height: 26px;" type="text" value="1">页</span>&nbsp;
+                                        <li class="total">共2页</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="envon">
+        <h2 style="text-align:center">修改活动时间</h2>
+        <input type="text" value="" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});" id="newTime">
+        <input type="hidden" id="type">
+        <button type="button" class="J_UpdateTime">保存</button>
+        <a href="javascript:EV_closeAlert()">取消</a>
+    </div>
+    <!-- global js -->
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    var DOMAIN = { "main": "pifa.yunmayi.com", "passport": "passport.pifa.yunmayi.com", "buyer": "buyer.pifa.yunmayi.com", "seller": "seller.pifa.yunmayi.com", "ajax": "ajax.pifa.yunmayi.com", "agent": "agent.pifa.yunmayi.com" };
+    </script>
+    <script type="text/javascript" src="statics/js/lib/help.js"></script>
+    <script type="text/javascript" src="statics/js/lib/laydate/laydate.js"></script>
+    <script>
+    //用来记录要显示的DIV的ID值
+    var EV_MsgBox_ID = ""; //重要
+
+    //弹出对话窗口(msgID-要显示的div的id)
+    function EV_modeAlert(msgID, type) {
+        //创建大大的背景框
+        var bgObj = document.createElement("div");
+        bgObj.setAttribute('id', 'EV_bgModeAlertDiv');
+        document.body.appendChild(bgObj);
+        //背景框满窗口显示
+        EV_Show_bgDiv();
+        //把要显示的div居中显示
+        EV_MsgBox_ID = msgID;
+        EV_Show_msgDiv();
+        document.getElementById('type').value = type;
+    }
+
+    //关闭对话窗口
+    function EV_closeAlert() {
+        var msgObj = document.getElementById(EV_MsgBox_ID);
+        var bgObj = document.getElementById("EV_bgModeAlertDiv");
+        msgObj.style.display = "none";
+        document.body.removeChild(bgObj);
+        EV_MsgBox_ID = "";
+    }
+
+    //窗口大小改变时更正显示大小和位置
+    window.onresize = function() {
+        if (EV_MsgBox_ID.length > 0) {
+            EV_Show_bgDiv();
+            EV_Show_msgDiv();
+        }
+    };
+
+    //窗口滚动条拖动时更正显示大小和位置
+    window.onscroll = function() {
+        if (EV_MsgBox_ID.length > 0) {
+            EV_Show_bgDiv();
+            EV_Show_msgDiv();
+        }
+    };
+
+    //把要显示的div居中显示
+    function EV_Show_msgDiv() {
+        var msgObj = document.getElementById(EV_MsgBox_ID);
+        msgObj.style.display = "block";
+        var msgWidth = msgObj.scrollWidth;
+        var msgHeight = msgObj.scrollHeight;
+        var bgTop = EV_myScrollTop();
+        var bgLeft = EV_myScrollLeft();
+        var bgWidth = EV_myClientWidth();
+        var bgHeight = EV_myClientHeight();
+        var msgTop = bgTop + Math.round((bgHeight - msgHeight) / 2);
+        var msgLeft = bgLeft + Math.round((bgWidth - msgWidth) / 2);
+        msgObj.style.position = "absolute";
+        msgObj.style.top = msgTop + "px";
+        msgObj.style.left = msgLeft + "px";
+        msgObj.style.zIndex = "10001";
+
+    }
+    //背景框满窗口显示
+    function EV_Show_bgDiv() {
+        var bgObj = document.getElementById("EV_bgModeAlertDiv");
+        var bgWidth = EV_myClientWidth();
+        var bgHeight = EV_myClientHeight();
+        var bgTop = EV_myScrollTop();
+        var bgLeft = EV_myScrollLeft();
+        bgObj.style.position = "absolute";
+        bgObj.style.top = bgTop + "px";
+        bgObj.style.left = bgLeft + "px";
+        bgObj.style.width = bgWidth + "px";
+        bgObj.style.height = bgHeight + "px";
+        bgObj.style.zIndex = "10000";
+        bgObj.style.background = "#777";
+        bgObj.style.filter = "progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=60,finishOpacity=60);";
+        bgObj.style.opacity = "0.6";
+    }
+    //网页被卷去的上高度
+    function EV_myScrollTop() {
+        var n = window.pageYOffset ||
+            document.documentElement.scrollTop ||
+            document.body.scrollTop || 0;
+        return n;
+    }
+    //网页被卷去的左宽度
+    function EV_myScrollLeft() {
+        var n = window.pageXOffset ||
+            document.documentElement.scrollLeft ||
+            document.body.scrollLeft || 0;
+        return n;
+    }
+    //网页可见区域宽
+    function EV_myClientWidth() {
+        var n = document.documentElement.clientWidth ||
+            document.body.clientWidth || 0;
+        return n;
+    }
+    //网页可见区域高
+    function EV_myClientHeight() {
+        var n = document.documentElement.clientHeight ||
+            document.body.clientHeight || 0;
+        return n;
+    }
+    </script>
+    <script type="text/javascript">
+    $(function() {
+        $(".J_DelPromo").on("click", function() {
+            if (confirm("确认删除活动?")) {
+                var _this = $(this);
+                var id = _this.data("id");
+
+                $.post(
+                    "/promotion/delMjj", {
+                        id: id
+                    },
+                    function(result) {
+                        if (result != "ok") {
+                            buile("red", result, id)
+                            return false;
+                        }
+
+                        buile("green", "满就减促销活动删除成功", id)
+                        _this.parent().parent().remove();
+                    }
+                );
+            }
+            return false;
+        });
+    });
+
+    //    多选、全选
+    var douli = document.getElementById('checkall');
+    var na = document.getElementsByClassName('checkone');
+    douli.onclick = function() {
+        if (this.checked) {
+            allcheck(true);
+        } else {
+            allcheck(false);
+        }
+    };
+    for (var i = 0; i < na.length; i++) {
+        (function() {
+            var timp = i;
+            na[timp].onclick = function() {
+                if (!this.checked) {
+                    douli.checked = false;
+                } else {
+                    for (var j = 0; j < na.length; j++) {
+                        if (na[j].checked) {
+                            douli.checked = true;
+                        } else {
+                            douli.checked = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        })(i)
+    };
+
+    function allcheck(boo) {
+        for (var i = 0; i < na.length; i++) {
+            na[i].checked = boo;
+        }
+    };
+
+    //批量删除
+    $(".J_DeletePromo").on("click", function() {
+        confirm('你确定删除吗');
+        var chk_value = [];
+        $('input[name="pass[]"]:checked').each(function() {
+            chk_value.push($(this).val());
+        });
+        if (chk_value.length == 0) {
+            buile("red", "你还没有选择任何内容", "DeletePromo");
+            return false;
+        }
+        if (chk_value.indexOf("on") > 0) {
+            chk_value.pop();
+        }
+        console.log(chk_value);
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            url: '/promotion/deleteMjj',
+            data: {
+                'id': chk_value
+            },
+            success: function(data) {
+                console.log(data);
+                buile("green", data['info'], "DeletePromo");
+                location.reload();
+                //                if(data > 0 ){
+                //                    alert("批量删除成功");
+                //                    location.reload();
+                //                }else{
+                //                    alert("批量删除失败");
+                //                }
+            },
+            error: function() {
+                buile("red", "错误", "DeletePromo");
+            }
+        });
+    });
+
+    //批量修改活动时间
+    $(".J_UpdateTime").on('click', function() {
+        EV_closeAlert();
+        var time = $('#newTime').val();
+        var type = $('#type').val();
+        var chk_value = [];
+        $('input[name="pass[]"]:checked').each(function() {
+            chk_value.push($(this).val());
+        });
+        if (chk_value.length == 0) {
+            buile("red", "你还没有选择任何内容", "UpdateTime");
+            return false;
+        }
+        if (chk_value.indexOf("on") > 0) {
+            chk_value.pop();
+        }
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            url: '/promotion/updateStartTime',
+            data: {
+                'id': chk_value,
+                'new_time': time,
+                'type': type
+            },
+            success: function(data) {
+                console.log(data);
+                buile("green", data['info'], "UpdateTime");
+                location.reload();
+            },
+            error: function() {
+                buile("red", "错误", "UpdateTime");
+            }
+        });
+    })
+    </script>
+</body>
+
+</html>

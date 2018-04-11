@@ -316,6 +316,8 @@
     <Content Include="Views\Order\ShowPickUpBill.cshtml" />
     <Content Include="Views\Order\ConfirmPayRecord.cshtml" />
     <Content Include="Views\Order\OrderPayContrast.cshtml" />
+    <Content Include="Views\Order\PickUpBill.cshtml" />
+    <Content Include="Views\Order\AbnormalOrder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

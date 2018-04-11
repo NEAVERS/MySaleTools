@@ -73,10 +73,10 @@
                         <li class="search_item">
                             <label>客户类型:</label>
                             <select name="customer_type" id="customer_type">
-                                <option value="-1" selected="">全部</option>
+                                <option value="-1" selected="selected">全部</option>
                                 @foreach (var type in typeList)
                                 {
-                                    <option value="@type.TypeId" selected="">@type.TypeName</option>
+                                    <option value="@type.TypeId" >@type.TypeName</option>
                                 }
                             </select>
                         </li>
@@ -95,7 +95,7 @@
                         <li class="clearfix"></li>
                     </ul>
                 </div>
-                <table class="table table_border_td_none" style="display:none">
+                <table class="table table_border_td_none orderinfo" style="display:none" id="orderinfo">
                     <tbody>
                         <tr>
                             <td colspan="7" id="timespan">时间段：2018-04-08 16:00:00至2018-04-09 16:00:00</td>
@@ -116,7 +116,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <table class="table table_border" style="display:none">
+                <table class="table table_border orderinfo" style="display:none" id="itmeList">
                     <thead class="bg_color">
                         <tr>
                             <th class="center">订单编号</th>
@@ -134,7 +134,7 @@
                             <th class="center">备注</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="dataList">
                         <tr>
                             <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081635017179">1804081635017179</a></td>
                             <td class="center">2018-04-08 16:35:00</td>
@@ -201,13 +201,13 @@
                     html += ' <td class="center">瓯海1</td>';
                     html += ' <td class="center">' + this.CreateUserNum + '</td>';
                     html += '  <td class="center">' + this.RealMoney + '</td>';
-                    html += '  <td class="center">' + this.PayMoeny + '</td>';
+                    html += '  <td class="center">' + this.PayMoney + '</td>';
                     html += '  <td class="center">' + this.SendPeople + '</td>';
 
                     html += ' <td class="center">';
                     if (this.IsPay) {
                         html += '<span class="highlight">已收</span>';
-                        html += '<button type="button" class="J_DetelePay click_1804081720026688" data-id="1804081720026688" style="width:70px;">撤销</button>';
+                        html += '<button type="button" class="J_DetelePay click_1804081720026688" data-id="' + this.Id + '" style="width:70px;">撤销</button>';
                     }
                     else {
                         html += '      <span class="tip notPay" style="cursor:pointer;" data-id="1804081635017179">未收</span>';
@@ -220,6 +220,8 @@
                     html += '    <td class="center">' + this.Remark + '</td>';
                     html += ' </tr>';
                 })
+                $("#dataList").html(html);
+                $(".orderinfo").show();
             }
         }, "json")
     })
@@ -232,7 +234,9 @@
         }, function () {
             $.post("/Order/RevertOrderIsPay", { orderId: id }, function (e) {
                 if (e) {
-                    $("#seatch").click();
+                    layer.msg("撤销成功！", { icon: 1 }, function () {
+                        $("#seatch").click();
+                    });
                 }
                 else {
                     layer.msg("撤销失败！请刷新后重试！", { icon: 2 });

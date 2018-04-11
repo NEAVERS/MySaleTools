@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>优惠券列表 - 加盟商个人中心</title>
+    <!-- global css -->
+    <link rel="stylesheet" type="text/css" href="statics/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/base.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/pages/ucenter.css">
+    <style>
+    .btn {
+        padding: 6px 13px;
+        font-weight: bold;
+        border: 1px solid #dddddd;
+    }
+
+    .J_display {
+        display: none;
+    }
+    </style>
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/laydate/need/laydate.css">
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+</head>
+
+<body>
+    <!-- 全局顶部导航 -->
+    <div class="topbar" id="topbar">
+        <div class="pace"></div>
+        <div class="module clearfix">
+            <div class="lfloat">
+                <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                <span class="hello">您好，</span>
+                <span class="username">57700000</span>
+                <span>
+                                ，欢迎来到温州批发平台
+                <!-- ,客服电话:0577-86000802 -->
+                                            </span>
+            </div>
+            <div class="rfloat">
+                <ul class="clearfix">
+                    <!-- <li><a href="http://www.yunmayi.com" target="_blank">云蚂蚁首页</a></li> -->
+                    <li style="margin-right:10px;"><a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">快递代收</a></li>
+                    <li><a href="http://pifa.yunmayi.com/">批发首页</a></li>
+                    <li><a href="http://pifa.yunmayi.com/index/ucenter">会员中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cashier/application">当面付申请</a></li>
+                    <li><a href="http://pifa.yunmayi.com/product/collect" class="">收藏中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">帮助中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cart1">购物车</a></li>
+                    <li><a href="http://passport.pifa.yunmayi.com/logout">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script>
+    (function($) {
+        $.fn.snow = function(options) {
+            var $flake = $('<div id="flake" />').css({
+                    'position': 'absolute',
+                    'top': '-50px',
+                    'z-index': '99999999'
+                }).html('&#10052;'),
+                documentHeight = $(document).height(),
+                documentWidth = $(document).width(),
+                defaults = {
+                    minSize: 10,
+                    maxSize: 20,
+                    newOn: 2000,
+                    flakeColor: "red"
+                },
+                options = $.extend({}, defaults, options);
+            var interval = setInterval(function() {
+                    documentHeight = $(document).height();
+                    var startPositionLeft = Math.random() * documentWidth - 100,
+                        startOpacity = 0.5 + Math.random(),
+                        sizeFlake = options.minSize + Math.random() * options.maxSize,
+                        endPositionTop = documentHeight - options.maxSize,
+                        endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                        durationFall = documentHeight * 10 + Math.random() * 5000;
+                    $flake.clone().appendTo('body').css({
+                        left: startPositionLeft,
+                        opacity: startOpacity,
+                        'font-size': sizeFlake,
+                        color: options.flakeColor
+                    }).animate({
+                            top: endPositionTop,
+                            left: endPositionLeft,
+                            opacity: 0.2
+                        },
+                        durationFall, 'linear',
+                        function() {
+                            $(this).remove()
+                        });
+                },
+                options.newOn);
+        };
+    })(jQuery);
+    //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+
+
+    //鼠标跟随 留言信息窗口
+    $('.remark').mousemove(function(e) {
+        $(this).children('.content').show();
+        $(this).children('.content').show().css({
+            "top": e.pageY + 20,
+            "left": e.pageX + 20
+        })
+    });
+    //滑出隐藏
+    $('.remark').mouseout(function() {
+        $(this).children('.content').hide();
+    });
+    $(window).resize(function() {
+        /* Act on the event */
+        if (document.documentElement.clientWidth < 1200) {
+            $('#topbar').width(1200);
+        } else {
+            $('#topbar').width('100%');
+        }
+
+    });
+    //加载效果
+    var paces = {
+        pace: $('#topbar .pace'),
+        timer: "",
+        w: 0,
+        start: function() {
+            var _this = this;
+            _this.w = 0;
+            if (_this.timer) {
+                _this.w = 0;
+                _this.pace.width(_this.w + "%");
+                clearInterval(_this.timer);
+            } else {
+                _this.timer = setInterval(function() {
+                    ++_this.w;
+                    _this.pace.width(_this.w + "%");
+                    if (_this.w >= 55) {
+                        clearInterval(_this.timer);
+                    }
+                }, 0)
+            }
+
+
+        },
+        end: function() {
+            var _this = this;
+            _this.w = parseInt(_this.pace[0].style.width);
+            clearInterval(_this.timer);
+            _this.timer = setInterval(function() {
+                ++_this.w;
+                _this.pace.width(_this.w + "%");
+                if (_this.w >= 100) {
+                    clearInterval(_this.timer);
+                    var setTimer = setTimeout(function() {
+                        _this.w = 0;
+                        _this.pace.width(_this.w);
+                        clearInterval(_this.timer);
+                    }, 1000);
+                    clearTimeout(clearTimeout);
+                    return false
+                }
+            }, 10)
+        }
+    };
+
+    /*弹框 popup*/
+    function build(status, comment, id, num) {
+        if (!$(".globalPopContainer").length > 0) {
+            $(document.body).append('<div class="globalPopContainer"></div>');
+        }
+        if (!num) {
+            num = '';
+        }
+        if (status == "red") {
+            var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress rprogress'></div>";
+        } else {
+            var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress gprogress'></div>";
+        }
+        html += "<span class='closePop'>x</span>";
+        html += "</div>";
+        $(".globalPopContainer").prepend(html); // 追加新元素   
+        $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth())
+        Popup(id, $("#popup_" + id).outerWidth());
+    }
+
+    function Popup(id, popWidth) {
+        $("#popup_" + id).find(".progress").animate({ width: 0 + 'px' }, 3000, function() {
+            $("#popup_" + id).animate({ right: -popWidth + 'px' }, function() {
+                $(this).remove();
+            })
+        });
+        $("#popup_" + id).mouseout(function() {
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).find(".progress").animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        });
+        $("#popup_" + id).mouseover(function() {
+            var proWidth = $(this).outerWidth()
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).animate({ right: 0 + 'px' }, function() {
+                $(this).find(".progress").animate({ width: proWidth + 'px' });
+            });
+        });
+        $("#popup_" + id).find(".closePop").on('click', function(event) {
+            $(this).parent().unbind("mouseover");
+            $(this).parent().unbind("mouseout");
+            $(this).siblings('.progress').animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        })
+    }
+    </script>
+    <div id="wraper">
+        <div id="main">
+            <div class="module">
+                <div class="ucenter">
+                    <div class="col_side">
+                        <!-- 侧边导航 -->
+                        <div class="menu_box">
+                            <dl class="menu">
+                                <dt class="menu_title">交易管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/list">订单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/arealist">订单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/export">订单导出</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsbills">取货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickingupgoodsbills">拣货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsalelist">多平台销售单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudpicklist">多平台拣货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsendgoodsbills">多平台取货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/expressqueryforagent">快递订单查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">商品管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/product/index">商品列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/publish">新增商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/checkprice">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/public">公共商品库</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/brandcategory">品牌管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/recommendlist">推荐商品列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账户中心</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/account/updatepassword">修改密码</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/manage">账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/deliverymanmanage">送货员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/salesmanmanage">业务员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/pickermanage">分拣员管理</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">会员管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellermanage">供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/cloudseller">云供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/buyermanage">小店管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/banklist">银行账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/checkorderbranch">快递网点查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">余额管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/balance/list">余额明细</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/recharge">余额充值</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/creditquota">信用额度</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">财务管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderconfirmpayrecord">订单收款登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderpaycontrast">应收未收对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/bill/salebill">平台销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/offlinepresale">线下开单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/abnormalorder">收款异常查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">仓库管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderabnormalrecord">订单异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsscan">订单发货扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersendgoodscontrast">发货扫描对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodswithoutpay">已发未交查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/storemanage">商品库存管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/stocksetting">商品入库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/checkout">商品出库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/stockoperate">商品操作查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersortsearch">仓库排单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickgoodsscan">订单分拣扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/ordermanagement">订单分拣管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/checkpicklist">分拣商品查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">活动管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjslist">满就送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/couponlist">优惠券活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/dpslist">单品送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjjlist">满就减活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/blacklist">非活动商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/categoryactivity">类目活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/onlycouponlist" class="selected">优惠券管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/addpresale">新增预售活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/presalelist">预售活动列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/soldpresalelist">已售活动列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">系统管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/notice/index">公告列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/diycategory">首页类目设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/homeposter">首页海报</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/sendgoodsfoot">页尾设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/systemdao/operate">系统设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/systemlist">系统日志</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">积分管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/integral/gitmanage">积分礼品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/integral/rulemanage">签到规则管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/searchgiftmanage">积分商品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/agentbalancelist">商城积分明细</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">数据统计</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordercount">订单综合统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/shopcount">商品销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalcount">异常情况统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/refundinfo">商品退货统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/agent/warehouse/inventory">商品库存统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/goodsbill">商品账单统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/countlog">商品编辑统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalnumber">异常天数统计</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">退货管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/salesmanorderlist">申请退货</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnbacklist">退货查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allreturnbacklist">客服审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/warehouseaudit">仓库审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnsellerlist">退供应商</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allbacklistformoney">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账单管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/bill/operate">异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/auditsellerlist">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/financialauditsellerlist">财务审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ financialplaysellerlist">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">供应商管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockinfo">到货条码生成</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerqr">到货扫描操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockbill">到货扫描管理</a>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col_main">
+                        <div class="col_main_hd">
+                            <h2>
+                            优惠券列表                            <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/活动管理-优惠券管理.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+                        </h2>
+                        </div>
+                        <div class="col_main_bd">
+                            <div class="inner">
+                                <div class="search_bar">
+                                    <ul class="search_item_list">
+                                        <li class="search_item">
+                                            <a href="http://agent.pifa.yunmayi.com/promotion/addonlycoupon">新增优惠券</a>
+                                        </li>
+                                        <li class="clearfix"></li>
+                                    </ul>
+                                </div>
+                                <div class="search_bar">
+                                    <form action="http://agent.pifa.yunmayi.com/promotion/onlycouponlist" method="GET" id="form">
+                                        <ul class="search_item_list">
+                                            <li class="search_item">
+                                                <label>创建时间:</label>
+                                                <div class="item">
+                                                    <div class="calendar_input">
+                                                        <input type="text" name="starttime" style="width:160px;" value="2018-04-10 00:00:00" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss'});">
+                                                    </div>
+                                                    到
+                                                    <div class="calendar_input">
+                                                        <input type="text" name="endtime" style="width:160px;" value="2018-04-11 00:00:00" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss'});">
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="search_item">
+                                                <label>优惠券状态:</label>
+                                                <div class="item">
+                                                    <select name="used">
+                                                        <option value="" selected="selected">全部</option>
+                                                        <option value="0">未使用</option>
+                                                        <option value="1">已使用</option>
+                                                    </select>
+                                                </div>
+                                            </li>
+                                            <li class="search_item">
+                                                <label>优惠券类型:</label>
+                                                <div class="item">
+                                                    <select name="type" id="J_couponType">
+                                                        <option value="" selected="selected">全部</option>
+                                                        <option value="1">通用券</option>
+                                                        <option value="2">品牌券</option>
+                                                        <option value="3">供应商券</option>
+                                                    </select>
+                                                </div>
+                                            </li>
+                                            <li class="J_display search_item" id="J_brand">
+                                                <label id="J_keyword"></label>
+                                                <div class="item">
+                                                    <input type="text" value="" id="keywordValue" name="keywordValue" style="width: 170px;">
+                                                    <select name="brand_id" id="J_brandValue" class="J_display">
+                                                    </select>
+                                                    <select name="vendor_id" id="J_vendorValue" class="J_display">
+                                                    </select>
+                                                    <input type="hidden" name="exitBrandId" value="0">
+                                                    <input type="hidden" name="exitVendorId" value="0">
+                                                </div>
+                                            </li>
+                                            <li class="search_item">
+                                                <div class="item">
+                                                    <input type="text" name="number" style="width:160px;" placeholder="请输入小店编号" value="">
+                                                </div>
+                                            </li>
+                                            <li class="search_item">
+                                                <button type="submit">查询</button>
+                                            </li>
+                                            <li class="search_item">
+                                                <button type="submit" id="export">优惠券导出</button>
+                                            </li>
+                                            <li class="clearfix"></li>
+                                        </ul>
+                                    </form>
+                                </div>
+                                <div class="col_main_content">
+                                    <table class="table table_border">
+                                        <thead class="bg_color">
+                                            <tr>
+                                                <th class="center">小店编号</th>
+                                                <th class="center" width="120">创建时间</th>
+                                                <th class="center" width="120">开始时间</th>
+                                                <th class="center" width="120">结束时间</th>
+                                                <th class="center">使用满足条件</th>
+                                                <th class="center">优惠券面额</th>
+                                                <th class="center" width="46px">是否已使用</th>
+                                                <th class="center">备注</th>
+                                                <th class="center" width="58px">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="center">
+                                                    577029223 </td>
+                                                <td class="center">
+                                                    2017-06-23 08:37:04 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-22 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">否</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="379064">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=379064" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="379064">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029222 </td>
+                                                <td class="center">
+                                                    2017-06-22 13:57:59 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-22 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="378811">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=378811" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="378811">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029221 </td>
+                                                <td class="center">
+                                                    2017-06-22 10:50:52 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-30 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="378762">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=378762" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="378762">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029220 </td>
+                                                <td class="center">
+                                                    2017-06-22 10:23:15 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-30 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="378752">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=378752" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="378752">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029219 </td>
+                                                <td class="center">
+                                                    2017-06-22 10:08:16 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-30 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="378740">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=378740" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="378740">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577030201 </td>
+                                                <td class="center">
+                                                    2017-06-21 14:20:27
+                                                    <input type="text" class="admin_name" value="郑金浩" style="width: 60px; text-align: center;">
+                                                </td>
+                                                <td class="center">
+                                                    2017-06-21 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-30 00:00:00" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">0.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="378649">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=378649" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="378649">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029218 </td>
+                                                <td class="center">
+                                                    2017-06-21 14:16:39
+                                                    <input type="text" class="admin_name" value="郑金浩" style="width: 60px; text-align: center;">
+                                                </td>
+                                                <td class="center">
+                                                    2017-06-21 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-21 13:00:00" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">否</td>
+                                                <td class="center">新开店铺，忘记加上去了</td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="378647">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=378647" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="378647">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029218 </td>
+                                                <td class="center">
+                                                    2017-06-21 13:20:26 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-30 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">否</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="378631">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=378631" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="378631">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577035001 </td>
+                                                <td class="center">
+                                                    2017-06-21 11:31:33 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-30 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="378453">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=378453" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="378453">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577032011 </td>
+                                                <td class="center">
+                                                    2017-06-20 15:43:12 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-30 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">否</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="378282">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=378282" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="378282">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029217 </td>
+                                                <td class="center">
+                                                    2017-06-19 14:50:20 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-30 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="377984">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=377984" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="377984">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029216 </td>
+                                                <td class="center">
+                                                    2017-06-19 13:16:03 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-30 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">否</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="377944">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=377944" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="377944">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577050236 </td>
+                                                <td class="center">
+                                                    2017-06-18 14:07:08 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-30 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">否</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="377697">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=377697" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="377697">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577026235 </td>
+                                                <td class="center">
+                                                    2017-06-17 16:37:39 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-30 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="377331">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=377331" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="377331">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577010273 </td>
+                                                <td class="center">
+                                                    2017-06-17 15:54:35 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-30 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">否</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="377314">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=377314" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="377314">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577026234 </td>
+                                                <td class="center">
+                                                    2017-06-17 15:13:01 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-06-30 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">380.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="377288">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=377288" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="377288">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577050235 </td>
+                                                <td class="center">
+                                                    2017-06-16 09:02:31 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="377000">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=377000" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="377000">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577010272 </td>
+                                                <td class="center">
+                                                    2017-06-15 13:39:04 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376887">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376887" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376887">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577030200 </td>
+                                                <td class="center">
+                                                    2017-06-15 11:13:07 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376841">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376841" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376841">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577030199 </td>
+                                                <td class="center">
+                                                    2017-06-15 10:46:21 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">否</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376831">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376831" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376831">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029215 </td>
+                                                <td class="center">
+                                                    2017-06-15 08:48:56 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376804">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376804" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376804">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029214 </td>
+                                                <td class="center">
+                                                    2017-06-15 08:45:41 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376802">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376802" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376802">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029213 </td>
+                                                <td class="center">
+                                                    2017-06-14 15:21:59 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376733">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376733" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376733">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029212 </td>
+                                                <td class="center">
+                                                    2017-06-14 13:09:20 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376664">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376664" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376664">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029211 </td>
+                                                <td class="center">
+                                                    2017-06-14 11:17:40 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376613">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376613" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376613">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029210 </td>
+                                                <td class="center">
+                                                    2017-06-14 10:49:48 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376601">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376601" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376601">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577029209 </td>
+                                                <td class="center">
+                                                    2017-06-12 18:11:02 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376232">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376232" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376232">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577050234 </td>
+                                                <td class="center">
+                                                    2017-06-12 13:12:00 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">否</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376156">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376156" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376156">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577026233 </td>
+                                                <td class="center">
+                                                    2017-06-12 11:35:49 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376136">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376136" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376136">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577031710 </td>
+                                                <td class="center">
+                                                    2017-06-12 11:14:28 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376128">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376128" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376128">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577030198 </td>
+                                                <td class="center">
+                                                    2017-06-12 11:12:37 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">否</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376127">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376127" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376127">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577031709 </td>
+                                                <td class="center">
+                                                    2017-06-12 10:52:18 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376117">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376117" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376117">删除</a>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center">
+                                                    577031708 </td>
+                                                <td class="center">
+                                                    2017-06-12 10:49:11 </td>
+                                                <td class="center">
+                                                    2016-05-29 00:00:00 </td>
+                                                <td class="center">
+                                                    <input type="text" name="endtime" value="2017-12-31 16:00:30" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                                </td>
+                                                <td class="center">300.00</td>
+                                                <td class="center">15.00</td>
+                                                <td class="center">是</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <button class="J_DelPromo btn btn_confirm" data-id="376114">保存</button>
+                                                    <!--<a href="/promotion/editonlycoupon?id=376114" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="376114">删除</a>-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <ul class="page">
+                                        <li class="item cur ">1</li>
+                                        <li class="item "><a href="?page=2" data-page="2">2</a></li>
+                                        <li class="item "><a href="?page=3" data-page="3">3</a></li>
+                                        <li class="item "><a href="?page=4" data-page="4">4</a></li>
+                                        <li class="item "><a href="?page=5" data-page="5">5</a></li>
+                                        <li class="dot">...</li>
+                                        <li class="next"><a href="?page=2" data-page="2">下一页</a></li><span style="font-size: 14px;">跳<input onblur="window.location.href=&quot;?page=1&amp;page=&quot;+this.value+&quot;&quot;" style="width: 25px;height: 26px;" type="text" value="1">页</span>&nbsp;
+                                        <li class="total">共75页</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- global js -->
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    var DOMAIN = { "main": "pifa.yunmayi.com", "passport": "passport.pifa.yunmayi.com", "buyer": "buyer.pifa.yunmayi.com", "seller": "seller.pifa.yunmayi.com", "ajax": "ajax.pifa.yunmayi.com", "agent": "agent.pifa.yunmayi.com" };
+    </script>
+    <script type="text/javascript" src="statics/js/lib/help.js"></script>
+    <script type="text/javascript" src="statics/js/lib/laydate/laydate.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $(".J_DelPromo").on("click", function() {
+            var endtime = $(this).parent().parent().find("td").eq(3).find("input").val();
+            var id = $(this).data("id");
+            $.ajax({
+                url: "/promotion/editonlycoupon",
+                type: "post",
+                dataType: "json",
+                data: {
+                    endtime: endtime,
+                    id: id
+                },
+                success: function(result) {
+                    if (result.error == true) {
+                        build("red", result.info, id);
+                    }
+                    if (result.error == false) {
+                        build("green", result.info, id);
+                        window.location.reload();
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    console.log(XMLHttpRequest.status);
+                    console.log(XMLHttpRequest.readyState);
+                    console.log(textStatus);
+                }
+            });
+
+        });
+
+
+        //选择优惠券类型
+        var type = $('#J_couponType option:selected').val(); //获取选中的优惠券类型
+        if (type == 2) {
+            $('#J_brand').removeClass('J_display');
+            $('#J_keyword').html("请搜索品牌:");
+        } else if (type == 3) {
+            $('#J_brand').removeClass('J_display');
+            $('#J_keyword').html("请搜索供应商:");
+        } else {
+            $('#J_brand').addClass('J_display');
+        }
+        $('#J_couponType').on('change', function() {
+            $('#keywordValue').val(" ");
+            var type = $('#J_couponType option:selected').val(); //获取选中的优惠券类型
+            if (type == 2) {
+                $('#J_brand').removeClass('J_display');
+                $('#J_keyword').html("请搜索品牌:");
+            } else if (type == 3) {
+                $('#J_brand').removeClass('J_display');
+                $('#J_keyword').html("请搜索供应商:");
+            } else {
+                $('#J_brand').addClass('J_display');
+            }
+        });
+
+        //填关键字获取焦点时
+        $('#keywordValue').on('focus', function() {
+            $('#J_brandValue').addClass('J_display');
+            $('#J_vendorValue').addClass('J_display');
+        });
+
+        //获取搜索设置关键词 失去焦点时查询出相关数据
+        $('#keywordValue').on('blur', function() {
+            var keyword = $('#keywordValue').val();
+            var type = $('#J_couponType option:selected').val();
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '/promotion/getList',
+                data: {
+                    'keyword': keyword,
+                    'type': type
+                },
+                success: function(data) {
+                    console.log(data);
+                    if (data.length > 0) {
+                        if (type == 2) {
+                            $('#J_brandValue').removeClass('J_display');
+                            var bhtml = "<option>请选择</option>";
+                            for (var k in data) {
+                                bhtml += "<option value=\"" + data[k].id + "\">" + data[k].name + "</option>";
+                            }
+                            $("#J_brandValue").html(bhtml);
+                        }
+
+                        if (type == 3) {
+                            $('#J_vendorValue').removeClass('J_display');
+                            var vhtml = "<option>请选择</option>";
+                            for (var k in data) {
+                                vhtml += "<option value=\"" + data[k].user_id + "\">" + data[k].number + '[' + data[k].company + ']' + "</option>";
+                            }
+                            $('#J_vendorValue').html(vhtml);
+                        }
+                    }
+                },
+                error: function() {
+                    build("red", "出错啦!", "keywordValue");
+                }
+            })
+        });
+
+        //优惠券导出
+        $('#export').on('click', function() {
+            $('#form').attr("action", "/promotion/export");
+            $("#form").attr("method", "POST");
+            $("#form").submit();
+        });
+    });
+    </script>
+    <!--<script type="text/javascript">
+    $(function(){
+        $(".J_DelPromo").on("click", function(){
+            if (confirm("确认删除活动?")) {
+                var _this = $(this);
+                var id = _this.data("id");
+
+                $.post(
+                    "/promotion/delOnlyCoupon",
+                    {
+                        id: id
+                    },
+                    function(result){
+                        if (result != "ok") {
+                            alert(result);
+                            return false;
+                        }
+
+                        alert("单一小店优惠券删除成功");
+                        _this.parent().parent().remove();
+                    }
+                );
+            }
+            return false;
+        });
+    });
+</script>-->
+</body>
+
+</html>

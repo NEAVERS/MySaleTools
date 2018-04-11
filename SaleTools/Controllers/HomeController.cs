@@ -151,6 +151,7 @@ namespace SaleTools.Controllers
                 item.Unit = model.info.Unit;
                 item.SupplierId = model.info.SupplierId;
                 item.SupplierName = model.info.SupplierName;
+                item.Brand = model.info.BrandName;
                 res = _order.AddOrderItem(item);
             }
             return Utils.SerializeObject(res);
@@ -202,11 +203,15 @@ namespace SaleTools.Controllers
             order.CreateUserId = loginUser.UserId;
             order.CreateUserName = loginUser.UserName;
             order.CreateUserType = loginUser.TypeName;
+            order.CreateUserNum = loginUser.UserNum;
+            order.StoreName = loginUser.SotreName;
+            order.CreateUserTel = loginUser.Tel;
             order.CreateUserTypeId = loginUser.TypeId;
             order.RootUserId = loginUser.CreateUserId;
             order.RootUserName = loginUser.CreateUser;
             order.SaleManGuid = loginUser.SaleManGuid;
             order.SaleManName = loginUser.SaleManName;
+            order.ReceiveAddr = loginUser.Addr;
             order.Province = loginUser.Province;
             order.ProvinceNum = loginUser.ProvinceNum;
             order.City = loginUser.City;

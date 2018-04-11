@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>订单综合统计 - 加盟商个人中心</title>
+    <!-- global css -->
+    <link rel="stylesheet" type="text/css" href="statics/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/base.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/pages/ucenter.css">
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/laydate/need/laydate.css">
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/city_selector/city_selector.css">
+</head>
+
+<body>
+    <!-- 全局顶部导航 -->
+    <div class="topbar" id="topbar">
+        <div class="pace"></div>
+        <div class="module clearfix">
+            <div class="lfloat">
+                <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                <span class="hello">您好，</span>
+                <span class="username">57700000</span>
+                <span>
+                                ，欢迎来到温州批发平台
+                <!-- ,客服电话:0577-86000802 -->
+                                            </span>
+            </div>
+            <div class="rfloat">
+                <ul class="clearfix">
+                    <!-- <li><a href="http://www.yunmayi.com" target="_blank">云蚂蚁首页</a></li> -->
+                    <li style="margin-right:10px;"><a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">快递代收</a></li>
+                    <li><a href="http://pifa.yunmayi.com/">批发首页</a></li>
+                    <li><a href="http://pifa.yunmayi.com/index/ucenter">会员中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cashier/application">当面付申请</a></li>
+                    <li><a href="http://pifa.yunmayi.com/product/collect" class="">收藏中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">帮助中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cart1">购物车</a></li>
+                    <li><a href="http://passport.pifa.yunmayi.com/logout">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script>
+    (function($) {
+        $.fn.snow = function(options) {
+            var $flake = $('<div id="flake" />').css({
+                    'position': 'absolute',
+                    'top': '-50px',
+                    'z-index': '99999999'
+                }).html('&#10052;'),
+                documentHeight = $(document).height(),
+                documentWidth = $(document).width(),
+                defaults = {
+                    minSize: 10,
+                    maxSize: 20,
+                    newOn: 2000,
+                    flakeColor: "red"
+                },
+                options = $.extend({}, defaults, options);
+            var interval = setInterval(function() {
+                    documentHeight = $(document).height();
+                    var startPositionLeft = Math.random() * documentWidth - 100,
+                        startOpacity = 0.5 + Math.random(),
+                        sizeFlake = options.minSize + Math.random() * options.maxSize,
+                        endPositionTop = documentHeight - options.maxSize,
+                        endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                        durationFall = documentHeight * 10 + Math.random() * 5000;
+                    $flake.clone().appendTo('body').css({
+                        left: startPositionLeft,
+                        opacity: startOpacity,
+                        'font-size': sizeFlake,
+                        color: options.flakeColor
+                    }).animate({
+                            top: endPositionTop,
+                            left: endPositionLeft,
+                            opacity: 0.2
+                        },
+                        durationFall, 'linear',
+                        function() {
+                            $(this).remove()
+                        });
+                },
+                options.newOn);
+        };
+    })(jQuery);
+    //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+
+
+    //鼠标跟随 留言信息窗口
+    $('.remark').mousemove(function(e) {
+        $(this).children('.content').show();
+        $(this).children('.content').show().css({
+            "top": e.pageY + 20,
+            "left": e.pageX + 20
+        })
+    });
+    //滑出隐藏
+    $('.remark').mouseout(function() {
+        $(this).children('.content').hide();
+    });
+    $(window).resize(function() {
+        /* Act on the event */
+        if (document.documentElement.clientWidth < 1200) {
+            $('#topbar').width(1200);
+        } else {
+            $('#topbar').width('100%');
+        }
+
+    });
+    //加载效果
+    var paces = {
+        pace: $('#topbar .pace'),
+        timer: "",
+        w: 0,
+        start: function() {
+            var _this = this;
+            _this.w = 0;
+            if (_this.timer) {
+                _this.w = 0;
+                _this.pace.width(_this.w + "%");
+                clearInterval(_this.timer);
+            } else {
+                _this.timer = setInterval(function() {
+                    ++_this.w;
+                    _this.pace.width(_this.w + "%");
+                    if (_this.w >= 55) {
+                        clearInterval(_this.timer);
+                    }
+                }, 0)
+            }
+
+
+        },
+        end: function() {
+            var _this = this;
+            _this.w = parseInt(_this.pace[0].style.width);
+            clearInterval(_this.timer);
+            _this.timer = setInterval(function() {
+                ++_this.w;
+                _this.pace.width(_this.w + "%");
+                if (_this.w >= 100) {
+                    clearInterval(_this.timer);
+                    var setTimer = setTimeout(function() {
+                        _this.w = 0;
+                        _this.pace.width(_this.w);
+                        clearInterval(_this.timer);
+                    }, 1000);
+                    clearTimeout(clearTimeout);
+                    return false
+                }
+            }, 10)
+        }
+    };
+
+    /*弹框 popup*/
+    function build(status, comment, id, num) {
+        if (!$(".globalPopContainer").length > 0) {
+            $(document.body).append('<div class="globalPopContainer"></div>');
+        }
+        if (!num) {
+            num = '';
+        }
+        if (status == "red") {
+            var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress rprogress'></div>";
+        } else {
+            var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress gprogress'></div>";
+        }
+        html += "<span class='closePop'>x</span>";
+        html += "</div>";
+        $(".globalPopContainer").prepend(html); // 追加新元素   
+        $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth())
+        Popup(id, $("#popup_" + id).outerWidth());
+    }
+
+    function Popup(id, popWidth) {
+        $("#popup_" + id).find(".progress").animate({ width: 0 + 'px' }, 3000, function() {
+            $("#popup_" + id).animate({ right: -popWidth + 'px' }, function() {
+                $(this).remove();
+            })
+        });
+        $("#popup_" + id).mouseout(function() {
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).find(".progress").animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        });
+        $("#popup_" + id).mouseover(function() {
+            var proWidth = $(this).outerWidth()
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).animate({ right: 0 + 'px' }, function() {
+                $(this).find(".progress").animate({ width: proWidth + 'px' });
+            });
+        });
+        $("#popup_" + id).find(".closePop").on('click', function(event) {
+            $(this).parent().unbind("mouseover");
+            $(this).parent().unbind("mouseout");
+            $(this).siblings('.progress').animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        })
+    }
+    </script>
+    <div id="wraper">
+        <div id="main">
+            <div class="module">
+                <div class="ucenter">
+                    <div class="col_side">
+                        <!-- 侧边导航 -->
+                        <div class="menu_box">
+                            <dl class="menu">
+                                <dt class="menu_title">交易管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/list">订单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/arealist">订单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/export">订单导出</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsbills">取货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickingupgoodsbills">拣货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsalelist">多平台销售单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudpicklist">多平台拣货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsendgoodsbills">多平台取货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/expressqueryforagent">快递订单查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">商品管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/product/index">商品列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/publish">新增商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/checkprice">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/public">公共商品库</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/brandcategory">品牌管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/recommendlist">推荐商品列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账户中心</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/account/updatepassword">修改密码</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/manage">账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/deliverymanmanage">送货员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/salesmanmanage">业务员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/pickermanage">分拣员管理</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">会员管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellermanage">供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/cloudseller">云供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/buyermanage">小店管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/banklist">银行账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/checkorderbranch">快递网点查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">余额管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/balance/list">余额明细</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/recharge">余额充值</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/creditquota">信用额度</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">财务管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderconfirmpayrecord">订单收款登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderpaycontrast">应收未收对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/bill/salebill">平台销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/offlinepresale">线下开单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/abnormalorder">收款异常查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">仓库管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderabnormalrecord">订单异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsscan">订单发货扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersendgoodscontrast">发货扫描对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodswithoutpay">已发未交查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/storemanage">商品库存管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/stocksetting">商品入库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/checkout">商品出库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/stockoperate">商品操作查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersortsearch">仓库排单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickgoodsscan">订单分拣扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/ordermanagement">订单分拣管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/checkpicklist">分拣商品查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">活动管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjslist">满就送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/couponlist">优惠券活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/dpslist">单品送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjjlist">满就减活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/blacklist">非活动商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/categoryactivity">类目活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/onlycouponlist">优惠券管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/addpresale">新增预售活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/presalelist">预售活动列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/soldpresalelist">已售活动列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">系统管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/notice/index">公告列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/diycategory">首页类目设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/homeposter">首页海报</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/sendgoodsfoot">页尾设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/systemdao/operate">系统设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/systemlist">系统日志</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">积分管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/integral/gitmanage">积分礼品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/integral/rulemanage">签到规则管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/searchgiftmanage">积分商品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/agentbalancelist">商城积分明细</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">数据统计</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordercount" class="selected">订单综合统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/shopcount">商品销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalcount">异常情况统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/refundinfo">商品退货统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/agent/warehouse/inventory">商品库存统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/goodsbill">商品账单统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/countlog">商品编辑统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalnumber">异常天数统计</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">退货管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/salesmanorderlist">申请退货</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnbacklist">退货查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allreturnbacklist">客服审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/warehouseaudit">仓库审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnsellerlist">退供应商</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allbacklistformoney">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账单管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/bill/operate">异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/auditsellerlist">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/financialauditsellerlist">财务审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ financialplaysellerlist">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">供应商管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockinfo">到货条码生成</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerqr">到货扫描操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockbill">到货扫描管理</a>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col_main">
+                        <div class="col_main_hd">
+                            <h2>
+                                订单综合统计                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/数据统计-订单综合统计.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+                            </h2>
+                        </div>
+                        <div class="col_main_bd">
+                            <div class="inner">
+                                <div class="search_bar">
+                                    <form action="http://agent.pifa.yunmayi.com/trade/orderCount" method="GET">
+                                        <ul class="search_item_list">
+                                            <li class="search_item">
+                                                <label>下单时间:</label>
+                                                <div class="item">
+                                                    <div class="calendar_input">
+                                                        <input type="text" name="starttime" style="width:160px;" value="2018-04-08 16:00:00" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                                                    </div>
+                                                    到
+                                                    <div class="calendar_input">
+                                                        <input type="text" name="endtime" style="width:160px;" value="2018-04-09 16:00:00" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                                                    </div>
+                                                </div>
+                                                <label class="highlight">(可查询一个月内订单)</label>
+                                            </li>
+                                            <li class="search_item">
+                                                <label>区域选择:</label>
+                                                <div class="item">
+                                                    <div class="wgt_city_select" id="J_CitySelector" data-pid="0" data-cid="0" data-aid="0">
+                                                        <div class="wgt_city_select_hd">
+                                                            <div class="wgt_city_title">请选择省市区</div><i class="iconfont"></i></div>
+                                                        <div class="wgt_city_select_bd">
+                                                            <div class="wgt_city_select_tabs"><a class="wgt_city_select_tab cur" href="javascript:;">省份</a><a class="wgt_city_select_tab" href="javascript:;">城市</a><a class="wgt_city_select_tab" href="javascript:;">区县</a></div>
+                                                            <div class="wgt_city_select_contents">
+                                                                <div class="wgt_city_select_content wgt_city_select_content_show">
+                                                                    <dl>
+                                                                        <dd class="clearfix"><a href="javascript:;" data-id="110000">北京市</a><a href="javascript:;" data-id="120000">天津市</a><a href="javascript:;" data-id="130000">河北省</a><a href="javascript:;" data-id="140000">山西省</a><a href="javascript:;" data-id="150000">内蒙古自治区</a><a href="javascript:;" data-id="210000">辽宁省</a><a href="javascript:;" data-id="220000">吉林省</a><a href="javascript:;" data-id="230000">黑龙江省</a><a href="javascript:;" data-id="310000">上海市</a><a href="javascript:;" data-id="320000">江苏省</a><a href="javascript:;" data-id="330000">浙江省</a><a href="javascript:;" data-id="340000">安徽省</a><a href="javascript:;" data-id="350000">福建省</a><a href="javascript:;" data-id="360000">江西省</a><a href="javascript:;" data-id="370000">山东省</a><a href="javascript:;" data-id="410000">河南省</a><a href="javascript:;" data-id="420000">湖北省</a><a href="javascript:;" data-id="430000">湖南省</a><a href="javascript:;" data-id="440000">广东省</a><a href="javascript:;" data-id="450000">广西壮族自治区</a><a href="javascript:;" data-id="460000">海南省</a><a href="javascript:;" data-id="500000">重庆市</a><a href="javascript:;" data-id="510000">四川省</a><a href="javascript:;" data-id="520000">贵州省</a><a href="javascript:;" data-id="530000">云南省</a><a href="javascript:;" data-id="540000">西藏自治区</a><a href="javascript:;" data-id="610000">陕西省</a><a href="javascript:;" data-id="620000">甘肃省</a><a href="javascript:;" data-id="630000">青海省</a><a href="javascript:;" data-id="640000">宁夏回族自治区</a><a href="javascript:;" data-id="650000">新疆维吾尔自治区</a><a href="javascript:;" data-id="710000">台湾省</a><a href="javascript:;" data-id="810000">香港特别行政区</a><a href="javascript:;" data-id="820000">澳门特别行政区</a></dd>
+                                                                    </dl>
+                                                                </div>
+                                                                <div class="wgt_city_select_content">
+                                                                    <dl>
+                                                                        <dd class="clearfix"></dd>
+                                                                    </dl>
+                                                                </div>
+                                                                <div class="wgt_city_select_content">
+                                                                    <dl>
+                                                                        <dd class="clearfix"></dd>
+                                                                    </dl>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" name="prov_id" value="0">
+                                                        <input type="hidden" name="city_id" value="0">
+                                                        <input type="hidden" name="area_id" value="0">
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="search_item">
+                                                <label>订单金额（大于等于）：</label>
+                                                <div class="item">
+                                                    <input type="text" value="0" name="orderprice">
+                                                </div>
+                                            </li>
+                                            <li class="search_item">
+                                                <label>下载:</label>
+                                                <select name="downfile">
+                                                    <option value="0">否</option>
+                                                    <option value="1">是</option>
+                                                </select>
+                                            </li>
+                                            <li class="search_item">
+                                                <label>
+                                                    <input type="checkbox" name="type" value="1">按业务员:</label>
+                                                <select name="salesman_id" id="">
+                                                    <option selected="selected" value="0">全部</option>
+                                                    <option value="16752980">陈世望</option>
+                                                    <option value="16768013">陈希晋</option>
+                                                    <option value="16632610">韩玉林</option>
+                                                    <option value="16746128">韩玉清</option>
+                                                    <option value="16789082">李茂礼</option>
+                                                    <option value="16679895">牛棋</option>
+                                                    <option value="16727844">苏红大</option>
+                                                    <option value="16656935">汤家艳</option>
+                                                    <option value="16679896">万成辉</option>
+                                                    <option value="16788727">韦福山</option>
+                                                    <option value="16651889">杨信辉</option>
+                                                    <option value="16679887">张军营</option>
+                                                    <option value="16651897">郑国尧</option>
+                                                </select>
+                                            </li>
+                                            <li class="search_item">
+                                                <button type="submit" name="do" class="submit">搜索</button>
+                                            </li>
+                                            <li class="clearfix"></li>
+                                        </ul>
+                                    </form>
+                                </div>
+                                <div class="col_main_content">
+                                    <table class="table table_border">
+                                        <thead class="bg_color">
+                                            <tr>
+                                                <th>序号</th>
+                                                <th>小店编号</th>
+                                                <th>小店名称</th>
+                                                <th>订单总数</th>
+                                                <th>订单总金额</th>
+                                                <th>应付总金额</th>
+                                                <th>实收总金额</th>
+                                                <th>联系方式</th>
+                                                <!--                                                <th>区域</th>-->
+                                                <th>地址</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>577027023</td>
+                                                <td>光明超市</td>
+                                                <td>1</td>
+                                                <td>6771.47</td>
+                                                <td>6563.23</td>
+                                                <td>6563.23</td>
+                                                <td>13868644297</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>上塘水门头底巷9号</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>577050305</td>
+                                                <td>卉卉副食品</td>
+                                                <td>1</td>
+                                                <td>4512.60</td>
+                                                <td>4394.46</td>
+                                                <td>4394.46</td>
+                                                <td>13396981166</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>仙岩府前西路98号</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>577020038</td>
+                                                <td>亿客隆超市(干石店)</td>
+                                                <td>1</td>
+                                                <td>3092.15</td>
+                                                <td>3032.15</td>
+                                                <td>3032.15</td>
+                                                <td>15990888178</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>干石镇奥康集团对面</td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>577029127</td>
+                                                <td>安优副食品批发</td>
+                                                <td>1</td>
+                                                <td>2504.90</td>
+                                                <td>2439.90</td>
+                                                <td>2439.90</td>
+                                                <td>15888208676</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>上望街道农贸城4幢2号</td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>577030235</td>
+                                                <td>都市外乡人生活超市</td>
+                                                <td>1</td>
+                                                <td>2017.65</td>
+                                                <td>1954.25</td>
+                                                <td>1954.25</td>
+                                                <td>13732068437</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>潘桥高路1616弄4号一家超市对面</td>
+                                            </tr>
+                                            <tr>
+                                                <td>6</td>
+                                                <td>577026226</td>
+                                                <td>夏曼名烟名酒</td>
+                                                <td>1</td>
+                                                <td>1688.65</td>
+                                                <td>1629.33</td>
+                                                <td>1629.33</td>
+                                                <td>13906656067</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>永中西路中梁香雅园7-128号</td>
+                                            </tr>
+                                            <tr>
+                                                <td>7</td>
+                                                <td>577027029</td>
+                                                <td>嘉楠批发超市</td>
+                                                <td>1</td>
+                                                <td>1514.00</td>
+                                                <td>1484.00</td>
+                                                <td>1484.00</td>
+                                                <td>15257833696</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>上塘中楠时代花园6幢105号</td>
+                                            </tr>
+                                            <tr>
+                                                <td>8</td>
+                                                <td>577029243</td>
+                                                <td>瑞安阿昌酒水副食品</td>
+                                                <td>1</td>
+                                                <td>1503.70</td>
+                                                <td>1473.70</td>
+                                                <td>1473.70</td>
+                                                <td>18072021886</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>马屿镇镇中路41-43号</td>
+                                            </tr>
+                                            <tr>
+                                                <td>9</td>
+                                                <td>577030230</td>
+                                                <td>直源食品专营店</td>
+                                                <td>1</td>
+                                                <td>1280.00</td>
+                                                <td>1280.00</td>
+                                                <td>1280.00</td>
+                                                <td>18868266188</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>瑞鸟电商园13栋109号平阳万全工业区旁边</td>
+                                            </tr>
+                                            <tr>
+                                                <td>10</td>
+                                                <td>577010006</td>
+                                                <td>瑞丰超市</td>
+                                                <td>1</td>
+                                                <td>1062.70</td>
+                                                <td>1020.45</td>
+                                                <td>1020.45</td>
+                                                <td>18958816718</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>浙江温州永嘉瓯北冬宁苑8幢1楼</td>
+                                            </tr>
+                                            <tr>
+                                                <td>11</td>
+                                                <td>577029152</td>
+                                                <td>雅兴副食品</td>
+                                                <td>1</td>
+                                                <td>1046.00</td>
+                                                <td>1010.40</td>
+                                                <td>1010.40</td>
+                                                <td>65606996</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>东山街道瑞光大道728号</td>
+                                            </tr>
+                                            <tr>
+                                                <td>12</td>
+                                                <td>577030067</td>
+                                                <td>豪利来购中心</td>
+                                                <td>1</td>
+                                                <td>1039.30</td>
+                                                <td>1007.60</td>
+                                                <td>1007.60</td>
+                                                <td>15325019318</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>潘桥马桥农贸市场二楼</td>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>577010211</td>
+                                                <td>晨阳副食品批发</td>
+                                                <td>1</td>
+                                                <td>1023.45</td>
+                                                <td>1003.45</td>
+                                                <td>1003.45</td>
+                                                <td>15726891351</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>上塘沿江小区2幢121号</td>
+                                            </tr>
+                                            <tr>
+                                                <td>14</td>
+                                                <td>577030096</td>
+                                                <td>老实人批发超市</td>
+                                                <td>1</td>
+                                                <td>736.60</td>
+                                                <td>702.38</td>
+                                                <td>702.38</td>
+                                                <td>13587886609</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>郭溪镇前犀村金前路46号</td>
+                                            </tr>
+                                            <tr>
+                                                <td>15</td>
+                                                <td>577029560</td>
+                                                <td>育智中路家家超市</td>
+                                                <td>1</td>
+                                                <td>634.90</td>
+                                                <td>623.90</td>
+                                                <td>623.90</td>
+                                                <td>1525809132</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>仙岩街道育知中路18号</td>
+                                            </tr>
+                                            <tr>
+                                                <td>16</td>
+                                                <td>577027017</td>
+                                                <td>白鹭屿供销超市</td>
+                                                <td>1</td>
+                                                <td>616.20</td>
+                                                <td>605.20</td>
+                                                <td>605.20</td>
+                                                <td>15957733703</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>北白象镇白鹭屿村沿河路22号</td>
+                                            </tr>
+                                            <tr>
+                                                <td>17</td>
+                                                <td>577029170</td>
+                                                <td>和丰批发超市</td>
+                                                <td>1</td>
+                                                <td>616.00</td>
+                                                <td>605.00</td>
+                                                <td>605.00</td>
+                                                <td>13616660906</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>上望街道横塘头村建康北路1巷1号</td>
+                                            </tr>
+                                            <tr>
+                                                <td>18</td>
+                                                <td>577029302</td>
+                                                <td>夏梦批发部</td>
+                                                <td>1</td>
+                                                <td>583.00</td>
+                                                <td>572.00</td>
+                                                <td>572.00</td>
+                                                <td>65592935</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>南滨街道林垟川河街13号</td>
+                                            </tr>
+                                            <tr>
+                                                <td>19</td>
+                                                <td>577029561</td>
+                                                <td>南仙副食品店</td>
+                                                <td>1</td>
+                                                <td>523.90</td>
+                                                <td>523.90</td>
+                                                <td>523.90</td>
+                                                <td>1532503566</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>三垟街道铁道南路南仙家园北门南仙超市</td>
+                                            </tr>
+                                            <tr>
+                                                <td>20</td>
+                                                <td>577029463</td>
+                                                <td>山水名都副食</td>
+                                                <td>1</td>
+                                                <td>491.90</td>
+                                                <td>491.90</td>
+                                                <td>491.90</td>
+                                                <td>13566197760</td>
+                                                <!--                                                <td>-->
+                                                <!--</td>-->
+                                                <td>新桥街道 山水名都12</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- global js -->
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    var DOMAIN = { "main": "pifa.yunmayi.com", "passport": "passport.pifa.yunmayi.com", "buyer": "buyer.pifa.yunmayi.com", "seller": "seller.pifa.yunmayi.com", "ajax": "ajax.pifa.yunmayi.com", "agent": "agent.pifa.yunmayi.com" };
+    </script>
+    <script type="text/javascript" src="statics/js/lib/help.js"></script>
+    <script type="text/javascript" src="statics/js/lib/laydate/laydate.js"></script>
+    <script type="text/javascript" src="statics/js/lib/city_selector/city_selector.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        // 省市区选择器
+        $("#J_CitySelector").CitySelector({});
+
+        //限制搜索时间为一个月内
+        $(".submit").click(function() {
+            var stime = $("input[name='starttime']").val();
+            var etime = $("input[name='endtime']").val();
+            // 获取开始时间的时间戳
+            var f = stime.split(' ', 2);
+            var d = (f[0] ? f[0] : '').split('-', 3);
+            var t = (f[1] ? f[1] : '').split(':', 3);
+            var start_time = new Date(
+                parseInt(d[0], 10) || null,
+                (parseInt(d[1], 10) || 1) - 1,
+                parseInt(d[2], 10) || null,
+                parseInt(t[0], 10) || null,
+                parseInt(t[1], 10) || null,
+                parseInt(t[2], 10) || null
+            ).getTime() / 1000;
+            //获取结束时间的时间戳
+            var e = etime.split(' ', 2);
+            var n = (e[0] ? e[0] : '').split('-', 3);
+            var m = (e[1] ? e[1] : '').split(':', 3);
+            var end_time = new Date(
+                parseInt(n[0], 10) || null,
+                (parseInt(n[1], 10) || 1) - 1,
+                parseInt(n[2], 10) || null,
+                parseInt(m[0], 10) || null,
+                parseInt(m[1], 10) || null,
+                parseInt(m[2], 10) || null
+            ).getTime() / 1000;
+            //对比时间差跟30天时间
+            var mistake = 0;
+            if (start_time > end_time) {
+                mistake = start_time - end_time;
+            } else {
+                mistake = end_time - start_time;
+            }
+            var day = 3600 * 24 * 31; //30天时间
+            //当时间差存在五天之内时提交表单，否则不予提交
+            if (mistake - day <= 0) {
+                $('form').submit();
+            } else {
+                build("red", "只可查询一个月之内的数据", "submit");
+                return false;
+            }
+        })
+    });
+    </script>
+</body>
+
+</html>
