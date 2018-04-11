@@ -560,9 +560,10 @@ namespace BLL
         /// <param name="send"></param>
         /// <param name="sale"></param>
         /// <param name="userTypeId"></param>
+        /// <param name="payStutas"></param>
         /// <returns></returns>
 
-        public List<OrderInfo> GetOrderForPayContrast(Guid managerId, int timeType, DateTime start,DateTime end,string orderNum,Guid send,Guid sale,int userTypeId)
+        public List<OrderInfo> GetOrderForPayContrast(Guid managerId, int timeType, DateTime start,DateTime end,string orderNum,Guid send,Guid sale,int userTypeId,int payStutas)
         {
             var q = from c in _context.OrderInfoes
                     where !c.IsDelete
@@ -580,7 +581,10 @@ namespace BLL
                 q = q.Where(x => x.SaleManGuid == sale);
             if(userTypeId!=-1)
                 q = q.Where(x => x.CreateUserTypeId == userTypeId);
-
+            if(payStutas!=-1)
+            {
+                q = q.Where(x => x.IsPay == (payStutas==1));
+            }
             return q.ToList();
         }
 

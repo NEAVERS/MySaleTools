@@ -43,6 +43,8 @@ namespace SaleTools.Controllers
                 var list = _manager.GetGoddsTypeTree(userid);
                 ViewBag.GoddsTypeTree = list;
                 ViewBag.User = user;
+                
+                ViewBag.ManagerId = userid;
 
 
             }

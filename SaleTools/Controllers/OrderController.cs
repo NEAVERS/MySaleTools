@@ -103,7 +103,12 @@ namespace SaleTools.Controllers
             return View();
         }
 
-
+        /// <summary>
+        /// 导出订单
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
         public ActionResult OutpuFile(string start="",string end ="")
         {
             DateTime startTime = Utils.GetTime(start, true);
@@ -124,7 +129,13 @@ namespace SaleTools.Controllers
             return View();
         }
 
-
+        /// <summary>
+        /// 展示取货单
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="SupplierId"></param>
+        /// <returns></returns>
         public ActionResult  ShowGetBill(string start = "",string end = "", int SupplierId = -1)
         {
             DateTime startTime = Utils.GetTime(start, true);
@@ -137,7 +148,13 @@ namespace SaleTools.Controllers
 
             return View();
         }
-
+        /// <summary>
+        /// 展示拣货单
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="SupplierId"></param>
+        /// <returns></returns>
 
         public ActionResult ShowPickUpBill(string start = "", string end = "", int SupplierId = 3)
         {
@@ -147,7 +164,11 @@ namespace SaleTools.Controllers
             ViewBag.List = result;
             return View();
         }
-
+        /// <summary>
+        /// 订单收款登记
+        /// </summary>
+        /// <param name="orderNum"></param>
+        /// <returns></returns>
         public ActionResult ConfirmPayRecord(string orderNum= "")
         {
             var loginUser = (UserInfo)ViewBag.User;
@@ -167,26 +188,54 @@ namespace SaleTools.Controllers
             return View(model);
         }
 
-
+        /// <summary>
+        /// 加载异常原因
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <returns></returns>
         public string LoadErrorReason(string pid)
         {
             var list = _order.GetErrorReasonByType(2, pid);
             return Utils.SerializeObject(list);
         }
 
+        /// <summary>
+        /// 设置订单子项的异常信息
+        /// </summary>
+        /// <param name="orderItemId"></param>
+        /// <param name="count"></param>
+        /// <param name="typeCode"></param>
+        /// <param name="type"></param>
+        /// <param name="reasonCode"></param>
+        /// <param name="reason"></param>
+        /// <param name="mark"></param>
+        /// <returns></returns>
         public string SetOrderItemError(Guid orderItemId, int count, string typeCode, string type, string reasonCode, string reason, string mark)
         {
             var res = _order.SetErrorInfo(orderItemId, count, typeCode, type, reasonCode, reason, mark);
             return Utils.SerializeObject(res);
         }
 
+        /// <summary>
+        /// 确认订单付款信息
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="paymoeney"></param>
+        /// <param name="remark"></param>
+        /// <param name="send"></param>
+        /// <returns></returns>
         public string ConfirmOrderPay(Guid orderId,decimal paymoeney,string remark,Guid send)
         {
             var res = _order.ConfirmOrderPay(orderId, paymoeney, remark, send);
             return Utils.SerializeObject(res);
         }
 
-
+        /// <summary>
+        /// 订单收款登记页面保存备注
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="remark"></param>
+        /// <returns></returns>
         public string SaveRemark(Guid orderId, string remark)
         {
             var res = _order.SaveOrderRemark(orderId, remark);
@@ -194,5 +243,60 @@ namespace SaleTools.Controllers
 
         }
 
+
+        public ActionResult OrderPayContrast()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var Sendlist = _user.GetSysUser((int)SystemUserType.送货员, loginUser.CreateUserId);
+            ViewBag.SendPeople = Sendlist;
+            var SaleList = _user.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
+            ViewBag.SalePeople = SaleList;
+            var typeList = _user.GetTypeList();
+            ViewBag.TypeList = typeList;
+            return View();
+        }
+
+        /// <summary>
+        /// 获取订单列表
+        /// </summary>
+        /// <param name="timeType"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="orderNum"></param>
+        /// <param name="send"></param>
+        /// <param name="sale"></param>
+        /// <param name="uerType"></param>
+        /// <param name="paystutas"></param>
+        /// <returns></returns>
+        public string GetPayContrast(int timeType,string start,string end,string orderNum,string send,string sale,int uerType,int paystutas = -1 )
+        {
+            DateTime startTime = Utils.GetTime(start, true);
+            DateTime endTime = Utils.GetTime(end);
+            Guid sendId = Utils.ParseGuid(send);
+            Guid saleId = Utils.ParseGuid(sale);
+            var list = _order.GetOrderForPayContrast((Guid)ViewBag.ManagerId, timeType, startTime,endTime, orderNum,sendId,saleId, uerType, paystutas);
+
+            var mode = new
+            {
+                OrderCout = list.Count,
+                PayCount = list.Where(x => x.IsPay).Count(),
+                PayMoeny = list.Where(x => x.IsPay).Sum(x => x.PayMoney),
+                NotPayCount = list.Where(x => !x.IsPay).Count(),
+                NotPayMoeny = list.Where(x => !x.IsPay).Sum(x => x.RealMoney),
+                ListData= list,
+            };
+            return Utils.SerializeObject(mode);
+        }
+
+        /// <summary>
+        /// 撤销已支付状态
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public string RevertOrderIsPay(Guid orderId)
+        {
+            var res = _order.RevertIsPay(orderId);
+            return Utils.SerializeObject(res);
+        }
     }
 }
