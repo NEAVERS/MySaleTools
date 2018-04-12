@@ -9,10 +9,10 @@ G:\study\git\MySaleTools\Model\bin\Debug\Model.pdb
 G:\study\git\MySaleTools\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
 G:\study\git\MySaleTools\Model\obj\Debug\Model.dll
 G:\study\git\MySaleTools\Model\obj\Debug\Model.pdb
+G:\study\git\MySaleTools\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
 E:\Project\test\SaleTools\Model\bin\Debug\Model.dll
 E:\Project\test\SaleTools\Model\bin\Debug\Model.pdb
 E:\Project\test\SaleTools\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
 E:\Project\test\SaleTools\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
 E:\Project\test\SaleTools\Model\obj\Debug\Model.dll
 E:\Project\test\SaleTools\Model\obj\Debug\Model.pdb
-G:\study\git\MySaleTools\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache

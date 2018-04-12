@@ -36,5 +36,10 @@ namespace Common.Entities
         /// 异常原因
         /// </summary>
         public string ErrorReason { get; set; }
+
+        /// <summary>
+        /// 订单编号Id
+        /// </summary>
+        public Guid OrderItemId { get; set; }
     }
 }

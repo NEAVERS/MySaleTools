@@ -14,6 +14,8 @@ namespace SaleTools.Controllers
     {
         private OrderManager _order = new OrderManager();
         private UserManager _user = new UserManager();
+
+        private GoodsManager _good = new GoodsManager();
         // GET: Order
         public ActionResult Index()
         {
@@ -336,12 +338,143 @@ namespace SaleTools.Controllers
             if (string.IsNullOrEmpty(end))
                 endTime = new DateTime(now.Year, now.Month, now.Day , 16, 0, 0);
             else
-                endTime = Utils.GetTime(start);
+                endTime = Utils.GetTime(end);
 
             var list = _order.GetOrderForPayContrast((Guid)ViewBag.ManagerId, 2, startTime, endTime, "", Guid.Empty, Guid.Empty ,- 1, 1);
             ViewBag.List = list;
             return View();
 
+        }
+       
+        /// <summary>
+        /// 订单综合统计
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="province"></param>
+        /// <param name="city"></param>
+        /// <param name="area"></param>
+        /// <param name="orderMoney"></param>
+        /// <param name="showType"></param>
+        /// <param name="saleManId"></param>
+        /// <returns></returns>
+        public ActionResult OrderCount(string start="",string end="",string province = "", string city="",string area="",decimal orderMoney =0,int showType = 0,string saleManId = "")
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var SaleList = _user.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
+            var OrderList = new List<OrderCountByStore>();
+            DateTime startTime = new DateTime();
+            DateTime endTime = new DateTime();
+            DateTime now = DateTime.Now;
+            if (string.IsNullOrEmpty(start))
+                startTime = new DateTime(now.Year, now.Month, now.Day - 1, 16, 0, 0);
+            else
+                startTime = Utils.GetTime(start, true);
+            if (string.IsNullOrEmpty(end))
+                endTime = new DateTime(now.Year, now.Month, now.Day, 16, 0, 0);
+            else
+                endTime = Utils.GetTime(end);
+
+            if (!string.IsNullOrWhiteSpace(start))
+            {
+                if (showType==0)
+                {
+                    OrderList = _order.GetOrderTotal(startTime, endTime, province, city, area, loginUser.UserId, orderMoney);
+
+                }
+                else
+                {
+                    OrderList = _order.GetOrderTotalBySaleMan(startTime, endTime, loginUser.UserId);
+                }
+            }
+            
+            ViewBag.Start = startTime;
+            ViewBag.End = endTime;
+            ViewBag.Province = province;
+            ViewBag.City = city;
+            ViewBag.Area = area;
+            ViewBag.OrderMoney = orderMoney;
+            ViewBag.SaleManId = saleManId;
+            ViewBag.SalePeople = SaleList;
+            ViewBag.ShowType = showType;
+            ViewBag.OrderList = OrderList;
+            ViewBag.ShowType = showType;
+            return View();
+        }
+        /// <summary>
+        /// 商品销售统计
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="key"></param>
+        /// <param name="typeId"></param>
+        /// <returns></returns>
+        public ActionResult ShopCount(string start = "", string end = "", string key = "",string typeId="")
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var typeList = _good.GetDownGoodsType(Guid.Empty, loginUser.UserId);
+
+            var list = new List<GoodsSaleMode>();
+            DateTime startTime = new DateTime();
+            DateTime endTime = new DateTime();
+            DateTime now = DateTime.Now;
+            if (string.IsNullOrEmpty(start))
+                startTime = new DateTime(now.Year, now.Month, now.Day - 1, 16, 0, 0);
+            else
+                startTime = Utils.GetTime(start, true);
+            if (string.IsNullOrEmpty(end))
+                endTime = new DateTime(now.Year, now.Month, now.Day, 16, 0, 0);
+            else
+                endTime = Utils.GetTime(end);
+            if(!string.IsNullOrWhiteSpace(start))
+            {
+                list = _order.GetGoodsSaleInfo(startTime, endTime, key, typeId, loginUser.UserId);
+            }
+
+            ViewBag.TypeList = typeList;
+            ViewBag.List = list;
+            ViewBag.Start = startTime;
+            ViewBag.End = endTime;
+            ViewBag.Key = key;
+            ViewBag.TypeId = typeId;
+            return View();
+        }
+
+
+        public ActionResult AbnormalCount(string start = "",string end ="",int cType = 0,string goodsType = "",string supplier = "")
+        {
+            return View();
+        }
+        /// <summary>
+        /// 异常天数统计
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public ActionResult AbnormalNumber(string start = "",string end = "")
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            DateTime startTime = new DateTime();
+            DateTime endTime = new DateTime();
+            DateTime now = DateTime.Now;
+            if (string.IsNullOrEmpty(start))
+                startTime = new DateTime(now.Year, now.Month, now.Day - 1, 16, 0, 0);
+            else
+                startTime = Utils.GetTime(start, true);
+            if (string.IsNullOrEmpty(end))
+                endTime = new DateTime(now.Year, now.Month, now.Day, 16, 0, 0);
+            else
+                endTime = Utils.GetTime(end);
+            var list = new List<ErrorDayModel>();
+            if(!string.IsNullOrWhiteSpace(start))
+            {
+                list = _order.GetErrDays(startTime, endTime, loginUser.UserId);
+            }
+            ViewBag.Start = startTime;
+            ViewBag.End = endTime;
+            ViewBag.List = list;
+            return View();
         }
     }
 }

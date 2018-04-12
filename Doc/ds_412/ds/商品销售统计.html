@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>商品销售统计 - 加盟商个人中心</title>
+    <!-- global css -->
+    <link rel="stylesheet" type="text/css" href="statics/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/base.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/pages/ucenter.css">
+    <style type="text/css">
+    .progress_box {
+        position: relative;
+        width: 80%;
+        height: 20px;
+        background: #f5f5f5;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+        border-radius: 2px;
+        overflow: hidden;
+    }
+
+    .progress_bar {
+        position: absolute;
+        height: 20px;
+        background: #c40000;
+        border-radius: 2px;
+    }
+
+    .download_btn {
+        display: none;
+        font-size: 14px;
+        color: #c40000;
+    }
+    </style>
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/laydate/need/laydate.css">
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+</head>
+
+<body>
+    <!-- 全局顶部导航 -->
+    <div class="topbar" id="topbar">
+        <div class="pace"></div>
+        <div class="module clearfix">
+            <div class="lfloat">
+                <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                <span class="hello">您好，</span>
+                <span class="username">57700000</span>
+                <span>
+                                ，欢迎来到温州批发平台
+                <!-- ,客服电话:0577-86000802 -->
+                                            </span>
+            </div>
+            <div class="rfloat">
+                <ul class="clearfix">
+                    <!-- <li><a href="http://www.yunmayi.com" target="_blank">云蚂蚁首页</a></li> -->
+                    <li style="margin-right:10px;"><a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">快递代收</a></li>
+                    <li><a href="http://pifa.yunmayi.com/">批发首页</a></li>
+                    <li><a href="http://pifa.yunmayi.com/index/ucenter">会员中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cashier/application">当面付申请</a></li>
+                    <li><a href="http://pifa.yunmayi.com/product/collect" class="">收藏中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">帮助中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cart1">购物车</a></li>
+                    <li><a href="http://passport.pifa.yunmayi.com/logout">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script>
+    (function($) {
+        $.fn.snow = function(options) {
+            var $flake = $('<div id="flake" />').css({
+                    'position': 'absolute',
+                    'top': '-50px',
+                    'z-index': '99999999'
+                }).html('&#10052;'),
+                documentHeight = $(document).height(),
+                documentWidth = $(document).width(),
+                defaults = {
+                    minSize: 10,
+                    maxSize: 20,
+                    newOn: 2000,
+                    flakeColor: "red"
+                },
+                options = $.extend({}, defaults, options);
+            var interval = setInterval(function() {
+                    documentHeight = $(document).height();
+                    var startPositionLeft = Math.random() * documentWidth - 100,
+                        startOpacity = 0.5 + Math.random(),
+                        sizeFlake = options.minSize + Math.random() * options.maxSize,
+                        endPositionTop = documentHeight - options.maxSize,
+                        endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                        durationFall = documentHeight * 10 + Math.random() * 5000;
+                    $flake.clone().appendTo('body').css({
+                        left: startPositionLeft,
+                        opacity: startOpacity,
+                        'font-size': sizeFlake,
+                        color: options.flakeColor
+                    }).animate({
+                            top: endPositionTop,
+                            left: endPositionLeft,
+                            opacity: 0.2
+                        },
+                        durationFall, 'linear',
+                        function() {
+                            $(this).remove()
+                        });
+                },
+                options.newOn);
+        };
+    })(jQuery);
+    //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+
+
+    //鼠标跟随 留言信息窗口
+    $('.remark').mousemove(function(e) {
+        $(this).children('.content').show();
+        $(this).children('.content').show().css({
+            "top": e.pageY + 20,
+            "left": e.pageX + 20
+        })
+    });
+    //滑出隐藏
+    $('.remark').mouseout(function() {
+        $(this).children('.content').hide();
+    });
+    $(window).resize(function() {
+        /* Act on the event */
+        if (document.documentElement.clientWidth < 1200) {
+            $('#topbar').width(1200);
+        } else {
+            $('#topbar').width('100%');
+        }
+
+    });
+    //加载效果
+    var paces = {
+        pace: $('#topbar .pace'),
+        timer: "",
+        w: 0,
+        start: function() {
+            var _this = this;
+            _this.w = 0;
+            if (_this.timer) {
+                _this.w = 0;
+                _this.pace.width(_this.w + "%");
+                clearInterval(_this.timer);
+            } else {
+                _this.timer = setInterval(function() {
+                    ++_this.w;
+                    _this.pace.width(_this.w + "%");
+                    if (_this.w >= 55) {
+                        clearInterval(_this.timer);
+                    }
+                }, 0)
+            }
+
+
+        },
+        end: function() {
+            var _this = this;
+            _this.w = parseInt(_this.pace[0].style.width);
+            clearInterval(_this.timer);
+            _this.timer = setInterval(function() {
+                ++_this.w;
+                _this.pace.width(_this.w + "%");
+                if (_this.w >= 100) {
+                    clearInterval(_this.timer);
+                    var setTimer = setTimeout(function() {
+                        _this.w = 0;
+                        _this.pace.width(_this.w);
+                        clearInterval(_this.timer);
+                    }, 1000);
+                    clearTimeout(clearTimeout);
+                    return false
+                }
+            }, 10)
+        }
+    };
+
+    /*弹框 popup*/
+    function build(status, comment, id, num) {
+        if (!$(".globalPopContainer").length > 0) {
+            $(document.body).append('<div class="globalPopContainer"></div>');
+        }
+        if (!num) {
+            num = '';
+        }
+        if (status == "red") {
+            var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress rprogress'></div>";
+        } else {
+            var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress gprogress'></div>";
+        }
+        html += "<span class='closePop'>x</span>";
+        html += "</div>";
+        $(".globalPopContainer").prepend(html); // 追加新元素   
+        $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth())
+        Popup(id, $("#popup_" + id).outerWidth());
+    }
+
+    function Popup(id, popWidth) {
+        $("#popup_" + id).find(".progress").animate({ width: 0 + 'px' }, 3000, function() {
+            $("#popup_" + id).animate({ right: -popWidth + 'px' }, function() {
+                $(this).remove();
+            })
+        });
+        $("#popup_" + id).mouseout(function() {
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).find(".progress").animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        });
+        $("#popup_" + id).mouseover(function() {
+            var proWidth = $(this).outerWidth()
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).animate({ right: 0 + 'px' }, function() {
+                $(this).find(".progress").animate({ width: proWidth + 'px' });
+            });
+        });
+        $("#popup_" + id).find(".closePop").on('click', function(event) {
+            $(this).parent().unbind("mouseover");
+            $(this).parent().unbind("mouseout");
+            $(this).siblings('.progress').animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        })
+    }
+    </script>
+    <div id="wraper">
+        <div id="main">
+            <div class="module">
+                <div class="ucenter">
+                    <div class="col_side">
+                        <!-- 侧边导航 -->
+                        <div class="menu_box">
+                            <dl class="menu">
+                                <dt class="menu_title">交易管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/list">订单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/arealist">订单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/export">订单导出</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsbills">取货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickingupgoodsbills">拣货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsalelist">多平台销售单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudpicklist">多平台拣货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsendgoodsbills">多平台取货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/expressqueryforagent">快递订单查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">商品管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/product/index">商品列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/publish">新增商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/checkprice">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/public">公共商品库</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/brandcategory">品牌管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/recommendlist">推荐商品列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账户中心</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/account/updatepassword">修改密码</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/manage">账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/deliverymanmanage">送货员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/salesmanmanage">业务员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/pickermanage">分拣员管理</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">会员管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellermanage">供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/cloudseller">云供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/buyermanage">小店管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/banklist">银行账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/checkorderbranch">快递网点查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">余额管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/balance/list">余额明细</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/recharge">余额充值</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/creditquota">信用额度</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">财务管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderconfirmpayrecord">订单收款登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderpaycontrast">应收未收对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/bill/salebill">平台销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/offlinepresale">线下开单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/abnormalorder">收款异常查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">仓库管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderabnormalrecord">订单异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsscan">订单发货扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersendgoodscontrast">发货扫描对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodswithoutpay">已发未交查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/storemanage">商品库存管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/stocksetting">商品入库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/checkout">商品出库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/stockoperate">商品操作查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersortsearch">仓库排单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickgoodsscan">订单分拣扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/ordermanagement">订单分拣管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/checkpicklist">分拣商品查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">活动管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjslist">满就送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/couponlist">优惠券活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/dpslist">单品送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjjlist">满就减活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/blacklist">非活动商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/categoryactivity">类目活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/onlycouponlist">优惠券管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/addpresale">新增预售活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/presalelist">预售活动列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/soldpresalelist">已售活动列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">系统管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/notice/index">公告列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/diycategory">首页类目设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/homeposter">首页海报</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/sendgoodsfoot">页尾设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/systemdao/operate">系统设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/systemlist">系统日志</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">积分管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/integral/gitmanage">积分礼品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/integral/rulemanage">签到规则管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/searchgiftmanage">积分商品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/agentbalancelist">商城积分明细</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">数据统计</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordercount">订单综合统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/shopcount" class="selected">商品销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalcount">异常情况统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/refundinfo">商品退货统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/agent/warehouse/inventory">商品库存统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/goodsbill">商品账单统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/countlog">商品编辑统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalnumber">异常天数统计</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">退货管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/salesmanorderlist">申请退货</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnbacklist">退货查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allreturnbacklist">客服审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/warehouseaudit">仓库审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnsellerlist">退供应商</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allbacklistformoney">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账单管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/bill/operate">异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/auditsellerlist">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/financialauditsellerlist">财务审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ financialplaysellerlist">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">供应商管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockinfo">到货条码生成</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerqr">到货扫描操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockbill">到货扫描管理</a>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col_main">
+                        <div class="col_main_hd">
+                            <h2>
+                                商品销售统计                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/数据统计-商品销售统计.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+                            </h2>
+                        </div>
+                        <div class="col_main_bd">
+                            <div class="inner">
+                                <div class="search_bar">
+                                    <form action="http://agent.pifa.yunmayi.com/trade/shopCount" method="GET">
+                                        <ul class="search_item_list">
+                                            <li class="search_item">
+                                                <label>下单时间:</label>
+                                                <div class="item">
+                                                    <div class="calendar_input">
+                                                        <input type="text" name="starttime" style="width:160px;" value="2018-04-09 16:00:00" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss'});">
+                                                    </div>
+                                                    到
+                                                    <div class="calendar_input">
+                                                        <input type="text" name="endtime" style="width:160px;" value="2018-04-10 16:00:00" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss'});">
+                                                    </div>
+                                                    <label class="highlight">(可查询一个月内订单)</label>
+                                                </div>
+                                            </li>
+                                            <li class="search_item">
+                                                <label>关键字:</label>
+                                                <input type="text" name="keyword" value="">
+                                            </li>
+                                            <li class="search_item">
+                                                <label>按商品大类:</label>
+                                                <select name="cid">
+                                                    <option value="0">全部</option>
+                                                    <option value="1002">日用洗护</option>
+                                                    <option value="1030">食品零食</option>
+                                                    <option value="1041">粮油调味</option>
+                                                    <option value="1051">酒水饮料</option>
+                                                    <option value="1085">家用百货</option>
+                                                    <option value="1878">母婴用品</option>
+                                                    <option value="1899">旅游度假</option>
+                                                    <option value="1902">便民服务</option>
+                                                    <option value="1904">特色专区</option>
+                                                    <option value="1927">蔬果生鲜</option>
+                                                    <option value="1957">折扣专区</option>
+                                                    <option value="1960">年货专区</option>
+                                                    <option value="1963">散称专区</option>
+                                                    <option value="1995">整件专区</option>
+                                                    <option value="2057">棉衣</option>
+                                                    <option value="2058">呢大衣</option>
+                                                    <option value="2151">羽绒服</option>
+                                                    <option value="2152">裤子</option>
+                                                    <option value="2189">皮衣</option>
+                                                    <option value="2190">保暖内衣</option>
+                                                    <option value="2191">外套</option>
+                                                    <option value="2192">套装</option>
+                                                    <option value="2193">打底衫</option>
+                                                    <option value="2194">裙装</option>
+                                                    <option value="2195">其它</option>
+                                                    <option value="2196">特价区</option>
+                                                    <option value="2283">速冻食品</option>
+                                                    <option value="2326">冰淇淋</option>
+                                                    <option value="2338">进口商品</option>
+                                                    <option value="2389">趋势</option>
+                                                    <option value="2390">PTL新料</option>
+                                                    <option value="2391">进口</option>
+                                                    <option value="2392">辅料</option>
+                                                    <option value="2393">花型</option>
+                                                    <option value="2394">针织</option>
+                                                    <option value="2395">梭织</option>
+                                                    <option value="2512">95折专区</option>
+                                                    <option value="2516">出货中心</option>
+                                                    <option value="2542">求购中心</option>
+                                                    <option value="2568">返利专区</option>
+                                                    <option value="2594">联采中心</option>
+                                                    <option value="2726">运费补拍</option>
+                                                    <option value="2779">春装</option>
+                                                    <option value="2798">夏装</option>
+                                                    <option value="2814">尾品汇</option>
+                                                    <option value="2821">花卉园艺</option>
+                                                    <option value="2824">福利彩票</option>
+                                                    <option value="2831">设备专区</option>
+                                                    <option value="2836">低温鲜品</option>
+                                                    <option value="2852">开店物料</option>
+                                                    <option value="2856">上架新品</option>
+                                                    <option value="2859">当季爆品</option>
+                                                    <option value="2862">慈善专柜</option>
+                                                    <option value="2881">随手礼宴席订制专柜</option>
+                                                </select>
+                                            </li>
+                                            <li class="search_item">
+                                                <label>下载:</label>
+                                                <select name="downfile">
+                                                    <option value="0">否</option>
+                                                    <option value="1">是</option>
+                                                </select>
+                                            </li>
+                                            <li class="search_item">
+                                                <button type="submit" name="do" class="submit">搜索</button>
+                                            </li>
+                                            <li class="clearfix"></li>
+                                        </ul>
+                                    </form>
+                                </div>
+                                <div class="col_main_content">
+                                    <table class="table table_border">
+                                        <thead class="bg_color">
+                                            <tr>
+                                                <th>序号</th>
+                                                <th>商品类目</th>
+                                                <th>供应商</th>
+                                                <th>商品名称</th>
+                                                <th>商品条形码</th>
+                                                <th>商品销售价</th>
+                                                <th>商品成本价</th>
+                                                <th>商品出售数量</th>
+                                                <th>出售总金额</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>酒水饮料</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>280g银鹭好粥道椰奶燕麦粥(1*12)</td>
+                                                <td>6926892568081</td>
+                                                <td>34.20</td>
+                                                <td>31.40</td>
+                                                <td>61</td>
+                                                <td>2026.20</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>25g金恩阿凡提油渣(小)</td>
+                                                <td>6925551000061</td>
+                                                <td>3.00</td>
+                                                <td>2.75</td>
+                                                <td>615</td>
+                                                <td>1845.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳50g烤肉天然薯片</td>
+                                                <td>6909409040898</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>390</td>
+                                                <td>1092.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>酒水饮料</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>280g银鹭好粥道紫薯紫米粥(1*12)</td>
+                                                <td>6926892501033</td>
+                                                <td>34.20</td>
+                                                <td>31.40</td>
+                                                <td>32</td>
+                                                <td>1064.40</td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>酒水饮料</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>280g银鹭好粥道薏仁红豆粥(1*12)</td>
+                                                <td>6926892567084</td>
+                                                <td>34.20</td>
+                                                <td>31.40</td>
+                                                <td>31</td>
+                                                <td>1030.20</td>
+                                            </tr>
+                                            <tr>
+                                                <td>6</td>
+                                                <td>酒水饮料</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>280g银鹭黑糖桂圆八宝粥1*12</td>
+                                                <td>6926892562003</td>
+                                                <td>33.70</td>
+                                                <td>31.40</td>
+                                                <td>30</td>
+                                                <td>1011.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>7</td>
+                                                <td>酒水饮料</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>280g银鹭好粥道黑米粥(1*12)</td>
+                                                <td>6926892566087</td>
+                                                <td>33.20</td>
+                                                <td>31.40</td>
+                                                <td>30</td>
+                                                <td>996.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>8</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>洽洽每日坚果30日装</td>
+                                                <td>6924187858084</td>
+                                                <td>99.00</td>
+                                                <td>84.00</td>
+                                                <td>10</td>
+                                                <td>990.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>9</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>唯新115g儿童营养肉酥 促销10搭1</td>
+                                                <td>6905587061014</td>
+                                                <td>19.50</td>
+                                                <td>17.00</td>
+                                                <td>55</td>
+                                                <td>975.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>10</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>洽洽26g每日坚果15日装</td>
+                                                <td>6924187858084</td>
+                                                <td>49.50</td>
+                                                <td>42.00</td>
+                                                <td>19</td>
+                                                <td>940.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>11</td>
+                                                <td>粮油调味</td>
+                                                <td>温州市瓯海梧田农谷粮油经营部</td>
+                                                <td>金熊缘圆大米5kg*5</td>
+                                                <td>6922430913276</td>
+                                                <td>185.00</td>
+                                                <td>167.50</td>
+                                                <td>5</td>
+                                                <td>925.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>12</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>超低特价！ 费列罗50g健达牛奶巧克力（T4） 20条一盒</td>
+                                                <td>80177609</td>
+                                                <td>111.00</td>
+                                                <td>96.22</td>
+                                                <td>7</td>
+                                                <td>777.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td> 上好佳50g原味天然薯片</td>
+                                                <td>6909409040720</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>260</td>
+                                                <td>728.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>14</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳50g番茄天然薯片</td>
+                                                <td>6909409040775</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>250</td>
+                                                <td>700.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>15</td>
+                                                <td>酒水饮料</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>280g银鹭冰糖百合银耳八宝粥1*12</td>
+                                                <td>6926892562096</td>
+                                                <td>33.70</td>
+                                                <td>31.40</td>
+                                                <td>20</td>
+                                                <td>674.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>16</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>超低特价！费列罗100g健达牛奶巧克力（T8） 10条一盒</td>
+                                                <td>80177616</td>
+                                                <td>110.00</td>
+                                                <td>101.00</td>
+                                                <td>6</td>
+                                                <td>660.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>17</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳40g鲜虾片</td>
+                                                <td>6909409012024</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>200</td>
+                                                <td>560.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>18</td>
+                                                <td>酒水饮料</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>百岁山570ml</td>
+                                                <td>6922255451427</td>
+                                                <td>40.80</td>
+                                                <td>37.00</td>
+                                                <td>11</td>
+                                                <td>448.80</td>
+                                            </tr>
+                                            <tr>
+                                                <td>19</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td> 上好佳50g美式烤排风味田园薯片</td>
+                                                <td>6926265331786</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>150</td>
+                                                <td>420.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>20</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳40g洋葱圈</td>
+                                                <td>6909409040799</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>140</td>
+                                                <td>392.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>21</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳50g果仁玉米花</td>
+                                                <td>6909409012321</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>140</td>
+                                                <td>392.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>22</td>
+                                                <td>粮油调味</td>
+                                                <td>温州市瓯海梧田农谷粮油经营部</td>
+                                                <td>帝师花雕油10度</td>
+                                                <td>6927158001007</td>
+                                                <td>9.50</td>
+                                                <td>8.00</td>
+                                                <td>40</td>
+                                                <td>380.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>23</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳80g特惠装鲜虾片</td>
+                                                <td>6926265313386</td>
+                                                <td>4.50</td>
+                                                <td>3.96</td>
+                                                <td>82</td>
+                                                <td>369.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>24</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳50g日本鱼果海苔</td>
+                                                <td>6926265301130</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>130</td>
+                                                <td>364.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>25</td>
+                                                <td>酒水饮料</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>小乌牛酒200ML*24</td>
+                                                <td>6923432800137</td>
+                                                <td>120.40</td>
+                                                <td>112.00</td>
+                                                <td>3</td>
+                                                <td>361.20</td>
+                                            </tr>
+                                            <tr>
+                                                <td>26</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>好丽友48g榛子巧克力蘑古力</td>
+                                                <td>6920907808292</td>
+                                                <td>3.80</td>
+                                                <td>3.25</td>
+                                                <td>89</td>
+                                                <td>338.20</td>
+                                            </tr>
+                                            <tr>
+                                                <td>27</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>洽洽80g怪味豆</td>
+                                                <td>6924187833777</td>
+                                                <td>2.20</td>
+                                                <td>1.64</td>
+                                                <td>150</td>
+                                                <td>330.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>28</td>
+                                                <td>酒水饮料</td>
+                                                <td>温州玥而国际贸易有限公司</td>
+                                                <td>伊利安慕希希腊酸奶205g*12盒</td>
+                                                <td>6907992512761</td>
+                                                <td>50.50</td>
+                                                <td>47.00</td>
+                                                <td>6</td>
+                                                <td>303.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>29</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>好丽友48g巧克力蘑古力</td>
+                                                <td>6920907808018</td>
+                                                <td>3.80</td>
+                                                <td>3.25</td>
+                                                <td>79</td>
+                                                <td>300.20</td>
+                                            </tr>
+                                            <tr>
+                                                <td>30</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳80g特惠装番茄薯片</td>
+                                                <td>6926265313287</td>
+                                                <td>4.50</td>
+                                                <td>3.96</td>
+                                                <td>65</td>
+                                                <td>292.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>31</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳80g特惠装烤肉薯片</td>
+                                                <td>6926265313294</td>
+                                                <td>4.50</td>
+                                                <td>3.96</td>
+                                                <td>65</td>
+                                                <td>292.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>32</td>
+                                                <td>特价区</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>9折限时促销! 唯新135g特制肉酥</td>
+                                                <td>6905587061038</td>
+                                                <td>19.50</td>
+                                                <td>17.00</td>
+                                                <td>15</td>
+                                                <td>292.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>33</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>卡夫奥利奥 原味116g</td>
+                                                <td>6901668005717</td>
+                                                <td>5.00</td>
+                                                <td>4.44</td>
+                                                <td>58</td>
+                                                <td>290.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>34</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>不二家10g果味大棒棒糖混合连包装10G*20支*4口味/挂板</td>
+                                                <td>6937451811531</td>
+                                                <td>57.60</td>
+                                                <td>40.80</td>
+                                                <td>5</td>
+                                                <td>288.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>35</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>有友100g山椒凤爪</td>
+                                                <td>6922145800526</td>
+                                                <td>4.70</td>
+                                                <td>3.70</td>
+                                                <td>60</td>
+                                                <td>282.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>36</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>43g德芙榛仁巧克力*12/盒</td>
+                                                <td>6914973600072</td>
+                                                <td>70.00</td>
+                                                <td>65.60</td>
+                                                <td>4</td>
+                                                <td>280.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>37</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>好丽友34g巧克力涂层派（6P）</td>
+                                                <td>6920907800944</td>
+                                                <td>8.50</td>
+                                                <td>7.21</td>
+                                                <td>32</td>
+                                                <td>272.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>38</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>40g 乐事薯片经典原味*10包/组</td>
+                                                <td>6924743915060</td>
+                                                <td>27.00</td>
+                                                <td>24.00</td>
+                                                <td>10</td>
+                                                <td>270.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>39</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>160g长鼻王蛋黄味</td>
+                                                <td>6906978941212</td>
+                                                <td>9.40</td>
+                                                <td>8.12</td>
+                                                <td>28</td>
+                                                <td>263.20</td>
+                                            </tr>
+                                            <tr>
+                                                <td>40</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>卡夫奥利奥 巧克力味116g</td>
+                                                <td>6901668005755</td>
+                                                <td>5.00</td>
+                                                <td>4.44</td>
+                                                <td>51</td>
+                                                <td>255.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>41</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳55g荷兰豆（新形状）</td>
+                                                <td>6909409012031</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>90</td>
+                                                <td>252.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>42</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳40g草莓粟米条</td>
+                                                <td>6909409012802</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>90</td>
+                                                <td>252.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>43</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳35g鲜虾片</td>
+                                                <td>6926265305381</td>
+                                                <td>2.30</td>
+                                                <td>1.98</td>
+                                                <td>100</td>
+                                                <td>230.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>44</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>好丽友216g清新抹茶本味派(6P)</td>
+                                                <td>6920907800654</td>
+                                                <td>9.50</td>
+                                                <td>7.95</td>
+                                                <td>24</td>
+                                                <td>228.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>45</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳120g八宝硬糖</td>
+                                                <td>6926265329400</td>
+                                                <td>3.25</td>
+                                                <td>2.77</td>
+                                                <td>70</td>
+                                                <td>227.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>46</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳80g特惠装原味薯片</td>
+                                                <td>6926265313423</td>
+                                                <td>4.50</td>
+                                                <td>3.96</td>
+                                                <td>50</td>
+                                                <td>225.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>47</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td> 上好佳50g羊肉天然薯片</td>
+                                                <td>6926265331366</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>80</td>
+                                                <td>224.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>48</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳40g玉米卷</td>
+                                                <td>6909409012093</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>80</td>
+                                                <td>224.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>49</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>统一干脆面小浣熊烧烤味 46gX30袋</td>
+                                                <td>6925303774172</td>
+                                                <td>24.50</td>
+                                                <td>22.00</td>
+                                                <td>9</td>
+                                                <td>220.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>50</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>统一干脆面小浣熊奥尔良烤翅味 46gX30袋</td>
+                                                <td>6925303774202</td>
+                                                <td>24.50</td>
+                                                <td>22.00</td>
+                                                <td>9</td>
+                                                <td>220.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>51</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>好丽友28榛子Q蒂派（6P）</td>
+                                                <td>6920907803129</td>
+                                                <td>9.70</td>
+                                                <td>8.25</td>
+                                                <td>22</td>
+                                                <td>213.40</td>
+                                            </tr>
+                                            <tr>
+                                                <td>52</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>43g德芙醇香摩卡烤巴旦木巧克力*12/盒</td>
+                                                <td>6914973604056</td>
+                                                <td>70.00</td>
+                                                <td>65.60</td>
+                                                <td>3</td>
+                                                <td>210.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>53</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>萨啦咪散装鸭舌500G</td>
+                                                <td>6946866088162</td>
+                                                <td>105.00</td>
+                                                <td>99.00</td>
+                                                <td>2</td>
+                                                <td>210.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>54</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳40g田园薯片红烩肉 限时促销10搭1</td>
+                                                <td>6926265356123</td>
+                                                <td>2.30</td>
+                                                <td>1.98</td>
+                                                <td>99</td>
+                                                <td>207.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>55</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>洽洽150g原香瓜子</td>
+                                                <td>6924187828759</td>
+                                                <td>4.00</td>
+                                                <td>3.27</td>
+                                                <td>50</td>
+                                                <td>200.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>56</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳70g可可甜心 限时特价</td>
+                                                <td>6926265334299</td>
+                                                <td>2.50</td>
+                                                <td>2.50</td>
+                                                <td>80</td>
+                                                <td>200.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>57</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>统一干脆面小浣熊红烩味 46gX30袋</td>
+                                                <td>6925303713003</td>
+                                                <td>24.50</td>
+                                                <td>22.00</td>
+                                                <td>8</td>
+                                                <td>196.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>58</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>益达木糖醇薄荷40粒瓶装*6/盒</td>
+                                                <td>6923450656181</td>
+                                                <td>49.00</td>
+                                                <td>46.10</td>
+                                                <td>4</td>
+                                                <td>196.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>59</td>
+                                                <td>特价区</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>9折限时促销! 唯新115g猪肉酥</td>
+                                                <td>6905587060208</td>
+                                                <td>19.50</td>
+                                                <td>17.00</td>
+                                                <td>10</td>
+                                                <td>195.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>60</td>
+                                                <td>特价区</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>9折限时促销! 唯新115g儿童胡萝卜肉酥</td>
+                                                <td>6905587510154</td>
+                                                <td>19.50</td>
+                                                <td>17.00</td>
+                                                <td>10</td>
+                                                <td>195.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>61</td>
+                                                <td>酒水饮料</td>
+                                                <td>温州市瓯海三垟连勇副食品</td>
+                                                <td>瑞安地区暂停销售！ 农夫山泉550ml*28</td>
+                                                <td>6921168509256</td>
+                                                <td>27.60</td>
+                                                <td>25.50</td>
+                                                <td>7</td>
+                                                <td>193.20</td>
+                                            </tr>
+                                            <tr>
+                                                <td>62</td>
+                                                <td>酒水饮料</td>
+                                                <td>温州玥而国际贸易有限公司</td>
+                                                <td>伊利QQ星营养果汁酸奶草莓味 200ml*16瓶</td>
+                                                <td>6907992512068</td>
+                                                <td>38.50</td>
+                                                <td>35.00</td>
+                                                <td>5</td>
+                                                <td>192.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>63</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>统一来一桶老坛酸菜牛肉面105g*12</td>
+                                                <td>6925303773106</td>
+                                                <td>38.20</td>
+                                                <td>36.00</td>
+                                                <td>5</td>
+                                                <td>191.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>64</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳40g田园薯片丝滑蜂蜜黄油 限时促销10搭1</td>
+                                                <td>6926265330819</td>
+                                                <td>2.30</td>
+                                                <td>1.98</td>
+                                                <td>88</td>
+                                                <td>184.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>65</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳40g田园薯片红烧牛肉 限时促销10搭1</td>
+                                                <td>6926265356130</td>
+                                                <td>2.30</td>
+                                                <td>1.98</td>
+                                                <td>88</td>
+                                                <td>184.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>66</td>
+                                                <td>粮油调味</td>
+                                                <td>温州市瓯海梧田农谷粮油经营部</td>
+                                                <td>生肖缘5kg稻花香米</td>
+                                                <td>6949470310230</td>
+                                                <td>36.50</td>
+                                                <td>33.00</td>
+                                                <td>5</td>
+                                                <td>182.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>67</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>格力高55g百奇蜜桃</td>
+                                                <td>6901845042764</td>
+                                                <td>4.00</td>
+                                                <td>3.67</td>
+                                                <td>45</td>
+                                                <td>180.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>68</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>洽洽51g喀吱脆薯片鸡汁番茄</td>
+                                                <td>6924187839267</td>
+                                                <td>2.00</td>
+                                                <td>1.55</td>
+                                                <td>84</td>
+                                                <td>168.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>69</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>农心70g辣白菜杯面</td>
+                                                <td>6920238081050</td>
+                                                <td>56.00</td>
+                                                <td>50.00</td>
+                                                <td>3</td>
+                                                <td>168.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>70</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>48g长鼻王蛋黄味</td>
+                                                <td>6906978938663</td>
+                                                <td>3.10</td>
+                                                <td>2.60</td>
+                                                <td>54</td>
+                                                <td>167.40</td>
+                                            </tr>
+                                            <tr>
+                                                <td>71</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>格力高48g百醇牛奶</td>
+                                                <td>6901845040692</td>
+                                                <td>4.90</td>
+                                                <td>4.30</td>
+                                                <td>34</td>
+                                                <td>166.60</td>
+                                            </tr>
+                                            <tr>
+                                                <td>72</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>萨啦咪即食猪肉肠25G*24/袋</td>
+                                                <td>6921799888010</td>
+                                                <td>76.80</td>
+                                                <td>70.00</td>
+                                                <td>2</td>
+                                                <td>153.60</td>
+                                            </tr>
+                                            <tr>
+                                                <td>73</td>
+                                                <td>酒水饮料</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>美汁源 果粒橙450ml瓶*12/箱</td>
+                                                <td>6956416200067</td>
+                                                <td>30.50</td>
+                                                <td>29.00</td>
+                                                <td>5</td>
+                                                <td>152.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>74</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>益达木糖醇清爽西瓜40粒瓶装*6/盒</td>
+                                                <td>6923450657638</td>
+                                                <td>49.00</td>
+                                                <td>46.09</td>
+                                                <td>3</td>
+                                                <td>147.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>75</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>格力高48g百醇草莓香草</td>
+                                                <td>6901845041705</td>
+                                                <td>4.90</td>
+                                                <td>4.30</td>
+                                                <td>30</td>
+                                                <td>147.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>76</td>
+                                                <td>酒水饮料</td>
+                                                <td>温州玥而国际贸易有限公司</td>
+                                                <td>伊利味可滋香蕉奶昔240ML*12</td>
+                                                <td>6907992512587</td>
+                                                <td>48.00</td>
+                                                <td>44.50</td>
+                                                <td>3</td>
+                                                <td>144.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>77</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>统一袋装老坛酸菜牛肉面 121g*24袋</td>
+                                                <td>6925303773915</td>
+                                                <td>47.50</td>
+                                                <td>44.78</td>
+                                                <td>3</td>
+                                                <td>142.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>78</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td> 上好佳50g宫保鸡丁田园薯片</td>
+                                                <td>6926265331793</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>50</td>
+                                                <td>140.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>79</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td> 上好佳50g红烧牛肉天然薯片</td>
+                                                <td>6926265355133</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>50</td>
+                                                <td>140.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>80</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>上好佳40g鲜虾条</td>
+                                                <td>6909409012017</td>
+                                                <td>2.80</td>
+                                                <td>2.49</td>
+                                                <td>50</td>
+                                                <td>140.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>81</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>好丽友34g巧克力涂层派（2P） 12盒1组</td>
+                                                <td>6920907800913</td>
+                                                <td>34.80</td>
+                                                <td>29.64</td>
+                                                <td>4</td>
+                                                <td>139.20</td>
+                                            </tr>
+                                            <tr>
+                                                <td>82</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>洽洽260g香瓜子</td>
+                                                <td>6924187821644</td>
+                                                <td>6.80</td>
+                                                <td>5.53</td>
+                                                <td>20</td>
+                                                <td>136.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>83</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>好丽友28g摩卡Q蒂派（6P）</td>
+                                                <td>6920907803020</td>
+                                                <td>9.70</td>
+                                                <td>8.25</td>
+                                                <td>14</td>
+                                                <td>135.80</td>
+                                            </tr>
+                                            <tr>
+                                                <td>84</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>L唯新180G木糖醇健康2合1肉酥礼盒</td>
+                                                <td>6905587550013</td>
+                                                <td>45.00</td>
+                                                <td>39.00</td>
+                                                <td>3</td>
+                                                <td>135.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>85</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司2</td>
+                                                <td>卡夫奥利奥 草莓味116g</td>
+                                                <td>6901668005731</td>
+                                                <td>5.00</td>
+                                                <td>4.44</td>
+                                                <td>27</td>
+                                                <td>135.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>86</td>
+                                                <td>食品零食</td>
+                                                <td>温州市鸿福食品有限公司</td>
+                                                <td>洽洽18g山核桃瓜子*20/盒</td>
+                                                <td>6924187860063</td>
+                                                <td>15.00</td>
+                                                <td>11.40</td>
+                                                <td>9</td>
+                                                <td>135.00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--                                -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- global js -->
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    var DOMAIN = { "main": "pifa.yunmayi.com", "passport": "passport.pifa.yunmayi.com", "buyer": "buyer.pifa.yunmayi.com", "seller": "seller.pifa.yunmayi.com", "ajax": "ajax.pifa.yunmayi.com", "agent": "agent.pifa.yunmayi.com" };
+    </script>
+    <script type="text/javascript" src="statics/js/lib/help.js"></script>
+    <script type="text/javascript" src="statics/js/lib/laydate/laydate.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        //限制搜索时间为五天内
+        $(".submit").click(function() {
+            var stime = $("input[name='starttime']").val();
+            var etime = $("input[name='endtime']").val();
+            // 获取开始时间的时间戳
+            var f = stime.split(' ', 2);
+            var d = (f[0] ? f[0] : '').split('-', 3);
+            var t = (f[1] ? f[1] : '').split(':', 3);
+            var start_time = new Date(
+                parseInt(d[0], 10) || null,
+                (parseInt(d[1], 10) || 1) - 1,
+                parseInt(d[2], 10) || null,
+                parseInt(t[0], 10) || null,
+                parseInt(t[1], 10) || null,
+                parseInt(t[2], 10) || null
+            ).getTime() / 1000;
+            //获取结束时间的时间戳
+            var e = etime.split(' ', 2);
+            var n = (e[0] ? e[0] : '').split('-', 3);
+            var m = (e[1] ? e[1] : '').split(':', 3);
+            var end_time = new Date(
+                parseInt(n[0], 10) || null,
+                (parseInt(n[1], 10) || 1) - 1,
+                parseInt(n[2], 10) || null,
+                parseInt(m[0], 10) || null,
+                parseInt(m[1], 10) || null,
+                parseInt(m[2], 10) || null
+            ).getTime() / 1000;
+            //对比时间差跟5天时间
+            var mistake = 0;
+            if (start_time > end_time) {
+                mistake = start_time - end_time;
+            } else {
+                mistake = end_time - start_time;
+            }
+            var day = 3600 * 24 * 31; //31天时间
+            //当时间差存在五天之内时提交表单，否则不予提交
+            if (mistake - day <= 0) {
+                $('form').submit();
+            } else {
+                build("red", "只可查询一个月(31天)之内的数据", "submit");
+                return false;
+            }
+        })
+    })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>订单查询 - 加盟商个人中心</title>
+    <!-- global css -->
+    <link rel="stylesheet" type="text/css" href="statics/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/base.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/pages/ucenter.css">
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/laydate/need/laydate.css">
+    <link type="text/css" rel="stylesheet" href="statics/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+</head>
+
+<body>
+    <!-- 全局顶部导航 -->
+    <div class="topbar" id="topbar">
+        <div class="pace"></div>
+        <div class="module clearfix">
+            <div class="lfloat">
+                <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                <span class="hello">您好，</span>
+                <span class="username">57700000</span>
+                <span>
+                                ，欢迎来到温州批发平台
+                <!-- ,客服电话:0577-86000802 -->
+                                            </span>
+            </div>
+            <div class="rfloat">
+                <ul class="clearfix">
+                    <!-- <li><a href="http://www.yunmayi.com" target="_blank">云蚂蚁首页</a></li> -->
+                    <li style="margin-right:10px;"><a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">快递代收</a></li>
+                    <li><a href="http://pifa.yunmayi.com/">批发首页</a></li>
+                    <li><a href="http://pifa.yunmayi.com/index/ucenter">会员中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cashier/application">当面付申请</a></li>
+                    <li><a href="http://pifa.yunmayi.com/product/collect" class="">收藏中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">帮助中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cart1">购物车</a></li>
+                    <li><a href="http://passport.pifa.yunmayi.com/logout">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script>
+    (function($) {
+        $.fn.snow = function(options) {
+            var $flake = $('<div id="flake" />').css({
+                    'position': 'absolute',
+                    'top': '-50px',
+                    'z-index': '99999999'
+                }).html('&#10052;'),
+                documentHeight = $(document).height(),
+                documentWidth = $(document).width(),
+                defaults = {
+                    minSize: 10,
+                    maxSize: 20,
+                    newOn: 2000,
+                    flakeColor: "red"
+                },
+                options = $.extend({}, defaults, options);
+            var interval = setInterval(function() {
+                    documentHeight = $(document).height();
+                    var startPositionLeft = Math.random() * documentWidth - 100,
+                        startOpacity = 0.5 + Math.random(),
+                        sizeFlake = options.minSize + Math.random() * options.maxSize,
+                        endPositionTop = documentHeight - options.maxSize,
+                        endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                        durationFall = documentHeight * 10 + Math.random() * 5000;
+                    $flake.clone().appendTo('body').css({
+                        left: startPositionLeft,
+                        opacity: startOpacity,
+                        'font-size': sizeFlake,
+                        color: options.flakeColor
+                    }).animate({
+                            top: endPositionTop,
+                            left: endPositionLeft,
+                            opacity: 0.2
+                        },
+                        durationFall, 'linear',
+                        function() {
+                            $(this).remove()
+                        });
+                },
+                options.newOn);
+        };
+    })(jQuery);
+    //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+
+
+    //鼠标跟随 留言信息窗口
+    $('.remark').mousemove(function(e) {
+        $(this).children('.content').show();
+        $(this).children('.content').show().css({
+            "top": e.pageY + 20,
+            "left": e.pageX + 20
+        })
+    });
+    //滑出隐藏
+    $('.remark').mouseout(function() {
+        $(this).children('.content').hide();
+    });
+    $(window).resize(function() {
+        /* Act on the event */
+        if (document.documentElement.clientWidth < 1200) {
+            $('#topbar').width(1200);
+        } else {
+            $('#topbar').width('100%');
+        }
+
+    });
+    //加载效果
+    var paces = {
+        pace: $('#topbar .pace'),
+        timer: "",
+        w: 0,
+        start: function() {
+            var _this = this;
+            _this.w = 0;
+            if (_this.timer) {
+                _this.w = 0;
+                _this.pace.width(_this.w + "%");
+                clearInterval(_this.timer);
+            } else {
+                _this.timer = setInterval(function() {
+                    ++_this.w;
+                    _this.pace.width(_this.w + "%");
+                    if (_this.w >= 55) {
+                        clearInterval(_this.timer);
+                    }
+                }, 0)
+            }
+
+
+        },
+        end: function() {
+            var _this = this;
+            _this.w = parseInt(_this.pace[0].style.width);
+            clearInterval(_this.timer);
+            _this.timer = setInterval(function() {
+                ++_this.w;
+                _this.pace.width(_this.w + "%");
+                if (_this.w >= 100) {
+                    clearInterval(_this.timer);
+                    var setTimer = setTimeout(function() {
+                        _this.w = 0;
+                        _this.pace.width(_this.w);
+                        clearInterval(_this.timer);
+                    }, 1000);
+                    clearTimeout(clearTimeout);
+                    return false
+                }
+            }, 10)
+        }
+    };
+
+    /*弹框 popup*/
+    function build(status, comment, id, num) {
+        if (!$(".globalPopContainer").length > 0) {
+            $(document.body).append('<div class="globalPopContainer"></div>');
+        }
+        if (!num) {
+            num = '';
+        }
+        if (status == "red") {
+            var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress rprogress'></div>";
+        } else {
+            var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress gprogress'></div>";
+        }
+        html += "<span class='closePop'>x</span>";
+        html += "</div>";
+        $(".globalPopContainer").prepend(html); // 追加新元素   
+        $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth())
+        Popup(id, $("#popup_" + id).outerWidth());
+    }
+
+    function Popup(id, popWidth) {
+        $("#popup_" + id).find(".progress").animate({ width: 0 + 'px' }, 3000, function() {
+            $("#popup_" + id).animate({ right: -popWidth + 'px' }, function() {
+                $(this).remove();
+            })
+        });
+        $("#popup_" + id).mouseout(function() {
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).find(".progress").animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        });
+        $("#popup_" + id).mouseover(function() {
+            var proWidth = $(this).outerWidth()
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).animate({ right: 0 + 'px' }, function() {
+                $(this).find(".progress").animate({ width: proWidth + 'px' });
+            });
+        });
+        $("#popup_" + id).find(".closePop").on('click', function(event) {
+            $(this).parent().unbind("mouseover");
+            $(this).parent().unbind("mouseout");
+            $(this).siblings('.progress').animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        })
+    }
+    </script>
+    <div id="wraper">
+        <div id="main">
+            <div class="module">
+                <div class="ucenter">
+                    <div class="col_side">
+                        <!-- 侧边导航 -->
+                        <div class="menu_box">
+                            <dl class="menu">
+                                <dt class="menu_title">交易管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/list">订单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/arealist" class="selected">订单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/export">订单导出</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsbills">取货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickingupgoodsbills">拣货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsalelist">多平台销售单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudpicklist">多平台拣货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsendgoodsbills">多平台取货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/expressqueryforagent">快递订单查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">商品管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/product/index">商品列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/publish">新增商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/checkprice">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/public">公共商品库</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/brandcategory">品牌管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/recommendlist">推荐商品列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账户中心</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/account/updatepassword">修改密码</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/manage">账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/deliverymanmanage">送货员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/salesmanmanage">业务员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/pickermanage">分拣员管理</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">会员管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellermanage">供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/cloudseller">云供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/buyermanage">小店管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/banklist">银行账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/checkorderbranch">快递网点查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">余额管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/balance/list">余额明细</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/recharge">余额充值</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/creditquota">信用额度</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">财务管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderconfirmpayrecord">订单收款登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderpaycontrast">应收未收对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/bill/salebill">平台销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/offlinepresale">线下开单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/abnormalorder">收款异常查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">仓库管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderabnormalrecord">订单异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsscan">订单发货扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersendgoodscontrast">发货扫描对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodswithoutpay">已发未交查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/storemanage">商品库存管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/stocksetting">商品入库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/checkout">商品出库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/stockoperate">商品操作查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersortsearch">仓库排单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickgoodsscan">订单分拣扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/ordermanagement">订单分拣管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/checkpicklist">分拣商品查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">活动管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjslist">满就送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/couponlist">优惠券活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/dpslist">单品送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjjlist">满就减活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/blacklist">非活动商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/categoryactivity">类目活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/onlycouponlist">优惠券管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/addpresale">新增预售活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/presalelist">预售活动列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/soldpresalelist">已售活动列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">系统管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/notice/index">公告列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/diycategory">首页类目设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/homeposter">首页海报</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/sendgoodsfoot">页尾设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/systemdao/operate">系统设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/systemlist">系统日志</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">积分管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/integral/gitmanage">积分礼品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/integral/rulemanage">签到规则管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/searchgiftmanage">积分商品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/agentbalancelist">商城积分明细</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">数据统计</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordercount">订单综合统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/shopcount">商品销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalcount">异常情况统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/refundinfo">商品退货统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/agent/warehouse/inventory">商品库存统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/goodsbill">商品账单统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/countlog">商品编辑统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalnumber">异常天数统计</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">退货管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/salesmanorderlist">申请退货</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnbacklist">退货查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allreturnbacklist">客服审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/warehouseaudit">仓库审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnsellerlist">退供应商</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allbacklistformoney">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账单管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/bill/operate">异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/auditsellerlist">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/financialauditsellerlist">财务审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ financialplaysellerlist">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">供应商管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockinfo">到货条码生成</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerqr">到货扫描操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockbill">到货扫描管理</a>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col_main">
+                        <div class="col_main_hd">
+                            <h2>
+                                订单查询                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/交易管理-订单查询.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+                            </h2>
+                        </div>
+                        <div class="col_main_bd">
+                            <div class="inner">
+                                <div class="search_bar">
+                                    <form action="http://agent.pifa.yunmayi.com/order/areaList" method="GET">
+                                        <ul class="search_item_list">
+                                            <li class="search_item">
+                                                <label>下单时间:</label>
+                                                <div class="item">
+                                                    <div class="calendar_input">
+                                                        <input type="text" name="starttime" style="width:160px;" value="2018-03-29 16:00:00" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                                                    </div>
+                                                    到
+                                                    <div class="calendar_input">
+                                                        <input type="text" name="endtime" style="width:160px;" value="2018-03-30 16:00:00" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="search_item">
+                                                <label>订单状态:</label>
+                                                <div class="item">
+                                                    <select name="state">
+                                                        <option value="0">请选择</option>
+                                                        <option value="1">等待商家发货</option>
+                                                        <option value="2">商家已发货</option>
+                                                        <option value="3">交易完成</option>
+                                                        <option value="4">订单取消中</option>
+                                                        <option value="5">订单取消成功</option>
+                                                    </select>
+                                                </div>
+                                            </li>
+                                            <li class="search_item">
+                                                <label>客户类型：</label>
+                                                <div class="item">
+                                                    <select name="customer_type">
+                                                        <option value="">全部</option>
+                                                        <option value="default">默认客户</option>
+                                                        <option value="a_customer">A类客户</option>
+                                                        <option value="b_customer">B类客户</option>
+                                                        <option value="c_customer">C类客户</option>
+                                                        <option value="d_customer">D类客户</option>
+                                                        <option value="e_customer">蚂蚁连锁</option>
+                                                        <option value="f_customer">F类客户</option>
+                                                    </select>
+                                                </div>
+                                            </li>
+                                            <li class="search_item">
+                                                <label>配送类型:</label>
+                                                <select name="deliver_type">
+                                                    <option value="" selected="">全部</option>
+                                                    <option value="platform_deliver">平台配送</option>
+                                                    <option value="vendor_deliver">自主配送</option>
+                                                </select>
+                                            </li>
+                                            <li class="search_item">
+                                                <label>业务员：</label>
+                                                <input type="checkbox" name="salesman_id" value="16614587">&nbsp;&nbsp;57700000 </li>
+                                            <li class="search_item">
+                                                <label>关键字:</label>
+                                                <div class="item">
+                                                    <input type="text" name="keyword" style="width:160px;" value="">
+                                                </div>
+                                            </li>
+                                            <li class="search_item">
+                                                <input type="hidden" value="1" name="diff">
+                                                <button type="submit">搜索</button>
+                                            </li>
+                                            <li class="clearfix"></li>
+                                        </ul>
+                                    </form>
+                                </div>
+                                <div class="col_main_content">
+                                    <table class="table table_border">
+                                        <thead class="bg_color">
+                                            <tr>
+                                                <th width="130">订单编号</th>
+                                                <th>订单时间</th>
+                                                <th>小店编号</th>
+                                                <th>小店名称</th>
+                                                <th>客户类型</th>
+                                                <th>区域</th>
+                                                <th>标记</th>
+                                                <th>订单总金额</th>
+                                                <th>来源</th>
+                                                <th>交易状态</th>
+                                                <th class="center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="color: #ff0000;">
+                                                <td>
+                                                    1803300004549075 </td>
+                                                <td>2018-03-30 00:04:54</td>
+                                                <td>577001001</td>
+                                                <td>团购</td>
+                                                <td>默认</td>
+                                                <td>鹿城区</td>
+                                                <td>鹿城5</td>
+                                                <td>
+                                                    <span class="highlight">390.00</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>订单取消成功</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803300004549075">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803292116305337 </td>
+                                                <td>2018-03-29 21:16:30</td>
+                                                <td>577030100</td>
+                                                <td>金文其便利店</td>
+                                                <td>默认</td>
+                                                <td>瓯海区</td>
+                                                <td>瓯海9</td>
+                                                <td>
+                                                    <span class="highlight">1504.25</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803292116305337">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr style="color: #129537;">
+                                                <td>
+                                                    1803292015159160 </td>
+                                                <td>2018-03-29 20:15:15</td>
+                                                <td>577029524</td>
+                                                <td>百益佳超市二店</td>
+                                                <td>默认</td>
+                                                <td>瓯海区</td>
+                                                <td>瓯海8</td>
+                                                <td>
+                                                    <span class="highlight">822.30</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803292015159160">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803292010585936 </td>
+                                                <td>2018-03-29 20:10:58</td>
+                                                <td>577001716</td>
+                                                <td>新莒村华盛超</td>
+                                                <td>默认</td>
+                                                <td>龙湾区</td>
+                                                <td>龙湾2</td>
+                                                <td>
+                                                    <span class="highlight">500.00</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803292010585936">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr style="color: #129537;">
+                                                <td>
+                                                    1803292007435760 </td>
+                                                <td>2018-03-29 20:07:43</td>
+                                                <td>577029523</td>
+                                                <td>章学福</td>
+                                                <td>默认</td>
+                                                <td>瓯海区</td>
+                                                <td>瓯海7</td>
+                                                <td>
+                                                    <span class="highlight">496.10</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803292007435760">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr style="color: #129537;">
+                                                <td>
+                                                    1803291954062562 </td>
+                                                <td>2018-03-29 19:54:06</td>
+                                                <td>577029522</td>
+                                                <td>建平糖果店</td>
+                                                <td>默认</td>
+                                                <td>鹿城区</td>
+                                                <td>鹿城4</td>
+                                                <td>
+                                                    <span class="highlight">486.90</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291954062562">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr style="color: #129537;">
+                                                <td>
+                                                    1803291948057677 </td>
+                                                <td>2018-03-29 19:48:04</td>
+                                                <td>577029521</td>
+                                                <td>黄益敏便利店</td>
+                                                <td>默认</td>
+                                                <td>鹿城区</td>
+                                                <td>鹿城3</td>
+                                                <td>
+                                                    <span class="highlight">488.50</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291948057677">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291942496767 </td>
+                                                <td>2018-03-29 19:42:48</td>
+                                                <td>577040059</td>
+                                                <td>前京北路易得福超市</td>
+                                                <td>默认</td>
+                                                <td>鹿城区</td>
+                                                <td>鹿城2</td>
+                                                <td>
+                                                    <span class="highlight">500.50</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291942496767">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291938407173 </td>
+                                                <td>2018-03-29 19:38:40</td>
+                                                <td>577000788</td>
+                                                <td>东耕村家家批发超市</td>
+                                                <td>默认</td>
+                                                <td>瓯海区</td>
+                                                <td>瓯海6</td>
+                                                <td>
+                                                    <span class="highlight">798.00</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291938407173">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291734296596 </td>
+                                                <td>2018-03-29 17:34:29</td>
+                                                <td>577029326</td>
+                                                <td>路丰燕烟酒超市</td>
+                                                <td>默认</td>
+                                                <td>瓯海区</td>
+                                                <td>瓯海5</td>
+                                                <td>
+                                                    <span class="highlight">495.90</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291734296596">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr style="color: #ff0000;">
+                                                <td>
+                                                    1803291724148714 </td>
+                                                <td>2018-03-29 17:24:14</td>
+                                                <td>577040055</td>
+                                                <td>阿丽便利店</td>
+                                                <td>默认</td>
+                                                <td>瓯海区</td>
+                                                <td>瓯海4</td>
+                                                <td>
+                                                    <span class="highlight">551.00</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>订单取消成功</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291724148714">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr style="color: #129537;">
+                                                <td>
+                                                    1803291721105775 </td>
+                                                <td>2018-03-29 17:21:10</td>
+                                                <td>577029520</td>
+                                                <td>许章丽</td>
+                                                <td>默认</td>
+                                                <td>鹿城区</td>
+                                                <td>鹿城1</td>
+                                                <td>
+                                                    <span class="highlight">476.90</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291721105775">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr style="color: #129537;">
+                                                <td>
+                                                    1803291708517515 </td>
+                                                <td>2018-03-29 17:08:51</td>
+                                                <td>577029519</td>
+                                                <td>闫国明副食品店</td>
+                                                <td>默认</td>
+                                                <td>瓯海区</td>
+                                                <td>瓯海3</td>
+                                                <td>
+                                                    <span class="highlight">425.70</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291708517515">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291659101757 </td>
+                                                <td>2018-03-29 16:59:10</td>
+                                                <td>577040011</td>
+                                                <td>小林烟酒行</td>
+                                                <td>默认</td>
+                                                <td>龙湾区</td>
+                                                <td>龙湾1</td>
+                                                <td>
+                                                    <span class="highlight">512.00</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291659101757">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291650314538 </td>
+                                                <td>2018-03-29 16:50:31</td>
+                                                <td>577030070</td>
+                                                <td>竹桥供销社</td>
+                                                <td>默认</td>
+                                                <td>瓯海区</td>
+                                                <td>瓯海2</td>
+                                                <td>
+                                                    <span class="highlight">585.00</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291650314538">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr style="color: #129537;">
+                                                <td>
+                                                    1803291640551188 </td>
+                                                <td>2018-03-29 16:40:54</td>
+                                                <td>577029518</td>
+                                                <td>秀国便利店</td>
+                                                <td>默认</td>
+                                                <td>瓯海区</td>
+                                                <td>瓯海1</td>
+                                                <td>
+                                                    <span class="highlight">515.00</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291640551188">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291524311857 </td>
+                                                <td>2018-03-29 15:24:30</td>
+                                                <td>577029272</td>
+                                                <td>瑞安易捷超市</td>
+                                                <td>默认</td>
+                                                <td>瑞安市</td>
+                                                <td>瑞安10</td>
+                                                <td>
+                                                    <span class="highlight">1508.60</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>手机端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291524311857">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291354489572 </td>
+                                                <td>2018-03-29 13:54:48</td>
+                                                <td>577029244</td>
+                                                <td>瑞安侨隆超市</td>
+                                                <td>默认</td>
+                                                <td>瑞安市</td>
+                                                <td>瑞安9</td>
+                                                <td>
+                                                    <span class="highlight">692.40</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>手机端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291354489572">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291307432567 </td>
+                                                <td>2018-03-29 13:07:43</td>
+                                                <td>577010003</td>
+                                                <td>瓯北六岙村供销超市</td>
+                                                <td>默认</td>
+                                                <td>永嘉县</td>
+                                                <td>永嘉4</td>
+                                                <td>
+                                                    <span class="highlight">1003.10</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291307432567">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291303127570 </td>
+                                                <td>2018-03-29 13:03:12</td>
+                                                <td>577050107</td>
+                                                <td>瓯联超市</td>
+                                                <td>默认</td>
+                                                <td>鹿城区</td>
+                                                <td>鹿城10</td>
+                                                <td>
+                                                    <span class="highlight">1547.55</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>手机端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291303127570">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr style="color: #ff0000;">
+                                                <td>
+                                                    1803291300054121 </td>
+                                                <td>2018-03-29 13:00:05</td>
+                                                <td>577050107</td>
+                                                <td>瓯联超市</td>
+                                                <td>默认</td>
+                                                <td>鹿城区</td>
+                                                <td>鹿城9</td>
+                                                <td>
+                                                    <span class="highlight">1489.35</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>手机端</td>
+                                                <td>订单取消成功</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291300054121">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291251023265 </td>
+                                                <td>2018-03-29 12:51:02</td>
+                                                <td>577030080</td>
+                                                <td>利民便利店</td>
+                                                <td>默认</td>
+                                                <td>永嘉县</td>
+                                                <td>永嘉3</td>
+                                                <td>
+                                                    <span class="highlight">2014.94</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291251023265">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291227485947 </td>
+                                                <td>2018-03-29 12:27:47</td>
+                                                <td>577029243</td>
+                                                <td>瑞安阿昌酒水副食品</td>
+                                                <td>默认</td>
+                                                <td>瑞安市</td>
+                                                <td>瑞安8</td>
+                                                <td>
+                                                    <span class="highlight">593.00</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>手机端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291227485947">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291204366352 </td>
+                                                <td>2018-03-29 12:04:35</td>
+                                                <td>577029291</td>
+                                                <td>成彬酒水批发</td>
+                                                <td>默认</td>
+                                                <td>瑞安市</td>
+                                                <td>瑞安7</td>
+                                                <td>
+                                                    <span class="highlight">1507.00</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>手机端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291204366352">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291158541513 </td>
+                                                <td>2018-03-29 11:58:54</td>
+                                                <td>577029220</td>
+                                                <td>瑞安高弟烟酒</td>
+                                                <td>默认</td>
+                                                <td>瑞安市</td>
+                                                <td>瑞安6</td>
+                                                <td>
+                                                    <span class="highlight">1025.80</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>手机端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291158541513">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291109569975 </td>
+                                                <td>2018-03-29 11:09:56</td>
+                                                <td>577010176</td>
+                                                <td>喜购超市</td>
+                                                <td>默认</td>
+                                                <td>瓯海区</td>
+                                                <td>瓯海10</td>
+                                                <td>
+                                                    <span class="highlight">1000.70</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291109569975">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291045144072 </td>
+                                                <td>2018-03-29 10:45:14</td>
+                                                <td>577001744</td>
+                                                <td>东华食品店</td>
+                                                <td>默认</td>
+                                                <td>鹿城区</td>
+                                                <td>鹿城7</td>
+                                                <td>
+                                                    <span class="highlight">401.90</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291045144072">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291023569519 </td>
+                                                <td>2018-03-29 10:23:56</td>
+                                                <td>577029514</td>
+                                                <td>好又多超市烟酒副食</td>
+                                                <td>默认</td>
+                                                <td>鹿城区</td>
+                                                <td>鹿城6</td>
+                                                <td>
+                                                    <span class="highlight">535.30</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291023569519">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291009132767 </td>
+                                                <td>2018-03-29 10:09:13</td>
+                                                <td>577029314</td>
+                                                <td>思贤副食品批发</td>
+                                                <td>默认</td>
+                                                <td>龙湾区</td>
+                                                <td>龙湾9</td>
+                                                <td>
+                                                    <span class="highlight">498.30</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291009132767">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr style="color: #129537;">
+                                                <td>
+                                                    1803291006434696 </td>
+                                                <td>2018-03-29 10:06:42</td>
+                                                <td>577029517</td>
+                                                <td>新泽生活区37幢边+文丰超市</td>
+                                                <td>默认</td>
+                                                <td>鹿城区</td>
+                                                <td>鹿城5</td>
+                                                <td>
+                                                    <span class="highlight">488.20</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291006434696">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803291002034155 </td>
+                                                <td>2018-03-29 10:02:03</td>
+                                                <td>577000692</td>
+                                                <td>豪利来购物</td>
+                                                <td>默认</td>
+                                                <td>瓯海区</td>
+                                                <td>瓯海9</td>
+                                                <td>
+                                                    <span class="highlight">512.50</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803291002034155">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803290959326558 </td>
+                                                <td>2018-03-29 09:59:32</td>
+                                                <td>577029308</td>
+                                                <td>嘉益超市</td>
+                                                <td>默认</td>
+                                                <td>龙湾区</td>
+                                                <td>龙湾8</td>
+                                                <td>
+                                                    <span class="highlight">486.40</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803290959326558">订单详情</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    1803290957277485 </td>
+                                                <td>2018-03-29 09:57:27</td>
+                                                <td>577000727</td>
+                                                <td>巨溪购物中心</td>
+                                                <td>默认</td>
+                                                <td>瓯海区</td>
+                                                <td>瓯海8</td>
+                                                <td>
+                                                    <span class="highlight">661.80</span>&nbsp;&nbsp; [货到付款]
+                                                </td>
+                                                <td>电脑端</td>
+                                                <td>等待商家发货</td>
+                                                <td class="center">
+                                                    <a href="http://agent.pifa.yunmayi.com/order/detail?order_id=1803290957277485">订单详情</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <ul class="page">
+                                    <li class="item cur ">1</li>
+                                    <li class="item "><a href="?starttime=2018-03-27+16%3A00%3A00&amp;endtime=2018-03-30+16%3A00%3A00&amp;state=0&amp;keyword=&amp;salesman_id=&amp;customer_type=&amp;deliver_type=&amp;diff=0&amp;page=2" data-page="2">2</a></li>
+                                    <li class="item last"><a href="?starttime=2018-03-27+16%3A00%3A00&amp;endtime=2018-03-30+16%3A00%3A00&amp;state=0&amp;keyword=&amp;salesman_id=&amp;customer_type=&amp;deliver_type=&amp;diff=0&amp;page=3" data-page="3">3</a></li>
+                                    <li class="next"><a href="?starttime=2018-03-27+16%3A00%3A00&amp;endtime=2018-03-30+16%3A00%3A00&amp;state=0&amp;keyword=&amp;salesman_id=&amp;customer_type=&amp;deliver_type=&amp;diff=0&amp;page=2" data-page="2">下一页</a></li><span style="font-size: 14px;">跳<input onblur="window.location.href=&quot;?starttime=2018-03-27+16%3A00%3A00&amp;endtime=2018-03-30+16%3A00%3A00&amp;state=0&amp;keyword=&amp;salesman_id=&amp;customer_type=&amp;deliver_type=&amp;diff=0&amp;page=1&amp;page=&quot;+this.value+&quot;&quot;" style="width: 25px;height: 26px;" type="text" value="1">页</span>&nbsp;
+                                    <li class="total">共3页</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- global js -->
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    var DOMAIN = { "main": "pifa.yunmayi.com", "passport": "passport.pifa.yunmayi.com", "buyer": "buyer.pifa.yunmayi.com", "seller": "seller.pifa.yunmayi.com", "ajax": "ajax.pifa.yunmayi.com", "agent": "agent.pifa.yunmayi.com" };
+    </script>
+    <script type="text/javascript" src="statics/js/lib/help.js"></script>
+    <script type="text/javascript" src="statics/js/lib/laydate/laydate.js"></script>
+</body>
+
+</html>

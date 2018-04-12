@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>首页类目设置 - 加盟商个人中心</title>
+    <!-- global css -->
+    <link rel="stylesheet" type="text/css" href="statics/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/base.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/pages/ucenter.css">
+</head>
+
+<body>
+    <!-- 全局顶部导航 -->
+    <div class="topbar" id="topbar">
+        <div class="pace"></div>
+        <div class="module clearfix">
+            <div class="lfloat">
+                <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                <span class="hello">您好，</span>
+                <span class="username">57700000</span>
+                <span>
+                                ，欢迎来到温州批发平台
+                <!-- ,客服电话:0577-86000802 -->
+                                            </span>
+            </div>
+            <div class="rfloat">
+                <ul class="clearfix">
+                    <!-- <li><a href="http://www.yunmayi.com" target="_blank">云蚂蚁首页</a></li> -->
+                    <li style="margin-right:10px;"><a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">快递代收</a></li>
+                    <li><a href="http://pifa.yunmayi.com/">批发首页</a></li>
+                    <li><a href="http://pifa.yunmayi.com/index/ucenter">会员中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cashier/application">当面付申请</a></li>
+                    <li><a href="http://pifa.yunmayi.com/product/collect" class="">收藏中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">帮助中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cart1">购物车</a></li>
+                    <li><a href="http://passport.pifa.yunmayi.com/logout">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script>
+    (function($) {
+        $.fn.snow = function(options) {
+            var $flake = $('<div id="flake" />').css({
+                    'position': 'absolute',
+                    'top': '-50px',
+                    'z-index': '99999999'
+                }).html('&#10052;'),
+                documentHeight = $(document).height(),
+                documentWidth = $(document).width(),
+                defaults = {
+                    minSize: 10,
+                    maxSize: 20,
+                    newOn: 2000,
+                    flakeColor: "red"
+                },
+                options = $.extend({}, defaults, options);
+            var interval = setInterval(function() {
+                    documentHeight = $(document).height();
+                    var startPositionLeft = Math.random() * documentWidth - 100,
+                        startOpacity = 0.5 + Math.random(),
+                        sizeFlake = options.minSize + Math.random() * options.maxSize,
+                        endPositionTop = documentHeight - options.maxSize,
+                        endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                        durationFall = documentHeight * 10 + Math.random() * 5000;
+                    $flake.clone().appendTo('body').css({
+                        left: startPositionLeft,
+                        opacity: startOpacity,
+                        'font-size': sizeFlake,
+                        color: options.flakeColor
+                    }).animate({
+                            top: endPositionTop,
+                            left: endPositionLeft,
+                            opacity: 0.2
+                        },
+                        durationFall, 'linear',
+                        function() {
+                            $(this).remove()
+                        });
+                },
+                options.newOn);
+        };
+    })(jQuery);
+    //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+
+
+    //鼠标跟随 留言信息窗口
+    $('.remark').mousemove(function(e) {
+        $(this).children('.content').show();
+        $(this).children('.content').show().css({
+            "top": e.pageY + 20,
+            "left": e.pageX + 20
+        })
+    });
+    //滑出隐藏
+    $('.remark').mouseout(function() {
+        $(this).children('.content').hide();
+    });
+    $(window).resize(function() {
+        /* Act on the event */
+        if (document.documentElement.clientWidth < 1200) {
+            $('#topbar').width(1200);
+        } else {
+            $('#topbar').width('100%');
+        }
+
+    });
+    //加载效果
+    var paces = {
+        pace: $('#topbar .pace'),
+        timer: "",
+        w: 0,
+        start: function() {
+            var _this = this;
+            _this.w = 0;
+            if (_this.timer) {
+                _this.w = 0;
+                _this.pace.width(_this.w + "%");
+                clearInterval(_this.timer);
+            } else {
+                _this.timer = setInterval(function() {
+                    ++_this.w;
+                    _this.pace.width(_this.w + "%");
+                    if (_this.w >= 55) {
+                        clearInterval(_this.timer);
+                    }
+                }, 0)
+            }
+
+
+        },
+        end: function() {
+            var _this = this;
+            _this.w = parseInt(_this.pace[0].style.width);
+            clearInterval(_this.timer);
+            _this.timer = setInterval(function() {
+                ++_this.w;
+                _this.pace.width(_this.w + "%");
+                if (_this.w >= 100) {
+                    clearInterval(_this.timer);
+                    var setTimer = setTimeout(function() {
+                        _this.w = 0;
+                        _this.pace.width(_this.w);
+                        clearInterval(_this.timer);
+                    }, 1000);
+                    clearTimeout(clearTimeout);
+                    return false
+                }
+            }, 10)
+        }
+    };
+
+    /*弹框 popup*/
+    function build(status, comment, id, num) {
+        if (!$(".globalPopContainer").length > 0) {
+            $(document.body).append('<div class="globalPopContainer"></div>');
+        }
+        if (!num) {
+            num = '';
+        }
+        if (status == "red") {
+            var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress rprogress'></div>";
+        } else {
+            var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress gprogress'></div>";
+        }
+        html += "<span class='closePop'>x</span>";
+        html += "</div>";
+        $(".globalPopContainer").prepend(html); // 追加新元素   
+        $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth())
+        Popup(id, $("#popup_" + id).outerWidth());
+    }
+
+    function Popup(id, popWidth) {
+        $("#popup_" + id).find(".progress").animate({ width: 0 + 'px' }, 3000, function() {
+            $("#popup_" + id).animate({ right: -popWidth + 'px' }, function() {
+                $(this).remove();
+            })
+        });
+        $("#popup_" + id).mouseout(function() {
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).find(".progress").animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        });
+        $("#popup_" + id).mouseover(function() {
+            var proWidth = $(this).outerWidth()
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).animate({ right: 0 + 'px' }, function() {
+                $(this).find(".progress").animate({ width: proWidth + 'px' });
+            });
+        });
+        $("#popup_" + id).find(".closePop").on('click', function(event) {
+            $(this).parent().unbind("mouseover");
+            $(this).parent().unbind("mouseout");
+            $(this).siblings('.progress').animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        })
+    }
+    </script>
+    <div id="wraper">
+        <div id="main">
+            <div class="module">
+                <div class="ucenter">
+                    <div class="col_side">
+                        <!-- 侧边导航 -->
+                        <div class="menu_box">
+                            <dl class="menu">
+                                <dt class="menu_title">交易管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/list">订单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/arealist">订单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/export">订单导出</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsbills">取货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickingupgoodsbills">拣货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsalelist">多平台销售单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudpicklist">多平台拣货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsendgoodsbills">多平台取货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/expressqueryforagent">快递订单查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">商品管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/product/index">商品列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/publish">新增商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/checkprice">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/public">公共商品库</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/brandcategory">品牌管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/recommendlist">推荐商品列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账户中心</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/account/updatepassword">修改密码</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/manage">账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/deliverymanmanage">送货员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/salesmanmanage">业务员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/pickermanage">分拣员管理</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">会员管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellermanage">供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/cloudseller">云供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/buyermanage">小店管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/banklist">银行账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/checkorderbranch">快递网点查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">余额管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/balance/list">余额明细</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/recharge">余额充值</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/creditquota">信用额度</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">财务管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderconfirmpayrecord">订单收款登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderpaycontrast">应收未收对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/bill/salebill">平台销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/offlinepresale">线下开单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/abnormalorder">收款异常查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">仓库管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderabnormalrecord">订单异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsscan">订单发货扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersendgoodscontrast">发货扫描对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodswithoutpay">已发未交查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/storemanage">商品库存管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/stocksetting">商品入库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/checkout">商品出库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/stockoperate">商品操作查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersortsearch">仓库排单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickgoodsscan">订单分拣扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/ordermanagement">订单分拣管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/checkpicklist">分拣商品查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">活动管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjslist">满就送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/couponlist">优惠券活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/dpslist">单品送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjjlist">满就减活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/blacklist">非活动商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/categoryactivity">类目活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/onlycouponlist">优惠券管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/addpresale">新增预售活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/presalelist">预售活动列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/soldpresalelist">已售活动列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">系统管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/notice/index">公告列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/diycategory" class="selected">首页类目设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/homeposter">首页海报</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/sendgoodsfoot">页尾设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/systemdao/operate">系统设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/systemlist">系统日志</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">积分管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/integral/gitmanage">积分礼品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/integral/rulemanage">签到规则管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/searchgiftmanage">积分商品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/agentbalancelist">商城积分明细</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">数据统计</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordercount">订单综合统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/shopcount">商品销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalcount">异常情况统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/refundinfo">商品退货统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/agent/warehouse/inventory">商品库存统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/goodsbill">商品账单统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/countlog">商品编辑统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalnumber">异常天数统计</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">退货管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/salesmanorderlist">申请退货</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnbacklist">退货查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allreturnbacklist">客服审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/warehouseaudit">仓库审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnsellerlist">退供应商</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allbacklistformoney">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账单管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/bill/operate">异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/auditsellerlist">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/financialauditsellerlist">财务审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ financialplaysellerlist">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">供应商管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockinfo">到货条码生成</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerqr">到货扫描操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockbill">到货扫描管理</a>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col_main">
+                        <div class="col_main_hd">
+                            <h2>
+                                首页类目设置                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/系统管理-首页类目设置.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+                            </h2>
+                        </div>
+                        <div class="col_main_bd">
+                            <div class="inner">
+                                <div class="col_main_content">
+                                    <form action="http://agent.pifa.yunmayi.com/index/diyCategory" method="POST">
+                                        <table class="table table_border">
+                                            <thead class="bg_color">
+                                                <tr>
+                                                    <th class="center">名称</th>
+                                                    <th class="center">排序</th>
+                                                    <th class="center">显示</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="center">日用洗护</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[0][sort_id]" value="3">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[0][category_id]" value="1002" checked="checked">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">食品零食</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[1][sort_id]" value="6">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[1][category_id]" value="1030" checked="checked">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">粮油调味</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[2][sort_id]" value="4">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[2][category_id]" value="1041" checked="checked">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">酒水饮料</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[3][sort_id]" value="5">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[3][category_id]" value="1051" checked="checked">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">家用百货</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[4][sort_id]" value="3">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[4][category_id]" value="1085" checked="checked">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">母婴用品</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[5][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[5][category_id]" value="1878">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">旅游度假</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[6][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[6][category_id]" value="1899">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">便民服务</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[7][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[7][category_id]" value="1902">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">特色专区</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[8][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[8][category_id]" value="1904">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">蔬果生鲜</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[9][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[9][category_id]" value="1927">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">折扣专区</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[10][sort_id]" value="4">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[10][category_id]" value="1957" checked="checked">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">年货专区</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[11][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[11][category_id]" value="1960">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">散称专区</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[12][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[12][category_id]" value="1963">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">整件专区</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[13][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[13][category_id]" value="1995">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">棉衣</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[14][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[14][category_id]" value="2057">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">呢大衣</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[15][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[15][category_id]" value="2058">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">羽绒服</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[16][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[16][category_id]" value="2151">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">裤子</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[17][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[17][category_id]" value="2152">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">皮衣</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[18][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[18][category_id]" value="2189">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">保暖内衣</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[19][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[19][category_id]" value="2190">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">外套</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[20][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[20][category_id]" value="2191">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">套装</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[21][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[21][category_id]" value="2192">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">打底衫</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[22][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[22][category_id]" value="2193">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">裙装</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[23][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[23][category_id]" value="2194">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">其它</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[24][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[24][category_id]" value="2195">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">特价区</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[25][sort_id]" value="4">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[25][category_id]" value="2196" checked="checked">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">速冻食品</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[26][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[26][category_id]" value="2283">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">冰淇淋</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[27][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[27][category_id]" value="2326">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">进口商品</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[28][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[28][category_id]" value="2338">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">趋势</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[29][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[29][category_id]" value="2389">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">PTL新料</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[30][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[30][category_id]" value="2390">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">进口</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[31][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[31][category_id]" value="2391">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">辅料</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[32][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[32][category_id]" value="2392">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">花型</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[33][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[33][category_id]" value="2393">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">针织</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[34][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[34][category_id]" value="2394">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">梭织</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[35][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[35][category_id]" value="2395">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">95折专区</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[36][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[36][category_id]" value="2512">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">出货中心</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[37][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[37][category_id]" value="2516">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">求购中心</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[38][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[38][category_id]" value="2542">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">返利专区</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[39][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[39][category_id]" value="2568">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">联采中心</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[40][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[40][category_id]" value="2594">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">运费补拍</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[41][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[41][category_id]" value="2726">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">春装</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[42][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[42][category_id]" value="2779">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">夏装</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[43][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[43][category_id]" value="2798">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">尾品汇</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[44][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[44][category_id]" value="2814">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">花卉园艺</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[45][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[45][category_id]" value="2821">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">福利彩票</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[46][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[46][category_id]" value="2824">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">设备专区</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[47][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[47][category_id]" value="2831">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">低温鲜品</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[48][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[48][category_id]" value="2836">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">开店物料</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[49][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[49][category_id]" value="2852">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">上架新品</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[50][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[50][category_id]" value="2856">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">当季爆品</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[51][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[51][category_id]" value="2859">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">慈善专柜</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[52][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[52][category_id]" value="2862">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center">随手礼宴席订制专柜</td>
+                                                    <td class="center">
+                                                        <input type="text" class="inputtext" style="width:50px;" name="settings[53][sort_id]" value="">
+                                                    </td>
+                                                    <td class="center">
+                                                        <input type="checkbox" name="settings[53][category_id]" value="2881">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" class="right">
+                                                        <button type="submit" class="btn btn_confirm">保存</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- global js -->
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    var DOMAIN = { "main": "pifa.yunmayi.com", "passport": "passport.pifa.yunmayi.com", "buyer": "buyer.pifa.yunmayi.com", "seller": "seller.pifa.yunmayi.com", "ajax": "ajax.pifa.yunmayi.com", "agent": "agent.pifa.yunmayi.com" };
+    </script>
+    <script type="text/javascript" src="statics/js/lib/help.js"></script>
+</body>
+
+</html>

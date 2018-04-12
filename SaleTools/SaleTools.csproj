@@ -318,6 +318,9 @@
     <Content Include="Views\Order\OrderPayContrast.cshtml" />
     <Content Include="Views\Order\PickUpBill.cshtml" />
     <Content Include="Views\Order\AbnormalOrder.cshtml" />
+    <Content Include="Views\Order\OrderCount.cshtml" />
+    <Content Include="Views\Order\ShopCount.cshtml" />
+    <Content Include="Views\Order\AbnormalNumber.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

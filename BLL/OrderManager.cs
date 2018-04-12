@@ -634,6 +634,80 @@ namespace BLL
             return q.ToList();
         }
 
+        public List<OrderCountByStore> GetOrderTotal(DateTime start, DateTime end , string province , string city, string area, Guid userId, decimal orderMoney = 0)
+        {
+            var uerTypelist = _context.UserTypes.Where(x => !x.IsAdmin).Select(x=>x.TypeId).ToList();
+            var user = from c in _context.UserInfoes
+                       where !c.IsDelete
+                       && uerTypelist.Contains(c.TypeId)
+                       &&c.CreateUserId == userId
+                       select c;
+
+            if (province != "-1" && !string.IsNullOrWhiteSpace(province))
+                user = user.Where(x => x.ProvinceNum == province);
+            if (city != "-1" && !string.IsNullOrWhiteSpace(city))
+                user = user.Where(x => x.CityNum == city);
+            if (area != "-1" && !string.IsNullOrWhiteSpace(area))
+                user = user.Where(x => x.AreaNum == area);
+            var list = new List<OrderCountByStore>();
+            var userList = user.ToList();
+            int num = 0;
+            foreach(var item in userList)
+            {
+                var model = new OrderCountByStore();
+                var orderList = _context.OrderInfoes.Where(x => x.CreateUserId == item.UserId && x.CreateTime > start && x.CreateTime < end);
+                if (orderList == null || orderList.Count() < 1)
+                    continue;
+                num++;
+                model.Addr = item.Addr;
+                model.Num = num;
+                model.OrderCount = orderList.Count();
+                model.StoreName = item.SotreName;
+                model.StoreNum = item.UserNum;
+                model.Tel = item.Tel;
+                model.TotalMoeny = orderList.Sum(x => x.TotalMoney);
+                model.TotalPayMoney = orderList.Sum(x => x.PayMoney);
+                model.TotalRealMoney = orderList.Sum(x => x.RealMoney);
+                list.Add(model);
+
+            }
+            list = list.Where(x => x.TotalMoeny > orderMoney).ToList();
+            return list;
+        }
+
+        public List<OrderCountByStore> GetOrderTotalBySaleMan(DateTime start, DateTime end,  Guid userId)
+        {
+            var uerTypelist = _context.UserTypes.Where(x => !x.IsAdmin).Select(x => x.TypeId).ToList();
+            var user = from c in _context.UserInfoes
+                       where !c.IsDelete
+                       && c.TypeId == (int)SystemUserType.业务员
+                       && c.CreateUserId == userId
+                       select c;
+
+            var list = new List<OrderCountByStore>();
+            var userList = user.ToList();
+            int num = 0;
+            foreach (var item in userList)
+            {
+                var model = new OrderCountByStore();
+                var orderList = _context.OrderInfoes.Where(x => x.SaleManGuid == item.UserId && x.CreateTime > start && x.CreateTime < end);
+                if (orderList == null || orderList.Count() < 1)
+                    continue;
+                num++;
+                model.Addr = item.UserName;
+                model.Num = num;
+                model.OrderCount = orderList.Count();
+                model.TotalMoeny = orderList.Sum(x => x.TotalMoney);
+                model.TotalPayMoney = orderList.Sum(x => x.PayMoney);
+                model.TotalRealMoney = orderList.Sum(x => x.RealMoney);
+                list.Add(model);
+
+            }
+            return list;
+        }
+
+
+
         /// <summary>
         /// 商品销售统计
         /// </summary>
@@ -642,20 +716,21 @@ namespace BLL
         /// <param name="key"></param>
         /// <param name="fst"></param>
         /// <returns></returns>
-        public List<GoodsSaleMode> GetGoodsSaleInfo(DateTime start,DateTime end,string key,Guid fst)
+        public List<GoodsSaleMode> GetGoodsSaleInfo(DateTime start,DateTime end,string key,string fst,Guid UserId)
         {
             var q = from c in _context.OrderInfoes
                     join d in _context.OrderItems on c.Id equals d.OrderId
                     where c.CreateTime > start
                     && c.CreateTime < end
+                    &&c.RootUserId == UserId
                     && d.ProductTittle.Contains(key)
                     select new
                     {
                         info = c,
                         item = d
                     };
-            if (fst != Guid.Empty)
-                q = q.Where(x => x.item.ProductTypeId == fst);
+            if (!string.IsNullOrWhiteSpace(fst))
+                q = q.Where(x => x.item.ProductTypeId.ToString() == fst);
             var itemList = q.Select(x => x.item).ToList();
 
             var goodsIdList = from c in itemList
@@ -691,7 +766,7 @@ namespace BLL
         /// <param name="errorType"></param>
         /// <param name="SupplierId"></param>
         /// <param name="SType"> 1 根据异常类型统计，2根据食品大类统计</param>
-        public void GetErrorInfo(DateTime start,DateTime end,string errorType,int SupplierId,int SType)
+        public List<ErrorInfoModel> GetErrorInfo(DateTime start,DateTime end,string errorType,int SupplierId,int SType)
         {
             var itemList = from c in _context.OrderInfoes
                     join d in _context.OrderItems on c.Id equals d.OrderId
@@ -727,26 +802,76 @@ namespace BLL
             }
             else if(SType ==2)
             {
-                var group = from c in itemList
-                            group c by new { c.SupplierId } into g
-                            select new
-                            {
-                                SupplierId = g.Key.SupplierId,
-                            };
-                foreach (var item in group)
+               
+                foreach (var item in itemList)
                 {
                     var model = new ErrorInfoModel();
-                    var orderItem = itemList.FirstOrDefault(x => x.SupplierId == item.SupplierId);
-                    model.ErrorType = orderItem.ErrorType;
-                    model.ErrorReason = orderItem.ErrorReason;
-                    model.ErrorCout = itemList.Where(x => x.SupplierId == item.SupplierId).Sum(x => x.ErrorCount);
-                    model.ErrorTotal = itemList.Where(x => x.SupplierId == item.SupplierId).Sum(x => (x.ErrorCount * x.Price));
-                    model.ProductType
+                    model.ErrorType = item.ErrorType;
+                    model.ErrorReason = item.ErrorReason;
+                    model.ErrorCout = item.ErrorCount;
+                    model.ErrorTotal = item.ErrorCount * item.Price;
+                    model.ProductType = item.ProductType;
+                    model.ProductName = item.ProductTittle;
                     list.Add(model);
+                    ///TODO
                 }
 
 
             }
+
+            return list;
+        }
+
+
+        /// <summary>
+        /// 异常天数统计
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+
+        public List<ErrorDayModel> GetErrDays(DateTime start ,DateTime end,Guid UserId)
+        {
+
+            var q = from c in _context.OrderItems
+                    join d in _context.OrderInfoes on c.OrderId equals d.Id
+                    where d.CreateTime > start
+                    && d.CreateTime < end
+                    && d.RootUserId == UserId
+                    && c.ErrorCount > 0
+                    select new
+                    {
+                        orderItem = c,
+                        createTime  = d.CreateTime
+                    };
+
+            var res = from c in q
+                      group c by new { c.createTime.Year, c.createTime.Month, c.createTime.Day, c.orderItem.ProductId } into g
+                      select new
+                      {
+                          id= g.Key.ProductId,
+                          TotalCount = g.Sum(p=>p.orderItem.ErrorCount),
+                          Days = g.Count()
+                      };
+            var list = new List<ErrorDayModel>();
+            var resList = res.ToList();
+            foreach(var item in resList)
+            {
+                var model = new ErrorDayModel();
+                var goods = _context.GoodInfoes.FirstOrDefault(x => x.Id == item.id);
+                model.Suplier = goods.SupplierName;
+                model.ProductId = goods.ErpId;
+                model.ProductName = goods.GoodsTittle;
+                model.Spec = goods.Spec;
+                model.Unit = goods.Unit;
+                model.ErrorCount = item.TotalCount;
+                model.ErrorDays = item.Days;
+                list.Add(model);
+            }
+            return list;
+
+
+
 
         }
     }

@@ -1,0 +1,194 @@
+﻿@using Model;
+@using Common.Entities;
+@{
+    ViewBag.Title = "OrderCount";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var orderList = (List<OrderCountByStore>)ViewBag.OrderList;
+    var saleMane = (List<UserInfo>)ViewBag.SalePeople;
+}
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/need/laydate.css">
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+<script type="text/javascript" src="/Content/js/lib/laydate/laydate.js"></script>
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            订单综合统计                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/数据统计-订单综合统计.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="search_bar">
+                <form action="/Order/OrderCount" method="GET">
+                    <ul class="search_item_list">
+                        <li class="search_item">
+                            <label>下单时间:</label>
+                            <div class="item">
+                                <div class="calendar_input">
+                                    <input type="text" name="start" style="width:160px;" value="@ViewBag.Start" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                                </div>
+                                到
+                                <div class="calendar_input">
+                                    <input type="text" name="end" style="width:160px;" value="@ViewBag.End" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                                </div>
+                            </div>
+                            <label class="highlight">(可查询一个月内订单)</label>
+                        </li>
+                        <li class="search_item">
+                            <label>区域选择:</label>
+                            <div class="item">
+                                <select id="province" name="province"></select>
+                                <select id="city" name="city"></select>
+                                <select id="area" name="area"></select>
+                            </div>
+                        </li>
+                        <li class="search_item">
+                            <label>订单金额（大于等于）：</label>
+                            <div class="item">
+                                <input type="text" value="@ViewBag.OrderMoney" name="orderMoney">
+                            </div>
+                        </li>
+                        <li class="search_item">
+                            <label>下载:</label>
+                            <select name="">
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </li>
+                        <li class="search_item">
+                            <label>
+
+                                @if (ViewBag.ShowType == 0)
+    {<input type="checkbox" name="showType" value="1">
+
+}
+else
+{
+                            <input type="checkbox" name="showType" value="1" checked="checked">
+
+}
+
+                                按业务员:
+                            </label>
+                            <select name="saleManId" id="">
+                                <option  value="-1">全部</option>
+                                @foreach (var item in saleMane)
+                                {
+                                    string str = "";
+                                    if(item.UserId.ToString()== ViewBag.SaleManId)
+                                    {
+                                        str = "selected='selected'";
+                                    }
+                                    <option value="@item.UserId" @str>@item.UserName</option>
+                                }
+                            </select>
+                        </li>
+                        <li class="search_item">
+                            <button type="submit" name="do" class="submit">搜索</button>
+                        </li>
+                        <li class="clearfix"></li>
+                    </ul>
+                </form>
+            </div>
+            <div class="col_main_content">
+                @if (ViewBag.ShowType == 0)
+    {
+            <table class="table table_border">
+                <thead class="bg_color">
+                    <tr>
+                        <th>序号</th>
+                        <th>小店编号</th>
+                        <th>小店名称</th>
+                        <th>订单总数</th>
+                        <th>订单总金额</th>
+                        <th>应付总金额</th>
+                        <th>实收总金额</th>
+                        <th>联系方式</th>
+                        <th>地址</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in orderList)
+        {
+            <tr>
+                <td>@item.Num</td>
+                <td>@item.StoreNum</td>
+                <td>@item.StoreName</td>
+                <td>@item.OrderCount</td>
+                <td>@item.TotalMoeny</td>
+                <td>@item.TotalRealMoney</td>
+                <td>@item.TotalPayMoney</td>
+                <td>@item.Tel</td>
+                <td>@item.Addr</td>
+            </tr>
+}
+                </tbody>
+            </table>
+}
+else
+{
+            <table class="table table_border">
+                <thead class="bg_color">
+                    <tr>
+                        <th>业务员</th>
+                        <th>订单总数</th>
+                        <th>订单总金额</th>
+                        <th>应付总金额</th>
+                        <th>实收总金额</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in orderList)
+        {
+            <tr>
+                <td>@item.Addr</td>
+                <td>@item.OrderCount</td>
+                <td>@item.TotalMoeny</td>
+                <td>@item.TotalRealMoney</td>
+                <td>@item.TotalPayMoney</td>
+            </tr>
+}
+                </tbody>
+            </table>
+
+}
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" value="@ViewBag.Province" id="provinceId" />
+<input type="hidden" value="@ViewBag.City" id="cityId" />
+<input type="hidden" value="@ViewBag.Area" id="areaId" />
+
+
+<script>
+    $(function () {
+        $(document).on("change", "#province", function () {
+            LoadArea($(this).val(), "#city")
+        });
+        $(document).on("change", "#city", function () {
+            LoadArea($(this).val(), "#area")
+        });
+        LoadArea("0","#province")
+    })
+
+
+
+
+
+    function LoadArea(num, obj) {
+        $.post("/Common/GetAreaList", { num: num }, function (res) {
+            var html = '<option  value="-1">不限</option>';
+            var baseId = $(obj + "Id").val();
+
+            $(res).each(function () {
+                var selectd = "";
+                if (this.Num == baseId)
+                    selectd = 'selected="selected"';
+                html += '<option value="' + this.Num + '" ' + selectd + '>' + this.Name + '</option>';            });
+            $(obj).html(html);
+            $(obj).change();
+        }, "json");
+    }
+</script>

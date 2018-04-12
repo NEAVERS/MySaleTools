@@ -1,0 +1,1582 @@
+<html>
+
+<head>
+    <title>应收未收对比 - 加盟商个人中心</title>
+    <!-- global css -->
+    <link rel="stylesheet" type="text/css" href="statics/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/base.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/pages/ucenter.css">
+    <style>
+    .progress_box {
+        position: relative;
+        width: 80%;
+        height: 20px;
+        background: #f5f5f5;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+        border-radius: 2px;
+        overflow: hidden;
+    }
+
+    .progress_bar {
+        position: absolute;
+        height: 20px;
+        background: #c40000;
+        border-radius: 2px;
+    }
+
+    .download_btn {
+        display: none;
+        font-size: 14px;
+        color: #c40000;
+    }
+    </style>
+    <link type="text/css" rel="stylesheet" href="http://agent.pifa.yunmayi.comstatics/js/lib/laydate/need/laydate.css">
+    <link type="text/css" rel="stylesheet" href="http://agent.pifa.yunmayi.comstatics/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+</head>
+
+<body>
+    <!-- 全局顶部导航 -->
+    <div class="topbar" id="topbar">
+        <div class="pace"></div>
+        <div class="module clearfix">
+            <div class="lfloat">
+                <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                <span class="hello">您好，</span>
+                <span class="username">57700000</span>
+                <span>
+                                ，欢迎来到温州批发平台
+                <!-- ,客服电话:0577-86000802 -->
+                                            </span>
+            </div>
+            <div class="rfloat">
+                <ul class="clearfix">
+                    <!-- <li><a href="http://www.yunmayi.com" target="_blank">云蚂蚁首页</a></li> -->
+                    <li style="margin-right:10px;"><a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">快递代收</a></li>
+                    <li><a href="http://pifa.yunmayi.com/">批发首页</a></li>
+                    <li><a href="http://pifa.yunmayi.com/index/ucenter">会员中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cashier/application">当面付申请</a></li>
+                    <li><a href="http://pifa.yunmayi.com/product/collect" class="">收藏中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">帮助中心</a></li>
+                    <li><a href="http://pifa.yunmayi.com/cart1">购物车</a></li>
+                    <li><a href="http://passport.pifa.yunmayi.com/logout">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script>
+    (function($) {
+        $.fn.snow = function(options) {
+            var $flake = $('<div id="flake" />').css({
+                    'position': 'absolute',
+                    'top': '-50px',
+                    'z-index': '99999999'
+                }).html('&#10052;'),
+                documentHeight = $(document).height(),
+                documentWidth = $(document).width(),
+                defaults = {
+                    minSize: 10,
+                    maxSize: 20,
+                    newOn: 2000,
+                    flakeColor: "red"
+                },
+                options = $.extend({}, defaults, options);
+            var interval = setInterval(function() {
+                    documentHeight = $(document).height();
+                    var startPositionLeft = Math.random() * documentWidth - 100,
+                        startOpacity = 0.5 + Math.random(),
+                        sizeFlake = options.minSize + Math.random() * options.maxSize,
+                        endPositionTop = documentHeight - options.maxSize,
+                        endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                        durationFall = documentHeight * 10 + Math.random() * 5000;
+                    $flake.clone().appendTo('body').css({
+                        left: startPositionLeft,
+                        opacity: startOpacity,
+                        'font-size': sizeFlake,
+                        color: options.flakeColor
+                    }).animate({
+                            top: endPositionTop,
+                            left: endPositionLeft,
+                            opacity: 0.2
+                        },
+                        durationFall, 'linear',
+                        function() {
+                            $(this).remove()
+                        });
+                },
+                options.newOn);
+        };
+    })(jQuery);
+    //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+
+
+    //鼠标跟随 留言信息窗口
+    $('.remark').mousemove(function(e) {
+        $(this).children('.content').show();
+        $(this).children('.content').show().css({
+            "top": e.pageY + 20,
+            "left": e.pageX + 20
+        })
+    });
+    //滑出隐藏
+    $('.remark').mouseout(function() {
+        $(this).children('.content').hide();
+    });
+    $(window).resize(function() {
+        /* Act on the event */
+        if (document.documentElement.clientWidth < 1200) {
+            $('#topbar').width(1200);
+        } else {
+            $('#topbar').width('100%');
+        }
+
+    });
+    //加载效果
+    var paces = {
+        pace: $('#topbar .pace'),
+        timer: "",
+        w: 0,
+        start: function() {
+            var _this = this;
+            _this.w = 0;
+            if (_this.timer) {
+                _this.w = 0;
+                _this.pace.width(_this.w + "%");
+                clearInterval(_this.timer);
+            } else {
+                _this.timer = setInterval(function() {
+                    ++_this.w;
+                    _this.pace.width(_this.w + "%");
+                    if (_this.w >= 55) {
+                        clearInterval(_this.timer);
+                    }
+                }, 0)
+            }
+
+
+        },
+        end: function() {
+            var _this = this;
+            _this.w = parseInt(_this.pace[0].style.width);
+            clearInterval(_this.timer);
+            _this.timer = setInterval(function() {
+                ++_this.w;
+                _this.pace.width(_this.w + "%");
+                if (_this.w >= 100) {
+                    clearInterval(_this.timer);
+                    var setTimer = setTimeout(function() {
+                        _this.w = 0;
+                        _this.pace.width(_this.w);
+                        clearInterval(_this.timer);
+                    }, 1000);
+                    clearTimeout(clearTimeout);
+                    return false
+                }
+            }, 10)
+        }
+    };
+
+    /*弹框 popup*/
+    function build(status, comment, id, num) {
+        if (!$(".globalPopContainer").length > 0) {
+            $(document.body).append('<div class="globalPopContainer"></div>');
+        }
+        if (!num) {
+            num = '';
+        }
+        if (status == "red") {
+            var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress rprogress'></div>";
+        } else {
+            var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+            html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+            html += "<div class='progress gprogress'></div>";
+        }
+        html += "<span class='closePop'>x</span>";
+        html += "</div>";
+        $(".globalPopContainer").prepend(html); // 追加新元素   
+        $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth())
+        Popup(id, $("#popup_" + id).outerWidth());
+    }
+
+    function Popup(id, popWidth) {
+        $("#popup_" + id).find(".progress").animate({ width: 0 + 'px' }, 3000, function() {
+            $("#popup_" + id).animate({ right: -popWidth + 'px' }, function() {
+                $(this).remove();
+            })
+        });
+        $("#popup_" + id).mouseout(function() {
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).find(".progress").animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        });
+        $("#popup_" + id).mouseover(function() {
+            var proWidth = $(this).outerWidth()
+            $(this).stop(true, false);
+            $(this).find(".progress").stop(true, false);
+            $(this).animate({ right: 0 + 'px' }, function() {
+                $(this).find(".progress").animate({ width: proWidth + 'px' });
+            });
+        });
+        $("#popup_" + id).find(".closePop").on('click', function(event) {
+            $(this).parent().unbind("mouseover");
+            $(this).parent().unbind("mouseout");
+            $(this).siblings('.progress').animate({ width: 0 + 'px' }, function() {
+                $(this).parent().animate({ right: -popWidth + 'px' }, function() {
+                    $(this).remove();
+                })
+            })
+        })
+    }
+    </script>
+    <div id="wraper">
+        <div id="main">
+            <div class="module">
+                <div class="ucenter">
+                    <div class="col_side">
+                        <!-- 侧边导航 -->
+                        <div class="menu_box">
+                            <dl class="menu">
+                                <dt class="menu_title">交易管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/list">订单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/arealist">订单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/export">订单导出</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsbills">取货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickingupgoodsbills">拣货单查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsalelist">多平台销售单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudpicklist">多平台拣货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/cloudsendgoodsbills">多平台取货单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/expressqueryforagent">快递订单查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">商品管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/product/index">商品列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/publish">新增商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/checkprice">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/public">公共商品库</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/brandcategory">品牌管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/recommendlist">推荐商品列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账户中心</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/account/updatepassword">修改密码</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/manage">账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/deliverymanmanage">送货员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/salesmanmanage">业务员管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/pickermanage">分拣员管理</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">会员管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellermanage">供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/cloudseller">云供应商管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/buyermanage">小店管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/account/banklist">银行账号管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/store/checkorderbranch">快递网点查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">余额管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/balance/list">余额明细</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/recharge">余额充值</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/creditquota">信用额度</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">财务管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderconfirmpayrecord">订单收款登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderpaycontrast" class="selected">应收未收对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/bill/salebill">平台销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/offlinepresale">线下开单</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/abnormalorder">收款异常查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">仓库管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/orderabnormalrecord">订单异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodsscan">订单发货扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersendgoodscontrast">发货扫描对比</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/sendgoodswithoutpay">已发未交查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/storemanage">商品库存管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/product/stocksetting">商品入库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/checkout">商品出库操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/warehouse/stockoperate">商品操作查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordersortsearch">仓库排单管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/pickgoodsscan">订单分拣扫描</a>
+                                    <a href="http://agent.pifa.yunmayi.com/order/ordermanagement">订单分拣管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/checkpicklist">分拣商品查询</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">活动管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjslist">满就送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/couponlist">优惠券活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/dpslist">单品送活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/mjjlist">满就减活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/blacklist">非活动商品</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/categoryactivity">类目活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/onlycouponlist">优惠券管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/addpresale">新增预售活动</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/presalelist">预售活动列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/soldpresalelist">已售活动列表</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">系统管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/notice/index">公告列表</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/diycategory">首页类目设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/homeposter">首页海报</a>
+                                    <a href="http://agent.pifa.yunmayi.com/index/sendgoodsfoot">页尾设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/systemdao/operate">系统设置</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/systemlist">系统日志</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">积分管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/integral/gitmanage">积分礼品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/integral/rulemanage">签到规则管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/promotion/searchgiftmanage">积分商品管理</a>
+                                    <a href="http://agent.pifa.yunmayi.com/balance/agentbalancelist">商城积分明细</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">数据统计</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ordercount">订单综合统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/shopcount">商品销售统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalcount">异常情况统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/refundinfo">商品退货统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/agent/warehouse/inventory">商品库存统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/goodsbill">商品账单统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/yunmayilog/countlog">商品编辑统计</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/abnormalnumber">异常天数统计</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">退货管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/order/salesmanorderlist">申请退货</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnbacklist">退货查询</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allreturnbacklist">客服审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/warehouseaudit">仓库审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/returnsellerlist">退供应商</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/allbacklistformoney">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">账单管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/bill/operate">异常登记</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/auditsellerlist">商品审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/financialauditsellerlist">财务审核</a>
+                                    <a href="http://agent.pifa.yunmayi.com/trade/ financialplaysellerlist">财务打款</a>
+                                </dd>
+                            </dl>
+                            <dl class="menu">
+                                <dt class="menu_title">供应商管理</dt>
+                                <dd class="menu_item">
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockinfo">到货条码生成</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerqr">到货扫描操作</a>
+                                    <a href="http://agent.pifa.yunmayi.com/member/sellerclockbill">到货扫描管理</a>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col_main">
+                        <div class="col_main_hd">
+                            <h2>
+                                应收未收对比                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/财务管理-应收未收对比.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+                            </h2>
+                        </div>
+                        <div class="col_main_bd">
+                            <div class="inner">
+                                <div class="col_main_content">
+                                    <div class="search_bar">
+                                        <form action="http://agent.pifa.yunmayi.com/trade/orderPayContrast" method="GET">
+                                            <ul class="search_item_list">
+                                                <li class="search_item">
+                                                    <select name="time_type">
+                                                        <option value="create_time" selected="selected">下单时间</option>
+                                                        <option value="pay_time">收款时间</option>
+                                                    </select>
+                                                    <div class="item">
+                                                        <div class="calendar_input">
+                                                            <input type="text" name="starttime" style="width:160px;" value="2018-04-07 16:00:00" onclick="laydate({format:'YYYY-MM-DD hh:mm:00', istime:true});">
+                                                        </div>
+                                                        到
+                                                        <div class="calendar_input">
+                                                            <input type="text" name="endtime" style="width:160px;" value="2018-04-08 16:00:00" onclick="laydate({format:'YYYY-MM-DD hh:mm:00', istime:true});">
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="search_item">
+                                                    <label>订单号:</label>
+                                                    <input type="text" placeholder="请输入订单号查询" value="" name="keyword">
+                                                </li>
+                                                <li class="search_item">
+                                                    <label>送货员：</label>
+                                                    <select name="deliveryman_id">
+                                                        <option value="">请选择</option>
+                                                        <option value="16721692">
+                                                            叶集存 </option>
+                                                        <option value="16751995">
+                                                            临时送货员 </option>
+                                                        <option value="16762475">
+                                                            柯建光 </option>
+                                                        <option value="16771748">
+                                                            方勇 </option>
+                                                        <option value="16776150">
+                                                            肖仁江 </option>
+                                                        <option value="16789148">
+                                                            刘运 </option>
+                                                    </select>
+                                                </li>
+                                                <li class="search_item">
+                                                    <label>业务员：</label>
+                                                    <select name="salesman_id">
+                                                        <option value="0" selected="">全部</option>
+                                                        <option value="16752980">陈世望</option>
+                                                        <option value="16768013">陈希晋</option>
+                                                        <option value="16632610">韩玉林</option>
+                                                        <option value="16746128">韩玉清</option>
+                                                        <option value="16789082">李茂礼</option>
+                                                        <option value="16679895">牛棋</option>
+                                                        <option value="16727844">苏红大</option>
+                                                        <option value="16656935">汤家艳</option>
+                                                        <option value="16679896">万成辉</option>
+                                                        <option value="16788727">韦福山</option>
+                                                        <option value="16651889">杨信辉</option>
+                                                        <option value="16679887">张军营</option>
+                                                        <option value="16651897">郑国尧</option>
+                                                    </select>
+                                                </li>
+                                                <li class="search_item">
+                                                    <label>收款类型：</label>
+                                                    <select name="pay_state">
+                                                        <option value="">全部</option>
+                                                        <option value="not_pay">未收款</option>
+                                                        <option value="pay">已收款</option>
+                                                    </select>
+                                                </li>
+                                                <li class="search_item">
+                                                    <label>配送类型:</label>
+                                                    <select name="deliver_type">
+                                                        <option value="">全部</option>
+                                                        <option value="platform_deliver" selected="">平台配送</option>
+                                                        <option value="vendor_deliver">自主配送</option>
+                                                    </select>
+                                                </li>
+                                                <li class="search_item">
+                                                    <label>客户类型:</label>
+                                                    <select name="customer_type">
+                                                        <option value="" selected="">全部</option>
+                                                        <option value="default">默认</option>
+                                                        <option value="a_customer">A类型</option>
+                                                        <option value="b_customer">B类型</option>
+                                                        <option value="c_customer">C类型</option>
+                                                        <option value="d_customer">D类型</option>
+                                                        <option value="e_customer">蚂蚁连锁</option>
+                                                    </select>
+                                                </li>
+                                                <li class="search_item">
+                                                    <label>是否下载:</label>
+                                                    <select name="filedown">
+                                                        <option value="0">否</option>
+                                                        <option value="1">是</option>
+                                                    </select>
+                                                </li>
+                                                <li class="clearfix"></li>
+                                                <li class="search_item">
+                                                    <button type="submit">搜索</button>
+                                                    <input type="hidden" name="in_search" value="yes">
+                                                </li>
+                                                <li class="clearfix"></li>
+                                            </ul>
+                                        </form>
+                                    </div>
+                                    <table class="table table_border_td_none">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="7">时间段：2018-04-07 16:00:00至2018-04-08 16:00:00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>订单总数：56</td>
+                                                <td class="highlight">已收数量：16</td>
+                                                <td class="highlight">已收金额：8423.60</td>
+                                                <td>余额数量：0</td>
+                                                <td>余额金额：0.00</td>
+                                                <td>工行支付数量：0</td>
+                                                <td>工行金额：0.00</td>
+                                                <td>农行支付数量：0</td>
+                                                <td>农行金额：0.00</td>
+                                                <td>未收数量：40</td>
+                                                <td>未收金额：45726.01</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table_border">
+                                        <thead class="bg_color">
+                                            <tr>
+                                                <th class="center">订单编号</th>
+                                                <th class="center">订单时间</th>
+                                                <th class="center">区域</th>
+                                                <th class="center">小店编号</th>
+                                                <th class="center">应收金额</th>
+                                                <th class="center">实收金额</th>
+                                                <th class="center">送货人</th>
+                                                <th class="center" width="45">是否收款</th>
+                                                <th class="center">订单状态</th>
+                                                <th class="center">支付类型</th>
+                                                <th class="center">收款时间</th>
+                                                <th class="center">收款人</th>
+                                                <th class="center">备注</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804071608486124">1804071608486124</a></td>
+                                                <td class="center">2018-04-07 16:08:48</td>
+                                                <td class="center">龙湾1</td>
+                                                <td class="center">577000779</td>
+                                                <td class="center">513.00</td>
+                                                <td class="center">513.00</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804071608486124">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804071624228521">1804071624228521</a></td>
+                                                <td class="center">2018-04-07 16:24:22</td>
+                                                <td class="center">鹿城1</td>
+                                                <td class="center">577029547</td>
+                                                <td class="center">554.80</td>
+                                                <td class="center">0.00</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804071624228521" data-id="1804071624228521" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:25:06</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804071708212526">1804071708212526</a></td>
+                                                <td class="center">2018-04-07 17:08:21</td>
+                                                <td class="center">瓯海1</td>
+                                                <td class="center">577001809</td>
+                                                <td class="center">508.60</td>
+                                                <td class="center">508.60</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804071708212526">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804071713333317">1804071713333317</a></td>
+                                                <td class="center">2018-04-07 17:13:32</td>
+                                                <td class="center">龙湾2</td>
+                                                <td class="center">577029548</td>
+                                                <td class="center">519.00</td>
+                                                <td class="center">522.30</td>
+                                                <td class="center">方勇</td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804071713333317" data-id="1804071713333317" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:15:36</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804071718271569">1804071718271569</a></td>
+                                                <td class="center">2018-04-07 17:18:27</td>
+                                                <td class="center">瓯海2</td>
+                                                <td class="center">577000610</td>
+                                                <td class="center">548.00</td>
+                                                <td class="center">548.00</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804071718271569">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804071719185538">1804071719185538</a></td>
+                                                <td class="center">2018-04-07 17:19:18</td>
+                                                <td class="center">瓯海3</td>
+                                                <td class="center">577030071</td>
+                                                <td class="center">571.40</td>
+                                                <td class="center">571.40</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804071719185538">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804071722087784">1804071722087784</a></td>
+                                                <td class="center">2018-04-07 17:22:08</td>
+                                                <td class="center">瓯海4</td>
+                                                <td class="center">577000607</td>
+                                                <td class="center">789.20</td>
+                                                <td class="center">801.80</td>
+                                                <td class="center">叶集存</td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804071722087784" data-id="1804071722087784" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:16:56</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804071726301436">1804071726301436</a></td>
+                                                <td class="center">2018-04-07 17:26:30</td>
+                                                <td class="center">瓯海5</td>
+                                                <td class="center">577030075</td>
+                                                <td class="center">654.90</td>
+                                                <td class="center">654.90</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804071726301436">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804071728151079">1804071728151079</a></td>
+                                                <td class="center">2018-04-07 17:28:15</td>
+                                                <td class="center">瓯海6</td>
+                                                <td class="center">577029550</td>
+                                                <td class="center">1000.20</td>
+                                                <td class="center">1021.50</td>
+                                                <td class="center">叶集存</td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804071728151079" data-id="1804071728151079" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:17:23</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804071732197345">1804071732197345</a></td>
+                                                <td class="center">2018-04-07 17:32:19</td>
+                                                <td class="center">瓯海7</td>
+                                                <td class="center">577029551</td>
+                                                <td class="center">520.00</td>
+                                                <td class="center">520.80</td>
+                                                <td class="center">叶集存</td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804071732197345" data-id="1804071732197345" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:14:02</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804071737317387">1804071737317387</a></td>
+                                                <td class="center">2018-04-07 17:37:31</td>
+                                                <td class="center">瓯海8</td>
+                                                <td class="center">577029552</td>
+                                                <td class="center">487.50</td>
+                                                <td class="center">490.90</td>
+                                                <td class="center">叶集存</td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804071737317387" data-id="1804071737317387" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-09 14:22:15</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804071936053846">1804071936053846</a></td>
+                                                <td class="center">2018-04-07 19:36:05</td>
+                                                <td class="center">龙湾3</td>
+                                                <td class="center">577050303</td>
+                                                <td class="center">4886.63</td>
+                                                <td class="center">4886.63</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804071936053846">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804071940566433">1804071940566433</a></td>
+                                                <td class="center">2018-04-07 19:40:56</td>
+                                                <td class="center">瓯海9</td>
+                                                <td class="center">577050304</td>
+                                                <td class="center">2986.79</td>
+                                                <td class="center">2986.79</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804071940566433">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804072223283163">1804072223283163</a></td>
+                                                <td class="center">2018-04-07 22:23:28</td>
+                                                <td class="center">瑞安1</td>
+                                                <td class="center">577030230</td>
+                                                <td class="center">577.40</td>
+                                                <td class="center">577.40</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804072223283163">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804072358313778">1804072358313778</a></td>
+                                                <td class="center">2018-04-07 23:58:31</td>
+                                                <td class="center">瓯海10</td>
+                                                <td class="center">577040074</td>
+                                                <td class="center">905.18</td>
+                                                <td class="center">905.18</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804072358313778">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080626308328">1804080626308328</a></td>
+                                                <td class="center">2018-04-08 06:26:30</td>
+                                                <td class="center">鹿城2</td>
+                                                <td class="center">577010024</td>
+                                                <td class="center">589.35</td>
+                                                <td class="center">589.35</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804080626308328">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080726159593">1804080726159593</a></td>
+                                                <td class="center">2018-04-08 07:26:15</td>
+                                                <td class="center">瑞安3</td>
+                                                <td class="center">577029188</td>
+                                                <td class="center">569.40</td>
+                                                <td class="center">569.00</td>
+                                                <td class="center">柯建光</td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804080726159593" data-id="1804080726159593" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:23:15</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080904469525">1804080904469525</a></td>
+                                                <td class="center">2018-04-08 09:04:46</td>
+                                                <td class="center">龙湾4</td>
+                                                <td class="center">577020010</td>
+                                                <td class="center">982.50</td>
+                                                <td class="center">982.50</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804080904469525">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080913372483">1804080913372483</a></td>
+                                                <td class="center">2018-04-08 09:13:37</td>
+                                                <td class="center">瓯海11</td>
+                                                <td class="center">577029320</td>
+                                                <td class="center">545.50</td>
+                                                <td class="center">545.50</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804080913372483">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080921223412">1804080921223412</a></td>
+                                                <td class="center">2018-04-08 09:21:22</td>
+                                                <td class="center">瓯海12</td>
+                                                <td class="center">577000719</td>
+                                                <td class="center">495.50</td>
+                                                <td class="center">495.50</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804080921223412">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080924006092">1804080924006092</a></td>
+                                                <td class="center">2018-04-08 09:24:00</td>
+                                                <td class="center">龙湾5</td>
+                                                <td class="center">577029295</td>
+                                                <td class="center">433.40</td>
+                                                <td class="center">433.40</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804080924006092">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080927123941">1804080927123941</a></td>
+                                                <td class="center">2018-04-08 09:27:12</td>
+                                                <td class="center">瓯海13</td>
+                                                <td class="center">577029553</td>
+                                                <td class="center">497.20</td>
+                                                <td class="center">498.30</td>
+                                                <td class="center">叶集存</td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804080927123941" data-id="1804080927123941" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:15:02</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080930423546">1804080930423546</a></td>
+                                                <td class="center">2018-04-08 09:30:42</td>
+                                                <td class="center">瓯海14</td>
+                                                <td class="center">577029307</td>
+                                                <td class="center">410.00</td>
+                                                <td class="center">410.00</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804080930423546">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080934567773">1804080934567773</a></td>
+                                                <td class="center">2018-04-08 09:34:56</td>
+                                                <td class="center">瓯海15</td>
+                                                <td class="center">577000734</td>
+                                                <td class="center">491.20</td>
+                                                <td class="center">491.20</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804080934567773">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080936367310">1804080936367310</a></td>
+                                                <td class="center">2018-04-08 09:36:36</td>
+                                                <td class="center">瓯海16</td>
+                                                <td class="center">577000628</td>
+                                                <td class="center">487.50</td>
+                                                <td class="center">487.50</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804080936367310">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080938428429">1804080938428429</a></td>
+                                                <td class="center">2018-04-08 09:38:42</td>
+                                                <td class="center">龙湾6</td>
+                                                <td class="center">577001756</td>
+                                                <td class="center">491.50</td>
+                                                <td class="center">491.50</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804080938428429">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080941338516">1804080941338516</a></td>
+                                                <td class="center">2018-04-08 09:41:33</td>
+                                                <td class="center">鹿城3</td>
+                                                <td class="center">577001787</td>
+                                                <td class="center">502.20</td>
+                                                <td class="center">504.90</td>
+                                                <td class="center">叶集存</td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804080941338516" data-id="1804080941338516" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:16:03</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080943536039">1804080943536039</a></td>
+                                                <td class="center">2018-04-08 09:43:53</td>
+                                                <td class="center">龙湾7</td>
+                                                <td class="center">577040037</td>
+                                                <td class="center">499.80</td>
+                                                <td class="center">500.80</td>
+                                                <td class="center">方勇</td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804080943536039" data-id="1804080943536039" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:16:44</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080946312285">1804080946312285</a></td>
+                                                <td class="center">2018-04-08 09:46:31</td>
+                                                <td class="center">鹿城4</td>
+                                                <td class="center">577029555</td>
+                                                <td class="center">494.30</td>
+                                                <td class="center">497.50</td>
+                                                <td class="center">叶集存</td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804080946312285" data-id="1804080946312285" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:14:44</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080948459852">1804080948459852</a></td>
+                                                <td class="center">2018-04-08 09:48:45</td>
+                                                <td class="center">龙湾8</td>
+                                                <td class="center">577000625</td>
+                                                <td class="center">511.50</td>
+                                                <td class="center">511.50</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804080948459852">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080950519439">1804080950519439</a></td>
+                                                <td class="center">2018-04-08 09:50:51</td>
+                                                <td class="center">瓯海17</td>
+                                                <td class="center">577029556</td>
+                                                <td class="center">493.40</td>
+                                                <td class="center">493.80</td>
+                                                <td class="center">叶集存</td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804080950519439" data-id="1804080950519439" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:15:15</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080952491511">1804080952491511</a></td>
+                                                <td class="center">2018-04-08 09:52:49</td>
+                                                <td class="center">瓯海18</td>
+                                                <td class="center">577029557</td>
+                                                <td class="center">500.00</td>
+                                                <td class="center">502.00</td>
+                                                <td class="center">叶集存</td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804080952491511" data-id="1804080952491511" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:16:30</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080953471053">1804080953471053</a></td>
+                                                <td class="center">2018-04-08 09:53:47</td>
+                                                <td class="center">龙湾9</td>
+                                                <td class="center">577029319</td>
+                                                <td class="center">510.60</td>
+                                                <td class="center">510.60</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804080953471053">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080955046690">1804080955046690</a></td>
+                                                <td class="center">2018-04-08 09:55:04</td>
+                                                <td class="center">鹿城5</td>
+                                                <td class="center">577029401</td>
+                                                <td class="center">490.40</td>
+                                                <td class="center">490.40</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804080955046690">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804080957034040">1804080957034040</a></td>
+                                                <td class="center">2018-04-08 09:57:03</td>
+                                                <td class="center">鹿城6</td>
+                                                <td class="center">577001723</td>
+                                                <td class="center">535.90</td>
+                                                <td class="center">0.00</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804080957034040" data-id="1804080957034040" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:24:44</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081001364941">1804081001364941</a></td>
+                                                <td class="center">2018-04-08 10:01:36</td>
+                                                <td class="center">瓯海19</td>
+                                                <td class="center">577000722</td>
+                                                <td class="center">497.00</td>
+                                                <td class="center">497.00</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081001364941">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081003193436">1804081003193436</a></td>
+                                                <td class="center">2018-04-08 10:03:19</td>
+                                                <td class="center">龙湾10</td>
+                                                <td class="center">577029425</td>
+                                                <td class="center">529.80</td>
+                                                <td class="center">529.80</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081003193436">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081016124273">1804081016124273</a></td>
+                                                <td class="center">2018-04-08 10:16:12</td>
+                                                <td class="center">龙湾11</td>
+                                                <td class="center">577029462</td>
+                                                <td class="center">624.70</td>
+                                                <td class="center">624.70</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081016124273">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081018052680">1804081018052680</a></td>
+                                                <td class="center">2018-04-08 10:18:05</td>
+                                                <td class="center">瓯海21</td>
+                                                <td class="center">577029558</td>
+                                                <td class="center">492.00</td>
+                                                <td class="center">492.00</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081018052680">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081042036779">1804081042036779</a></td>
+                                                <td class="center">2018-04-08 10:42:03</td>
+                                                <td class="center">鹿城8</td>
+                                                <td class="center">577020026</td>
+                                                <td class="center">370.50</td>
+                                                <td class="center">370.50</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081042036779">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081059531327">1804081059531327</a></td>
+                                                <td class="center">2018-04-08 10:59:53</td>
+                                                <td class="center">鹿城9</td>
+                                                <td class="center">577033001</td>
+                                                <td class="center">2432.25</td>
+                                                <td class="center">2432.25</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081059531327">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081108464983">1804081108464983</a></td>
+                                                <td class="center">2018-04-08 11:08:46</td>
+                                                <td class="center">瓯海22</td>
+                                                <td class="center">577010027</td>
+                                                <td class="center">4399.44</td>
+                                                <td class="center">4399.44</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081108464983">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081110419813">1804081110419813</a></td>
+                                                <td class="center">2018-04-08 11:10:41</td>
+                                                <td class="center">永嘉1</td>
+                                                <td class="center">577050224</td>
+                                                <td class="center">2100.00</td>
+                                                <td class="center">2100.00</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081110419813">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081135123618">1804081135123618</a></td>
+                                                <td class="center">2018-04-08 11:35:11</td>
+                                                <td class="center">瑞安4</td>
+                                                <td class="center">577029189</td>
+                                                <td class="center">1500.70</td>
+                                                <td class="center">1500.00</td>
+                                                <td class="center">柯建光</td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804081135123618" data-id="1804081135123618" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-10 14:23:26</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081136321485">1804081136321485</a></td>
+                                                <td class="center">2018-04-08 11:36:32</td>
+                                                <td class="center">瑞安5</td>
+                                                <td class="center">577029212</td>
+                                                <td class="center">573.00</td>
+                                                <td class="center">573.00</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081136321485">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081236548653">1804081236548653</a></td>
+                                                <td class="center">2018-04-08 12:36:54</td>
+                                                <td class="center">龙湾13</td>
+                                                <td class="center">577010009</td>
+                                                <td class="center">1017.30</td>
+                                                <td class="center">1017.30</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081236548653">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081239542022">1804081239542022</a></td>
+                                                <td class="center">2018-04-08 12:39:54</td>
+                                                <td class="center">瓯海23</td>
+                                                <td class="center">577030227</td>
+                                                <td class="center">4122.00</td>
+                                                <td class="center">0.00</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="highlight">已收</span>
+                                                    <button type="button" class="J_DetelePay click_1804081239542022" data-id="1804081239542022" style="width:70px;">撤销</button>
+                                                </td>
+                                                <td class="center">交易完成</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center">2018-04-09 10:23:31</td>
+                                                <td class="center">夏浩</td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081310427545">1804081310427545</a></td>
+                                                <td class="center">2018-04-08 13:10:42</td>
+                                                <td class="center">瑞安6</td>
+                                                <td class="center">577029055</td>
+                                                <td class="center">581.50</td>
+                                                <td class="center">581.50</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081310427545">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081336401785">1804081336401785</a></td>
+                                                <td class="center">2018-04-08 13:36:40</td>
+                                                <td class="center">瓯海24</td>
+                                                <td class="center">577029559</td>
+                                                <td class="center">500.40</td>
+                                                <td class="center">500.40</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081336401785">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081353396085">1804081353396085</a></td>
+                                                <td class="center">2018-04-08 13:53:39</td>
+                                                <td class="center">瓯海25</td>
+                                                <td class="center">577030090</td>
+                                                <td class="center">3866.93</td>
+                                                <td class="center">3866.93</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081353396085">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081356004092">1804081356004092</a></td>
+                                                <td class="center">2018-04-08 13:56:00</td>
+                                                <td class="center">瑞安7</td>
+                                                <td class="center">577029038</td>
+                                                <td class="center">1006.80</td>
+                                                <td class="center">1006.80</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081356004092">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081359015871">1804081359015871</a></td>
+                                                <td class="center">2018-04-08 13:59:01</td>
+                                                <td class="center">瓯海26</td>
+                                                <td class="center">577030102</td>
+                                                <td class="center">658.88</td>
+                                                <td class="center">658.88</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081359015871">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081405589372">1804081405589372</a></td>
+                                                <td class="center">2018-04-08 14:05:58</td>
+                                                <td class="center">瓯海27</td>
+                                                <td class="center">577030183</td>
+                                                <td class="center">2882.40</td>
+                                                <td class="center">2882.40</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081405589372">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081514407674">1804081514407674</a></td>
+                                                <td class="center">2018-04-08 15:14:39</td>
+                                                <td class="center">瑞安8</td>
+                                                <td class="center">577029087</td>
+                                                <td class="center">570.75</td>
+                                                <td class="center">570.75</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081514407674">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081526094655">1804081526094655</a></td>
+                                                <td class="center">2018-04-08 15:26:09</td>
+                                                <td class="center">鹿城10</td>
+                                                <td class="center">577040043</td>
+                                                <td class="center">518.30</td>
+                                                <td class="center">518.30</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081526094655">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="center"><a href="http://agent.pifa.yunmayi.com/trade/orderUnusual?order_id=1804081547021378">1804081547021378</a></td>
+                                                <td class="center">2018-04-08 15:47:02</td>
+                                                <td class="center">鹿城11</td>
+                                                <td class="center">577033002</td>
+                                                <td class="center">3513.21</td>
+                                                <td class="center">3513.21</td>
+                                                <td class="center"></td>
+                                                <td class="center">
+                                                    <span class="tip notPay" style="cursor:pointer;" data-id="1804081547021378">未收</span>
+                                                </td>
+                                                <td class="center">等待商家发货</td>
+                                                <td class="center">货到付款</td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                                <td class="center"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display:none;">
+        <form action="http://agent.pifa.yunmayi.com/trade/orderConfirmPayRecord" method="post" target="_blank" id="payForm">
+            <input type="text" name="order_id" value="" id="orderId">
+        </form>
+    </div>
+    <!-- global js -->
+    <script type="text/javascript" src="statics/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    var DOMAIN = { "main": "pifa.yunmayi.com", "passport": "passport.pifa.yunmayi.com", "buyer": "buyer.pifa.yunmayi.com", "seller": "seller.pifa.yunmayi.com", "ajax": "ajax.pifa.yunmayi.com", "agent": "agent.pifa.yunmayi.com" };
+    </script>
+    <script type="text/javascript" src="statics/js/lib/help.js"></script>
+    <script type="text/javascript" src="statics/js/lib/laydate/laydate.js"></script>
+    <script type="text/javascript">
+    $(function() {
+
+        $(".notPay").on("click", function() {
+            var order_id = $(this).data("id");
+            $("#orderId").val(order_id);
+            $("#payForm").submit();
+        });
+
+        //撤销收款
+        $('.J_DetelePay').on('click', function() {
+            if (!confirm("确定取消收款?")) return false;
+            var order_id = $(this).data('id');
+            $(".click_" + order_id).text("正在处理");
+            $(".click_" + order_id).attr("disabled", "disabled");
+
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "/trade/detelePay",
+                data: {
+                    order_id: order_id
+                },
+                success: function(result) {
+                    console.log(result);
+                    build("green", result.info, order_id);
+                    location.reload();
+                },
+                error: function() {
+                    build("red", "出错啦", order_id);
+                }
+            })
+        })
+
+    });
+    </script>
+</body>
+
+</html>
