@@ -228,6 +228,16 @@ namespace SaleTools.Controllers
             var res = _order.SetErrorInfo(orderItemId, count, typeCode, type, reasonCode, reason, mark);
             return Utils.SerializeObject(res);
         }
+        /// <summary>
+        /// 整单退货
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public string SetAllItemError(Guid orderId)
+        {
+            var res = _order.SetAllOrderError(orderId, "1001", "退货", "1015", "退6:整单退货");
+            return Utils.SerializeObject(res);
+        }
 
         /// <summary>
         /// 确认订单付款信息

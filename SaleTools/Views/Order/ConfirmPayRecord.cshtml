@@ -242,8 +242,11 @@
 
 }
                                 </select>
-                                <input type="button" class="btn btn_confirm" id="J_ConfirmPay" value="确认收款">&nbsp;&nbsp;
-                                <button type="button" class="btn" id="J_ReturnAllGoods">整单退货</button>
+                                @if (!Model.Info.IsPay && (OrderStatus)Model.Info.Stutas != OrderStatus.退货中 && (OrderStatus)Model.Info.Stutas != OrderStatus.退货成功)
+                                {
+                                    <input type="button" class="btn btn_confirm" id="J_ConfirmPay" value="确认收款">
+                                    <button type="button" class="btn" id="J_ReturnAllGoods">整单退货</button>
+                                }
                                 <input type="hidden" id="J_OrderId" value="@Model.Info.Id">
                             </div>
                         </td>
@@ -360,4 +363,8 @@
         }
         location.href = '/Order/ConfirmPayRecord?orderNum=' + ordernum;
     }
+
+    $("#J_ReturnAllGoods").click(function () {
+
+    });
 </script>

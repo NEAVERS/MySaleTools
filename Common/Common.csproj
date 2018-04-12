@@ -44,8 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Enums.cs" />
+    <Compile Include="Entities\ErrorInfoModel.cs" />
     <Compile Include="Entities\GetProductModel.cs" />
     <Compile Include="Entities\GoddsTypeTree.cs" />
+    <Compile Include="Entities\GoodsSaleMode.cs" />
     <Compile Include="Entities\GoodsWithPrice.cs" />
     <Compile Include="Entities\OrderDetail.cs" />
     <Compile Include="Entities\PageData.cs" />

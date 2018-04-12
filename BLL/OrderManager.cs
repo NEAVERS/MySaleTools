@@ -174,7 +174,7 @@ namespace BLL
 
         }
 
-        public PageData<OrderInfo> GetOrderList(int index, int size, DateTime start, DateTime end, string province, string city, string area, int stutas, string saleManId, int userType, string key, Guid managerId, bool isAdmin = false)
+        public PageData<OrderInfo> GetOrderList(int index, int size, DateTime start, DateTime end, string province, string city, string area, int stutas, string saleManId, int userType, string key, Guid managerId, bool isAdmin = false,decimal orderPay = 0)
         {
             PageData<OrderInfo> pager = new PageData<OrderInfo>();
             var q = from c in _context.OrderInfoes
@@ -200,6 +200,7 @@ namespace BLL
                 else
                     q = q.Where(x => x.SaleManGuid == managerId);//业务员查看
             }
+            q = q.Where(x => x.TotalMoney >= orderPay);///根据订单金额筛选
             pager.PageIndex = index;
             pager.PageSize = size;
             pager.TotalCount = q.Count();
@@ -238,7 +239,13 @@ namespace BLL
         }
 
 
-
+        /// <summary>
+        /// 取货单
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="SupplierId"></param>
+        /// <returns></returns>
         public List<GetProductModel> GetProductBill(DateTime start, DateTime end, int SupplierId)
         {
             var q = from c in _context.OrderItems
@@ -288,7 +295,13 @@ namespace BLL
             }
             return list;
         }
-
+        /// <summary>
+        /// 拣货单
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="SupplierId"></param>
+        /// <returns></returns>
         public List<PickUpModel> GetPickUpBill(DateTime start, DateTime end, int SupplierId)
         {
             List<PickUpModel> list = new List<PickUpModel>();
@@ -469,6 +482,36 @@ namespace BLL
         }
 
         /// <summary>
+        /// 整单退货
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="typeCode"></param>
+        /// <param name="type"></param>
+        /// <param name="reasonCode"></param>
+        /// <param name="reason"></param>
+        /// <returns></returns>
+        public bool SetAllOrderError(Guid orderId, string typeCode, string type, string reasonCode, string reason)
+        {
+            var list = _context.OrderItems.Where(x => x.OrderId == orderId);
+            var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
+            order.Stutas = (int)OrderStatus.退货中;
+            order.IsError = true;
+            foreach (var model in list)
+            {
+                model.ErrorTypeCode = typeCode;
+                model.ErrorType = type;
+                model.ErrorReasonCode = reasonCode;
+                model.ErrorReason = reason;
+                model.ErrorMark = "";
+                model.ErrorCount = model.Count;
+                model.IsError = true;
+                order.IsError = true;
+            }
+            return _context.SaveChanges() > 0;
+        }
+
+
+        /// <summary>
         /// 保存订单备注
         /// </summary>
         /// <param name="ordeId"></param>
@@ -591,8 +634,121 @@ namespace BLL
             return q.ToList();
         }
 
+        /// <summary>
+        /// 商品销售统计
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="key"></param>
+        /// <param name="fst"></param>
+        /// <returns></returns>
+        public List<GoodsSaleMode> GetGoodsSaleInfo(DateTime start,DateTime end,string key,Guid fst)
+        {
+            var q = from c in _context.OrderInfoes
+                    join d in _context.OrderItems on c.Id equals d.OrderId
+                    where c.CreateTime > start
+                    && c.CreateTime < end
+                    && d.ProductTittle.Contains(key)
+                    select new
+                    {
+                        info = c,
+                        item = d
+                    };
+            if (fst != Guid.Empty)
+                q = q.Where(x => x.item.ProductTypeId == fst);
+            var itemList = q.Select(x => x.item).ToList();
 
-        
+            var goodsIdList = from c in itemList
+                              group c by c.ProductId into g
+                              select g.Key;
+            int index = 0;
+            var list = new List<GoodsSaleMode>();
+            foreach(var id in goodsIdList)
+            {
+                index++;
+                var saleModel = new GoodsSaleMode();
+                var goodModel = _context.GoodInfoes.FirstOrDefault(x => x.Id == id);
+                var itemOrder = itemList.FirstOrDefault(x => x.ProductId == id);
+                saleModel.Num = index;
+                saleModel.BarCode = goodModel.BarCode;
+                saleModel.CostPrice = goodModel.CostPrice;
+                saleModel.SalePrice = itemOrder.Price;
+                saleModel.ProductName = goodModel.GoodsTittle;
+                saleModel.Supplier = goodModel.SupplierName;
+                saleModel.TypeName = goodModel.FirstTypeName;
+                saleModel.TotalCount = itemList.Where(x => x.ProductId == id).Sum(x => x.Count);
+                saleModel.TotalMoney = itemList.Where(x => x.ProductId == id).Sum(x => x.TotalPrice);
+                list.Add(saleModel);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="errorType"></param>
+        /// <param name="SupplierId"></param>
+        /// <param name="SType"> 1 根据异常类型统计，2根据食品大类统计</param>
+        public void GetErrorInfo(DateTime start,DateTime end,string errorType,int SupplierId,int SType)
+        {
+            var itemList = from c in _context.OrderInfoes
+                    join d in _context.OrderItems on c.Id equals d.OrderId
+                    where c.CreateTime > start
+                    && c.CreateTime < end
+                    && c.IsError
+                    && d.ErrorCount > 0
+                    select d;
+            if (!string.IsNullOrWhiteSpace(errorType))
+                itemList = itemList.Where(x => x.ErrorTypeCode == errorType);
+            if(SupplierId>-1)
+                itemList = itemList.Where(x => x.SupplierId == SupplierId);
+
+            var list = new List<ErrorInfoModel>();
+            if (SType == 1)
+            {
+                var group = from c in itemList
+                            group c by new {  c.ErrorReasonCode } into g
+                            select new
+                            {
+                                ErrorReasonCode = g.Key.ErrorReasonCode
+                            };
+                foreach (var item in group)
+                {
+                    var model = new ErrorInfoModel();
+                    var orderItem = itemList.FirstOrDefault(x =>  x.ErrorReasonCode == item.ErrorReasonCode);
+                    model.ErrorType = orderItem.ErrorType;
+                    model.ErrorReason = orderItem.ErrorReason;
+                    model.ErrorCout = itemList.Where(x =>  x.ErrorReasonCode == item.ErrorReasonCode).Sum(x => x.ErrorCount);
+                    model.ErrorTotal = itemList.Where(x => x.ErrorReasonCode == item.ErrorReasonCode).Sum(x => (x.ErrorCount * x.Price));
+                    list.Add(model);
+                }
+            }
+            else if(SType ==2)
+            {
+                var group = from c in itemList
+                            group c by new { c.SupplierId } into g
+                            select new
+                            {
+                                SupplierId = g.Key.SupplierId,
+                            };
+                foreach (var item in group)
+                {
+                    var model = new ErrorInfoModel();
+                    var orderItem = itemList.FirstOrDefault(x => x.SupplierId == item.SupplierId);
+                    model.ErrorType = orderItem.ErrorType;
+                    model.ErrorReason = orderItem.ErrorReason;
+                    model.ErrorCout = itemList.Where(x => x.SupplierId == item.SupplierId).Sum(x => x.ErrorCount);
+                    model.ErrorTotal = itemList.Where(x => x.SupplierId == item.SupplierId).Sum(x => (x.ErrorCount * x.Price));
+                    model.ProductType
+                    list.Add(model);
+                }
+
+
+            }
+
+        }
     }
 
 }
