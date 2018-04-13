@@ -413,7 +413,6 @@ namespace SaleTools.Controllers
         {
             var loginUser = (UserInfo)ViewBag.User;
             var typeList = _good.GetDownGoodsType(Guid.Empty, loginUser.UserId);
-
             var list = new List<GoodsSaleMode>();
             DateTime startTime = new DateTime();
             DateTime endTime = new DateTime();
@@ -441,8 +440,43 @@ namespace SaleTools.Controllers
         }
 
 
-        public ActionResult AbnormalCount(string start = "",string end ="",int cType = 0,string goodsType = "",string supplier = "")
+        public ActionResult AbnormalCount(string start = "",string end ="",string cType ="",string goodsType = "",int supplier = -1,int Stype =1)
         {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            var list = new List<ErrorInfoModel>();
+            var typeList = _good.GetDownGoodsType(Guid.Empty, loginUser.UserId);
+            var supplierList = _user.GetSupplierList(loginUser.UserId);
+
+            DateTime startTime = new DateTime();
+            DateTime endTime = new DateTime();
+            DateTime now = DateTime.Now;
+            if (string.IsNullOrEmpty(start))
+                startTime = new DateTime(now.Year, now.Month, now.Day - 1, 16, 0, 0);
+            else
+                startTime = Utils.GetTime(start, true);
+            if (string.IsNullOrEmpty(end))
+                endTime = new DateTime(now.Year, now.Month, now.Day, 16, 0, 0);
+            else
+                endTime = Utils.GetTime(end);
+
+            if (string.IsNullOrWhiteSpace(start))
+            {
+                list = _order.GetErrorInfo(startTime, endTime, cType, supplier,goodsType, Stype);
+            }
+            ViewBag.SupplierList = supplierList;
+
+            ViewBag.TypeList = typeList;
+            ViewBag.List = list;
+            ViewBag.Start = startTime;
+            ViewBag.End = endTime;
+            ViewBag.CType = cType;
+            ViewBag.GoodsType = goodsType;
+
+
+            ViewBag.Supplier = supplier;
+            ViewBag.Stype = Stype;
+
             return View();
         }
         /// <summary>

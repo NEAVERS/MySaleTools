@@ -766,7 +766,7 @@ namespace BLL
         /// <param name="errorType"></param>
         /// <param name="SupplierId"></param>
         /// <param name="SType"> 1 根据异常类型统计，2根据食品大类统计</param>
-        public List<ErrorInfoModel> GetErrorInfo(DateTime start,DateTime end,string errorType,int SupplierId,int SType)
+        public List<ErrorInfoModel> GetErrorInfo(DateTime start,DateTime end,string errorType,int SupplierId,string typeId,int SType)
         {
             var itemList = from c in _context.OrderInfoes
                     join d in _context.OrderItems on c.Id equals d.OrderId
@@ -779,6 +779,8 @@ namespace BLL
                 itemList = itemList.Where(x => x.ErrorTypeCode == errorType);
             if(SupplierId>-1)
                 itemList = itemList.Where(x => x.SupplierId == SupplierId);
+            if(!string.IsNullOrWhiteSpace(typeId))
+                itemList = itemList.Where(x => x.ProductTypeId.ToString() == typeId);
 
             var list = new List<ErrorInfoModel>();
             if (SType == 1)
@@ -802,23 +804,24 @@ namespace BLL
             }
             else if(SType ==2)
             {
-               
-                foreach (var item in itemList)
+
+                var group = from c in itemList
+                            group c by new { c.ProductId, c.ErrorTypeCode} into g
+                            select g.Key;
+
+                foreach (var key in group)
                 {
+                    var item = itemList.FirstOrDefault(x => x.ProductTypeId == key.ProductId &&x.ErrorTypeCode ==key.ErrorTypeCode);
+                    var items = itemList.Where(x => x.ProductTypeId == key.ProductId && x.ErrorTypeCode == key.ErrorTypeCode);
                     var model = new ErrorInfoModel();
                     model.ErrorType = item.ErrorType;
-                    model.ErrorReason = item.ErrorReason;
-                    model.ErrorCout = item.ErrorCount;
-                    model.ErrorTotal = item.ErrorCount * item.Price;
+                    model.ErrorCout = items.Sum(x=>x.ErrorCount);
+                    model.ErrorTotal = items.Sum(x => x.ErrorCount * x.Price);
                     model.ProductType = item.ProductType;
                     model.ProductName = item.ProductTittle;
                     list.Add(model);
-                    ///TODO
                 }
-
-
             }
-
             return list;
         }
 
