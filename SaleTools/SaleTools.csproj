@@ -322,6 +322,7 @@
     <Content Include="Views\Order\ShopCount.cshtml" />
     <Content Include="Views\Order\AbnormalNumber.cshtml" />
     <Content Include="Views\Order\AbnormalCount.cshtml" />
+    <Content Include="Views\Order\UserOrderManager.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

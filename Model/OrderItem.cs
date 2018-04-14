@@ -67,7 +67,13 @@ namespace Model
         /// </summary>
         public string SupplierName { get; set; }
 
-
+        /// <summary>
+        /// 品牌Id
+        /// </summary>
+        public Guid? BrandId { get; set; }
+        /// <summary>
+        /// 品牌名
+        /// </summary>
         public string Brand { get; set; }
         /// <summary>
         /// 原价  

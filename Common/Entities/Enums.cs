@@ -16,7 +16,7 @@ namespace Common.Entities
 
     public enum OrderStatus
     {
-        等待商家发货 =0,
+        等待商家发货 =1,
         商家已发货,
         交易完成,
         订单取消中,
@@ -33,5 +33,14 @@ namespace Common.Entities
         ContactTell,
     }
 
+    /// <summary>
+    /// 优惠券类型
+    /// </summary>
+    public enum CouponType
+    {
+        通用券 =1,
+        品牌券,
+        供应商券
+    }
 
 }

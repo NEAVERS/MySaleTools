@@ -40,6 +40,8 @@ namespace Dal
         public DbSet<ImgSet> ImgSets { get; set; }
         public DbSet<ErrorReason> ErrorReasons { get; set; }
 
+        public DbSet<Coupon> Coupons { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new UserInfoMap());
@@ -57,6 +59,7 @@ namespace Dal
             modelBuilder.Configurations.Add(new ImgSetOfUserTypeMap());
             modelBuilder.Configurations.Add(new ImgSetMap());
             modelBuilder.Configurations.Add(new ErrorReasonMap());
+            modelBuilder.Configurations.Add(new CouponMap());
         }
     }
 }

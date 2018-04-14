@@ -37,6 +37,7 @@ namespace Dal.Mapping
             this.Property(t => t.SupplierId).HasColumnName("SupplierId");
             this.Property(t => t.SupplierName).HasColumnName("SupplierName");
             this.Property(t => t.Brand).HasColumnName("Brand");
+            this.Property(t => t.BrandId).HasColumnName("BrandId");
 
 
             this.Property(t => t.IsError).HasColumnName("IsError");

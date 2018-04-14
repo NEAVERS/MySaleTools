@@ -1,4 +1,5 @@
-﻿using Common.Entities;
+﻿using Common;
+using Common.Entities;
 using Dal;
 using Model;
 using System;
@@ -14,6 +15,8 @@ namespace BLL
     {
         private SaleToolsContext _context = new SaleToolsContext();
 
+
+        private ResponseModel _response = new ResponseModel();
 
         /// <summary>
         /// 获取购物车中的商品
@@ -174,7 +177,7 @@ namespace BLL
 
         }
 
-        public PageData<OrderInfo> GetOrderList(int index, int size, DateTime start, DateTime end, string province, string city, string area, int stutas, string saleManId, int userType, string key, Guid managerId, bool isAdmin = false,decimal orderPay = 0)
+        public PageData<OrderInfo> GetOrderList(int index, int size, DateTime start, DateTime end, string province, string city, string area, int stutas, string saleManId, int userType, string key, Guid managerId, bool isAdmin = false, decimal orderPay = 0)
         {
             PageData<OrderInfo> pager = new PageData<OrderInfo>();
             var q = from c in _context.OrderInfoes
@@ -234,7 +237,7 @@ namespace BLL
         {
             var model = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
             if (model != null)
-                model.Stutas = (int)OrderStatus.订单取消中;
+                model.Stutas = (int)OrderStatus.订单取消成功;
             return _context.SaveChanges() > 0;
         }
 
@@ -446,7 +449,7 @@ namespace BLL
         public List<ErrorReason> GetErrorReasonByType(int type, string parent = "")
         {
             var q = _context.ErrorReasons.Where(x => x.Type == type);
-            if (type == 2&&!string.IsNullOrEmpty(parent))
+            if (type == 2 && !string.IsNullOrEmpty(parent))
                 q = q.Where(x => x.ParentCode == parent);
             return q.ToList();
         }
@@ -477,7 +480,7 @@ namespace BLL
                 var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == model.OrderId);
                 order.IsError = true;
             }
-            
+
             return _context.SaveChanges() > 0;
         }
 
@@ -583,7 +586,7 @@ namespace BLL
         /// <param name="end"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public List<OrderInfo> GetErrorOrders(DateTime start ,DateTime end, Guid userId)
+        public List<OrderInfo> GetErrorOrders(DateTime start, DateTime end, Guid userId)
         {
             var q = from c in _context.OrderInfoes
                     where c.IsPay
@@ -609,11 +612,11 @@ namespace BLL
         /// <param name="payStutas"></param>
         /// <returns></returns>
 
-        public List<OrderInfo> GetOrderForPayContrast(Guid managerId, int timeType, DateTime start,DateTime end,string orderNum,Guid send,Guid sale,int userTypeId,int payStutas)
+        public List<OrderInfo> GetOrderForPayContrast(Guid managerId, int timeType, DateTime start, DateTime end, string orderNum, Guid send, Guid sale, int userTypeId, int payStutas)
         {
             var q = from c in _context.OrderInfoes
                     where !c.IsDelete
-                    &&c.RootUserId == managerId
+                    && c.RootUserId == managerId
                     select c;
             if (timeType == 1)
                 q = q.Where(x => x.CreateTime > start && x.CreateTime < end);
@@ -623,24 +626,24 @@ namespace BLL
                 q = q.Where(x => x.OrderNum.Contains(orderNum));
             if (send != Guid.Empty)
                 q = q.Where(x => x.SendPeopleId == send);
-            if(sale!=Guid.Empty)
+            if (sale != Guid.Empty)
                 q = q.Where(x => x.SaleManGuid == sale);
-            if(userTypeId!=-1)
+            if (userTypeId != -1)
                 q = q.Where(x => x.CreateUserTypeId == userTypeId);
-            if(payStutas!=-1)
+            if (payStutas != -1)
             {
-                q = q.Where(x => x.IsPay == (payStutas==1));
+                q = q.Where(x => x.IsPay == (payStutas == 1));
             }
             return q.ToList();
         }
 
-        public List<OrderCountByStore> GetOrderTotal(DateTime start, DateTime end , string province , string city, string area, Guid userId, decimal orderMoney = 0)
+        public List<OrderCountByStore> GetOrderTotal(DateTime start, DateTime end, string province, string city, string area, Guid userId, decimal orderMoney = 0)
         {
-            var uerTypelist = _context.UserTypes.Where(x => !x.IsAdmin).Select(x=>x.TypeId).ToList();
+            var uerTypelist = _context.UserTypes.Where(x => !x.IsAdmin).Select(x => x.TypeId).ToList();
             var user = from c in _context.UserInfoes
                        where !c.IsDelete
                        && uerTypelist.Contains(c.TypeId)
-                       &&c.CreateUserId == userId
+                       && c.CreateUserId == userId
                        select c;
 
             if (province != "-1" && !string.IsNullOrWhiteSpace(province))
@@ -652,7 +655,7 @@ namespace BLL
             var list = new List<OrderCountByStore>();
             var userList = user.ToList();
             int num = 0;
-            foreach(var item in userList)
+            foreach (var item in userList)
             {
                 var model = new OrderCountByStore();
                 var orderList = _context.OrderInfoes.Where(x => x.CreateUserId == item.UserId && x.CreateTime > start && x.CreateTime < end);
@@ -675,7 +678,7 @@ namespace BLL
             return list;
         }
 
-        public List<OrderCountByStore> GetOrderTotalBySaleMan(DateTime start, DateTime end,  Guid userId)
+        public List<OrderCountByStore> GetOrderTotalBySaleMan(DateTime start, DateTime end, Guid userId)
         {
             var uerTypelist = _context.UserTypes.Where(x => !x.IsAdmin).Select(x => x.TypeId).ToList();
             var user = from c in _context.UserInfoes
@@ -716,13 +719,13 @@ namespace BLL
         /// <param name="key"></param>
         /// <param name="fst"></param>
         /// <returns></returns>
-        public List<GoodsSaleMode> GetGoodsSaleInfo(DateTime start,DateTime end,string key,string fst,Guid UserId)
+        public List<GoodsSaleMode> GetGoodsSaleInfo(DateTime start, DateTime end, string key, string fst, Guid UserId)
         {
             var q = from c in _context.OrderInfoes
                     join d in _context.OrderItems on c.Id equals d.OrderId
                     where c.CreateTime > start
                     && c.CreateTime < end
-                    &&c.RootUserId == UserId
+                    && c.RootUserId == UserId
                     && d.ProductTittle.Contains(key)
                     select new
                     {
@@ -738,7 +741,7 @@ namespace BLL
                               select g.Key;
             int index = 0;
             var list = new List<GoodsSaleMode>();
-            foreach(var id in goodsIdList)
+            foreach (var id in goodsIdList)
             {
                 index++;
                 var saleModel = new GoodsSaleMode();
@@ -766,27 +769,28 @@ namespace BLL
         /// <param name="errorType"></param>
         /// <param name="SupplierId"></param>
         /// <param name="SType"> 1 根据异常类型统计，2根据食品大类统计</param>
-        public List<ErrorInfoModel> GetErrorInfo(DateTime start,DateTime end,string errorType,int SupplierId,string typeId,int SType)
+        public List<ErrorInfoModel> GetErrorInfo(DateTime start, DateTime end, string errorType, int SupplierId, string typeId, int SType)
         {
             var itemList = from c in _context.OrderInfoes
-                    join d in _context.OrderItems on c.Id equals d.OrderId
-                    where c.CreateTime > start
-                    && c.CreateTime < end
-                    && c.IsError
-                    && d.ErrorCount > 0
-                    select d;
-            if (!string.IsNullOrWhiteSpace(errorType))
+                           join d in _context.OrderItems on c.Id equals d.OrderId
+                           where c.CreateTime > start
+                           && c.CreateTime < end
+                           && c.IsError
+                           && d.ErrorCount > 0
+                           select d;
+            if (!string.IsNullOrWhiteSpace(errorType) && errorType != "-1")
                 itemList = itemList.Where(x => x.ErrorTypeCode == errorType);
-            if(SupplierId>-1)
+            if (SupplierId > -1)
                 itemList = itemList.Where(x => x.SupplierId == SupplierId);
-            if(!string.IsNullOrWhiteSpace(typeId))
+            if (!string.IsNullOrWhiteSpace(typeId) && typeId != "-1")
                 itemList = itemList.Where(x => x.ProductTypeId.ToString() == typeId);
 
+            var items = itemList.ToList();
             var list = new List<ErrorInfoModel>();
             if (SType == 1)
             {
-                var group = from c in itemList
-                            group c by new {  c.ErrorReasonCode } into g
+                var group = from c in items
+                            group c by new { c.ErrorReasonCode } into g
                             select new
                             {
                                 ErrorReasonCode = g.Key.ErrorReasonCode
@@ -794,29 +798,29 @@ namespace BLL
                 foreach (var item in group)
                 {
                     var model = new ErrorInfoModel();
-                    var orderItem = itemList.FirstOrDefault(x =>  x.ErrorReasonCode == item.ErrorReasonCode);
+                    var orderItem = items.FirstOrDefault(x => x.ErrorReasonCode == item.ErrorReasonCode);
                     model.ErrorType = orderItem.ErrorType;
                     model.ErrorReason = orderItem.ErrorReason;
-                    model.ErrorCout = itemList.Where(x =>  x.ErrorReasonCode == item.ErrorReasonCode).Sum(x => x.ErrorCount);
-                    model.ErrorTotal = itemList.Where(x => x.ErrorReasonCode == item.ErrorReasonCode).Sum(x => (x.ErrorCount * x.Price));
+                    model.ErrorCout = items.Where(x => x.ErrorReasonCode == item.ErrorReasonCode).Sum(x => x.ErrorCount);
+                    model.ErrorTotal = items.Where(x => x.ErrorReasonCode == item.ErrorReasonCode).Sum(x => (x.ErrorCount * x.Price));
                     list.Add(model);
                 }
             }
-            else if(SType ==2)
+            else if (SType == 2)
             {
 
-                var group = from c in itemList
-                            group c by new { c.ProductId, c.ErrorTypeCode} into g
+                var group = from c in items
+                            group c by new { c.ProductId, c.ErrorTypeCode } into g
                             select g.Key;
 
                 foreach (var key in group)
                 {
-                    var item = itemList.FirstOrDefault(x => x.ProductTypeId == key.ProductId &&x.ErrorTypeCode ==key.ErrorTypeCode);
-                    var items = itemList.Where(x => x.ProductTypeId == key.ProductId && x.ErrorTypeCode == key.ErrorTypeCode);
+                    var item = items.FirstOrDefault(x => x.ProductId == key.ProductId && x.ErrorTypeCode == key.ErrorTypeCode);
+                    var _items = items.Where(x => x.ProductId == key.ProductId && x.ErrorTypeCode == key.ErrorTypeCode);
                     var model = new ErrorInfoModel();
                     model.ErrorType = item.ErrorType;
-                    model.ErrorCout = items.Sum(x=>x.ErrorCount);
-                    model.ErrorTotal = items.Sum(x => x.ErrorCount * x.Price);
+                    model.ErrorCout = _items.Sum(x => x.ErrorCount);
+                    model.ErrorTotal = _items.Sum(x => x.ErrorCount * x.Price);
                     model.ProductType = item.ProductType;
                     model.ProductName = item.ProductTittle;
                     list.Add(model);
@@ -833,7 +837,7 @@ namespace BLL
         /// <param name="end"></param>
         /// <returns></returns>
 
-        public List<ErrorDayModel> GetErrDays(DateTime start ,DateTime end,Guid UserId)
+        public List<ErrorDayModel> GetErrDays(DateTime start, DateTime end, Guid UserId)
         {
 
             var q = from c in _context.OrderItems
@@ -845,20 +849,20 @@ namespace BLL
                     select new
                     {
                         orderItem = c,
-                        createTime  = d.CreateTime
+                        createTime = d.CreateTime
                     };
 
             var res = from c in q
                       group c by new { c.createTime.Year, c.createTime.Month, c.createTime.Day, c.orderItem.ProductId } into g
                       select new
                       {
-                          id= g.Key.ProductId,
-                          TotalCount = g.Sum(p=>p.orderItem.ErrorCount),
+                          id = g.Key.ProductId,
+                          TotalCount = g.Sum(p => p.orderItem.ErrorCount),
                           Days = g.Count()
                       };
             var list = new List<ErrorDayModel>();
             var resList = res.ToList();
-            foreach(var item in resList)
+            foreach (var item in resList)
             {
                 var model = new ErrorDayModel();
                 var goods = _context.GoodInfoes.FirstOrDefault(x => x.Id == item.id);
@@ -873,9 +877,61 @@ namespace BLL
             }
             return list;
 
+        }
 
+        public List<OrderInfo> UserGetOrderInfos(DateTime start, DateTime end, Guid userId)
+        {
+            var q = from c in _context.OrderInfoes
+                    where c.CreateTime > start
+                    && c.CreateTime < end
+                    && c.CreateUserId == userId
+                    select c;
 
+            return q.ToList();
+        }
 
+        public ResponseModel UserCancelOrder(Guid orderId)
+        {
+            
+            var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
+            if (order != null)
+            {
+                var now = DateTime.Now;
+                DateTime start = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
+                DateTime end = new DateTime(now.Year, now.Month, now.Day, 16, 0, 0);
+                if ((order.CreateTime > start && order.CreateTime < end) || (order.CreateTime < start && order.CreateTime > start.AddDays(-1) && order.CreateTime < end))
+                {
+                    order.Stutas = (int)OrderStatus.订单取消中;
+                    order.OrderCancelTime = DateTime.Now;
+                    _response.Stutas = _context.SaveChanges() > 0;
+                    _response.Msg = "保存失败！请刷新后重试";
+                }
+                else
+                    _response.Msg = "超出时限无法取消";
+            }
+            else
+                _response.Msg = "该订单不存在！";
+            
+            return _response;
+        }
+
+        public ResponseModel CheckCancel(Guid orderId,bool isAgree)
+        {
+            var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId&&x.Stutas==(int)OrderStatus.订单取消中);
+
+            if (order != null)
+            {
+                if (isAgree)
+                    order.Stutas = (int)OrderStatus.订单取消成功;
+                else
+                    order.Stutas = (int)OrderStatus.等待商家发货;
+                order.CheckCancelTime = DateTime.Now;
+                _response.Stutas =  _context.SaveChanges() > 0;
+                _response.Msg = "操作失败，请重试";
+            }
+            else
+                _response.Msg = "该待取消的订单不存在！";
+            return _response;
         }
     }
 

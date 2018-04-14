@@ -193,6 +193,11 @@ namespace Model
         public string ReceiveAddr { get; set; }
 
         public string AdminRemark { get; set; }
+
+
+        public DateTime? OrderCancelTime { get; set; }
+
+        public DateTime? CheckCancelTime { get; set; }
         public OrderInfo()
         {
             this.Id = Guid.NewGuid();
@@ -222,6 +227,8 @@ namespace Model
             this.IsError = false;
             this.IsPay = false;
             this.ReceiveAddr = string.Empty;
+            this.OrderCancelTime = null;
+            this.CheckCancelTime = null;
         }
     }
 }

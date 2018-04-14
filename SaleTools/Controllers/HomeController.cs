@@ -151,6 +151,7 @@ namespace SaleTools.Controllers
                 item.Unit = model.info.Unit;
                 item.SupplierId = model.info.SupplierId;
                 item.SupplierName = model.info.SupplierName;
+                item.BrandId = model.info.BrandId;
                 item.Brand = model.info.BrandName;
                 res = _order.AddOrderItem(item);
             }

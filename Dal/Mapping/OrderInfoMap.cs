@@ -57,8 +57,8 @@ namespace Dal.Mapping
             this.Property(t => t.IsError).HasColumnName("IsError");
             this.Property(t => t.AdminRemark).HasColumnName("AdminRemark");
             this.Property(t => t.ReceiveAddr).HasColumnName("ReceiveAddr");
-
-            
+            this.Property(t => t.OrderCancelTime).HasColumnName("OrderCancelTime");
+            this.Property(t => t.CheckCancelTime).HasColumnName("CheckCancelTime");
 
 
         }

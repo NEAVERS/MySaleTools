@@ -125,7 +125,7 @@
 <script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
 
 <script type="text/javascript" src="/Content/js/lib/paging.js"></script>
-
+<script src="~/Scripts/layer/layer.js"></script>
 <script>
     var pageSize = 30;
     var pageIndex = 1;
@@ -171,8 +171,8 @@
                 html += '<td>' + this.OrderNum + '</td >';
                 html += '<td>' + this.CreateTime + '</td >';
                 html += '<td>' + this.CreateUserNum + '</td >';
-                html += '<td>' + this.CreateUserNum + '</td >';
                 html += '<td>' + this.StoreName + '</td >';
+                html += '<td>' + this.CreateUserType + '</td >';
                 html += '<td>' + this.Area + '</td >';
                 html += '<td>' + this.Remark + '</td >';
                 html += '<td><span class="highlight">' + this.PayMoney + '</span>&nbsp;&nbsp; [货到付款]</td >';
@@ -180,8 +180,11 @@
                 html += '<td>' + getSutas(this.Stutas) + '</td >';
                 html += '<td>';
                 html += '<a href="/order/detail/' + this.Id + '">订单详情</a>'
-                if (this.Stutas == 0)
+                if (this.Stutas == 1)
                     html += '<a class="del" href="" data-pick="0" data-state="1" data-id="' + this.Id + '">取消订单</a>'
+                if (this.Stutas == 4) 
+                    html += '<a   href="#" data-pick="0" data-state="1" onclick="CheckAgree(\'' + this.Id + '\')">审核订单</a>'
+
                 html += '</td >';
                 html += '</tr>';
 
@@ -207,35 +210,63 @@
         var orderId = $(this).data("id")
         $.post("/Order/CancelOrder", { orderId: orderId }, function (e) {
             if (e)
-                LoadData(pageIndex);
+                GetData(pageIndex);
         },"json")
     });
 
     function getSutas(code) {
         var res = "";
         switch (code) {
-            case 0:
+            case 1:
                 res = "等待商家发货";
                 break;
-            case 1:
+            case 2:
                 res = "商家已发货";
                 break;
-            case 2:
+            case 3:
                 res = "交易完成";
                 break;
-            case 3:
+            case 4:
                 res = "订单取消中";
                 break;
-            case 4:
+            case 5:
                 res = "订单取消成功";
                 break;
-            case 5:
+            case 6:
                 res = "退货中";
                 break;
-            case 6:
+            case 7:
                 res = "退货成功";
                 break;
         }
         return res;
     }
+
+    function CheckAgree(OrderId) {
+        layer.confirm('是否通过申请？', {
+            btn: ['通过', '驳回'] //按钮
+        }, function () {
+            SaveCheck(OrderId, true);
+            }, function () {
+                SaveCheck(OrderId, false);
+
+            });
+    }
+
+    function SaveCheck(orderId, isAgree) {
+        var para = {};
+        para.orderId = orderId;
+        para.isAgree = isAgree;
+
+        $.post("/Order/OrderCheck", para, function (e) {
+            if (e) {
+                layer.msg("操作成功！", { icon: 1 }, function () {
+                    GetData(pageIndex);
+                })
+            }
+            else 
+                layer.msg(e.Msg, { icon: 2 });
+        }, "json");
+    }
+
 </script>

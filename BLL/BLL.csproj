@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveManager.cs" />
     <Compile Include="AreaManger.cs" />
     <Compile Include="GoodInfoManager.cs" />
     <Compile Include="GoodsManager.cs" />

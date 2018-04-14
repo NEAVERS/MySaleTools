@@ -54,6 +54,7 @@
     <Compile Include="Entities\OrderDetail.cs" />
     <Compile Include="Entities\PageData.cs" />
     <Compile Include="Entities\PickUpModel.cs" />
+    <Compile Include="Entities\ResponseModel.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

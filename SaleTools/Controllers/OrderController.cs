@@ -460,7 +460,7 @@ namespace SaleTools.Controllers
             else
                 endTime = Utils.GetTime(end);
 
-            if (string.IsNullOrWhiteSpace(start))
+            if (!string.IsNullOrWhiteSpace(start))
             {
                 list = _order.GetErrorInfo(startTime, endTime, cType, supplier,goodsType, Stype);
             }
@@ -509,6 +509,43 @@ namespace SaleTools.Controllers
             ViewBag.End = endTime;
             ViewBag.List = list;
             return View();
+        }
+
+
+
+        public ActionResult UserOrderManager(string start = "",string end ="")
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            DateTime startTime = new DateTime();
+            DateTime endTime = new DateTime();
+            DateTime now = DateTime.Now;
+            if (string.IsNullOrEmpty(start))
+                startTime = new DateTime(now.Year, now.Month, now.Day - 1, 16, 0, 0);
+            else
+                startTime = Utils.GetTime(start, true);
+            if (string.IsNullOrEmpty(end))
+                endTime = new DateTime(now.Year, now.Month, now.Day, 16, 0, 0);
+            else
+                endTime = Utils.GetTime(end);
+
+            var list = _order.UserGetOrderInfos(startTime, endTime, loginUser.UserId);
+            ViewBag.List = list;
+            ViewBag.Start = startTime;
+            ViewBag.End = endTime;
+            return View();
+        }
+
+        public string UserCancelOrder(Guid orderId)
+        {
+            var response = _order.UserCancelOrder(orderId);
+            return Utils.SerializeObject(response);
+        }
+
+        public string OrderCheck(Guid orderId,bool isAgree)
+        {
+            var res = _order.CheckCancel(orderId, isAgree);
+            return Utils.SerializeObject(res);
         }
     }
 }
