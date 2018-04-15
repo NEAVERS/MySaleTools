@@ -263,5 +263,33 @@ namespace BLL
                 user.PassWord = newPwd;
             return _context.SaveChanges()>0 ;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<UserInfo> GetUserInfByNunm(List<string> nums, Guid userId)
+        {
+            var q = from c in _context.UserInfoes
+                    where nums.Contains(c.UserNum)
+                    && c.CreateUserId == userId
+                    && !c.IsDelete
+                    select c;
+            return q.ToList();
+        }
+
+        public List<UserInfo> GetUserInfoByUserType(List<int> types,Guid userId)
+        {
+            var q = from c in _context.UserInfoes
+                    where types.Contains(c.TypeId)
+                    && c.CreateUserId == userId
+                    && !c.IsDelete
+                    select c;
+            return q.ToList();
+
+        }
+
     }
 }

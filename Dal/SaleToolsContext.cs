@@ -41,7 +41,11 @@ namespace Dal
         public DbSet<ErrorReason> ErrorReasons { get; set; }
 
         public DbSet<Coupon> Coupons { get; set; }
+        public DbSet<Manjiujian> Manjiujians { get; set; }
 
+        public DbSet<Manjiusong> Manjiusongs { get; set; }
+
+        public DbSet<ManToArea> ManToAreas { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new UserInfoMap());
@@ -60,6 +64,9 @@ namespace Dal
             modelBuilder.Configurations.Add(new ImgSetMap());
             modelBuilder.Configurations.Add(new ErrorReasonMap());
             modelBuilder.Configurations.Add(new CouponMap());
+            modelBuilder.Configurations.Add(new ManjiujianMap());
+            modelBuilder.Configurations.Add(new ManjiusongMap());
+            modelBuilder.Configurations.Add(new ManToAreaMap());
         }
     }
 }

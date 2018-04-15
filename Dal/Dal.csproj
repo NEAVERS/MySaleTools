@@ -57,6 +57,9 @@
     <Compile Include="Mapping\GoodsTypeMap.cs" />
     <Compile Include="Mapping\ImgSetMap.cs" />
     <Compile Include="Mapping\ImgSetOfUserTypeMap.cs" />
+    <Compile Include="Mapping\ManjiujianMap.cs" />
+    <Compile Include="Mapping\ManjiusongMap.cs" />
+    <Compile Include="Mapping\ManToAreaMap.cs" />
     <Compile Include="Mapping\OrderInfoMap.cs" />
     <Compile Include="Mapping\OrderItemMap.cs" />
     <Compile Include="Mapping\PriceOfUserTypeMap.cs" />

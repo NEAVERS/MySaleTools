@@ -250,6 +250,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ActivtityController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\GoodsManagerController.cs" />
@@ -323,6 +324,8 @@
     <Content Include="Views\Order\AbnormalNumber.cshtml" />
     <Content Include="Views\Order\AbnormalCount.cshtml" />
     <Content Include="Views\Order\UserOrderManager.cshtml" />
+    <Content Include="Views\Activtity\ShowCoupon.cshtml" />
+    <Content Include="Views\Activtity\AddNewCoupon.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
