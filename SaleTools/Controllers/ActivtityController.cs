@@ -78,11 +78,75 @@ namespace SaleTools.Controllers
             c.CreateUserName = loginUser.UserName;
 
             _active.CreateCoupon(c, userList);
-
             Response.Redirect("ShowCoupon");
             return View();
-
         }
+
+
+        public ActionResult AddNewManSong()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            var typelist = _user.GetTypeList();
+            var suppliers = _user.GetSupplierList(loginUser.UserId);
+            var BrandList = _good.GetAllBrand(loginUser.UserId);
+
+            ViewBag.TypeList = typelist;
+            ViewBag.Supplier = suppliers;
+            ViewBag.BrandList = BrandList;
+            return View();
+        }
+
+        public void SaveManSong(Manjiusong m, List<int> userType,string areaNums)
+        {
+
+            var areaList = areaNums.Split(',').ToList();
+            var loginUser = (UserInfo)ViewBag.User;
+
+            m.CreateTime = DateTime.Now;
+            m.CreateUserId = loginUser.UserId;
+            string userTypes = "";
+            userType.ForEach(x =>
+            {
+                userTypes += x;
+                userTypes += ",";
+            });
+            m.UserTypes = userTypes;
+            _active.CreateManjiusong(m, areaList);
+        }
+
+
+        public ActionResult AddNewManJian()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            var typelist = _user.GetTypeList();
+            var suppliers = _user.GetSupplierList(loginUser.UserId);
+            var BrandList = _good.GetAllBrand(loginUser.UserId);
+
+            ViewBag.TypeList = typelist;
+            ViewBag.Supplier = suppliers;
+            ViewBag.BrandList = BrandList;
+            return View();
+        }
+        public void SaveManJian(Manjiujian m, List<int> userType, string areaNums)
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var areaList = areaNums.Split(',').ToList();
+
+            m.CreateTime = DateTime.Now;
+            m.CreateUserId = loginUser.UserId;
+            string userTypes = "";
+            userType.ForEach(x =>
+            {
+                userTypes += x;
+                userTypes += ",";
+            });
+            m.UserTypes = userTypes;
+            _active.CreateManjiujian(m, areaList);
+        }
+
+
 
     }
 }

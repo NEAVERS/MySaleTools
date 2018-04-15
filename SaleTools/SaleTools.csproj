@@ -326,6 +326,7 @@
     <Content Include="Views\Order\UserOrderManager.cshtml" />
     <Content Include="Views\Activtity\ShowCoupon.cshtml" />
     <Content Include="Views\Activtity\AddNewCoupon.cshtml" />
+    <Content Include="Views\Activtity\AddNewManSong.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
