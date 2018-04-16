@@ -332,6 +332,7 @@
     <Content Include="Views\Activtity\GetManJianList.cshtml" />
     <Content Include="Views\Activtity\EditManSong.cshtml" />
     <Content Include="Views\Activtity\EditManJian.cshtml" />
+    <Content Include="Views\Home\ConfirmOrder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -73,7 +73,7 @@
                                     <td>@item.SendGoodCount</td>
                                     <td>
 
-                                        <a href="/Activtity/EditManJian?activeId=@item.Id">编辑</a>
+                                        <a href="/Activtity/EditManSong?activeId=@item.Id">编辑</a>
                                     </td>
                                 </tr>
 
@@ -89,9 +89,9 @@
 <script>
     
     $("#page").paging({
-        pageNo: @Page.PageIndex,
-        totalPage: @Page.TotalPage,
-        totalSize: @Page.TotalCount,
+        pageNo: @pager.PageIndex,
+        totalPage: @pager.TotalPage,
+        totalSize: @pager.TotalCount,
         callback: function (num) {
             if (pageIndex != num)
                 location.href = "/Activtity/GetManSongList?index=" + num;

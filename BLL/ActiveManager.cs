@@ -62,6 +62,16 @@ namespace BLL
             return _response;
         }
 
+        public ResponseModel UpdateCouponEndTime(Guid id,DateTime endTime)
+        {
+            var model = _context.Coupons.FirstOrDefault(x => x.Id == id);
+            if(model!=null)
+            {
+                model.EndTime = endTime;
+            }
+            _response.Stutas = _context.SaveChanges() > 0;
+            return _response;
+        }
         /// <summary>
         /// 根据用户Id获取优惠券
         /// </summary>
@@ -127,8 +137,8 @@ namespace BLL
         {
             var couponList = new List<Coupon>();
             var orderItems = _context.OrderItems.Where(x => x.CreateUserId == userid && x.IsInShoppingCar && !x.IsDelete);
-            var canUseCoupons = GetCouponByUserId(userid, true, true, true);
-            if (canUseCoupons != null && canUseCoupons.Count < 1)
+            var canUseCoupons = GetCouponByUserId(userid, true, false, true);
+            if (canUseCoupons != null && canUseCoupons.Count > 1)
             {
 
                 foreach (var coupon in canUseCoupons)
@@ -180,12 +190,16 @@ namespace BLL
             areNum.ForEach(x =>
             {
                 var area = _context.Areas.FirstOrDefault(c => c.Num == x);
-                var newArea = new ManToArea();
-                newArea.ActiveId = model.Id;
-                newArea.ActiveName = string.Empty;
-                newArea.AreaNum = area.Num;
-                newArea.AreaName = area.Name;
-                list.Add(newArea);
+                if (area != null)
+                {
+
+                    var newArea = new ManToArea();
+                    newArea.ActiveId = model.Id;
+                    newArea.ActiveName = string.Empty;
+                    newArea.AreaNum = area.Num;
+                    newArea.AreaName = area.Name;
+                    list.Add(newArea);
+                }
             });
             _context.ManToAreas.AddRange(list);
             _context.Manjiujians.Add(model);
@@ -200,12 +214,16 @@ namespace BLL
             areNum.ForEach(x =>
             {
                 var area = _context.Areas.FirstOrDefault(c => c.Num == x);
-                var newArea = new ManToArea();
-                newArea.ActiveId = model.Id;
-                newArea.ActiveName = string.Empty;
-                newArea.AreaNum = area.Num;
-                newArea.AreaName = area.Name;
-                list.Add(newArea);
+                if (area != null)
+                {
+
+                    var newArea = new ManToArea();
+                    newArea.ActiveId = model.Id;
+                    newArea.ActiveName = string.Empty;
+                    newArea.AreaNum = area.Num;
+                    newArea.AreaName = area.Name;
+                    list.Add(newArea);
+                }
             });
             var modelHis = _context.Manjiujians.FirstOrDefault(x => x.Id == model.Id);
             modelHis.StartTime = model.StartTime;
@@ -217,7 +235,7 @@ namespace BLL
             modelHis.BrandName = model.BrandName;
             modelHis.SupplierId = model.SupplierId;
             modelHis.SupplierName = model.SupplierName;
-
+            modelHis.TypeId = model.TypeId;
             _context.ManToAreas.RemoveRange(areaHis);
             _context.ManToAreas.AddRange(list);
             _response.Stutas = _context.SaveChanges() > 0;
@@ -324,12 +342,15 @@ namespace BLL
             areNum.ForEach(x =>
             {
                 var area = _context.Areas.FirstOrDefault(c => c.Num == x);
-                var newArea = new ManToArea();
-                newArea.ActiveId = model.Id;
-                newArea.ActiveName = model.Tittle;
-                newArea.AreaNum = area.Num;
-                newArea.AreaName = area.Name;
-                list.Add(newArea);
+                if (area != null)
+                {
+                    var newArea = new ManToArea();
+                    newArea.ActiveId = model.Id;
+                    newArea.ActiveName = model.Tittle;
+                    newArea.AreaNum = area.Num;
+                    newArea.AreaName = area.Name;
+                    list.Add(newArea);
+                }
             });
             _context.ManToAreas.AddRange(list);
             _context.Manjiusongs.Add(model);
@@ -346,12 +367,16 @@ namespace BLL
             areNum.ForEach(x =>
             {
                 var area = _context.Areas.FirstOrDefault(c => c.Num == x);
-                var newArea = new ManToArea();
-                newArea.ActiveId = model.Id;
-                newArea.ActiveName = model.Tittle;
-                newArea.AreaNum = area.Num;
-                newArea.AreaName = area.Name;
-                list.Add(newArea);
+                if (area != null)
+                {
+
+                    var newArea = new ManToArea();
+                    newArea.ActiveId = model.Id;
+                    newArea.ActiveName = model.Tittle;
+                    newArea.AreaNum = area.Num;
+                    newArea.AreaName = area.Name;
+                    list.Add(newArea);
+                }
             });
             var modelHis = _context.Manjiusongs.FirstOrDefault(x => x.Id == model.Id);
             modelHis.Tittle = model.Tittle;
@@ -367,7 +392,7 @@ namespace BLL
             modelHis.BrandName = model.BrandName;
             modelHis.SupplierId = model.SupplierId;
             modelHis.SupplierName = model.SupplierName;
-
+            modelHis.TypeId = model.TypeId;
             _context.ManToAreas.RemoveRange(areaHis);
             _context.ManToAreas.AddRange(list);
             _response.Stutas = _context.SaveChanges() > 0;

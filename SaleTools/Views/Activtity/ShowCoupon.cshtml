@@ -22,7 +22,7 @@
             <div class="search_bar">
                 <ul class="search_item_list">
                     <li class="search_item">
-                        <a href="http://agent.pifa.yunmayi.com/promotion/addonlycoupon">新增优惠券</a>
+                        <a href="/Activtity/AddNewCoupon">新增优惠券</a>
                     </li>
                     <li class="clearfix"></li>
                 </ul>
@@ -120,6 +120,8 @@
     </div>
 </div>
 <script type="text/javascript" src="/Content/js/lib/paging.js"></script>
+<script src="~/Scripts/layer/layer.js"></script>
+
 <script>
 
     $("#page").paging({
@@ -127,9 +129,30 @@
         totalPage: @Page.TotalPage,
         totalSize: @Page.TotalCount,
         callback: function (num) {
-            if (pageIndex != num)
-                location.href = "/Activtity/ShowCoupon?start=" + $("#start").val() + "&end=" + $("#end").val(); +"&stutas=" + $("#stutas").val() + "&storeNum=" + $("#storeNum").val() + "&index=" + num;
+            if (@Page.PageIndex != num)
+                location.href = "/Activtity/ShowCoupon?start=" + $("#start").val() + "&end=" + $("#end").val() +"&stutas=" + $("#stutas").val() + "&storeNum=" + $("#storeNum").val() + "&index=" + num;
         }
+    })
+
+    $(document).on("click", ".btn_confirm", function () {
+        var id = $(this).data("id");
+        var endTime = $("#endtime" + id).val();
+        var para = {};
+        para.id = id;
+        para.endTime = endTime;
+        $.post("/Activtity/UpdateCouponEndTime", para, function (e) {
+            if (e.Stutas) {
+                layer.msg("保存成功", { icon: 1 }, function () {
+                    location.reload();
+                })
+            }
+            else {
+                layer.msg("保存失败！请重试", { icon: 2 }, function () {
+                    location.reload();
+                })
+
+            }
+        },"Json")
     })
 
 </script>

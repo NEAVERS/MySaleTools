@@ -136,11 +136,13 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="AreaStr" value="@ViewBag.AreaStr" />
 <script src="~/Scripts/layer/layer.js"></script>
 <script>
-    var AreaList = @ViewBag.AreaJson;
+    var AreaList = [];
 
     $(function () {
+        AreaList = $("#AreaStr").val().split(",");
         $(document).on("change", "#province", function () {
             LoadArea($(this).val(), $("#city"))
         });

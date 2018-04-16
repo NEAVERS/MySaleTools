@@ -16,6 +16,7 @@ namespace SaleTools.Controllers
         private OrderManager _order = new OrderManager();
         private SystemManager _system = new SystemManager();
         private UserManager _user = new UserManager();
+        private ActiveManager _active = new ActiveManager();
         // GET: Home
         public ActionResult Index()
         {
@@ -173,6 +174,10 @@ namespace SaleTools.Controllers
         {
             var loginUser = (UserInfo)ViewBag.User;
             var list = _order.GetShoppingCar(loginUser.UserId);
+            var mj = _active.CheckManjiujian(loginUser.UserId, ViewBag.ManagerId);
+            var ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
+            ViewBag.Mj = mj;
+            ViewBag.Ms = ms;
             ViewBag.List = list;
             return View();
         }
@@ -193,6 +198,21 @@ namespace SaleTools.Controllers
             return Utils.SerializeObject(res);
 
         }
+
+        public ActionResult ConfirmOrder()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var list = _order.GetShoppingCar(loginUser.UserId);
+            var mj = _active.CheckManjiujian(loginUser.UserId, ViewBag.ManagerId);
+            var ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
+            var couponList = _active.FindCanUseCoupon(loginUser.UserId);
+            ViewBag.Mj = mj;
+            ViewBag.Ms = ms;
+            ViewBag.List = list;
+            ViewBag.CouponList = couponList;
+            return View();
+        }
+
 
         public void CreateOrder()
         {

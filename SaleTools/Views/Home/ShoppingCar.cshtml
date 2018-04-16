@@ -3,6 +3,8 @@
     ViewBag.Title = "购物车";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
     var list = (List<OrderItem>)ViewBag.List;
+    var mj = (Manjiujian)ViewBag.Mj;
+    var ms = (Manjiusong)ViewBag.Ms;
     decimal totalPrice = 0;
 }
 
@@ -84,24 +86,59 @@
                     }
                 </ul>
                 <ul class="cart-group" style="padding-top:10px;border-top:1px solid #f3f3f3;">
-                    <li class="cart-event ">
-                        <p class="event-normal">
-                            享受<b>3.90</b>元类目折扣优惠
-                        </p>
-                        <span class="line"></span>
-                        <span class="line line2"></span>
-                        <em class="ball"></em>
-                        <span class="tag">类目折扣</span>
-                    </li>
-                    <li class="cart-event event-prompt">
-                        <p class="event-normal">
-                            再进<b>541.00</b>元 即可享受 货到付款减<b>11.00</b>元 线上支付减<b>11.00</b>元
-                        </p>
-                        <span class="line"></span>
-                        <span class="line line2"></span>
-                        <em class="ball"></em>
-                        <span class="tag">满就减</span>
-                    </li>
+                    @if (mj != null)
+    {
+        string type = "";
+        switch (mj.TypeId)
+        {
+            case 1:
+                type = "通用折扣";
+                break;
+            case 2:
+                type = "品牌折扣";
+                break;
+            case 3:
+                type = "供应商折扣";
+                break;
+
+        }
+                <li class="cart-event ">
+                    <p class="event-normal">
+                        享受<b>@mj.LessMoeny</b>元@(type)优惠
+                    </p>
+                    <span class="line"></span>
+                    <span class="line line2"></span>
+                    <em class="ball"></em>
+                    <span class="tag">@(type)</span>
+                </li>
+}
+                    @if (ms != null)
+    {
+        string type = "";
+        switch (ms.TypeId)
+        {
+            case 1:
+                type = "通用满送";
+                break;
+            case 2:
+                type = "品牌满送";
+                break;
+            case 3:
+                type = "供应商满送";
+                break;
+
+        }
+                <li class="cart-event ">
+                    <p class="event-normal">
+                        享受赠送<b>@(ms.SendGoodName+"x"+ms.SendGoodCount.ToString())</b>@(type)优惠
+                    </p>
+                    <span class="line"></span>
+                    <span class="line line2"></span>
+                    <em class="ball"></em>
+                    <span class="tag">@(type)</span>
+                </li>
+}
+
                 </ul>
             </div>
             <div class="cart-action-bar">
@@ -136,58 +173,58 @@
     var List;
 
     $(document).on("click", ".delete-cart-item", function () {
-        var id = $(this).data("cid");
-        var list = [];
-        list.push(id);
-        DeleteItem(list);
-    }).on("click", "#choose", function () {//批量删除按钮
+                        var id = $(this).data("cid");
+                        var list = [];
+                        list.push(id);
+                        DeleteItem(list);
+                    }).on("click", "#choose", function () {//批量删除按钮
         $(".checkboxes").slideToggle();
-        }).on("click", "#allchecked", function () {//全选
-            if ($(this).prop("checked")) {
+                    }).on("click", "#allchecked", function () {//全选
+                        if ($(this).prop("checked")) {
                 $(":checkbox").each(function () {
                     $(this).prop("checked", true);
-                });
-            } else {
+                            });
+                        } else {
                 $(":checkbox").each(function () {
                     $(this).prop("checked", false);
-                });
-            }
-            getnum();
-        }).on("click", "#groupchecked", function () {//供应商选择
-            var gCheck = $(this).data("gid");
+                            });
+                        }
+                        getnum();
+                    }).on("click", "#groupchecked", function () {//供应商选择
+                        var gCheck = $(this).data("gid");
             $("#allchecked").prop("checked", false);
-            if ($(this).prop("checked")) {
+                        if ($(this).prop("checked")) {
                 $(this).parents(".cart-list").find("input[type='checkbox']").each(function () {
                     $(this).prop("checked", true);
-                });
-            } else {
+                            });
+                        } else {
                 $(this).parents(".cart-list").find("input[type='checkbox']").each(function () {
                     $(this).prop("checked", false);
-                })
+                            })
             }
-            getnum();
-        }).on("click", ".itemcheck", function () {//商品选择
-            List = [];
+                        getnum();
+                    }).on("click", ".itemcheck", function () {//商品选择
+                        List = [];
             $("#allchecked").prop("checked", false);
             $(this).parents(".cart-list").children('.cart-deliver').find("input[id='groupchecked']").prop("checked", false);
-            getnum();
-        }).on("click", "#J_deletPro", function () {//批量删除 删除按钮
-            if (confirm("确认删除选中商品?")) {
-                var idList = [];
+                        getnum();
+                    }).on("click", "#J_deletPro", function () {//批量删除 删除按钮
+                        if (confirm("确认删除选中商品?")) {
+                            var idList = [];
                 $.each(List, function (i, val) {
-                    cartId = val;
+                                cartId = val;
                     $("#J_CartArea").addClass("cart-reloading");
-                    idList.push(cartId);
-                })
+                                idList.push(cartId);
+                            })
                 DeleteItem(idList);
-            }
-        })
+                        }
+                    })
 
     function DeleteItem(ids) {
         $.post("/Home/DeleteItems", { itemIds: ids }, function (e) {
-            if (e)
-                location.href = "/Home/ShoppingCar";
-        },"json")
+                            if (e)
+                                location.href = "/Home/ShoppingCar";
+                        },"json")
     }
 
     function ClearShoppingCar() {

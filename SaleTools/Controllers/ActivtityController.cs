@@ -84,6 +84,11 @@ namespace SaleTools.Controllers
             return View();
         }
 
+        public string UpdateCouponEndTime(Guid id,DateTime endTime)
+        {
+            var res = _active.UpdateCouponEndTime(id, endTime);
+            return Utils.SerializeObject(res);
+        }
 
         public ActionResult AddNewManSong()
         {
@@ -104,7 +109,7 @@ namespace SaleTools.Controllers
 
             var areaList = areaNums.Split(',').ToList();
             var loginUser = (UserInfo)ViewBag.User;
-
+            m.Id = Guid.NewGuid();
             m.CreateTime = DateTime.Now;
             m.CreateUserId = loginUser.UserId;
             string userTypes = "";
@@ -135,7 +140,7 @@ namespace SaleTools.Controllers
         {
             var loginUser = (UserInfo)ViewBag.User;
             var areaList = areaNums.Split(',').ToList();
-
+            m.Id = Guid.NewGuid();
             m.CreateTime = DateTime.Now;
             m.CreateUserId = loginUser.UserId;
             string userTypes = "";
@@ -170,7 +175,7 @@ namespace SaleTools.Controllers
         public ActionResult GetManJianList(int index = 1)
         {
             var loginUser = (UserInfo)ViewBag.User;
-            var pager = _active.GetManSongPager(loginUser.UserId, index);
+            var pager = _active.GetManJianPager(loginUser.UserId, index);
             ViewBag.Pager = pager;
             return View();
         }
@@ -185,7 +190,7 @@ namespace SaleTools.Controllers
             var suppliers = _user.GetSupplierList(loginUser.UserId);
             var BrandList = _good.GetAllBrand(loginUser.UserId);
             var areas = detail.areas.Select(x => x.Num + "_" + x.Name).ToArray();
-            ViewBag.AreaJson = Utils.SerializeObject(areas);
+            ViewBag.AreaStr = string.Join(",",areas);
 
             ViewBag.TypeList = typelist;
             ViewBag.Supplier = suppliers;
@@ -217,14 +222,14 @@ namespace SaleTools.Controllers
 
         public ActionResult EditManJian(Guid activeId)
         {
-            var detail = _active.GetManSongDetial(activeId);
+            var detail = _active.GetManJianDetial(activeId);
             var loginUser = (UserInfo)ViewBag.User;
 
             var typelist = _user.GetTypeList();
             var suppliers = _user.GetSupplierList(loginUser.UserId);
             var BrandList = _good.GetAllBrand(loginUser.UserId);
             var areas = detail.areas.Select(x => x.Num + "_" + x.Name).ToArray();
-            ViewBag.AreaJson = Utils.SerializeObject(areas);
+            ViewBag.AreaStr = string.Join(",", areas);
 
             ViewBag.TypeList = typelist;
             ViewBag.Supplier = suppliers;

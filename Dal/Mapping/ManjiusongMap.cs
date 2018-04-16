@@ -17,7 +17,7 @@ namespace Dal.Mapping
             this.Property(t => t.StartTime).HasColumnName("StartTime");
             this.Property(t => t.EndTime).HasColumnName("EndTime");
             this.Property(t => t.LimitMoney).HasColumnName("LimitMoney");
-            this.Property(t => t.SendGoodId).HasColumnName("LessMoeny");
+            this.Property(t => t.SendGoodId).HasColumnName("SendGoodId");
             this.Property(t => t.UserTypes).HasColumnName("UserTypes");
             this.Property(t => t.CreateTime).HasColumnName("CreateTime");
             this.Property(t => t.CreateUserId).HasColumnName("CreateUserId");

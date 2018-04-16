@@ -36,9 +36,9 @@
                                 <td>
                                     <select name="SupplierId" id="SupplierId" style="width:100px;">
                                         @foreach (var item in suppliers)
-                        {
-                            <option value="@item.Id" @(Model.Info.SupplierId == item.Id ? "selected='selected'" : "")> @item.SupplierCompany</option>
-        }
+                                        {
+                                            <option value="@item.Id" @(Model.Info.SupplierId == item.Id ? "selected='selected'" : "")> @item.SupplierCompany</option>
+                                        }
                                     </select>
 
                                 </td>
@@ -49,9 +49,9 @@
                                 <td>
                                     <select name="BrandId" id="BrandId" style="width:100px;">
                                         @foreach (var item in brandList)
-                        {
-                            <option value="@item.Id" @(Model.Info.BrandId == item.Id ? "selected='selected'" : "")> @item.BrandName</option>
-        }
+                                        {
+                                            <option value="@item.Id" @(Model.Info.BrandId == item.Id ? "selected='selected'" : "")> @item.BrandName</option>
+                                        }
                                     </select>
 
                                 </td>
@@ -79,9 +79,9 @@
                                 <td class="right" width="120"><span class="highlight">*</span></td>
                                 <td id="selectedArea">
                                     @foreach (var area in Model.areas)
-                    {
-                        <a href="javascript:; " class="btn areaInfo" data-id="@area.Num">@area.Name</a>
-    }
+                                    {
+                                        <a href="javascript:; " class="btn areaInfo" data-id="@area.Num">@area.Name</a>
+                                    }
 
                                 </td>
                             </tr>
@@ -105,9 +105,9 @@
                                 <td class="right"><span class="highlight">*</span>店铺类型:</td>
                                 <td>
                                     @foreach (var item in typeList)
-                    {
-                        <input type="checkbox" name="userType" value="@item.TypeId" @(Model.Info.UserTypes.Split(',').Contains(item.TypeId.ToString()) ? "checked='checked'" : "")>@item.TypeName
-    }
+                                    {
+                                        <input type="checkbox" name="userType" value="@item.TypeId" @(Model.Info.UserTypes.Split(',').Contains(item.TypeId.ToString()) ? "checked='checked'" : "")>@item.TypeName
+                                    }
                                     &nbsp; &nbsp;
                                 </td>
                             </tr>
@@ -125,11 +125,15 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="AreaStr" value="@ViewBag.AreaStr" />
+
 <script src="~/Scripts/layer/layer.js"></script>
 <script>
     var AreaList = [];
 
     $(function () {
+        AreaList = $("#AreaStr").val().split(",");
+
         $(document).on("change", "#province", function () {
             LoadArea($(this).val(), $("#city"))
         });
