@@ -327,6 +327,11 @@
     <Content Include="Views\Activtity\ShowCoupon.cshtml" />
     <Content Include="Views\Activtity\AddNewCoupon.cshtml" />
     <Content Include="Views\Activtity\AddNewManSong.cshtml" />
+    <Content Include="Views\Activtity\AddNewManJian.cshtml" />
+    <Content Include="Views\Activtity\GetManSongList.cshtml" />
+    <Content Include="Views\Activtity\GetManJianList.cshtml" />
+    <Content Include="Views\Activtity\EditManSong.cshtml" />
+    <Content Include="Views\Activtity\EditManJian.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

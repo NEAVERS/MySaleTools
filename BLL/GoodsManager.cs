@@ -66,6 +66,11 @@ namespace BLL
             return q;
         }
 
+        public GoodInfo GetGoodsByNum(string num,Guid userid)
+        {
+            return _context.GoodInfoes.FirstOrDefault(x => x.GoodsNum == num && !x.IsDelete && x.CreateUserId == userid);
+        }
+
         public bool AddGoodsBrand(GoodsBrand brand)
         {
             _context.GoodsBrands.Add(brand);

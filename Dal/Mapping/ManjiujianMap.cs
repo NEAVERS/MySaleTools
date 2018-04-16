@@ -21,6 +21,12 @@ namespace Dal.Mapping
             this.Property(t => t.UserTypes).HasColumnName("UserTypes");
             this.Property(t => t.CreateTime).HasColumnName("CreateTime");
             this.Property(t => t.CreateUserId).HasColumnName("CreateUserId");
+            this.Property(t => t.TypeId).HasColumnName("TypeId");
+            this.Property(t => t.SupplierId).HasColumnName("SupplierId");
+            this.Property(t => t.SupplierName).HasColumnName("SupplierName");
+            this.Property(t => t.BrandId).HasColumnName("BrandId");
+            this.Property(t => t.BrandName).HasColumnName("BrandName");
+
         }
     }
 }

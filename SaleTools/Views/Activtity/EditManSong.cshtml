@@ -1,4 +1,5 @@
 ﻿@using Model;
+@using Common.Entities;
 @{
     ViewBag.Title = "AddNewCoupon";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,7 +7,7 @@
     var suppliers = (List<Supplier>)ViewBag.Supplier;
     var brandList = (List<GoodsBrand>)ViewBag.BrandList;
 }
-
+@model ManDetail<Manjiusong>
 <div class="col_main">
     <div class="col_main_hd">
         <h2>新增优惠券</h2>
@@ -14,7 +15,7 @@
     <div class="col_main_bd">
         <div class="inner">
             <div class="col_main_content">
-                <form action="/Activtity/SaveManSong" method="POST" id="J_PublishProductForm">
+                <form action="/Activtity/SaveEditManSong" method="POST" id="J_PublishProductForm">
                     <table class="table table_border_td_none">
                         <tbody>
 
@@ -22,17 +23,16 @@
                                 <td class="right"><span class="highlight">*</span>优惠卷类型:</td>
                                 <td>
                                     <select id="CouponType" name="TypeId">
-                                        <option value="1">通用满就送</option>
-                                        <option value="2">品牌满就送</option>
-                                        <option value="3">供应商满就送</option>
+                                        <option value="1" @(Model.Info.TypeId == 1 ? "selected='selected'" : "")>通用满就送</option>
+                                        <option value="2" @(Model.Info.TypeId == 2 ? "selected='selected'" : "")>品牌满就送</option>
+                                        <option value="3" @(Model.Info.TypeId == 3 ? "selected='selected'" : "")>供应商满就送</option>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="right" width="120"><span class="highlight">*</span>活动标题：</td>
                                 <td>
-                                    <input type="text" class="inputtext " name="Tittle" style="width:100px;" value="">
-                                    <span class="tip">满足多少金额才能使用此优惠券</span>
+                                    <input type="text" class="inputtext " name="Tittle" style="width:100px;" value="@Model.Info.Tittle">
                                 </td>
                             </tr>
 
@@ -42,7 +42,7 @@
                                     <select name="SupplierId" id="SupplierId" style="width:100px;">
                                         @foreach (var item in suppliers)
                         {
-                            <option value="@item.Id"> @item.SupplierCompany</option>
+                            <option value="@item.Id" @(Model.Info.SupplierId == item.Id ? "selected='selected'" : "")> @item.SupplierCompany</option>
         }
                                     </select>
 
@@ -55,7 +55,7 @@
                                     <select name="BrandId" id="BrandId" style="width:100px;">
                                         @foreach (var item in brandList)
                         {
-                            <option value="@item.Id"> @item.BrandName</option>
+                            <option value="@item.Id" @(Model.Info.BrandId == item.Id ? "selected='selected'" : "")> @item.BrandName</option>
         }
                                     </select>
 
@@ -64,16 +64,16 @@
 
                             <tr>
                                 <td class="right"><span class="highlight">*</span>活动开始时间：</td>
-                                <td><input type="text" class="inputtext" name="StartTime" style="width:180px;" value="" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});"></td>
+                                <td><input type="text" class="inputtext" name="StartTime" style="width:180px;" value="@Model.Info.StartTime" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});"></td>
                             </tr>
                             <tr>
                                 <td class="right"><span class="highlight">*</span>活动结束时间：</td>
-                                <td><input type="text" class="inputtext float" name="EndTime" style="width:180px;" value="" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});"></td>
+                                <td><input type="text" class="inputtext float" name="EndTime" style="width:180px;" value="@Model.Info.EndTime" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});"></td>
                             </tr>
                             <tr>
                                 <td class="right" width="120"><span class="highlight">*</span>使用满足条件：</td>
                                 <td>
-                                    <input type="text" class="inputtext float" name="LimitMoney" style="width:100px;" value="">
+                                    <input type="text" class="inputtext float" name="LimitMoney" style="width:100px;" value="@Model.Info.LimitMoney">
                                     <span class="tip">满足多少金额才能使用此优惠券</span>
                                 </td>
                             </tr>
@@ -89,20 +89,25 @@
                             </tr>
                             <tr>
                                 <td class="right" width="120"><span class="highlight">*</span></td>
-                                <td id="selectedArea"></td>
+                                <td id="selectedArea">
+                                    @foreach (var area in Model.areas)
+                    {
+                        <a href="javascript:; " class="btn areaInfo" data-id="@area.Num">@area.Name</a>
+    }
+                                </td>
                             </tr>
                             <tr>
                                 <td class="right" width="120"><span class="highlight">*</span>赠品Id：</td>
                                 <td>
-                                    <input type="text" class="inputtext " name="SendGoodNum" style="width:100px;" value="">
-                                    <span class="tip" id="goodsTip">请输入商品编号</span>
+                                    <input type="text" class="inputtext " name="SendGoodNum" style="width:100px;" value="@Model.Info.SendGoodNum">
+                                    <span class="tip" id="goodsTip">@Model.Info.SendGoodName</span>
 
                                 </td>
                             </tr>
                             <tr>
                                 <td class="right" width="120"><span class="highlight">*</span>赠品数量：</td>
                                 <td>
-                                    <input type="text" class="inputtext integral " name="SendGoodCount" style="width:100px;" value="">
+                                    <input type="text" class="inputtext integral " name="SendGoodCount" style="width:100px;" value="@Model.Info.SendGoodCount">
                                 </td>
                             </tr>
 
@@ -111,7 +116,7 @@
                                 <td>
                                     @foreach (var item in typeList)
                     {
-                        <input type="checkbox" name="userType" value="@item.TypeId">@item.TypeName
+                        <input type="checkbox" name="userType" value="@item.TypeId" @(Model.Info.UserTypes.Split(',').Contains(item.TypeId.ToString()) ? "checked='checked'" : "")>@item.TypeName
     }
                                     &nbsp; &nbsp;
                                 </td>
@@ -120,11 +125,12 @@
                         </tbody>
                     </table>
                     <button type="submit" class="btn btn_confirm" style="margin-left:180px;">保存</button>
-                    <input type="hidden" name="BrandName" id="BrandName" />
-                    <input type="hidden" name="SupplierName" id="SupplierName" />
+                    <input type="hidden" name="BrandName" id="BrandName" value="@Model.Info.BrandName" />
+                    <input type="hidden" name="SupplierName" id="SupplierName" value="@Model.Info.SupplierName" />
                     <input type="hidden" name="areaNums" id="areaNums" />
-                    <input type="hidden" name="SendGoodId" id="SendGoodId" />
-                    <input type="hidden" name="SendGoodName" id="SendGoodName" />
+                    <input type="hidden" name="SendGoodId" id="SendGoodId" value="@Model.Info.SendGoodId" />
+                    <input type="hidden" name="SendGoodName" id="SendGoodName" value="@Model.Info.SendGoodName" />
+                    <input type="hidden" name="Id" id="Id" value="@Model.Info.Id" />
                 </form>
             </div>
         </div>
@@ -132,7 +138,7 @@
 </div>
 <script src="~/Scripts/layer/layer.js"></script>
 <script>
-    var AreaList = [];
+    var AreaList = @ViewBag.AreaJson;
 
     $(function () {
         $(document).on("change", "#province", function () {
@@ -142,6 +148,7 @@
             LoadArea($(this).val(), $("#area"))
         });
         LoadArea("0", $("#province"))
+        IniArea();
     })
 
     $("#addarea").click(function () {
@@ -156,7 +163,7 @@
 
     function IniArea() {
         var html = "";
-        var areaNums = ""; 
+        var areaNums = "";
         $(AreaList).each(function () {
             var areaInfo = this.split("_");
             html += '<a href="javascript:; " class="btn areaInfo" data-id="' + this + '">' + areaInfo[1] + '</a>';
@@ -183,7 +190,7 @@
                 AreaList.removeByValue(areaInfo);
                 IniArea();
             });
-        
+
 
     });
 

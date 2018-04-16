@@ -50,6 +50,7 @@
     <Compile Include="Entities\GoddsTypeTree.cs" />
     <Compile Include="Entities\GoodsSaleMode.cs" />
     <Compile Include="Entities\GoodsWithPrice.cs" />
+    <Compile Include="Entities\ManSongDetail.cs" />
     <Compile Include="Entities\OrderCountByStore.cs" />
     <Compile Include="Entities\OrderDetail.cs" />
     <Compile Include="Entities\PageData.cs" />

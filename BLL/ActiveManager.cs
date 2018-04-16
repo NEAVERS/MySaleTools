@@ -192,18 +192,42 @@ namespace BLL
             _response.Stutas = _context.SaveChanges() > 0;
             return _response;
         }
-
-        public void GetCanUserArea(List<string> res,string num)
+        public ResponseModel SaveManjiujian(Manjiujian model, List<string> areNum)
         {
-            res.Add(num);
-            var area = _context.Areas.Where(x => x.ParentNum == num);
-            if (area == null||area.Count()<1)
-                return;
-            var list = area.ToList();
-            foreach(var item in list)
+
+            List<ManToArea> list = new List<ManToArea>();
+            var areaHis = _context.ManToAreas.Where(x => x.ActiveId == model.Id);
+            areNum.ForEach(x =>
             {
-                GetCanUserArea(res,item.Num);
-            }
+                var area = _context.Areas.FirstOrDefault(c => c.Num == x);
+                var newArea = new ManToArea();
+                newArea.ActiveId = model.Id;
+                newArea.ActiveName = string.Empty;
+                newArea.AreaNum = area.Num;
+                newArea.AreaName = area.Name;
+                list.Add(newArea);
+            });
+            var modelHis = _context.Manjiujians.FirstOrDefault(x => x.Id == model.Id);
+            modelHis.StartTime = model.StartTime;
+            modelHis.EndTime = model.EndTime;
+            modelHis.LimitMoney = model.LimitMoney;
+            modelHis.LessMoeny = model.LessMoeny;
+            modelHis.UserTypes = model.UserTypes;
+            modelHis.BrandId = model.BrandId;
+            modelHis.BrandName = model.BrandName;
+            modelHis.SupplierId = model.SupplierId;
+            modelHis.SupplierName = model.SupplierName;
+
+            _context.ManToAreas.RemoveRange(areaHis);
+            _context.ManToAreas.AddRange(list);
+            _response.Stutas = _context.SaveChanges() > 0;
+            return _response;
+        }        /// <summary>
+
+        public List<Area> GetCanUserArea(List<string> res)
+        {
+            var areas = _context.Areas.Where(x => res.Contains(x.Num));
+            return areas.ToList();
         }
 
 
@@ -213,7 +237,7 @@ namespace BLL
             List<string> canUseArea = new List<string>();
             foreach(var item in areas)
             {
-                GetCanUserArea(canUseArea, item.AreaNum);
+                canUseArea.Add(item.AreaNum);
             }
             return canUseArea;
             
@@ -239,17 +263,50 @@ namespace BLL
             var manjianList = q.ToList();
             if (manjianList == null || manjianList.Count < 1)
                 return null;
-            decimal total = orderItems.Sum(x => x.TotalPrice);
 
             var resManjian = new List<Manjiujian>();
             foreach (var item in manjianList)
             {
                 List<string> areas = GetActiveArea(item.Id);
-                if (areas.Contains(user.AreaNum))
+                if (areas.Contains(user.AreaNum) && item.UserTypes.Contains(user.TypeId.ToString()))
                     resManjian.Add(item);
             }
 
-            return resManjian.Where(x=>x.LimitMoney<total).OrderByDescending(x=>x.LimitMoney).FirstOrDefault();
+
+            var canUserActive = new List<Manjiujian>();
+            foreach (var active in resManjian)
+            {
+                if (active.TypeId == (int)CouponType.通用券)
+                {
+                    decimal total = orderItems.Sum(x => x.TotalPrice);
+                    if (active.LimitMoney < total)
+                    {
+                        canUserActive.Add(active);
+                        continue;
+                    }
+                }
+                if (active.TypeId == (int)CouponType.供应商券)
+                {
+                    decimal total = orderItems.Where(x => x.SupplierId == active.SupplierId).Sum(x => x.TotalPrice);
+                    if (active.LimitMoney < total)
+                    {
+                        canUserActive.Add(active);
+                        continue;
+                    }
+
+                }
+                if (active.TypeId == (int)CouponType.品牌券)
+                {
+                    decimal total = orderItems.Where(x => x.BrandId == active.BrandId).Sum(x => x.TotalPrice);
+                    if (active.LimitMoney < total)
+                    {
+                        canUserActive.Add(active);
+                        continue;
+                    }
+
+                }
+            }
+            return canUserActive.OrderByDescending(x => x.LimitMoney).FirstOrDefault();
         }
 
 
@@ -280,12 +337,47 @@ namespace BLL
             return _response;
         }
 
-        /// <summary>
-        /// 检查是否符合满就送
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="managerId"></param>
-        /// <returns></returns>
+
+        public ResponseModel SaveManjiusong(Manjiusong model, List<string> areNum)
+        {
+
+            List<ManToArea> list = new List<ManToArea>();
+            var areaHis = _context.ManToAreas.Where(x => x.ActiveId == model.Id);
+            areNum.ForEach(x =>
+            {
+                var area = _context.Areas.FirstOrDefault(c => c.Num == x);
+                var newArea = new ManToArea();
+                newArea.ActiveId = model.Id;
+                newArea.ActiveName = model.Tittle;
+                newArea.AreaNum = area.Num;
+                newArea.AreaName = area.Name;
+                list.Add(newArea);
+            });
+            var modelHis = _context.Manjiusongs.FirstOrDefault(x => x.Id == model.Id);
+            modelHis.Tittle = model.Tittle;
+            modelHis.StartTime = model.StartTime;
+            modelHis.EndTime = model.EndTime;
+            modelHis.LimitMoney = model.LimitMoney;
+            modelHis.SendGoodCount = model.SendGoodCount;
+            modelHis.SendGoodId = model.SendGoodId;
+            modelHis.SendGoodName = model.SendGoodName;
+            modelHis.SendGoodNum = model.SendGoodNum;
+            modelHis.UserTypes = model.UserTypes;
+            modelHis.BrandId = model.BrandId;
+            modelHis.BrandName = model.BrandName;
+            modelHis.SupplierId = model.SupplierId;
+            modelHis.SupplierName = model.SupplierName;
+
+            _context.ManToAreas.RemoveRange(areaHis);
+            _context.ManToAreas.AddRange(list);
+            _response.Stutas = _context.SaveChanges() > 0;
+            return _response;
+        }        /// <summary>
+                 /// 检查是否符合满就送
+                 /// </summary>
+                 /// <param name="userId"></param>
+                 /// <param name="managerId"></param>
+                 /// <returns></returns>
         public Manjiusong CheckManSong(Guid userId, Guid managerId)
         {
             var couponList = new List<Coupon>();
@@ -304,7 +396,7 @@ namespace BLL
             foreach (var item in manjianList)
             {
                 List<string> areas = GetActiveArea(item.Id);
-                if (areas.Contains(user.AreaNum))
+                if (areas.Contains(user.AreaNum)&&item.UserTypes.Contains(user.TypeId.ToString()))
                     resMansong.Add(item);
             }
             if (resMansong == null || resMansong.Count < 1)
@@ -367,5 +459,71 @@ namespace BLL
         }
 
 
+        public ManDetail<Manjiusong> GetManSongDetial(Guid activeId)
+        {
+            var detail = new ManDetail<Manjiusong>();
+            detail.Info = _context.Manjiusongs.FirstOrDefault(x => x.Id == activeId);
+            var areas = GetActiveArea(activeId);
+            detail.areas = GetCanUserArea(areas);
+            return detail;
+        }
+
+        public ManDetail<Manjiujian> GetManJianDetial(Guid activeId)
+        {
+            var detail = new ManDetail<Manjiujian>();
+            detail.Info = _context.Manjiujians.FirstOrDefault(x => x.Id == activeId);
+            var areas = GetActiveArea(activeId);
+            detail.areas = GetCanUserArea(areas);
+            return detail;
+        }
+
+
+        public PageData<Manjiujian> GetManJianPager(Guid userid,int index)
+        {
+            var q = from c in _context.Manjiujians
+                    where c.CreateUserId == userid
+                    select c;
+            var pager = new PageData<Manjiujian>();
+            pager.PageIndex = index;
+            pager.PageSize = 30;
+            pager.TotalCount = q.Count();
+            pager.ListData = q.OrderByDescending(x => x.CreateTime).Skip((index - 1) * 30).Take(30).ToList();
+            foreach(var item in pager.ListData)
+            {
+                var areas = GetActiveArea(item.Id);
+                var areaList = GetCanUserArea(areas);
+                item.SupplierName = string.Join(",", areaList.Select(x => x.Name));
+                var userTypes = GetUserType(item.UserTypes);
+                item.UserTypes = string.Join(",", userTypes.Select(x => x.TypeName));
+            }
+            return pager;
+        }
+
+        public PageData<Manjiusong> GetManSongPager(Guid userid, int index)
+        {
+            var q = from c in _context.Manjiusongs
+                    where c.CreateUserId == userid
+                    select c;
+            var pager = new PageData<Manjiusong>();
+            pager.PageIndex = index;
+            pager.PageSize = 30;
+            pager.TotalCount = q.Count();
+            pager.ListData = q.OrderByDescending(x => x.CreateTime).Skip((index - 1) * 30).Take(30).ToList();
+            foreach (var item in pager.ListData)
+            {
+                var areas = GetActiveArea(item.Id);
+                var areaList = GetCanUserArea(areas);
+                item.SupplierName = string.Join(",", areaList.Select(x => x.Name));
+                var userTypes = GetUserType(item.UserTypes);
+                item.UserTypes = string.Join(",", userTypes.Select(x => x.TypeName));
+            }
+            return pager;
+        }
+        public List<UserType> GetUserType(string types)
+        {
+            var typeArr = types.Split(',');
+            var res = _context.UserTypes.Where(x => typeArr.Contains(x.TypeId.ToString()));
+            return res.ToList();
+        }
     }
 }

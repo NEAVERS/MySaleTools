@@ -1,4 +1,5 @@
-﻿@using Model;
+﻿
+@using Model;
 @{
     ViewBag.Title = "AddNewCoupon";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -41,9 +42,9 @@
                                 <td>
                                     <select name="SupplierId" id="SupplierId" style="width:100px;">
                                         @foreach (var item in suppliers)
-                        {
-                            <option value="@item.Id"> @item.SupplierCompany</option>
-        }
+                {
+                        <option value="@item.Id"> @item.SupplierCompany</option>
+}
                                     </select>
 
                                 </td>
@@ -54,9 +55,9 @@
                                 <td>
                                     <select name="BrandId" id="BrandId" style="width:100px;">
                                         @foreach (var item in brandList)
-                        {
-                            <option value="@item.Id"> @item.BrandName</option>
-        }
+                {
+                        <option value="@item.Id"> @item.BrandName</option>
+}
                                     </select>
 
                                 </td>
@@ -69,13 +70,6 @@
                             <tr>
                                 <td class="right"><span class="highlight">*</span>活动结束时间：</td>
                                 <td><input type="text" class="inputtext float" name="EndTime" style="width:180px;" value="" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});"></td>
-                            </tr>
-                            <tr>
-                                <td class="right" width="120"><span class="highlight">*</span>使用满足条件：</td>
-                                <td>
-                                    <input type="text" class="inputtext float" name="LimitMoney" style="width:100px;" value="">
-                                    <span class="tip">满足多少金额才能使用此优惠券</span>
-                                </td>
                             </tr>
                             <tr>
                                 <td class="right" width="120"><span class="highlight">*</span>区域</td>
@@ -91,28 +85,29 @@
                                 <td class="right" width="120"><span class="highlight">*</span></td>
                                 <td id="selectedArea"></td>
                             </tr>
-                            <tr>
-                                <td class="right" width="120"><span class="highlight">*</span>赠品Id：</td>
-                                <td>
-                                    <input type="text" class="inputtext " name="SendGoodNum" style="width:100px;" value="">
-                                    <span class="tip" id="goodsTip">请输入商品编号</span>
 
-                                </td>
-                            </tr>
                             <tr>
-                                <td class="right" width="120"><span class="highlight">*</span>赠品数量：</td>
+                                <td class="right" width="120"><span class="highlight">*</span>使用满足条件：</td>
                                 <td>
-                                    <input type="text" class="inputtext integral " name="SendGoodCount" style="width:100px;" value="">
+                                    <input type="text" class="inputtext float" name="LimitMoney" style="width:100px;" value="">
+                                    <span class="tip">满足多少金额才能使用此优惠券</span>
                                 </td>
                             </tr>
 
+                            <tr>
+                                <td class="right" width="120"><span class="highlight">*</span>优惠金额：</td>
+                                <td>
+                                    <input type="text" class="inputtext float" name="LessMoeny" style="width:100px;" value="">
+                                </td>
+                            </tr>
+                            
                             <tr id="more">
                                 <td class="right"><span class="highlight">*</span>店铺类型:</td>
                                 <td>
                                     @foreach (var item in typeList)
-                    {
+            {
                         <input type="checkbox" name="userType" value="@item.TypeId">@item.TypeName
-    }
+}
                                     &nbsp; &nbsp;
                                 </td>
                             </tr>
@@ -123,8 +118,6 @@
                     <input type="hidden" name="BrandName" id="BrandName" />
                     <input type="hidden" name="SupplierName" id="SupplierName" />
                     <input type="hidden" name="areaNums" id="areaNums" />
-                    <input type="hidden" name="SendGoodId" id="SendGoodId" />
-                    <input type="hidden" name="SendGoodName" id="SendGoodName" />
                 </form>
             </div>
         </div>
@@ -156,7 +149,7 @@
 
     function IniArea() {
         var html = "";
-        var areaNums = ""; 
+        var areaNums = "";
         $(AreaList).each(function () {
             var areaInfo = this.split("_");
             html += '<a href="javascript:; " class="btn areaInfo" data-id="' + this + '">' + areaInfo[1] + '</a>';
@@ -176,14 +169,14 @@
     }
     $(document).on("click", ".areaInfo", function () {
         var areaInfo = $(this).data("id");
-            layer.confirm('确认要删除该区域吗？', {
-                btn: ['确定', '取消']//按钮
-            }, function (index) {
-                layer.close(index);
-                AreaList.removeByValue(areaInfo);
-                IniArea();
-            });
-        
+        layer.confirm('确认要删除该区域吗？', {
+            btn: ['确定', '取消']//按钮
+        }, function (index) {
+            layer.close(index);
+            AreaList.removeByValue(areaInfo);
+            IniArea();
+        });
+
 
     });
 
@@ -240,21 +233,4 @@
         }
 
     });
-    $("#SendGoodNum").blur(function () {
-        var num = $(this).val();
-        $.post("/Activtity/CheckGoods", { num: num }, function (e) {
-            if (e.Stutas) {
-                $("#SendGoodId").val(e.Result.Id)
-                $("#SendGoodName").val(e.Result.GoodsTittle)
-                $("#goodsTip").html(e.Result.GoodsTittle);
-            }
-            else {
-                $("#SendGoodId").val("")
-                $("#SendGoodName").val("")
-                $("#goodsTip").html("商品编号有误，请重新输入！");
-
-            }
-        }, "json");
-    });
-
 </script>

@@ -27,5 +27,28 @@ namespace Model
 
         public Guid CreateUserId { get; set; }
 
+        public int TypeId { get; set; }
+
+        /// <summary>
+        /// 供应商Id
+        /// </summary>
+        public int SupplierId { get; set; }
+
+        /// <summary>
+        /// 供应商名
+        /// </summary>
+        public string SupplierName { get; set; }
+        /// <summary>
+        /// 品牌Id
+        /// </summary>
+        public Guid? BrandId { get; set; }
+
+        /// <summary>
+        /// 品牌名
+        /// </summary>
+        public string BrandName { get; set; }
+
+
+
     }
 }
