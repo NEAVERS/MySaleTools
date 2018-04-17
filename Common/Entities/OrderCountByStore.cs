@@ -25,5 +25,11 @@ namespace Common.Entities
         public string Tel { get; set; }
 
         public string  Addr { get; set; }
+
+        public string UserType { get; set; }
+
+        public string SaleMan { get; set; }
+
+        public string  Areas { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 @using Model;
+@using Common.Entities;
 @{
     ViewBag.Title = "BuyList";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -114,7 +115,7 @@
                                     [货到付款]
                                 </td>
                                 <td>
-                                    交易完成
+                                    @(((OrderStatus)item.Stutas).ToString())
                                 </td>
                                 <td>@item.SendPeople</td>
                                 <td>@item.SendPeople</td>

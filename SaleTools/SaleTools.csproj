@@ -333,6 +333,7 @@
     <Content Include="Views\Activtity\EditManSong.cshtml" />
     <Content Include="Views\Activtity\EditManJian.cshtml" />
     <Content Include="Views\Home\ConfirmOrder.cshtml" />
+    <Content Include="Views\System\SetHomePageType.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

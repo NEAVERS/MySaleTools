@@ -345,7 +345,7 @@ namespace SaleTools.Controllers
             return View();
 
         }
-       
+
         /// <summary>
         /// 订单综合统计
         /// </summary>
@@ -358,7 +358,7 @@ namespace SaleTools.Controllers
         /// <param name="showType"></param>
         /// <param name="saleManId"></param>
         /// <returns></returns>
-        public ActionResult OrderCount(string start="",string end="",string province = "", string city="",string area="",decimal orderMoney =0,int showType = 0,string saleManId = "")
+        public ActionResult OrderCount(string start = "", string end = "", string province = "", string city = "", string area = "", decimal orderMoney = 0, int showType = 0, string saleManId = "", bool isDown = false)
         {
             var loginUser = (UserInfo)ViewBag.User;
             var SaleList = _user.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
@@ -377,7 +377,7 @@ namespace SaleTools.Controllers
 
             if (!string.IsNullOrWhiteSpace(start))
             {
-                if (showType==0)
+                if (showType == 0||isDown)
                 {
                     OrderList = _order.GetOrderTotal(startTime, endTime, province, city, area, loginUser.UserId, orderMoney);
 
@@ -387,7 +387,13 @@ namespace SaleTools.Controllers
                     OrderList = _order.GetOrderTotalBySaleMan(startTime, endTime, loginUser.UserId);
                 }
             }
-            
+            if(isDown)
+            {
+                var result = _order.CreateOrderCountFile(OrderList);
+                return File(result, "text/comma-separated-values", "demo1.csv");
+
+            }
+
             ViewBag.Start = startTime;
             ViewBag.End = endTime;
             ViewBag.Province = province;

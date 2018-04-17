@@ -234,9 +234,8 @@
                     </div>
                 </div>
                 <div class="order-confirm-btn-wrap" id="JTradeConfirmForm">
-                    <form action="/trade/create" method="post">
-                        <a href="/cart/index" class="back-cart">返回购物车</a>
-                        <button type="submit" id="JSubmitButton">提交订单</button>
+                        <a href="/Home/ShoppingCar" class="back-cart">返回购物车</a>
+                        <button type="button" id="JSubmitButton" onclick="ConfirmOrder()">提交订单</button>
                         <input type="hidden" name="payType" value="1">
                         <input type="hidden" name="payPlatform" value="cod">
                         <input type="hidden" name="remark" value="">
@@ -245,7 +244,6 @@
                         <input type="hidden" name="vendorCouponIds" value="">
                         <input type="hidden" name="brandMjsIds" value="">
                         <input type="hidden" name="vendorMjsIds" value="">
-                    </form>
                 </div>
             </div>
         </div>
@@ -268,7 +266,7 @@
         var remark = $("#JRemarkInput").val();
         var couponId = $("#couponId").val();
         $.post("/Home/CreateOrder", { remark: remark, couponId: couponId }, function (e) {
-
+            location.href ="/Home/BuyList"
         }, "json");
     }
 </script>

@@ -44,5 +44,19 @@ namespace Model
         /// 创建人姓名
         /// </summary>
         public string CreateUserName { get; set; }
+
+        /// <summary>
+        /// 是否显示在首页
+        /// </summary>
+
+        public bool IsShowFirstPage { get; set; }
+
+        public int SortId { get; set; }
+
+        public GoodsType()
+        {
+            this.IsShowFirstPage = false;
+            this.SortId = 0;
+        }
     }
 }

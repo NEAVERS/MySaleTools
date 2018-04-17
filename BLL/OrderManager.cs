@@ -438,6 +438,45 @@ namespace BLL
             return output;
         }
 
+
+
+        public MemoryStream CreateOrderCountFile(List<OrderCountByStore> list)
+        {
+            System.IO.MemoryStream output = new System.IO.MemoryStream();
+
+            System.IO.StreamWriter writer = new System.IO.StreamWriter(output, System.Text.Encoding.UTF8);
+
+                writer.Write("序号,小店编号,小店名称,小店地址,客户类型,业务员,订单总数,订单总金额,应付总金额,实收总金额,联系方式,区域");//输出标题，逗号分割（注意最后一列不加逗号）
+
+                writer.WriteLine();
+            //输出内容
+            int num = 0;
+                foreach (var item in list)
+                {
+                num++;
+                    writer.Write(num + ",");//第一列
+                    writer.Write(item.StoreNum + ",");//第一列
+                    writer.Write(item.StoreName + ",");//第一列
+                    writer.Write(item.Addr+ ",");//第一列
+                    writer.Write(item.UserType + ",");//第一列
+                    writer.Write(item.SaleMan + ",");//第一列
+                    writer.Write(item.OrderCount + ",");//第一列
+                    writer.Write(item.TotalMoeny + ",");//第一列
+                    writer.Write(item.TotalPayMoney + ",");//第一列
+                    writer.Write(item.TotalRealMoney + ",");//第一列
+                    writer.Write(item.Tel + ",");//第一列
+                    writer.Write(item.Areas + ",");//第一列
+
+                    writer.WriteLine();
+                }
+            writer.Flush();
+
+            output.Position = 0;
+
+            //return File(output, "text/comma-separated-values", "demo1.csv");
+            return output;
+
+        }
         /// <summary>
         /// 获取异常类型
         /// </summary>
@@ -666,9 +705,12 @@ namespace BLL
                 model.StoreName = item.SotreName;
                 model.StoreNum = item.UserNum;
                 model.Tel = item.Tel;
+                model.UserType = item.TypeName;
+                model.SaleMan = item.SaleManName;
                 model.TotalMoeny = orderList.Sum(x => x.TotalMoney);
                 model.TotalPayMoney = orderList.Sum(x => x.PayMoney);
                 model.TotalRealMoney = orderList.Sum(x => x.RealMoney);
+                model.Areas = item.Province + item.City + item.Area;
                 list.Add(model);
 
             }

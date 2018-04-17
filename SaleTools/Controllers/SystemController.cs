@@ -14,6 +14,7 @@ namespace SaleTools.Controllers
     {
         SystemManager _system = new SystemManager();
         private UserManager manager = new UserManager();
+        private GoodsManager _goods = new GoodsManager();
 
         // GET: System
         public ActionResult SendGoodsfoot()
@@ -128,6 +129,26 @@ namespace SaleTools.Controllers
 
             return Utils.SerializeObject(res);
         }
-       
+
+
+        public ActionResult SetHomePageType()
+        {
+            var topTypes = _goods.GetDownGoodsType(Guid.Empty, ViewBag.ManagerId);
+            ViewBag.List = topTypes;
+            return View();
+        }
+
+        public string SetSortId(Guid typeId, int sortId)
+        {
+            var res = _goods.SetSortId(typeId, sortId);
+            return Utils.SerializeObject(res);
+        }
+        public string SetIsFirst(Guid typeId, bool isF)
+        {
+            var res = _goods.SetIsFirstPage(typeId, isF);
+            return Utils.SerializeObject(res);
+        }
+
+
     }
 }

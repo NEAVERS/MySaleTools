@@ -280,6 +280,8 @@ namespace BLL
         {
             var couponList = new List<Coupon>();
             var orderItems = _context.OrderItems.Where(x => x.CreateUserId == userId && x.IsInShoppingCar && !x.IsDelete);
+            if (orderItems == null || orderItems.Count() < 1)
+                return null;
             var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == userId);
             var q = from c in _context.Manjiujians
                     where c.StartTime < DateTime.Now
@@ -416,6 +418,8 @@ namespace BLL
             var couponList = new List<Coupon>();
             var orderItems = _context.OrderItems.Where(x => x.CreateUserId == userId && x.IsInShoppingCar && !x.IsDelete);
             var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == userId);
+            if (orderItems == null || orderItems.Count() < 1)
+                return null;
             var q = from c in _context.Manjiusongs
                     where c.StartTime < DateTime.Now
                     && c.EndTime > DateTime.Now

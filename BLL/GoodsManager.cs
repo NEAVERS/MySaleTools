@@ -25,6 +25,23 @@ namespace BLL
             var q = _context.GoodsTypes.Where(x => x.ParentId == parentId&&x.CreateUserId == createUserId&&!x.IsDelete);
             return q.ToList();
         }
+
+        public bool SetIsFirstPage(Guid id,bool isF)
+        {
+            var model = _context.GoodsTypes.FirstOrDefault(x => x.Id == id);
+            if (model != null)
+                model.IsShowFirstPage = isF;
+            return _context.SaveChanges()>0;
+        }
+
+        public bool SetSortId(Guid id, int sortid)
+        {
+            var model = _context.GoodsTypes.FirstOrDefault(x => x.Id == id);
+            if (model != null)
+                model.SortId = sortid;
+            return _context.SaveChanges() > 0;
+        }
+
         /// <summary>
         /// 添加商品类型
         /// </summary>
@@ -265,7 +282,7 @@ namespace BLL
 
         public List<GoddsTypeTree> GetGoddsTypeTree(Guid createUserId)
         {
-            var top = _context.GoodsTypes.Where(x => x.CreateUserId == createUserId&&x.ParentId == Guid.Empty).ToList();
+            var top = _context.GoodsTypes.Where(x => x.CreateUserId == createUserId&&x.ParentId == Guid.Empty&&x.IsShowFirstPage).OrderByDescending(x=>x.SortId).ToList();
             var list = new List<GoddsTypeTree>();
             foreach(var item in top)
             {

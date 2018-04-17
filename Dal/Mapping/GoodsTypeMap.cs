@@ -21,8 +21,9 @@ namespace Dal.Mapping
             this.Property(t => t.IsDelete).HasColumnName("IsDelete");
             this.Property(t => t.CreateUserId).HasColumnName("CreateUserId");
             this.Property(t => t.CreateUserName).HasColumnName("CreateUserName");
+            this.Property(t => t.IsShowFirstPage).HasColumnName("IsShowFirstPage");
 
-
+            
         }
 
     }
