@@ -262,6 +262,14 @@ namespace BLL
 
     }
 
+        public Coupon GetCouponById(Guid couponId)
+        {
+            return _context.Coupons.FirstOrDefault(x => x.Id == couponId && !x.IsUsed);
+        }
+
+
+        
+
     /// <summary>
     /// 检查是否有可用的满减活动
     /// </summary>

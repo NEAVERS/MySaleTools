@@ -536,12 +536,22 @@ namespace SaleTools.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 用户取消订单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
         public string UserCancelOrder(Guid orderId)
         {
             var response = _order.UserCancelOrder(orderId);
             return Utils.SerializeObject(response);
         }
-
+        /// <summary>
+        /// 审核取消订单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="isAgree"></param>
+        /// <returns></returns>
         public string OrderCheck(Guid orderId,bool isAgree)
         {
             var res = _order.CheckCancel(orderId, isAgree);

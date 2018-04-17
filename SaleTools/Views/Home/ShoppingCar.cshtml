@@ -245,10 +245,7 @@
         $(".number").html(List.length);
     }
     $(document).on("click", "#J_GoConfirmBtn", function () {
-        $.post("/Home/CreateOrder", {}, function (e) {
-            if (e)
-                location.href = "/Home/ShoppingCar";
-        }, "json")
+        location.href = "/Home/ConfirmOrder";
     });
 
 </script> 

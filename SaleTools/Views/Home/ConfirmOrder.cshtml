@@ -90,29 +90,53 @@
                         <div class="list">
                             <!-- 正常购买商品 -->
                             @foreach (var item in list)
-                            {
-                                totalPrice += item.TotalPrice;
-                            <div class="order">
-                                <div class="cell thinfo clearfix">
-                                    <a href="javascript:;" class="pic"><img src="@item.Pic"></a>
-                                    <div class="info">
-                                        <a href="javascript:;">@item.ProductTittle</a>
-                                        <span></span>
-                                    </div>
-                                </div>
-                                <div class="cell thprice">
-                                    <span>@item.Price</span>
-                                </div>
-                                <div class="cell thquantity">
-                                    <span>@item.Count</span>
-                                </div>
-                                <div class="cell thpromotion">
-                                </div>
-                                <div class="cell thtotal">
-                                    <span>@item.TotalPrice</span>
+    {
+        totalPrice += item.TotalPrice;
+                        <div class="order">
+                            <div class="cell thinfo clearfix">
+                                <a href="javascript:;" class="pic"><img src="@item.Pic"></a>
+                                <div class="info">
+                                    <a href="javascript:;">@item.ProductTittle</a>
+                                    <span></span>
                                 </div>
                             </div>
-                            }
+                            <div class="cell thprice">
+                                <span>@item.Price</span>
+                            </div>
+                            <div class="cell thquantity">
+                                <span>@item.Count</span>
+                            </div>
+                            <div class="cell thpromotion">
+                            </div>
+                            <div class="cell thtotal">
+                                <span>@item.TotalPrice</span>
+                            </div>
+                        </div>
+}
+                            @if (ms != null)
+    {
+                        <div class="order">
+                            <div class="cell thinfo clearfix">
+                                <a href="javascript:;" class="pic"><img src="@ms.Tittle"></a>
+                                <div class="info">
+                                    <a href="javascript:;">@ms.SendGoodName</a>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="cell thprice">
+                                <span>0</span>
+                            </div>
+                            <div class="cell thquantity">
+                                <span>@ms.SendGoodCount</span>
+                            </div>
+                            <div class="cell thpromotion">
+                            </div>
+                            <div class="cell thtotal">
+                                <span>0</span>
+                            </div>
+                        </div>
+
+}
                         </div>
                     </div>
                 </div>
@@ -142,11 +166,17 @@
                                 <!-- 可用优惠券 -->
                                 <div class="coupon-enable">
                                     <ul>
-                                        @foreach(var coupon in coupons)
+                                        @foreach (var coupon in coupons)
+    {
+                                    <li>
+                                        <input type="radio" name="coupons" lessMoney="@coupon.LessMoney" value="@coupon.Id" />@(((CouponType)coupon.CouponType).ToString() + ":满" + coupon.Limit + "减" + coupon.LessMoney)
+                                    </li>
+}   
+                                        @if (coupons.Count > 0)
                                         {
-                                            <li>
-                                                <input  type="radio" name="coupons" lessMoney="@coupon.LessMoney" value="@coupon.Id"/>@(((CouponType)coupon.CouponType).ToString()+":满"+coupon.Limit +"减"+coupon.LessMoney)
-                                            </li>
+                                        <li>
+                                            <input type="radio" name="coupons" lessMoney="0" value="" />不使用优惠券
+                                        </li>
                                         }
                                     </ul>
                                 </div>
@@ -170,7 +200,13 @@
                     </div>
                     <div class="summary-item">
                         <span>满就减：</span>
+                        @if (mj != null)
+                        {
+                            totalPrice -= mj.LessMoeny;
+                            <em>-￥@mj.LessMoeny</em>
+                        }
                         <em>-￥0.00</em>
+
                     </div>
                     <div class="summary-item">
                         <span>优惠券：</span>
@@ -226,4 +262,13 @@
         var real = parseFloat(total) - parseFloat(less);
         $("#realMoney").html("￥" + real);
     });
+
+
+    function ConfirmOrder() {
+        var remark = $("#JRemarkInput").val();
+        var couponId = $("#couponId").val();
+        $.post("/Home/CreateOrder", { remark: remark, couponId: couponId }, function (e) {
+
+        }, "json");
+    }
 </script>

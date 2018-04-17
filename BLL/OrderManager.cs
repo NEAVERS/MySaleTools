@@ -66,19 +66,17 @@ namespace BLL
                        && c.IsEffective
                        select c;
             decimal totalPrice = 0;
-            decimal realPrice = 0;
             foreach (var item in list)
             {
                 item.OrderId = order.Id;
                 item.OrderNum = order.OrderNum;
                 item.IsInShoppingCar = false;
                 totalPrice += item.TotalPrice;
-                realPrice += item.TotalPrice - item.LessPrice;
             }
 
             order.TotalMoney = totalPrice;
-            order.RealMoney = realPrice;
-            order.Stutas = 1;
+            order.RealMoney = totalPrice - order.LessMoney;
+            order.Stutas = (int)OrderStatus.等待商家发货;
             _context.OrderInfoes.Add(order);
             return _context.SaveChanges() > 0;
         }

@@ -133,7 +133,7 @@ namespace SaleTools.Controllers
             }
             else
             {
-                var model = _manager.GetGoodsWithPrice(goodId, 1);
+                var model = _manager.GetGoodsWithPrice(goodId, loginUser.TypeId);
                 OrderItem item = new OrderItem();
                 item.Count = count;
                 item.CreateUserId = loginUser.UserId;
@@ -214,7 +214,7 @@ namespace SaleTools.Controllers
         }
 
 
-        public void CreateOrder()
+        public void CreateOrder(string remark = "", string couponId = "")
         {
             var loginUser = (UserInfo)ViewBag.User;
             var order = new OrderInfo();
@@ -241,7 +241,54 @@ namespace SaleTools.Controllers
             order.AreaNum = loginUser.AreaNum;
             order.Stutas = (int)Common.Entities.OrderStatus.等待商家发货;
             order.SaleManTel = saleMan.Tel;
-            var res = _order.SaveOrder(order);
+            order.PayType = "货到付款";
+            order.Remark = remark;
+
+            Guid Cid = new Guid();
+            
+            if(Guid.TryParse(couponId, out Cid))
+            {
+                Coupon c = _active.GetCouponById(Cid);
+                if(c!=null)
+                {
+                    order.LessMoney += c.LessMoney;
+                    _active.SetCouponUse(Cid, order.Id);
+                }
+            }
+
+            Manjiujian mj = _active.CheckManjiujian(loginUser.UserId, ViewBag.ManagerId);
+            Manjiusong ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
+            if(mj!=null)
+            {
+                order.LessMoney = mj.LessMoeny;
+            }
+            if (ms != null)
+            {
+                var model = _manager.GetGoodsWithPrice(ms.SendGoodId, loginUser.TypeId);
+                OrderItem item = new OrderItem();
+                item.Count = ms.SendGoodCount;
+                item.CreateUserId = loginUser.UserId;
+                item.Id = Guid.NewGuid();
+                item.LessPrice = 0;
+                item.Price = model.price.Price;
+                item.RealPrice = 0;
+                item.ProductId = model.info.Id;
+                item.ProductTittle = model.info.GoodsTittle;
+                item.TotalPrice = 0;
+                item.ProductType = model.info.FirstTypeName;
+                item.ProductTypeId = model.info.FirstTypeId;
+                item.ProductId = model.info.Id;
+                item.BarCode = model.info.BarCode;
+                item.Spec = model.info.Spec;
+                item.Unit = model.info.Unit;
+                item.SupplierId = model.info.SupplierId;
+                item.SupplierName = model.info.SupplierName;
+                item.BrandId = model.info.BrandId;
+                item.Brand = model.info.BrandName;
+                var res = _order.AddOrderItem(item);
+            }
+
+            var ress = _order.SaveOrder(order);
             
         }
 
