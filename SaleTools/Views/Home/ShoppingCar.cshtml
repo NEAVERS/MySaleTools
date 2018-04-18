@@ -248,7 +248,7 @@
     }
     $(document).on("click", "#J_GoConfirmBtn", function () {
         var count = $("#totalCount").val();
-        if (count > 1) {
+        if (count >= 1) {
             location.href = "/Home/ConfirmOrder";
         }
         else {

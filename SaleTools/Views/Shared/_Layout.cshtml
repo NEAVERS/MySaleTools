@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
     <link rel="stylesheet" type="text/css" href="/Content/css/base.css">
     @*<link rel="stylesheet" type="text/css" href="/Content/css/bootstrap.min.css">*@
-    <link rel="stylesheet" type="text/css" href="/Content/css/pages/ucenter.css">
+    @*<link rel="stylesheet" type="text/css" href="/Content/css/pages/ucenter.css">*@
     <link rel="stylesheet" type="text/css" href="/Content/css/pages/buyer/overlay/overlay.css">
     <link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/need/laydate.css">
     <link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
@@ -156,7 +156,7 @@
         }
 
         input[type=file] {
-            display: inline-block;
+            display: inline-block !important;
         }
 
         #seller_id {
@@ -216,29 +216,6 @@
 
 <body>
     <!-- 全局顶部导航 -->
-    <div class="topbar" id="topbar" style="width: 1200px;">
-        <div class="pace"></div>
-        <div class="module clearfix">
-            <div class="lfloat">
-                <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
-                <span class="hello">您好，</span>
-                <span class="username">57700000</span>
-                <span>，欢迎来到温州批发平台 </span>
-            </div>
-            <div class="rfloat">
-                <ul class="clearfix">
-                    <li style="margin-right:10px;"><a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">快递代收</a></li>
-                    <li><a href="http://pifa.yunmayi.com/">批发首页</a></li>
-                    <li><a href="http://pifa.yunmayi.com/index/ucenter">会员中心</a></li>
-                    <li><a href="http://pifa.yunmayi.com/cashier/application">当面付申请</a></li>
-                    <li><a href="http://pifa.yunmayi.com/product/collect" class="">收藏中心</a></li>
-                    <li><a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">帮助中心</a></li>
-                    <li><a href="http://pifa.yunmayi.com/cart1">购物车</a></li>
-                    <li><a href="http://passport.pifa.yunmayi.com/logout">退出</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
     <script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
     <script>
         (function ($) {
@@ -428,6 +405,30 @@
         }
     </script>
     <div id="wraper">
+        <div class="topbar" id="topbar" style="width: 100%;    margin: 0 auto;">
+            <div class="pace"></div>
+            <div class="module clearfix">
+                <div class="lfloat">
+                    <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                    <span class="hello">您好，</span>
+                    <span class="username">57700000</span>
+                    <span>，欢迎来到温州批发平台 </span>
+                </div>
+                <div class="rfloat">
+                    <ul class="clearfix">
+                        <li style="margin-right:10px;"><a style="color: #e62d2d;" href="http://dd.v2.yunmayi.com/seller/express/arrivalsMail" onclick="alert('请先开通该服务');return false;">快递代收</a></li>
+                        <li><a href="http://pifa.yunmayi.com/">批发首页</a></li>
+                        <li><a href="http://pifa.yunmayi.com/index/ucenter">会员中心</a></li>
+                        <li><a href="http://pifa.yunmayi.com/cashier/application">当面付申请</a></li>
+                        <li><a href="http://pifa.yunmayi.com/product/collect" class="">收藏中心</a></li>
+                        <li><a href="http://pifa.yunmayi.com/notice/help" class="highlight" target="_blank">帮助中心</a></li>
+                        <li><a href="http://pifa.yunmayi.com/cart1">购物车</a></li>
+                        <li><a href="http://passport.pifa.yunmayi.com/logout">退出</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <div id="main">
             <div class="module">
                 <div class="ucenter">

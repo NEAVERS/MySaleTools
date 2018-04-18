@@ -25,7 +25,6 @@
 
             <div class="col_main_content">
                 <div class="search_bar">
-                    <form action="http://agent.pifa.yunmayi.com/product" method="GET">
                         <ul class="search_item_list">
                             <li class="search_item">
                                 <label>
@@ -33,7 +32,7 @@
                                 </label>
                                 <div class="item  item_li">
                                     <div id="seller_id" class="selectpicker" data-clear="true" data-live="true">
-                                        <a href="#" class="clear" style="padding-top: 8px;">
+                                        <a href="#" class="clear" style="top:-5px !important;">
                                             <span class="cancel">
                                                 ❌
                                             </span>
@@ -128,7 +127,7 @@
                                 </label>
                                 <div class="item">
                                     <div class="wgt_category_select" id="J_CategorySelector" data-fid="0" data-sid="0" data-tid="0">
-                                        <div class="wgt_category_select_hd">
+                                        <div class="wgt_category_select_hd" style="display: none;">
                                             <div class="wgt_category_title">
                                                 请选择类目
                                             </div>
@@ -150,28 +149,6 @@
                                             </div>
                                             <div class="wgt_category_select_contents">
                                                 <div class="wgt_category_select_content wgt_category_select_content_show">
-                                                    <dl>
-                                                        <dd class="clearfix">
-                                                            <a href="javascript:;" data-id="1002">
-                                                                日用洗护
-                                                            </a>
-                                                            <a href="javascript:;" data-id="1030">
-                                                                食品零食
-                                                            </a>
-                                                            <a href="javascript:;" data-id="1041">
-                                                                粮油调味
-                                                            </a>
-                                                            <a href="javascript:;" data-id="1051">
-                                                                酒水饮料
-                                                            </a>
-                                                            <a href="javascript:;" data-id="1085">
-                                                                家用百货
-                                                            </a>
-                                                            <a href="javascript:;" data-id="1957">
-                                                                折扣专区
-                                                            </a>
-                                                        </dd>
-                                                    </dl>
                                                 </div>
                                                 <div class="wgt_category_select_content">
                                                     <dl>
@@ -195,40 +172,6 @@
                             </li>
                             <!--隐藏sort排序-->
                             <input type="hidden" name="sort" value="">
-                            <li class="search_item">
-                                <label>
-                                    因价格变动或规格变动的下架商品:
-                                </label>
-                                <input type="checkbox" name="price_change" value="1">
-                            </li>
-                            <li class="search_item">
-                                <label>
-                                    因系统调整下架的商品:
-                                </label>
-                                <input type="checkbox" name="change" value="1">
-                            </li>
-                            <li class="search_item">
-                                <label>
-                                    限购商品:
-                                </label>
-                                <input type="checkbox" name="limit_buy_num" value="1">
-                            </li>
-                            <li class="search_item">
-                                <label>
-                                    是否允许同步：
-                                </label>
-                                <select name="is_allowsynchron">
-                                    <option value="99" selected="">
-                                        全部
-                                    </option>
-                                    <option value="0">
-                                        不允许同步
-                                    </option>
-                                    <option value="1">
-                                        允许同步
-                                    </option>
-                                </select>
-                            </li>
                             <li class="clearfix">
                             </li>
                             <li class="search_item">
@@ -259,7 +202,7 @@
                                 <input type="checkbox" value="1" name="repeat"> 重复商品
                             </li>
                             <li class="search_item">
-                                <button type="submit">
+                                <button type="submit" onclick="LoadList(1)">
                                     搜索
                                 </button>
                             </li>
@@ -276,7 +219,6 @@
                             <li class="clearfix">
                             </li>
                         </ul>
-                    </form>
                     <form method="post" action="http://agent.pifa.yunmayi.com/product/phpexcel" enctype="multipart/form-data">
                         <div style="margin:5px;">
                             商品批量导入：
@@ -382,7 +324,7 @@
     $("#J_CategorySelector").CategorySelector({
         afterThdSelect: function (cid) {
             // 品牌信息
-            LoadList();
+            LoadList(1);
         }
     });
 
@@ -394,7 +336,7 @@
         para.secTypeId = $("input:hidden[name=snd_cat_id]", $("#J_CategorySelector")).val();
         para.thdTypeId = $("input:hidden[name=thd_cat_id]", $("#J_CategorySelector")).val();
         para.keyWord = $("#search_value").val();
-
+        return para;
     }
 
     function LoadList(pageIndex) {
@@ -418,10 +360,10 @@
                     html += '< tr class="product_bd" ><td class="center"><input type="checkbox" name="pass" value="' + this.Id + '"></td>'
                     html += '<td class="product"><a href="" class="lfloat"><img src="' + this.pic1 + '"></a>';
                     html += ' <div class="title"><a href="">' + this.GoodsTittle + '</a></div></td>';
-                    html += '<td class="center">2.30</td>';
-                    html += '<td class="center">2362</td>';
-                    html += '<td class="center">9657</td>';
-                    html += '<td class="center">0</td>';
+                    html += '<td class="center">' + this.BasePrice + '</td>';
+                    html += '<td class="center">-</td>';
+                    html += '<td class="center">-</td>';
+                    html += '<td class="center">-</td>';
                     html += '<td class="center">' + this.LastUpdateTime + '</td>'
                     html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum" data-id="808105" data-num="10" value="10"></td>';
                     html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" data-id="808105" data-sort="341" value="341"></td>';
@@ -488,8 +430,8 @@
         var paraStr = "";
         for (var Key in postData) {
             if (paraStr != "")
-                url = url + '&';
-            url = url + '' + Key + '=' + postData[Key] + '';
+                paraStr = paraStr + '&';
+            paraStr = paraStr + '' + Key + '=' + postData[Key] + '';
         }
         location.href = url + paraStr;
 

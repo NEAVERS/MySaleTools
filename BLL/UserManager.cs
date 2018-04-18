@@ -242,6 +242,14 @@ namespace BLL
             return _context.SaveChanges()>0 ;
         }
 
+        public bool IsExitNum(string num)
+        {
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserNum == num);
+            if (user == null)
+                return false;
+            else return true;
+        }
+
         /// <summary>
         /// 
         /// </summary>

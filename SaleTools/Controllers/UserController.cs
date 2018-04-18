@@ -181,5 +181,11 @@ namespace SaleTools.Controllers
             var result = manager.ChangePwd(loginUser.UserId, oldMd5, newMd5);
             return Utils.SerializeObject(result);
         }
+
+        public string CheckNumIsExit(string num)
+        {
+            var res = manager.IsExitNum(num);
+            return Utils.SerializeObject(res);
+        }
     }
 }

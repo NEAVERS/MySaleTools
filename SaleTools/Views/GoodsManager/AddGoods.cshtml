@@ -36,7 +36,9 @@
                             <tbody>
                                 <tr>
                                     <td class="right">
-                                        商品条形码：
+                                        <span class="highlight">
+                                            *
+                                        </span>  商品条形码：
                                     </td>
                                     <td>
                                         <input type="text" class="inputtext" style="width:150px;" name="bar_code" id="J_BarCode" value="@Model.BarCode.Trim()">
@@ -96,7 +98,7 @@
                                     <td>
                                         <!-- category selector -->
                                         <div class="wgt_category_select" id="J_CategorySelector" data-fid="0" data-sid="0" data-tid="0">
-                                            <div class="wgt_category_select_hd">
+                                            <div class="wgt_category_select_hd" style="display:none">
                                                 <div class="wgt_category_title">
                                                     请选择类目
                                                 </div>
@@ -164,7 +166,7 @@
                                     </td>
                                     <td>
                                         <div id="brand_id" class="selectpicker" data-clear="true" data-live="true">
-                                            <a href="#" class="clear" style="padding-top: 8px;">
+                                            <a href="#" class="clear" style="padding-top: 8px;top: -1px !important;">
                                                 <span class="cancel">
                                                     ❌
                                                 </span>
@@ -234,7 +236,7 @@
                                         </span> 参考价：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext" style="width:80px;" name="market_price" id="J_MarketPrice" value="">
+                                        <input type="number" class="inputtext" style="width:80px;" name="market_price" id="J_MarketPrice" value="">
                                     </td>
                                 </tr>
                                 <tr>
@@ -244,7 +246,7 @@
                                         </span> 批发价：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext prices" style="width:80px;" typeId="0" name="sell_price" id="BasePrice" value="@Model.BasePrice">
+                                        <input type="number" class="inputtext prices" style="width:80px;" typeId="0" name="sell_price" id="BasePrice" value="@Model.BasePrice">
                                         <span class="highlight">
                                         </span>
                                         默认客户类型可看
@@ -256,8 +258,8 @@
                                         A类客户销售价：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForA" value="@Model.PriceForA">
-                                        A类客户 客户类型可看
+                                        <input type="number" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForA" value="@Model.PriceForA">
+                                        A类客户可看
                                     </td>
                                 </tr>
 
@@ -266,8 +268,8 @@
                                         B类客户销售价：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForB" value="@Model.PriceForB">
-                                        B类客户 客户类型可看
+                                        <input type="number" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForB" value="@Model.PriceForB">
+                                        B类客户可看
                                     </td>
                                 </tr>
                                 <tr>
@@ -275,8 +277,8 @@
                                         C类客户销售价：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForC" value="@Model.PriceForC">
-                                        C类客户 客户类型可看
+                                        <input type="number" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForC" value="@Model.PriceForC">
+                                        C类客户可看
                                     </td>
                                 </tr>
                                 <tr>
@@ -284,8 +286,8 @@
                                         D类客户销售价：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForD" value="@Model.PriceForD">
-                                        D类客户 客户类型可看
+                                        <input type="number" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForD" value="@Model.PriceForD">
+                                        D类客户可看
                                     </td>
                                 </tr>
                                 <tr>
@@ -293,8 +295,8 @@
                                         蚂蚁连锁销售价：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForLianSuo" value="@Model.PriceForLianSuo">
-                                        蚂蚁连锁客户类型可看
+                                        <input type="number" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForLianSuo" value="@Model.PriceForLianSuo">
+                                        蚂蚁连锁客户可看
                                     </td>
                                 </tr>
 
@@ -306,27 +308,9 @@
                                         </span> 成本价：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext" style="width:80px;" name="cost_price" id="J_CostPrice" value="@Model.CostPrice">
+                                        <input type="number" class="inputtext" style="width:80px;" name="cost_price" id="J_CostPrice" value="@Model.CostPrice">
                                         <span class="highlight">
                                         </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="right">
-                                        <span class="highlight">
-                                            *
-                                        </span> 商品库存：
-                                    </td>
-                                    <td>
-                                        <input type="text" class="inputtext" style="width:80px;" name="stock" id="J_Stock" value="@Model.Stock">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="right">
-                                        锁定库存：
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" value="1" name="is_lock_stock" id="is_lock_stock" @(Model.IsLockStork ? "checked='checked'" : "")>
                                     </td>
                                 </tr>
                                 <tr>
@@ -361,7 +345,7 @@
                                         单位总数：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext" style="width:80px;" name="unit_total" id="J_UnitTotal" value="@Model.BoxSpec.Trim()">
+                                        <input type="number" class="inputtext" style="width:80px;" name="unit_total" id="J_UnitTotal" value="@Model.BoxSpec.Trim()">
                                         <span class="highlight">
                                             （商品单位总数，比如一箱农夫山泉有24瓶，则一箱农夫山泉的单位总数为24）
                                         </span>
@@ -372,7 +356,7 @@
                                         商品重量：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext" style="width:80px;" name="weight" id="weight" value="@Model.Weight"> 克
+                                        <input type="number" class="inputtext" style="width:80px;" name="weight" id="weight" value="@Model.Weight"> 克
                                     </td>
                                 </tr>
                                 <tr>
@@ -396,7 +380,7 @@
                                         最小起批数量：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext" style="width:40px;" name="min_sold_num" id="min_sold_num" value="@Model.MinCount">
+                                        <input type="number" class="inputtext" style="width:40px;" name="min_sold_num" id="min_sold_num" value="@Model.MinCount">
                                     </td>
                                 </tr>
                                 <tr>
@@ -404,16 +388,7 @@
                                         限购数量：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext" style="width:40px;" name="limit_buy_num" id="limit_buy_num" value="@Model.LimitCount">
-                                    </td>
-                                </tr>
-                                <tr style="display: none;">
-                                    <td class="right">
-                                        是否同步：
-                                    </td>
-                                    <td>
-                                        <input type="radio" class="inputtext" name="is_synchro" value="0" checked=""> &nbsp;同步&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input type="radio" class="inputtext" name="is_synchro" value="1"> &nbsp;不同步
+                                        <input type="number" class="inputtext" style="width:40px;" name="limit_buy_num" id="limit_buy_num" value="@Model.LimitCount">
                                     </td>
                                 </tr>
                                 <!-- 商品组图 -->
@@ -431,7 +406,6 @@
                                         <input type="text" class="inputtext" readonly="" name="pic_list[]" style="width:300px;" id="WU_FILE_1" value="@Model.pic1">
                                         <a class="preview-button" onclick="UploadImg(1);" href="javascript:;">上传</a>&nbsp;&nbsp;
                                         <a class="preview-button" onclick="preview(1);" href="javascript:;">预览</a>&nbsp;&nbsp;
-                                        <a class="preview-button" href="javascript:;" onclick="closePreview();">关闭</a>
                                         <div onclick="closePreview();" style="display: none;" id="preview1" class="preview"><img id="@Model.pic1" src="@Model.pic1" alt="预览"></div>
                                     </td>
                                 </tr>
@@ -441,8 +415,7 @@
                                         <input type="text" class="inputtext" readonly="" name="pic_list[]" style="width:300px;" id="WU_FILE_2" value="@Model.pic2">
                                         <a class="preview-button" onclick="UploadImg(2);" href="javascript:;">上传</a>&nbsp;&nbsp;
 
-                                        <a class="preview-button" onclick="preview(1);" href="javascript:;">预览</a>&nbsp;&nbsp;
-                                        <a class="preview-button" href="javascript:;" onclick="closePreview();">关闭</a>
+                                        <a class="preview-button" onclick="preview(2);" href="javascript:;">预览</a>&nbsp;&nbsp;
                                         <div onclick="closePreview();" style="display: none;" id="preview1" class="preview"><img id="@Model.pic2" src="@Model.pic2" alt="预览"></div>
                                     </td>
                                 </tr>
@@ -452,8 +425,7 @@
                                         <input type="text" class="inputtext" readonly="" name="pic_list[]" style="width:300px;" id="WU_FILE_3" value="@Model.pic3">
                                         <a class="preview-button" onclick="UploadImg(3);" href="javascript:;">上传</a>&nbsp;&nbsp;
 
-                                        <a class="preview-button" onclick="preview(1);" href="javascript:;">预览</a>&nbsp;&nbsp;
-                                        <a class="preview-button" href="javascript:;" onclick="closePreview();">关闭</a>
+                                        <a class="preview-button" onclick="preview(3);" href="javascript:;">预览</a>&nbsp;&nbsp;
                                         <div onclick="closePreview();" style="display: none;" id="preview1" class="preview"><img id="@Model.pic3" src="@Model.pic3" alt="预览"></div>
                                     </td>
                                 </tr>
@@ -463,8 +435,7 @@
                                         <input type="text" class="inputtext" readonly="" name="pic_list[]" style="width:300px;" id="WU_FILE_4" value="@Model.pic4">
                                         <a class="preview-button" onclick="UploadImg(4);" href="javascript:;">上传</a>&nbsp;&nbsp;
 
-                                        <a class="preview-button" onclick="preview(1);" href="javascript:;">预览</a>&nbsp;&nbsp;
-                                        <a class="preview-button" href="javascript:;" onclick="closePreview();">关闭</a>
+                                        <a class="preview-button" onclick="preview(4);" href="javascript:;">预览</a>&nbsp;&nbsp;
                                         <div onclick="closePreview();" style="display: none;" id="preview1" class="preview"><img id="@Model.pic4" src="@Model.pic4" alt="预览"></div>
                                     </td>
                                 </tr>
@@ -474,8 +445,7 @@
                                         <input type="text" class="inputtext" readonly="" name="pic_list[]" style="width:300px;" id="WU_FILE_5" value="@Model.pic5">
                                         <a class="preview-button" onclick="UploadImg(5);" href="javascript:;">上传</a>&nbsp;&nbsp;
 
-                                        <a class="preview-button" onclick="preview(1);" href="javascript:;">预览</a>&nbsp;&nbsp;
-                                        <a class="preview-button" href="javascript:;" onclick="closePreview();">关闭</a>
+                                        <a class="preview-button" onclick="preview(5);" href="javascript:;">预览</a>&nbsp;&nbsp;
                                         <div onclick="closePreview();" style="display: none;" id="preview1" class="preview"><img id="@Model.pic5" src="@Model.pic5" alt="预览"></div>
                                     </td>
                                 </tr>
@@ -550,10 +520,14 @@
             </div>
         </div>
     </div>
+
+<div id="imgBox" style="width:800px;height:600px; display:none;">
+    <img id="showImg"  style="width:100%;height:100%;"/>
+</div>
             <input type="hidden" id="goodInfoId" value="@Model.Id" />
-            <input type="hidden" id="FirstTypeId" value="@Model.FirstTypeId" />
-            <input type="hidden" id="SecondTypeId" value="@Model.SecondTypeId" />
-            <input type="hidden" id="ThirdTYypeId" value="@Model.ThirdTYypeId" />
+            <input type="hidden" id="FirstTypeId" value="@(Model.FirstTypeId==Guid.Empty?"":Model.FirstTypeId.ToString())" />
+            <input type="hidden" id="SecondTypeId" value="@(Model.SecondTypeId==Guid.Empty?"":Model.SecondTypeId.ToString())" />
+            <input type="hidden" id="ThirdTYypeId" value="@(Model.ThirdTYypeId==Guid.Empty?"":Model.ThirdTYypeId.ToString())" />
             <script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js">
             </script>
             <script type="text/javascript">
@@ -662,29 +636,66 @@
             <script src="/Scripts/webuploader/webuploader.min.js"></script>
             <script src="~/Scripts/layer/layer.js"></script>
             <script>
-
+                var _n = 0;
                 $(document).on("click", "#save", function () {
+                    if (_n == 1)
+                        return;
+                    var barcode = $("#J_BarCode").val();
+                    if (barcode == "") {
+                        layer.msg("请输入商品条形码", { icon: 2 });
+                        return;
+                    }
+                    var SupplierId =  $("#seller_id").val();
+                    if (SupplierId == "0") {
+                        layer.msg("请选择供应商", { icon: 2 });
+                        return;
+                    }
+                    var ThirdTYypeId = $("input:hidden[name=thd_cat_id]", $("#J_CategorySelector")).val();
+                    if (ThirdTYypeId == "0") {
+                        layer.msg("请选择商品类目", { icon: 2 });
+                        return;
+                    }
+                    var title = $("#J_Title").val();
+                    if (title == "") {
+                        layer.msg("请填写商品标题", { icon: 2 });
+                        return;
+
+                    }
+                    var MarketPrice = $("#J_MarketPrice").val();
+                    if (MarketPrice == "") {
+                        layer.msg("请填写参考价", { icon: 2 });
+                        return;
+                    }
+
+
+                    var BasePrice = $("#BasePrice").val();
+                    if (BasePrice == "") {
+                        layer.msg("请填写批发价", { icon: 2 });
+                        return;
+                    }
+                    _n = 1;
+
                     var obj = {};
                     obj.Id = $("#goodInfoId").val();
                     obj.GoodsNum = $("#J_Number").val();
                     obj.BarCode = $("#J_BarCode").val();
                     obj.MiddleCode = $("#middle_code").val();
-                    obj.BoxCode = $("#box_code").val();
-                    obj.SupplierId = $("#seller_id").val();
+                    obj.BoxCode = barcode;
+                    obj.SupplierId = SupplierId;
                     obj.SupplierNum = $("#seller_id").find("option:selected").attr("data-num");
                     obj.SupplierName = $("#seller_id").find("option:selected").text().trim();
                     obj.FirstTypeId = $("input:hidden[name=fst_cat_id]", $("#J_CategorySelector")).val();
                     obj.FirstTypeName = $("#J_Number").val();
                     obj.SecondTypeId = $("input:hidden[name=snd_cat_id]", $("#J_CategorySelector")).val();
                     obj.SecondTypeName = $("#J_Number").val();
-                    obj.ThirdTYypeId = $("input:hidden[name=thd_cat_id]", $("#J_CategorySelector")).val();
+                    obj.ThirdTYypeId = ThirdTYypeId;
                     obj.ThirdTypeName = $("#J_Number").val();
-                    obj.GoodsTittle = $("#J_Title").val();
+                    obj.GoodsTittle = title;
                     obj.GoodsSubTittle = $("#J_SubTitle").val();
                     obj.BrandId = $("#Mbrand_id").val();
                     obj.BrandName = $("#brand_id").find(".text").text().trim();
                     obj.RetailtPrice = $("#J_Number").val();
-                    obj.MarketPrice = $("#J_MarketPrice").val();
+                    obj.MarketPrice = MarketPrice;
                     obj.CostPrice = $("#J_CostPrice").val();
                     obj.PriceForLianSuo = $("#PriceForLianSuo").val();
                     obj.BasePrice = $("#BasePrice").val();
@@ -692,8 +703,6 @@
                     obj.PriceForB = $("#PriceForB").val();
                     obj.PriceForC = $("#PriceForC").val();
                     obj.PriceForD = $("#PriceForD").val();
-                    obj.Stock = $("#J_Stock").val();
-                    obj.IsLockStork = $("#is_lock_stock").prop("checked");
                     obj.BoxSpec = $("#J_UnitTotal").val();
                     obj.Spec = $("#J_Spec").val();
                     obj.Unit = $("#J_Unit").val();
@@ -712,6 +721,7 @@
                     obj.ErpId = $("#ErpId").val();
                     $.post("/GoodsManager/SaveGoods", { goods: obj }, function (e) {
                         if (e) {
+                            _n = 0;
                             layer.msg("添加成功！", { icon: 1 }, function () {
                                 location.href = '/GoodsManager/GoodsList';
                             });
@@ -719,11 +729,29 @@
                         else {
                             layer.msg("添加失败！请刷新后重试！", { icon: 2 });
                         }
-
                     })
-
-
                 })
+
+
+
+
+                function preview(index) {
+                    var path = $("#WU_FILE_" + index).val();
+                    if (path == "") {
+                        layer.msg("请先上传图片", { icon: 2 })
+                        return;
+                    }
+                    $("#showImg").attr("src", path)
+                    layer.open({
+                        type: 1,
+                        title: false,
+                        closeBtn: 0,
+                        area: ['800x', '600px'],
+                        skin: 'layui-layer-nobg', //没有背景色
+                        shadeClose: true,
+                        content: $('#imgBox')
+                    });
+                }
             </script>
             <script>
 

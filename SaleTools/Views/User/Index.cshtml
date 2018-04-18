@@ -12,25 +12,31 @@
     </h2>
 </div>
 <div class="col_main_bd">
+        <a href="/User/AddNewUser">+新增小店用户</a>
     <div class="inner">
         <div class="col_main_content">
+            <label>区域:</label>
             <select id="province"></select>
             <select id="city"></select>
             <select id="area"></select>
+            <label>业务员:</label>
+
             <select id="saleMan">
-                <option value="-1">请选择业务员</option>
+                <option value="-1">请选择</option>
                 @foreach (var item in saleList)
-        {
-            <option value="@item.UserId">@item.UserName</option>
-}
+                {
+                    <option value="@item.UserId">@item.UserName</option>
+                }
             </select>
+            <label>用户类型:</label>
+
             <select id="userType" class="seller-id">
-                <option value="0">用户类型</option>
+                <option value="0">全部</option>
 
                 @foreach (var item in typeList)
-    {
-            <option value="@item.TypeId">@item.TypeName </option>
-}
+                {
+                    <option value="@item.TypeId">@item.TypeName </option>
+                }
             </select>
 
             <button id="search"> 搜索</button>
