@@ -162,11 +162,9 @@ namespace SaleTools.Controllers
         {
             Guid goodId = Utils.ParseGuid(id);
             var info = new GoodInfo();
-            var pirceList = new List<PriceOfUserType>();
 
             if (goodId != Guid.Empty)
             {
-                pirceList = _manager.GetPriceOfUserTypeByGoodsId(goodId);
                 info = _manager.GetGoodInfoById(goodId);
             }
             var loginUser = (UserInfo)Session["LoginUser"];
@@ -174,7 +172,6 @@ namespace SaleTools.Controllers
             var supplierList = _user.GetSupplierList(loginUser.UserId);
             ViewBag.SupplierList = supplierList;
             ViewBag.UserTypeList = list;
-            ViewBag.PriceList = pirceList;
             return View(info);
         }
 
@@ -208,26 +205,6 @@ namespace SaleTools.Controllers
                 goods.CreateTime = DateTime.Now;
             }
             res = _manager.UpdateGoodsInfo(goods);
-            if (res)
-            {
-                List<PriceOfUserType> priceList = new List<PriceOfUserType>();
-                price.ForEach(x =>
-                {
-                    var a = x.Split(',');
-                    int typeId = Utils.ParseInt(a[0]);
-                    decimal _price = Utils.ParseDecimal(a[1]);
-                    if (_price > 0)
-                    {
-                        var model = new PriceOfUserType();
-                        model.CreateTime = DateTime.Now;
-                        model.Price = _price;
-                        model.GoodsId = goods.Id;
-                        model.UserTypeId = typeId;
-                        priceList.Add(model);
-                    }
-                });
-                res = _manager.SavePrice(priceList);
-            }
 
             return res.ToString();
         }
@@ -261,13 +238,17 @@ namespace SaleTools.Controllers
         public string GetGoodsList(int index,int size,string SupplierId = "",string fstTypeId = "",string secTypeId="",string thdTypeId = "",string keyWord="")
         {
             var loginUser = (UserInfo)Session["LoginUser"];
-            Guid userId = loginUser.CreateUserId;
-            if(ViewBag.IsAdmin)
-            {
-                userId = loginUser.UserId;
-            }
-            var page = _manager.GetGoodsList(userId, loginUser.TypeId, index, size, SupplierId, fstTypeId, secTypeId, thdTypeId, "",keyWord);
+            var page = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, index, size, SupplierId, fstTypeId, secTypeId, thdTypeId, "",keyWord);
             return Utils.SerializeObject(page);
+        }
+
+
+        public ActionResult ExportGoodInfo(string SupplierId = "", string fstTypeId = "", string secTypeId = "", string thdTypeId = "", string keyWord = "")
+        {
+            var loginUser = (UserInfo)Session["LoginUser"];
+            PageData<GoodInfo> page = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 100000, SupplierId, fstTypeId, secTypeId, thdTypeId, "", keyWord);
+            var output = _manager.ExportGoodInfo(page.ListData);
+            return File(output, "text/comma-separated-values", Guid.NewGuid().ToString("N")+".csv");
         }
         /// <summary>
         /// 删除商品

@@ -60,6 +60,14 @@ namespace Dal.Mapping
             this.Property(t => t.IsUpShelves).HasColumnName("IsUpShelves");
             this.Property(t => t.SortId).HasColumnName("SortId");
 
+            this.Property(t => t.BasePrice).HasColumnName("BasePrice");
+            this.Property(t => t.PriceForA).HasColumnName("PriceForA");
+            this.Property(t => t.PriceForB).HasColumnName("PriceForB");
+            this.Property(t => t.PriceForC).HasColumnName("PriceForC");
+            this.Property(t => t.PriceForD).HasColumnName("PriceForD");
+            this.Property(t => t.PriceForLianSuo).HasColumnName("PriceForLianSuo");
+
+
         }
     }
 }

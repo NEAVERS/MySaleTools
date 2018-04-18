@@ -14,6 +14,17 @@ namespace Common.Entities
         送货员 = -3
     }
 
+
+    public enum StoreUserType
+    {
+        默认用户= 1,
+        A类客户,
+        B类客户,
+        C类客户,
+        D类客户,
+        蚂蚁连锁,
+    }
+
     public enum OrderStatus
     {
         等待商家发货 =1,

@@ -5,7 +5,6 @@
     ViewBag.Title = Model.GoodsTittle;
     var SupplierList = (List<Supplier>)ViewBag.SupplierList;
     var UserTypeList = (List<UserType>)ViewBag.UserTypeList;
-    var PriceList = (List<PriceOfUserType>)ViewBag.PriceList;
 }
 @model GoodInfo
 <link rel="stylesheet" type="text/css" href="/Content/css/bootstrap.min.css">
@@ -242,34 +241,62 @@
                                     <td class="right">
                                         <span class="highlight">
                                             *
-                                        </span> 销售价：
+                                        </span> 批发价：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext prices" style="width:80px;" typeId="0" name="sell_price" id="J_SellPrice" value="">
+                                        <input type="text" class="inputtext prices" style="width:80px;" typeId="0" name="sell_price" id="BasePrice" value="@Model.BasePrice">
                                         <span class="highlight">
                                         </span>
                                         默认客户类型可看
                                     </td>
                                 </tr>
-                                @foreach (var item in UserTypeList)
-    {
-        decimal value = 0;
-        var pirceItem = PriceList.FirstOrDefault(x => x.UserTypeId == item.TypeId);
-        if (pirceItem != null)
-        {
-            value = pirceItem.Price;
-        }
-                            <tr>
-                                <td class="right">
-                                    @item.TypeName 销售价：
-                                </td>
-                                <td>
-                                    <input type="text" class="inputtext prices" style="width:80px;" typeId="@item.TypeId" name="sell_price_a" value="@value">
-                                    @item.TypeName 客户类型可看
-                                </td>
-                            </tr>
 
-}
+                                <tr>
+                                    <td class="right">
+                                        A类客户销售价：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForA" value="@Model.PriceForA">
+                                        A类客户 客户类型可看
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="right">
+                                        B类客户销售价：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForB" value="@Model.PriceForB">
+                                        B类客户 客户类型可看
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        C类客户销售价：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForC" value="@Model.PriceForC">
+                                        C类客户 客户类型可看
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        D类客户销售价：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForD" value="@Model.PriceForD">
+                                        D类客户 客户类型可看
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right">
+                                        蚂蚁连锁销售价：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForLianSuo" value="@Model.PriceForLianSuo">
+                                        蚂蚁连锁客户类型可看
+                                    </td>
+                                </tr>
 
 
                                 <tr>
@@ -659,6 +686,12 @@
                     obj.RetailtPrice = $("#J_Number").val();
                     obj.MarketPrice = $("#J_MarketPrice").val();
                     obj.CostPrice = $("#J_CostPrice").val();
+                    obj.PriceForLianSuo = $("#PriceForLianSuo").val();
+                    obj.BasePrice = $("#BasePrice").val();
+                    obj.PriceForA = $("#PriceForA").val();
+                    obj.PriceForB = $("#PriceForB").val();
+                    obj.PriceForC = $("#PriceForC").val();
+                    obj.PriceForD = $("#PriceForD").val();
                     obj.Stock = $("#J_Stock").val();
                     obj.IsLockStork = $("#is_lock_stock").prop("checked");
                     obj.BoxSpec = $("#J_UnitTotal").val();
@@ -677,11 +710,7 @@
                     obj.KeyWord = $("#J_Keyword").val();
                     obj.Detail = $("#content").val();
                     obj.ErpId = $("#ErpId").val();
-                    var price = [];
-                    $(".prices").each(function () {
-                        price.push($(this).attr("typeid") + "," + $(this).val());
-                    })
-                    $.post("/GoodsManager/SaveGoods", { goods: obj, price: price }, function (e) {
+                    $.post("/GoodsManager/SaveGoods", { goods: obj }, function (e) {
                         if (e) {
                             layer.msg("添加成功！", { icon: 1 }, function () {
                                 location.href = '/GoodsManager/GoodsList';

@@ -3,6 +3,7 @@ using Dal;
 using Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -143,15 +144,10 @@ namespace BLL
             return _context.SaveChanges() > 0;
         }
 
-        public List<PriceOfUserType> GetPriceOfUserTypeByGoodsId(Guid goodsId)
-        {
-            var q = _context.PriceOfUserTypes.Where(x => x.GoodsId == goodsId);
-            return q.ToList();
-        }
 
-        public PageData<GoodsWithPrice> GetGoodsList(Guid CreaetUserId, int userTypeId , int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId,string brandId,  string keyWord)
+        public PageData<GoodInfo> GetGoodsList(Guid CreaetUserId ,int userType, int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId,string brandId,  string keyWord)
         {
-            PageData<GoodsWithPrice> page = new PageData<GoodsWithPrice>();
+            PageData<GoodInfo> page = new PageData<GoodInfo>();
             page.PageIndex = index;
             page.PageSize = size;
             var q = from c in _context.GoodInfoes
@@ -171,18 +167,16 @@ namespace BLL
                 q = q.Where(x => x.BrandId.ToString() == brandId);
             page.TotalCount = q.Count();
 
+
             q = q.OrderByDescending(x => x.SortId).ThenBy(x=>x.CreateTime);
             var list = q.Skip((index - 1) * size).Take(size).ToList();
-            var listData = new List<GoodsWithPrice>();
+
             list.ForEach(x =>
             {
-                GoodsWithPrice item = new GoodsWithPrice();
-                item.info = x;
-                item.price = GetPriceOfUserType(x.Id, userTypeId);
-                listData.Add(item);
+                x.RetailtPrice = GetPriceOfUserType(x, userType); ;
             });
-            page.ListData = listData;
-            return page;
+            page.ListData = list;
+            return  page;
         }
 
         /// <summary>
@@ -265,6 +259,12 @@ namespace BLL
                 obj.ShelfLife = newInfo.ShelfLife;
                 obj.MinCount = newInfo.MinCount;
                 obj.LimitCount = newInfo.LimitCount;
+                obj.BasePrice = newInfo.BasePrice;
+                obj.PriceForA = newInfo.PriceForA;
+                obj.PriceForB = newInfo.PriceForB;
+                obj.PriceForC = newInfo.PriceForC;
+                obj.PriceForD = newInfo.PriceForD;
+                obj.PriceForLianSuo = newInfo.PriceForLianSuo;
                 obj.pic1 = newInfo.pic1;
                 obj.pic2 = newInfo.pic2;
                 obj.pic3 = newInfo.pic3;
@@ -303,24 +303,102 @@ namespace BLL
             return _context.GoodsTypes.FirstOrDefault(x => x.Id.ToString() == typeId);
         }
 
-
-        public PriceOfUserType GetPriceOfUserType(Guid goodsId, int typeId)
+        /// <summary>
+        /// 获取指定用户类型的价格
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="typeId"></param>
+        /// <returns></returns>
+        public decimal GetPriceOfUserType(GoodInfo x, int typeId)
         {
-            var model = _context.PriceOfUserTypes.FirstOrDefault(x => x.GoodsId == goodsId && x.UserTypeId == typeId);
-            if(model==null)
+            decimal price = 0;
+            switch (typeId)
             {
-                model = _context.PriceOfUserTypes.FirstOrDefault(x => x.GoodsId == goodsId && x.UserTypeId == 0);
+                case 1:
+                    price = x.BasePrice;
+                    break;
+                case 2:
+                    price = x.PriceForA;
+                    break;
+                case 3:
+                    price = x.PriceForB;
+                    break;
+                case 4:
+                    price = x.PriceForC;
+                    break;
+                case 5:
+                    price = x.PriceForD;
+                    break;
+                case 6:
+                    price = x.PriceForLianSuo;
+                    break;
             }
+            if (price == 0)
+                price = x.BasePrice;
+            
+            return price;
+        }
+
+
+        public GoodInfo GetGoodsWithPrice(Guid goodsId,int typeId)
+        {
+            GoodInfo model = new GoodInfo();
+            model = GetGoodInfoById(goodsId);
+            model.RetailtPrice = GetPriceOfUserType(model, typeId);
             return model;
         }
 
 
-        public GoodsWithPrice GetGoodsWithPrice(Guid goodsId,int typeId)
+        public MemoryStream ExportGoodInfo(List<GoodInfo> list)
         {
-            GoodsWithPrice model = new GoodsWithPrice();
-            model.info = GetGoodInfoById(goodsId);
-            model.price = GetPriceOfUserType(goodsId, typeId);
-            return model;
+            MemoryStream output = new System.IO.MemoryStream();
+
+            StreamWriter writer = new System.IO.StreamWriter(output, System.Text.Encoding.UTF8);
+
+            writer.Write("供应商名,商品条码,大类,商品id,商品父级ID,商品名称,批发价,销量,A类销售价,B类销售价,C类销售价,D类销售价,E类销售价,成本价,商品规格信息,起批单位,单位总数,商品保质期,状态,最小起批数量,品牌,排序,关键字,限购数量,限购开始时间,限购结束时间,有无主图,客户类型,是否锁定,最小零售单位,建议零售价");//输出标题，逗号分割（注意最后一列不加逗号）
+
+            writer.WriteLine();
+            //输出内容
+            foreach (var item in list)
+            {
+                writer.Write(item.SupplierName + ",");//第一列
+                writer.Write(item.BarCode + ",");//第一列
+                writer.Write(item.FirstTypeName + ",");//第一列
+                writer.Write(item.ErpId + ",");//第一列
+                writer.Write( "0,");//第一列
+                writer.Write(item.GoodsTittle + ",");//第一列
+                writer.Write(item.BasePrice + ",");//第一列
+                writer.Write(item.PriceForA + ",");//第一列
+                writer.Write(item.PriceForB+ ",");//第一列
+                writer.Write(item.PriceForC + ",");//第一列
+                writer.Write(item.PriceForD + ",");//第一列
+                writer.Write(item.PriceForLianSuo + ",");//第一列
+                writer.Write(item.CostPrice + ",");//第一列
+                writer.Write(item.Spec + ",");//第一列
+                writer.Write(item.Unit + ",");//第一列
+                writer.Write(item.MinCount + ",");//第一列
+                writer.Write(item.ShelfLife + ",");//第一列
+                writer.Write(item.IsUpShelves?"上架":"下架"+ ",");//第一列
+                writer.Write(item.MinCount + ",");//第一列
+                writer.Write(item.BrandName + ",");//第一列
+                writer.Write(item.SortId + ",");//第一列
+                writer.Write(item.KeyWord + ",");//第一列
+                writer.Write(item.LimitCount + ",");//第一列
+                writer.Write("" + ",");//第一列
+                writer.Write( ",");//第一列
+                writer.Write(string.IsNullOrWhiteSpace(item.pic1)?"无":"有" + ",");//第一列
+                writer.Write("ABCDZ");//第一列
+                writer.Write(item.IsLockStork?"是":"否" + ",");//第一列
+                writer.Write( ",");//第一列
+                writer.Write(item.RetailtPrice + ",");//第一列
+                writer.WriteLine();
+            }
+            writer.Flush();
+
+            output.Position = 0;
+            return output;
+
+
         }
     }
 }

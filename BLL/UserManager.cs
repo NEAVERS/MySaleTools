@@ -1,4 +1,6 @@
-﻿using Dal;
+﻿using Common;
+using Common.Entities;
+using Dal;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -205,36 +207,12 @@ namespace BLL
         /// <returns></returns>
         public List<UserType> GetTypeList(bool isAdmin =false)
         {
-            var q = _context.UserTypes.Where(x=>x.IsAdmin == isAdmin||isAdmin).ToList();
-            return q;
+            var list = Utils.GetUserTypes();
+            return list;
         }
 
-
-        /// <summary>
-        /// 添加用户类型
-        /// </summary>
-        /// <param name="userType"></param>
-        /// <param name="isAdmin"></param>
-        /// <returns></returns>
-        public string AddUserType(string userType,bool isAdmin)
-        {
-            var q = _context.UserTypes.FirstOrDefault(x => x.TypeName == userType);
-            if (q != null)
-                return "该类型已经存在";
-            UserType type = new UserType();
-            type.TypeName = userType;
-            type.IsAdmin = isAdmin;
-            _context.UserTypes.Add(type);
-            if (_context.SaveChanges() > 0)
-                return "添加成功！";
-            return "添加失败";
-        }
-
-        public UserType GetUserType(int typeId)
-        {
-            var model = _context.UserTypes.FirstOrDefault(x => x.TypeId == typeId);
-            return model;
-        }
+        
+       
 
 
         /// <summary>

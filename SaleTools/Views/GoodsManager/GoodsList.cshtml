@@ -5,8 +5,6 @@
     ViewBag.Title = "GoodsList";
     var SupplierList = (List<Supplier>)ViewBag.SupplierList;
     var UserTypeList = (List<UserType>)ViewBag.UserTypeList;
-
-
 }
 <link rel="stylesheet" type="text/css" href="/Content/css/bootstrap.min.css">
 
@@ -267,13 +265,13 @@
                             </li>
                             <li class="search_item">
                                 <button type="button" id="goodExport">
-                                    <a href="http://agent.pifa.yunmayi.com/product/export?sellerId=0&amp;state=0&amp;fst_cat_id=0&amp;snd_cat_id=0&amp;thd_cat_id=0&amp;customer_type=" style="color:white">
+                                    <a href="#" onclick="exportCSV()" style="color:white">
                                         商品导出
                                     </a>
                                 </button>
                             </li>
-                            <li class="search_item" style="color:#d70000;">
-                                商品总数为:1877
+                            <li class="search_item" style="color:#d70000;" id="totalCount">
+                                商品总数为:
                             </li>
                             <li class="clearfix">
                             </li>
@@ -354,34 +352,6 @@
                     <!-- -->
 
                 </table>
-                <div class="box">
-                    <input type="checkbox" name="pass[]" id="checkall">
-                    <span>
-                        全选
-                    </span>
-                    <button type="submit" id="btn_text">
-                        批量上架
-                    </button>
-                    <button type="submit" id="btn_down">
-                        批量下架
-                    </button>
-                    <button type="submit" id="btn_del">
-                        批量删除
-                    </button>
-                    <button type="submit" id="btn_delRemark">
-                        批量删除前缀
-                    </button>
-                    <button type="submit" id="btn_remark">
-                        批量新增前缀
-                    </button>
-                    <button type="submit" id="btn_delTypeFilter">
-                        批量删除客户
-                    </button>
-                    <button type="submit" id="btn_typeFilter">
-                        批量新增客户
-                    </button>
-
-                </div>
                 <div id="page" class="page_div"></div>
             </div>
         </div>
@@ -416,16 +386,21 @@
         }
     });
 
+    function GetPara() {
+        var para = {};
+        para.SupplierId = $("#Sid").val();
+        para.SupplierId = $("#Sid").val();
+        para.fstTypeId = $("input:hidden[name=fst_cat_id]", $("#J_CategorySelector")).val();
+        para.secTypeId = $("input:hidden[name=snd_cat_id]", $("#J_CategorySelector")).val();
+        para.thdTypeId = $("input:hidden[name=thd_cat_id]", $("#J_CategorySelector")).val();
+        para.keyWord = $("#search_value").val();
+
+    }
+
     function LoadList(pageIndex) {
-        var postData = {};
+        var postData = GetPara();
         postData.index = pageIndex;
         postData.size = 10;
-        postData.SupplierId = $("#Sid").val();
-        postData.SupplierId = $("#Sid").val();
-        postData.fstTypeId = $("input:hidden[name=fst_cat_id]", $("#J_CategorySelector")).val();
-        postData.secTypeId = $("input:hidden[name=snd_cat_id]", $("#J_CategorySelector")).val();
-        postData.thdTypeId = $("input:hidden[name=thd_cat_id]", $("#J_CategorySelector")).val();
-        postData.keyWord = $("#search_value").val();
 
         $.ajax({
             url: "/GoodsManager/GetGoodsList",
@@ -438,30 +413,30 @@
                 $(e.ListData).each(function () {
                     html += '<tbody>< tr ><td colspan="10" class="sep_row">&nbsp;</td></tr >'
                     html += '<tr class="product_hd"><th colspan="10">条形码:'
-                    html += ' <input type="text" style="width:150px;padding:5px;" class="J_QuickBarCode" data-id="' + this.info.Id + '" data-bar-code="' + this.info.BarCode + '" value="' + this.info.BarCode + '"> 商品ID:' + this.info.GoodsNum + ' &nbsp;';
-                    html += ' <span style="float:right;">' + this.info.SupplierName + '</span></th></tr>';
-                    html += '< tr class="product_bd" ><td class="center"><input type="checkbox" name="pass" value="' + this.info.Id + '"></td>'
-                    html += '<td class="product"><a href="" class="lfloat"><img src="' + this.info.pic1 + '"></a>';
-                    html += ' <div class="title"><a href="">' + this.info.GoodsTittle + '</a></div></td>';
+                    html += ' <input type="text" style="width:150px;padding:5px;" class="J_QuickBarCode" data-id="' + this.Id + '" data-bar-code="' + this.BarCode + '" value="' + this.BarCode + '"> 商品ID:' + this.GoodsNum + ' &nbsp;';
+                    html += ' <span style="float:right;">' + this.SupplierName + '</span></th></tr>';
+                    html += '< tr class="product_bd" ><td class="center"><input type="checkbox" name="pass" value="' + this.Id + '"></td>'
+                    html += '<td class="product"><a href="" class="lfloat"><img src="' + this.pic1 + '"></a>';
+                    html += ' <div class="title"><a href="">' + this.GoodsTittle + '</a></div></td>';
                     html += '<td class="center">2.30</td>';
                     html += '<td class="center">2362</td>';
                     html += '<td class="center">9657</td>';
                     html += '<td class="center">0</td>';
-                    html += '<td class="center">' + this.info.LastUpdateTime + '</td>'
+                    html += '<td class="center">' + this.LastUpdateTime + '</td>'
                     html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum" data-id="808105" data-num="10" value="10"></td>';
                     html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" data-id="808105" data-sort="341" value="341"></td>';
                     html += '<td class="center"><a href="http://agent.pifa.yunmayi.com/product/onlysee?id=808105">商品详情</a><br><br>';
                     html += '<a href="http://agent.pifa.yunmayi.com/product/copyadd?id=808105">复制新增</a><br><br>';
-                    html += '<a href="/GoodsManager/AddGoods/' + this.info.Id + '">编辑商品</a><br><br>';
+                    html += '<a href="/GoodsManager/AddGoods/' + this.Id + '">编辑商品</a><br><br>';
                     var strShelves = "上架";
-                    if (this.info.IsUpShelves) {
+                    if (this.IsUpShelves) {
                         strShelves = "下架"
                     }
-                    html += '<button type="button" class="btn btn_confirm J_UpShelves" data-isShelves="' + this.info.IsUpShelves + '" data-id="' + this.info.Id + '">' + strShelves + '</button>';
-                    html += '<input type="button" class="delpro btn" value="删除" data-id="' + this.info.Id + '" style="margin-top:3px;"></td></tr></tbody>';
+                    html += '<button type="button" class="btn btn_confirm J_UpShelves" data-isShelves="' + this.IsUpShelves + '" data-id="' + this.Id + '">' + strShelves + '</button>';
+                    html += '<input type="button" class="delpro btn" value="删除" data-id="' + this.Id + '" style="margin-top:3px;"></td></tr></tbody>';
                 });
                 $(".product_list").find("tbody").remove();
-
+                $("#totalCount").html("商品总数为:" + e.TotalCount)
                 $(".product_list").append(html);
                 $("#page").paging({
                     pageNo: pageIndex,
@@ -504,6 +479,19 @@
                 LoadList(1);
             }
         }, "json");
+    }
+
+    function exportCSV()
+    {
+        var postData = GetPara();
+        var url = "/GoodsManager/ExportGoodInfo?";
+        var paraStr = "";
+        for (var Key in postData) {
+            if (paraStr != "")
+                url = url + '&';
+            url = url + '' + Key + '=' + postData[Key] + '';
+        }
+        location.href = url + paraStr;
 
     }
 

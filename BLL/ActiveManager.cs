@@ -559,7 +559,16 @@ namespace BLL
         public List<UserType> GetUserType(string types)
         {
             var typeArr = types.Split(',');
-            var res = _context.UserTypes.Where(x => typeArr.Contains(x.TypeId.ToString()));
+            var list = new List<UserType>();
+            foreach (StoreUserType type in Enum.GetValues(typeof(StoreUserType)))
+            {
+                var model = new UserType();
+                model.TypeId = (int)type;
+                model.TypeName = type.ToString();
+                model.IsAdmin = false;
+                list.Add(model);
+            }
+            var res = list.Where(x => typeArr.Contains(x.TypeId.ToString()));
             return res.ToList();
         }
     }

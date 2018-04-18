@@ -676,7 +676,7 @@ namespace BLL
 
         public List<OrderCountByStore> GetOrderTotal(DateTime start, DateTime end, string province, string city, string area, Guid userId, decimal orderMoney = 0)
         {
-            var uerTypelist = _context.UserTypes.Where(x => !x.IsAdmin).Select(x => x.TypeId).ToList();
+            var uerTypelist = Utils.GetUserTypes().Select(x => x.TypeId).ToList();
             var user = from c in _context.UserInfoes
                        where !c.IsDelete
                        && uerTypelist.Contains(c.TypeId)
@@ -718,9 +718,14 @@ namespace BLL
             return list;
         }
 
+        
+
+
+
         public List<OrderCountByStore> GetOrderTotalBySaleMan(DateTime start, DateTime end, Guid userId)
         {
-            var uerTypelist = _context.UserTypes.Where(x => !x.IsAdmin).Select(x => x.TypeId).ToList();
+           
+            var uerTypelist = Utils.GetUserTypes().Select(x => x.TypeId).ToList();
             var user = from c in _context.UserInfoes
                        where !c.IsDelete
                        && c.TypeId == (int)SystemUserType.业务员

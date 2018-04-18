@@ -42,12 +42,7 @@ namespace SaleTools.Controllers
             return View();
         }
 
-        public ActionResult UserTyoeList()
-        {
-            var list = manager.GetTypeList(true);
-            return View(list);
-        }
-
+  
 
 
         public string GetList(int index , int size , string  start, string end,string province,string city,string area,string saleManId, int userType, string  key = "")
@@ -91,11 +86,7 @@ namespace SaleTools.Controllers
         }
 
 
-        public string AddUserType(string userType,bool isAdmin)
-        {
-            var res = manager.AddUserType(userType, isAdmin);
-            return res;
-        }
+     
 
         public ActionResult ShowSupplierList()
         {

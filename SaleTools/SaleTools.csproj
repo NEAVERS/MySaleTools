@@ -272,7 +272,6 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\AddNewUser.cshtml" />
-    <Content Include="Views\User\UserTyoeList.cshtml" />
     <Content Include="Views\User\ShowSupplierList.cshtml" />
     <Content Include="Views\User\SupplierDeltie.cshtml" />
     <Content Include="Views\User\EditUserInfo.cshtml" />

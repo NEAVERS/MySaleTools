@@ -1,4 +1,5 @@
-﻿using Common.Entities;
+﻿using Common;
+using Common.Entities;
 using Dal;
 using Model;
 using System;
@@ -67,11 +68,11 @@ namespace BLL
         /// <returns></returns>
         public List<UserType> GetUserTypeByImgSetId(Guid imgSetId)
         {
+            var types = Utils.GetUserTypes();
             var q = from c in _context.ImgSetOfUserTypes
-                    join d in _context.UserTypes on c.UserType equals d.TypeId
                     where c.ImgSetId == imgSetId
-                    select d;
-            return q.ToList();
+                    select c.UserType;
+            return types.Where(x=>q.Contains(x.TypeId)).ToList();
         }
 
 

@@ -107,6 +107,36 @@ namespace Model
         /// 成本价
         /// </summary>
         public decimal CostPrice { get; set; }
+
+
+        /// <summary>
+        /// 默认价格
+        /// </summary>
+        public decimal BasePrice { get; set; }
+
+        /// <summary>
+        /// A类用户价格
+        /// </summary>
+        public decimal PriceForA { get; set; }
+
+        /// <summary>
+        /// B类用户价格
+        /// </summary>
+        public decimal PriceForB { get; set; }
+        /// <summary>
+        /// C类用户价格
+        /// </summary>
+        public decimal PriceForC { get; set; }
+
+        /// <summary>
+        /// D类用户价格
+        /// </summary>
+        public decimal PriceForD { get; set; }
+
+        /// <summary>
+        /// 蚂蚁连锁价格
+        /// </summary>
+        public decimal PriceForLianSuo { get; set; }
         /// <summary>
         /// 商品库存
         /// </summary>
@@ -260,6 +290,12 @@ namespace Model
             LastUpdateTime = DateTime.MinValue;
             SortId = 0;
             IsUpShelves = true;
+            this.BasePrice = 0;
+            this.PriceForA = 0;
+            this.PriceForB = 0;
+            this.PriceForC = 0;
+            this.PriceForD = 0;
+            this.PriceForLianSuo = 0;
         }
 
     }

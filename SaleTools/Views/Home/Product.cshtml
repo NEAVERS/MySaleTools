@@ -359,19 +359,17 @@
         $.post("/Home/LoadProductList", para, function (e) {
 
             $(e.ListData).each(function () {
-                html += '<li class="C_Item" data-productid="' + this.info.Id + '">';
-                html += '<div class="pro_img"><a href="/Home/ProductDetail/' + this.info.Id + '" target="_blank"><img src="' + this.info.pic1 + '"></a></div>';
-                html += ' <div class="sell_title"><a href="/Home/ProductDetail/' + this.info.Id + '" target="_blank">' + this.info.GoodsTittle + '</a></div>'
-                html += '  <div class="sell_info clearfix"> <p class="price">' + this.price.Price + '/' + this.info.Unit + '</p><p class="norms">规格:' + this.info.Spec + '</p></div>'
+                html += '<li class="C_Item" data-productid="' + this.Id + '">';
+                html += '<div class="pro_img"><a href="/Home/ProductDetail/' + this.Id + '" target="_blank"><img src="' + this.pic1 + '"></a></div>';
+                html += ' <div class="sell_title"><a href="/Home/ProductDetail/' + this.Id + '" target="_blank">' + this.GoodsTittle + '</a></div>'
+                html += '  <div class="sell_info clearfix"> <p class="price">' + this.RetailtPrice + '/' + this.Unit + '</p><p class="norms">规格:' + this.Spec + '</p></div>'
                 html += ' <div class="sell_btn clearfix">';
-                html += '<span class="J_AddCollectBtn add_collect_btn" id="' + this.info.Id + '" data-id="' + this.info.Id + '">收藏</span>'
+                html += '<span class="J_AddCollectBtn add_collect_btn" id="' + this.Id + '" data-id="' + this.Id + '">收藏</span>'
                 html += '<div class="rfloat"><div class="item_quantity">';
                 html += '<a href="javascript:;" class="decrement J_Decrement">-</a>';
-                html += '<input type="text" value="10" data-min="' + this.info.MinCount + '" data-max="' + this.info.LimitCount + '" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>';
-                html += '</div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="' + this.info.Id + ' data-start=0 data-end=0 data-num=0">进货</a>';
+                html += '<input type="text" value="10" data-min="' + this.MinCount + '" data-max="' + this.LimitCount + '" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>';
+                html += '</div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="' + this.Id + ' data-start=0 data-end=0 data-num=0">进货</a>';
                 html += '</div></div></li>'
-
-
             });
             $("#productList").html(html);
             $("#totalProductNumTip").html(e.TotalCount);

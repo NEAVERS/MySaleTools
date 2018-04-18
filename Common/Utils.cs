@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Common.Entities;
+using Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -103,6 +105,21 @@ namespace Common
                 catch { }
             }
             return (T)retval;
+        }
+
+        public static List<UserType> GetUserTypes()
+        {
+            var list = new List<UserType>();
+            foreach (StoreUserType type in Enum.GetValues(typeof(StoreUserType)))
+            {
+                var model = new UserType();
+                model.TypeId = (int)type;
+                model.TypeName = type.ToString();
+                model.IsAdmin = false;
+                list.Add(model);
+            }
+            return list;
+
         }
     }
 }

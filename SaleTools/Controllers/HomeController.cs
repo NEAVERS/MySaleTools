@@ -28,13 +28,8 @@ namespace SaleTools.Controllers
         public string LoadProduct(string firstTypeId)
         {
             var loginUser = (UserInfo)ViewBag.User;
-            Guid userId = loginUser.CreateUserId;
-            if (ViewBag.IsAdmin)
-            {
-                userId = loginUser.UserId;
-            }
-
-            var list = _manager.GetGoodsList(userId, loginUser.TypeId, 1, 10, "", firstTypeId, "", "", "","");
+ 
+            var list = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10, "", firstTypeId, "", "", "","");
             return Utils.SerializeObject(list);
         }
 
@@ -101,13 +96,9 @@ namespace SaleTools.Controllers
         public string LoadProductList(int page,int size, string fst = "", string sec = "", string trd = "", string brandId = "")
         {
             var loginUser = (UserInfo)ViewBag.User;
-            Guid userId = loginUser.CreateUserId;
-            if (ViewBag.IsAdmin)
-            {
-                userId = loginUser.UserId;
-            }
 
-            var list = _manager.GetGoodsList(userId, loginUser.TypeId, page,size, "", fst, sec, trd, brandId,"");
+
+            var list = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, page,size, "", fst, sec, trd, brandId,"");
             return Utils.SerializeObject(list);
         }
 
@@ -139,21 +130,21 @@ namespace SaleTools.Controllers
                 item.CreateUserId = loginUser.UserId;
                 item.Id = Guid.NewGuid();
                 item.LessPrice = 0;
-                item.Price = model.price.Price;
+                item.Price = model.RetailtPrice;
                 item.RealPrice = item.Price - item.LessPrice;
-                item.ProductId = model.info.Id;
-                item.ProductTittle = model.info.GoodsTittle;
+                item.ProductId = model.Id;
+                item.ProductTittle = model.GoodsTittle;
                 item.TotalPrice = item.RealPrice * count;
-                item.ProductType = model.info.FirstTypeName;
-                item.ProductTypeId = model.info.FirstTypeId;
-                item.ProductId = model.info.Id;
-                item.BarCode = model.info.BarCode;
-                item.Spec = model.info.Spec;
-                item.Unit = model.info.Unit;
-                item.SupplierId = model.info.SupplierId;
-                item.SupplierName = model.info.SupplierName;
-                item.BrandId = model.info.BrandId;
-                item.Brand = model.info.BrandName;
+                item.ProductType = model.FirstTypeName;
+                item.ProductTypeId = model.FirstTypeId;
+                item.ProductId = model.Id;
+                item.BarCode = model.BarCode;
+                item.Spec = model.Spec;
+                item.Unit = model.Unit;
+                item.SupplierId = model.SupplierId;
+                item.SupplierName = model.SupplierName;
+                item.BrandId = model.BrandId;
+                item.Brand = model.BrandName;
                 res = _order.AddOrderItem(item);
             }
             return Utils.SerializeObject(res);
@@ -270,21 +261,21 @@ namespace SaleTools.Controllers
                 item.CreateUserId = loginUser.UserId;
                 item.Id = Guid.NewGuid();
                 item.LessPrice = 0;
-                item.Price = model.price.Price;
+                item.Price = model.RetailtPrice;
                 item.RealPrice = 0;
-                item.ProductId = model.info.Id;
-                item.ProductTittle = model.info.GoodsTittle;
+                item.ProductId = model.Id;
+                item.ProductTittle = model.GoodsTittle;
                 item.TotalPrice = 0;
-                item.ProductType = model.info.FirstTypeName;
-                item.ProductTypeId = model.info.FirstTypeId;
-                item.ProductId = model.info.Id;
-                item.BarCode = model.info.BarCode;
-                item.Spec = model.info.Spec;
-                item.Unit = model.info.Unit;
-                item.SupplierId = model.info.SupplierId;
-                item.SupplierName = model.info.SupplierName;
-                item.BrandId = model.info.BrandId;
-                item.Brand = model.info.BrandName;
+                item.ProductType = model.FirstTypeName;
+                item.ProductTypeId = model.FirstTypeId;
+                item.ProductId = model.Id;
+                item.BarCode = model.BarCode;
+                item.Spec = model.Spec;
+                item.Unit = model.Unit;
+                item.SupplierId = model.SupplierId;
+                item.SupplierName = model.SupplierName;
+                item.BrandId = model.BrandId;
+                item.Brand = model.BrandName;
                 var res = _order.AddOrderItem(item);
             }
 

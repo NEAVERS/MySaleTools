@@ -1,4 +1,5 @@
 ﻿using BLL;
+using Common.Entities;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -34,8 +35,8 @@ namespace SaleTools.Controllers
             //TODO   传的Id要根据用户的类型（管理员传自己的用户Id 普通用户传创建人Id）
             if (user != null)
             {
-                var userType = _user.GetUserType(user.TypeId);
-                var isAdmin = userType == null ? true : userType.IsAdmin;
+                
+                var isAdmin = user.TypeId == (int)SystemUserType.系统管理员;
                 ViewBag.IsAdmin = isAdmin;
                 Guid userid = user.CreateUserId;
                 if (isAdmin)
