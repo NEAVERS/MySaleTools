@@ -12,7 +12,7 @@
     </h2>
 </div>
 <div class="col_main_bd">
-        <a href="/User/AddNewUser">+新增小店用户</a>
+    <a href="/User/AddNewUser">+新增小店用户</a>
     <div class="inner">
         <div class="col_main_content">
             <label>区域:</label>
@@ -38,6 +38,11 @@
                     <option value="@item.TypeId">@item.TypeName </option>
                 }
             </select>
+            <label>是否下载:</label>
+            <select id="isDown">
+                <option value="False">否</option>
+                <option value="True">是</option>
+            </select>
 
             <button id="search"> 搜索</button>
 
@@ -59,12 +64,15 @@
                 <tbody id="dataList"></tbody>
             </table>
             <table></table>
+            <div id="page" class="page_div"></div>
         </div>
     </div>
 </div>
 
 <script src="~/Scripts/layer/layer.js"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/Content/js/lib/paging.js"></script>
+
 <script>
     $(function () {
         LoadData(1);
@@ -94,7 +102,7 @@
 
     function LoadData(index) {
         var para = {};
-        
+
         para.index = index;
         para.size = 10;
         para.start = "";
@@ -106,31 +114,61 @@
         para.stutas = 0;
         para.saleManId = $("#saleMan").val();
         para.userType = $("#userType").val();
-        $.post("/User/GetList", para, function (data) {
-            var html = "";
-            $(data).each(function () {
-                html += "<tr>";
-                html += "<td class='center'>" + this.UserId + "</td>"
+        var idDown = $("#isDown").val();
 
-                html += "<td class='center'>" + this.Account + "</td>"
-                html += "<td class='center'>" + this.UserNum + "</td>"
-                html += "<td class='center'>" + this.SotreName + "</td>"
+        if (idDown == "True") {
+            exportUser(para);
+        }
+        else {
+            $.post("/User/GetList", para, function (data) {
+                var html = "";
+                $(data.ListData).each(function () {
+                    html += "<tr>";
+                    html += "<td class='center'>" + this.UserId + "</td>"
 
-                html += "<td class='center'>" + this.Tel + "</td>"
-                html += "<td class='center'>" + this.SaleManName + "</td>"
-                html += "<td class='center'>" + this.Addr + "</td>"
-                html += "<td class='center'>" + this.TypeName + "</td>"
-                html += "<td class='center'>" + (this.IsLocked ? "已锁定" : "未锁定") + "</td>"
-                html += "<td class='center'>";
-                html += '<button class="active lock"  userId = "' + this.UserId + '" >' + (this.IsLocked ? "解除锁定" : "锁定") + '</button>'
-                html += '<button class="active  del"  userId = "' + this.UserId + '" >删除</button>'
-                html += '<button class="active  edit"  userId = "' + this.UserId + '" >编辑</button>'
-                html += '<button class="active  setSaleMan"  userId = "' + this.UserId + '" >设置业务员</button>'
-                html += "</td>";
-                html += "</tr>";
-            })
-            $("#dataList").html(html);
-        }, "json")
+                    html += "<td class='center'>" + this.Account + "</td>"
+                    html += "<td class='center'>" + this.UserNum + "</td>"
+                    html += "<td class='center'>" + this.SotreName + "</td>"
+
+                    html += "<td class='center'>" + this.Tel + "</td>"
+                    html += "<td class='center'>" + this.SaleManName + "</td>"
+                    html += "<td class='center'>" + this.Addr + "</td>"
+                    html += "<td class='center'>" + this.TypeName + "</td>"
+                    html += "<td class='center'>" + (this.IsLocked ? "已锁定" : "未锁定") + "</td>"
+                    html += "<td class='center'>";
+                    html += '<button class="active lock"  userId = "' + this.UserId + '" >' + (this.IsLocked ? "解除锁定" : "锁定") + '</button>'
+                    html += '<button class="active  del"  userId = "' + this.UserId + '" >删除</button>'
+                    html += '<button class="active  edit"  userId = "' + this.UserId + '" >编辑</button>'
+                    html += '<button class="active  setSaleMan"  userId = "' + this.UserId + '" >设置业务员</button>'
+                    html += "</td>";
+                    html += "</tr>";
+                })
+                $("#dataList").html(html);
+                $("#page").paging({
+                    pageNo: index,
+                    totalPage: e.TotalPage,
+                    totalSize: e.TotalCount,
+                    callback: function (num) {
+                        if (index != num)
+                            LoadData(num);
+                    }
+                })
+
+            }, "json")
+        }
+    }
+
+    function exportUser(para)
+    {
+        var url = "/User/ExportUserInfo?";
+        var paraStr = "";
+        for (var Key in para) {
+            if (paraStr != "")
+                paraStr = paraStr + '&';
+            paraStr = paraStr + '' + Key + '=' + para[Key] + '';
+        }
+        location.href = url + paraStr;
+
     }
     $(document).on("click", ".setSaleMan", function () {
         var userId = $(this).attr("userId");
@@ -153,14 +191,14 @@
 
                 }
 
-            },"json")
+            }, "json")
 
-            }, function () {
-                layer.close();
+        }, function () {
+            layer.close();
         });
     })
 
-    
+
 
     $(document).on("click", ".lock", function () {
         var id = $(this).attr("userId");

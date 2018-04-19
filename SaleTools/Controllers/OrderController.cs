@@ -116,7 +116,7 @@ namespace SaleTools.Controllers
             DateTime startTime = Utils.GetTime(start, true);
             DateTime endTime = Utils.GetTime(end);
             var result = _order.CreateOrderFile(startTime, endTime);
-            return File(result, "text/comma-separated-values", "demo1.csv");
+            return File(result, "text/comma-separated-values",  Guid.NewGuid().ToString("N")+".csv");
         }
 
 

@@ -5,6 +5,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -143,8 +144,13 @@ namespace BLL
         /// <param name="key"></param>
         /// <param name="isDelete"></param>
         /// <returns></returns>
-        public List<UserInfo> GetUserByPage(int index ,int size,DateTime start,DateTime end, string province, string city, string area, string saleManId, int userType, string key,bool isDelete)
+        public PageData<UserInfo> GetUserByPage(int index ,int size,DateTime start,DateTime end, string province, string city, string area, string saleManId, int userType, string key,bool isDelete)
         {
+
+            PageData<UserInfo> pager = new PageData<UserInfo>();
+            pager.PageIndex = index;
+            pager.PageSize = size;
+            
             var q = from c in _context.UserInfoes
                     where c.Account.Contains(key)
                     || c.UserName.Contains(key)
@@ -164,8 +170,48 @@ namespace BLL
                 q = q.Where(x => x.SaleManGuid.ToString() == saleManId);
             if (userType != 0)
                 q = q.Where(x => x.TypeId == userType);
+            pager.TotalCount = q.Count();
             var list = q.OrderByDescending(x=>x.CreateTime).Skip((index - 1) * size).Take(size).ToList();
-            return list;
+            pager.ListData = list;
+            return pager;
+        }
+
+
+
+
+        public MemoryStream ExportUserInfo(DateTime start, DateTime end, string province, string city, string area, string saleManId, int userType, string key, bool isDelete)
+        {
+            var pager = GetUserByPage(1, 10000, start, end, province, city, area, saleManId, userType, key, false);
+            MemoryStream output = new System.IO.MemoryStream();
+            StreamWriter writer = new System.IO.StreamWriter(output, System.Text.Encoding.UTF8);
+
+            writer.Write("小店编号,小店区域,小店名称,小店地址,用户名,联系方式,创建时间,业务员,小店平米数,客户类型");//输出标题，逗号分割（注意最后一列不加逗号）
+
+            writer.WriteLine();
+            //输出内容
+            foreach (var item in pager.ListData)
+            {
+                writer.Write(item.UserNum + ",");//第一列
+                writer.Write(item.Area + ",");//第一列
+                writer.Write(item.SotreName+ ",");//第一列
+                writer.Write(item.Addr + ",");//第一列
+                writer.Write(item.UserName + ",");//第一列
+                writer.Write(item.Tel + ",");//第一列
+                writer.Write(item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") + ",");//第一列
+                writer.Write(item.SaleManName + ",");//第一列
+                writer.Write(item.StoreArea + ",");//第一列
+                writer.Write(item.TypeName + ",");//第一列
+
+                writer.WriteLine();
+            }
+            writer.Flush();
+
+            output.Position = 0;
+
+            //return File(output, "text/comma-separated-values", "demo1.csv");
+            return output;
+
+
         }
 
 

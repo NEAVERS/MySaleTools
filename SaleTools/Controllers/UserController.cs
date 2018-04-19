@@ -55,6 +55,18 @@ namespace SaleTools.Controllers
         }
 
 
+
+        public ActionResult ExportUserInfo(string start, string end, string province, string city, string area, string saleManId, int userType, string key = "")
+        {
+            var startTime = Utils.GetTime(start, true);
+            var endTime = Utils.GetTime(end);
+
+            var output = manager.ExportUserInfo(startTime, endTime, province, city, area, saleManId, userType, key, false);
+             return File(output, "text/comma-separated-values", Guid.NewGuid().ToString("N") + ".csv");
+        }
+
+
+
         public string ToggaleLock(Guid userId)
         {
             var res = manager.ToggaleLock(userId);
