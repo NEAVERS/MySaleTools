@@ -13,7 +13,7 @@ namespace BLL
     public class GoodsManager
     {
         private SaleToolsContext _context = new SaleToolsContext();
-
+        ResponseModel _response = new ResponseModel();
 
         /// <summary>
         /// 获取下级类型
@@ -145,14 +145,14 @@ namespace BLL
         }
 
 
-        public PageData<GoodInfo> GetGoodsList(Guid CreaetUserId ,int userType, int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId,string brandId,  string keyWord)
+        public PageData<GoodInfo> GetGoodsList(Guid CreaetUserId, int userType, int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId, string brandId, string keyWord)
         {
             PageData<GoodInfo> page = new PageData<GoodInfo>();
             page.PageIndex = index;
             page.PageSize = size;
             var q = from c in _context.GoodInfoes
                     where c.CreateUserId == CreaetUserId
-                    && c.GoodsTittle.Contains(keyWord)
+                    && (c.GoodsTittle.Contains(keyWord)||c.KeyWord.Contains(keyWord)||c.BarCode == keyWord)
                     && !c.IsDelete
                     select c;
             if (!string.IsNullOrWhiteSpace(SupplierId) && SupplierId != "0")
@@ -348,7 +348,11 @@ namespace BLL
             return model;
         }
 
-
+        /// <summary>
+        /// 导出商品信息
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public MemoryStream ExportGoodInfo(List<GoodInfo> list)
         {
             MemoryStream output = new System.IO.MemoryStream();
@@ -398,7 +402,24 @@ namespace BLL
             output.Position = 0;
             return output;
 
-
         }
+
+
+        public ResponseModel CollectGoods(Guid userId,Guid goodId)
+        {
+            var colloect = _context.UserCollects.FirstOrDefault(x => x.UserId == userId && x.GoodsId == goodId);
+            if(colloect!=null)
+            {
+                _response.Msg = "已收藏！请勿重复添加！";
+                return _response;
+            }
+            colloect = new UserCollect();
+            colloect.UserId = userId;
+            colloect.GoodsId = goodId;
+            _context.UserCollects.Add(colloect);
+            _response.Stutas = _context.SaveChanges() > 0;
+            return _response;
+        }
+
     }
 }

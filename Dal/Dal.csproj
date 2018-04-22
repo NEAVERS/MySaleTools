@@ -65,6 +65,7 @@
     <Compile Include="Mapping\PriceOfUserTypeMap.cs" />
     <Compile Include="Mapping\SupplierMap.cs" />
     <Compile Include="Mapping\SysConfigMap.cs" />
+    <Compile Include="Mapping\UserCollectMap.cs" />
     <Compile Include="Mapping\UserInfoMap.cs" />
     <Compile Include="Mapping\UserTypeMap.cs" />
     <Compile Include="SaleToolsContext.cs" />

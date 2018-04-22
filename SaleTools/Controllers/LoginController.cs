@@ -49,5 +49,12 @@ namespace SaleTools.Controllers
             _manager.UserReg(user);
             return View();
         }
+
+
+        public ActionResult LogOut()
+        {
+            Session["LoginUser"] = null;
+            return View("Index");
+        }
     }
 }

@@ -333,6 +333,8 @@
     <Content Include="Views\Activtity\EditManJian.cshtml" />
     <Content Include="Views\Home\ConfirmOrder.cshtml" />
     <Content Include="Views\System\SetHomePageType.cshtml" />
+    <Content Include="Views\Login\LogOut.cshtml" />
+    <Content Include="Views\Order\OrderDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

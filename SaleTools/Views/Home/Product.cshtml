@@ -1,5 +1,6 @@
 ﻿
 @using Model;
+@using Common.Entities;
 @{
     ViewBag.Title = "Product";
     var TypeList = (List<GoodsType>)ViewBag.TypeList;
@@ -8,26 +9,10 @@
     GoodsType fstType = (GoodsType)ViewBag.FstType;
     GoodsType secType = (GoodsType)ViewBag.SecType;
     GoodsType trdType = (GoodsType)ViewBag.TrdType;
+    var typeList = (List<GoddsTypeTree>)ViewBag.GoddsTypeTree;
+
 }
 <div class="header" id="header">
-    <div class="topfixeds" style="display: none;">
-        <div class="topfixed top clearfix">
-            <h2 class="topMenuList"><i style="padding-right: 13px;"><img src="/Content/images/index/04151605.png"></i>全部商品分类</h2>
-            <div class="searchbar lfloat" style="padding-top:5px;">
-                <form action="http://pifa.yunmayi.com/search/index" method="GET" id="C_GlobalSearchFormOne">
-                    <input type="text" name="q" class="search_input" id="C_GlobalSearchInputOne" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
-                    <!--                <input type="hidden" name="cid" value="" id="cid"/>-->
-                    <button type="submit" class="search_btn">搜索</button>
-                </form>
-            </div>
-            <div class="toolbar lfloat" style="padding-top:6px;">
-                <a href="/cart/">
-                    购物车
-                    <i style="font-style: normal;color: #ff0000;font-size: 15px;" id="C_GlobalCartItemNum_fixed">0</i>
-                </a>
-            </div>
-        </div>
-    </div>
     <div class="module top clearfix">
         <div class="logo lfloat">
             <div class="logoImg">
@@ -38,13 +23,11 @@
             </div>
         </div>
         <div class="searchbar lfloat">
-            <form action="http://pifa.yunmayi.com/search/index" method="GET" id="C_GlobalSearchForm">
                 <input type="text" name="q" class="search_input" id="C_GlobalSearchInput" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
-                <button type="submit" class="search_btn">搜索</button>
-            </form>
+                <button type="button" class="search_btn" id="search_btn">搜索</button>
         </div>
         <div class="toolbar lfloat">
-            <a href="/cart1/" class="shopCart">
+            <a href="/Home/ShoppingCar" class="shopCart">
                 购物车
                 <i style="font-style: normal;color: red;" id="C_GlobalCartItemNum">0</i>
             </a>
@@ -56,85 +39,26 @@
             <div class="dropdown_menu" style="display: none;">
                 <!-- first category -->
                 <ul class="menu_nav_container" id="C_CategoryList">
-                    <li data-source="">
-                        <div class="menu_nav_fst">
-                            <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1030">食品零食</a></h3>
-                            <div class="fst_cat_child">
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1031">膨化食品</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1039">饼干点心</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1040">方便食品</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1169">核果蜜饯</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1298">糖果巧克力</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1819">早餐食品</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1996">进口食品</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=2003">散称专区</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=2333">麻辣食品</a>
-                            </div>
+
+                    @foreach (var item in typeList)
+    {
+                <li data-source="">
+                    <div class="menu_nav_fst">
+                        <h3 class="fst_cat_title"><a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a></h3>
+                        <div class="fst_cat_child">
+                            @foreach (var child in item.TypeList)
+            {
+                <a href="/Home/Product?sec=@child.GoodsType.Id">@child.GoodsType.TypeName</a>
+
+}
+
+
                         </div>
-                    </li>
-                    <li data-source="">
-                        <div class="menu_nav_fst">
-                            <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1002">日用洗护</a></h3>
-                            <div class="fst_cat_child">
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1095">洗发用品         </a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1155">洗浴用品     </a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1173">口腔护理</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1221">日常用纸</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1232">女性护理</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1239">洁衣用品</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1385">家用清洁</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1742">护肤用品</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1798">身体护理</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li data-source="">
-                        <div class="menu_nav_fst">
-                            <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1041">粮油调味</a></h3>
-                            <div class="fst_cat_child">
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1043">调味品</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1250">粮食干货</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1924">水产干货</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li data-source="">
-                        <div class="menu_nav_fst">
-                            <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1051">酒水饮料</a></h3>
-                            <div class="fst_cat_child">
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1052">饮料</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1053">啤酒</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1054">果酒</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1055">白酒</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=2025">黄酒</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li data-source="">
-                        <div class="menu_nav_fst">
-                            <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1085">家用百货</a></h3>
-                            <div class="fst_cat_child">
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1086">日用杂品</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1313">针棉用品</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1833">文具/办公用品</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1834">体育/娱乐用品</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1835">玩具</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1836">电子电器</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1837">工具五金</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1838">饰品</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1839">针棉织品</a>
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1840">其他</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li data-source="">
-                        <div class="menu_nav_fst">
-                            <h3 class="fst_cat_title"><a href="http://pifa.yunmayi.com/product/list?cid=1957">折扣专区</a></h3>
-                            <div class="fst_cat_child">
-                                <a href="http://pifa.yunmayi.com/product/list?cid=1958">折扣专区</a>
-                            </div>
-                        </div>
-                    </li>
+                    </div>
+                </li>
+
+}
+
                 </ul>
             </div>
         </div>
@@ -143,14 +67,13 @@
                 <a href="/Home/Index">首页</a>
                 <img src="/Content/images/christmas-tree.png" alt="">
             </li>
-            @foreach (var item in TypeList)
-            {
-                <li>
-                    <a href="/Home/Product?fst=@item.Id">@item.TypeName</a>
-                    <img src="/Content/images/christmas-tree.png" alt="">
-                </li>
-
-            }
+            @foreach (var item in typeList)
+    {
+        <li>
+            <a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a>
+            <img src="/Content/images/christmas-tree.png" alt="">
+        </li>
+}
         </ul>
     </div>
 </div>
@@ -281,7 +204,7 @@
                     <div class="list fixed_height" id="C_BrandList">
                         @foreach (var item in BrandList)
                         {
-                            <a href="/Home/Product?@(ViewBag.Para)=@(ViewBag.ParentGuid)&brandId=@item.Id" class="C_brand" data-id="@item.Id" data-name="@item.BrandName">@item.BrandName</a>
+                            <a href="/Home/Product?@(ViewBag.CurrentPara)=@(ViewBag.ParentGuid)&brandId=@item.Id" class="C_brand" data-id="@item.Id" data-name="@item.BrandName">@item.BrandName</a>
                         }
                     </div>
                     <a href="#" id="brandShowMore">更多</a>
@@ -304,23 +227,6 @@
                     <div class="shop_num">共<span id="totalProductNumTip">107</span>个商品</div>
                 </div>
                 <ul class="pro_content" id="productList">
-                    <li class="C_Item" data-productid="264634">
-                        <div class="pro_img"><a href="/product/detail?id=264634" target="_blank"><img src="http://i8.yunmayi.com/upload/2015/12/08/7e3eab53c3de5a4b1c16161f7eaf6334.jpgXXXXX!!!!!_300x300.jpg"></a></div>
-                        <div class="sell_title"><a href="/product/detail?id=264634" target="_blank">上好佳40g鲜虾片</a></div>
-                        <div class="sell_info clearfix">
-                            <p class="price">2.80/包</p>
-                            <p class="norms">规格:20包/件</p>
-                        </div>
-                        <div class="sell_btn clearfix">
-                            <span class="J_AddCollectBtn add_collect_btn" id="264634" data-id="264634">收藏</span>
-                            <div class="rfloat">
-                                <div class="item_quantity">
-                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                    <input type="text" value="10" data-min="10" data-max="83476" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>
-                                </div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="264634 data-start=0 data-end=0 data-num=0">进货</a>
-                            </div>
-                        </div>
-                    </li>
                 </ul>
 
                 <div id="msg">已成功加入购物车！</div>
@@ -355,6 +261,7 @@
         para.sec = $("#SecType").val();
         para.trd = $("#TrdType").val();
         para.brandId = $("#brandId").val();
+        para.key = $("#C_GlobalSearchInput").val()
         var html = "";
         $.post("/Home/LoadProductList", para, function (e) {
 
@@ -386,527 +293,10 @@
 
         }, "json")
     }
-
-</script>
-
-
-<script text="text/javascript">
-    $(function () {
-        var curCatId = 1031;
-        var curPage = 1;
-        var curBrandId = 0;
-        var pageSize = 30;
-        var keyword = "0";
-        var sort = "id";
-        var is_brand_search = false;
-        // 搜索
-        $('#searchBtn').on('click', function () {
-            keyword = $.trim($('#searchInput').val());
-            ProductList();
-        });
-
-        // 页码切换
-        $('#C_page').on('click', 'a', function () {
-            curPage = $(this).data('page');
-            $(document).scrollTop(180);
-            if (curBrandId) {
-                is_brand_search = true;
-            }
-            ProductList();
-            return false;
-        });
-
-        //页面跳转
-        $("#J_List").on('focus', '.page input', function () {
-            $(this).removeAttr("onblur");
-        });
-        $("#J_List").on('blur', '.page input', function () {
-            event.preventDefault();
-            curPage = parseInt($(this).val());
-            $(document).scrollTop(180);
-            ProductList();
-            return false;
-        });
-
-        // 品牌展开更多
-        $('#brandShowMore').on('click', function () {
-            var tip = $.trim($(this).html());
-            switch (tip) {
-                case '更多':
-                    tip = '收起';
-                    $('#C_BrandList').removeClass('fixed_height');
-                    $('.brand_con i').css('background', 'url(/Content/images/index/arrow-up.png)');
-                    $('.brand_con i').css('background-size', 'contain');
-                    $('.brand_con i').css('background-repeat', 'no-repeat');
-                    $('.brand_con h3').height($('#C_BrandList').height() + 10)
-                    break;
-                case '收起':
-                    tip = '更多';
-                    $('#C_BrandList').addClass('fixed_height');
-                    $('.brand_con i').css('background', 'url(/Content/images/index/arrow-down.png)');
-                    $('.brand_con i').css('background-size', 'contain');
-                    $('.brand_con i').css('background-repeat', 'no-repeat');
-                    $('.brand_con h3').height($('#C_BrandList').height() + 10)
-                    break;
-            }
-            $(this).html(tip);
-            return false;
-        });
-
-        // 商品加入购物相关操作
-        $("#J_List").on("click", ".J_Decrement", function () {
-            var _input = $(this).siblings("input.J_QuantityInput");
-            var min = parseInt(_input.data("min"));
-            var max = parseInt(_input.data("max"));
-            if (max < min) {
-                build("red", "商品库存不足", "Decrement");
-                return false;
-            }
-            var quantity = parseInt(_input.val());
-            --quantity;
-            quantity = quantity > max ? max : quantity;
-            quantity = quantity < min ? min : quantity;
-            _input.val(quantity);
-        });
-        $("#J_List").on("click", ".J_Increment", function () {
-            var _input = $(this).siblings("input.J_QuantityInput");
-            var min = parseInt(_input.data("min"));
-            var max = parseInt(_input.data("max"));
-            if (max < min) {
-                build("red", "商品库存不足", "Increment");
-                return false;
-            }
-            var quantity = parseInt(_input.val());
-            ++quantity;
-            quantity = quantity > max ? max : quantity;
-            quantity = quantity < min ? min : quantity;
-            _input.val(quantity);
-        });
-        $("#J_List").on("blur", ".J_QuantityInput", function () {
-            var _this = $(this);
-            var max = _this.data("max");
-            var min = _this.data("min");
-            var quantity = _this.val();
-            quantity = quantity > max ? max : quantity;
-            quantity = quantity < min ? min : quantity;
-            _this.val(quantity);
-        });
-        $("#J_List").on("click", ".J_AddCartBtn", function (event) {
-            $(".add_cart_btn").removeClass("J_AddCartBtn");
-            var _this = $(this);
-            var _input = _this.prev(".item_quantity").children(".J_QuantityInput");
-            var quantity = _input.val();
-            var limit_start_time = _this.data("start");
-            var limit_end_time = _this.data("end");
-            var limit_buy_num = _this.data("num");
-            var curentTime = Date.parse(new Date()) / 1000;
-            var productId = _this.data("id");
-            var items = [];
-            var html = "";
-            $.ajax({
-                type: 'post',
-                dataType: 'json',
-                url: '/cart/isPresaleItem',
-                data: {
-                    pid: productId
-                },
-                success: function (res) {
-                    items = res;
-                    if (items.length != 0) {
-                        presaleShow = true;
-                        $(".explain").addClass('j_display');
-                        html += '   <ul class="explain_mian">';
-                        html += '       <li class="header">';
-                        html += '           <span>预售活动</span>';
-                        html += '           <span>商品剩余数量</span>';
-                        html += '           <span>购买数量</span>';
-                        html += '           <span>加入购物车</span>';
-                        html += '       </li>';
-                        for (var k in items) {
-                            html += '       <li class="items">';
-                            html += '           <span>' + items[k].title + '</span>';
-                            html += '           <span class="amountNum">' + items[k].amount + '</span>';
-                            html += '           <div class="presaleItems">';
-                            html += '               <a  href="javascript:;" class="decrementPresales"> - </a>';
-                            html += '               <input type="text" value="1" class="presaleInput" data-max=' + items[k].amount + '>';
-                            html += '               <a  href="javascript:;" class="addPresale"> + </a>';
-                            html += '           </div>';
-                            html += '           <button class="buyButton addPresaleCart" data-id=' + items[k].id + ' data-product-id=' + items[k].product_id + '>进货</button>';
-                            html += '       </li>';
-                        }
-                        html += '       <button class="coloseButton" onclick="closeExplain()"> x </button>';
-                        html += '   </ul>';
-                        $('.add_cart_btn').addClass("J_AddCartBtn");
-                        $(".explain").html(html);
-                    } else {
-                        if (limit_start_time > 0 && limit_end_time > 0) {
-                            if (curentTime >= limit_start_time && curentTime <= limit_end_time) {
-                                if (quantity > limit_buy_num) {
-                                    build("red", "该商品限购", productId, limit_buy_num);
-                                    return false;
-                                }
-                            }
-                        }
-                        if (limit_start_time == 0 && limit_end_time == 0 && limit_buy_num > 0) {
-                            if (quantity > limit_buy_num) {
-                                build("red", "该商品限购", productId, limit_buy_num);
-                                return false;
-                            }
-                        }
-                        $.ajax({
-                            "type": "POST",
-                            "url": "/cart/ajaxAddItemToCart",
-                            "dataType": "json",
-                            "data": {
-                                "product_id": productId,
-                                "quantity": _input.val(), //_input.val()
-                                "is_cart": 1
-                            },
-                            "success": function (result) {
-                                $('.add_cart_btn').addClass("J_AddCartBtn");
-                                GlobalCartItemNum();
-                                if (!result.error) {
-                                    var addcar = _this;
-                                    var img = addcar.parent().parent().parent().find('img').attr('src');
-                                    var flyer = $('<img class="u-flyer" src="' + img + '">');
-                                    var address1 = $('#C_GlobalCartItemNum_fixed');
-                                    var address2 = $('#C_GlobalCartItemNum');
-                                    var scrollTop = $(document).scrollTop();
-                                    if (scrollTop > 130) {
-                                        flyer.fly({
-                                            start: {
-                                                left: event.clientX,
-                                                top: event.clientY,
-                                            },
-                                            end: {
-                                                left: address1[0].offsetLeft,
-                                                top: address1[0].offsetTop,
-                                                width: 0,
-                                                height: 0
-                                            },
-                                            onEnd: function () {
-                                                $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
-                                                this.destory();
-                                            }
-                                        })
-                                    } else {
-                                        flyer.fly({
-                                            start: {
-                                                left: event.clientX,
-                                                top: event.clientY,
-                                            },
-                                            end: {
-                                                left: address2[0].offsetLeft,
-                                                top: address2[0].offsetTop - 20,
-                                                width: 0,
-                                                height: 0
-                                            },
-                                            onEnd: function () {
-                                                $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
-                                                this.destory();
-                                            }
-                                        })
-                                    }
-                                } else {
-                                    build("red", result.info, productId);
-                                }
-                            }
-                        });
-                    }
-                },
-                error: function (error) {
-                    console.log(error)
-                }
-            });
-            return false;
-        });
-        // 收藏商品
-        /* $("#J_List").on("click", ".J_AddCollectBtn", function(){
-             $.post(
-                 "/product/addCollect",
-                 {
-                     "product_id": $(this).data("id")
-                 },
-                 function(result){
-                     alert(result.info);
-                 },
-                 "json"
-             );
-         });*/
-
-        function C_Initialize() {
-            Crumb();
-            CatList();
-            Brand();
-            ProductList();
-        }
-
-        function Crumb() {
-            $.ajax({
-                type: 'get',
-                url: '/product/crumb',
-                dataType: 'json',
-                data: {
-                    id: curCatId
-                },
-                success: function (result) {
-                    var _html = '<a href="#" class="C_cat" data-id="0">全部商品</a>';
-                    if (result.length > 0) {
-                        for (var k in result) {
-                            _html += '&gt;<a href="#" class="C_cat" data-id="' + result[k].id + '" data-name="' + result[k].name + '">' + result[k].name + '</a>';
-                        }
-                    }
-                    $('#C_Crumbs').html(_html);
-                },
-                error: function () { }
-            });
-        }
-
-
-        function CatList() {
-            $.ajax({
-                type: 'get',
-                url: '/product/categoryList',
-                dataType: 'json',
-                data: {
-                    id: curCatId,
-                    brand_id: curBrandId
-                },
-                success: function (result) {
-                    var _html = '';
-                    if (result.length > 0) {
-                        for (var k in result) {
-                            _html += '<a href="#" class="C_cat" data-id="' + result[k].id + '" data-name="' + result[k].name + '">' + result[k].name + '</a>';
-                        }
-                    }
-                    $('#C_CatList').html(_html);
-                },
-                error: function () { }
-            });
-        }
-
-        function Brand() {
-            $.ajax({
-                type: 'get',
-                url: '/product/brandList',
-                dataType: 'json',
-                data: {
-                    cid: curCatId
-                },
-                success: function (result) {
-                    var _html = '';
-                    if (result.length > 0) {
-                        for (var k in result) {
-                            _html += '<a href="#" class="C_brand" data-id="' + result[k].id + '" data-name="' + result[k].name + '">' + result[k].name + '</a>'
-                        }
-                    }
-                    $('#C_BrandList').html(_html);
-                    $('.brand_con h3').height($('.brand_con').height());
-                    $('.category_con h3').height($('.category_con').height())
-                },
-                error: function () { }
-            });
-        }
-
-        $("#J_List").on("click", ".J_AddCollectBtn", function () {
-            var productId = $(this).attr("data-id");
-            $("#" + productId).addClass('disable')
-            if ($(this).hasClass("collected_btn")) {
-                $.post("/index/delCollect", { "pid": productId }, function (data) {
-                    if (data.state) {
-                        $("#" + productId).text('收藏');
-                        $("#" + productId).removeClass('collected_btn');
-                        $("#" + productId).addClass('add_collect_btn');
-                        $("#" + productId).removeClass("disable");
-                        build("green", "已取消收藏！", productId);
-                    } else {
-                        build("green", "失败!请重试!", productId);
-                    }
-                }, 'json')
-            } else {
-                $.get("/index/productFav", { "id": productId }, function (data) {
-                    if (data.state) {
-                        $("#" + productId).text('已收藏');
-                        $("#" + productId).removeClass('add_collect_btn');
-                        $("#" + productId).addClass('collected_btn');
-                        $("#" + productId).removeClass("disable");
-                        build("green", "收藏成功！", productId);
-                    } else {
-                        build("green", "失败!请重试!", productId);
-                    }
-                }, 'json')
-            }
-        });
-
-        function ProductList() {
-            if (is_brand_search) {
-                var tmpCurId = curCatId;
-                var tmpKeyword = keyword;
-                curCatId = 0;
-                keyword = "";
-            }
-            $.ajax({
-                type: 'get',
-                url: '/product/ajaxSearch',
-                dataType: 'json',
-                data: {
-                    cid: curCatId,
-                    bid: curBrandId,
-                    q: keyword,
-                    page: curPage,
-                    sort: sort,
-                    page_size: pageSize
-                },
-                success: function (result) {
-                    if (result instanceof Object) {
-                        var _productListHtml = '';
-                        for (var k in result.list) {
-                            _productListHtml += '<li class="C_Item" data-productid="' + result.list[k].id + '">';
-                            _productListHtml += '<div class="pro_img">';
-                            _productListHtml += '<a href="/product/detail?id=' + result.list[k].id + '" target="_blank"><img src="http://i8.yunmayi.com' + result.list[k].pic_url + 'XXXXX!!!!!_300x300.jpg" /></a>';
-                            _productListHtml += '</div>';
-                            _productListHtml += '<div class="sell_title"><a href="/product/detail?id=' + result.list[k].id + '" target="_blank">' + result.list[k].title + '</a></div>';
-                            _productListHtml += '<div class="sell_info clearfix">';
-                            _productListHtml += '<p class="price">' + (result.list[k].sell_price / 100).toFixed(2);
-                            if (result.list[k].unit != '') {
-                                _productListHtml += '/' + result.list[k].unit;
-                            }
-                            _productListHtml += '</p>';
-                            if (result.list[k].spec != '') {
-                                _productListHtml += '<p class="norms">规格:' + result.list[k].spec + '</p>';
-                            }
-                            _productListHtml += '</div>';
-                            _productListHtml += '<div class="sell_btn clearfix">';
-                            if (!result.list[k].is_collect)
-                                _productListHtml += '<span class="J_AddCollectBtn add_collect_btn" id="' + result.list[k].id + '" data-id="' + result.list[k].id + '">收藏</span>';
-                            else
-                                _productListHtml += '<span class="J_AddCollectBtn collected_btn" id="' + result.list[k].id + '" data-id="' + result.list[k].id + '">已收藏</span>';
-                            _productListHtml += '<div class="rfloat">';
-                            _productListHtml += '<div class="item_quantity">';
-                            _productListHtml += '<a href="javascript:;" class="decrement J_Decrement">-</a>';
-                            _productListHtml += '<input type="text" value="' + result.list[k].min_sold_num + '" data-min="' + result.list[k].min_sold_num + '" data-max="' + Math.max(result.list[k].stock_info.stock, result.list[k].stock_info.warehouse_stock) + '" class="quantity_input J_QuantityInput">';
-                            _productListHtml += '<a href="javascript:;" class="increment J_Increment">+</a>';
-                            _productListHtml += '</div>';
-                            if (result.list[k].stock_info.stock < result.list[k].min_sold_num && result.list[k].stock_info.warehouse_stock < result.list[k].min_sold_num) {
-                                _productListHtml += '<span class="J_Nostock">售罄</span>';
-                            } else {
-                                _productListHtml += '<a href="#" class="J_AddCartBtn add_cart_btn" data-id="' + result.list[k].id + ' data-start=' + result.list[k].limit_start_time + ' data-end=' + result.list[k].limit_end_time + ' data-num=' + result.list[k].limit_buy_num + '">进货</a>';
-                            }
-
-                            _productListHtml += '</div>';
-                            //_productListHtml += '<a href="#" class="add_pro" data-productid="'+result.productList[k].productId+'">进货</a>';
-                            //_productListHtml += '<div class="add_num"><span class="del_pro_num"></span><input type="text" class="pro_num" data-minnum="'+result.productList[k].minSoldNum+'" value="'+result.productList[k].minSoldNum+'" /><span class="add_pro_num"></span></div>';
-                            //_productListHtml += '<a href="#" class="favorite">收藏</a>';
-                            //_productListHtml += '<div class="fav" data-id="'+result.productList[k].productId+'">收藏</div>';
-
-                            _productListHtml += '</div>';
-                            _productListHtml += '</li>';
-                        }
-                        $('#productList').html(_productListHtml);
-                        $('#totalProductNumTip').html(result.count);
-                        $('#C_page').html(result.page_str);
-                        if (is_brand_search) {
-                            curCatId = tmpCurId;
-                            keyword = tmpKeyword;
-                            is_brand_search = false;
-                        }
-                        // addFixed()
-                    } else {
-                        $('#productList').html('');
-                        $('#totalProductNumTip').html(0);
-                        $('#C_page').html('');
-                        // addFixed()
-                    }
-                },
-                error: function () {
-                    // addFixed()
-                }
-            });
-        }
-
-        C_Initialize();
-        $('.pro_list .product_all .title>h3').click(function () {
-            $(this).addClass('btnClicked');
-            $(this).siblings().removeClass('btnClicked')
-            sort = $(this).attr('data-index');
-            ProductList();
-            return false;
-        });
-        $('#price_sort').hover(function () {
-            $('.title ul').show()
-        }, function () {
-            $('.title ul').hide()
-        });
-        // //按价格从高到低
-        $("#price_sort_down").on("click", function () {
-            $('#price_sort').attr('data-index', 'price_down');
-        });
-        // //按价格从低到低
-        $("#price_sort_up").on("click", function () {
-            $('#price_sort').attr('data-index', 'price_up');
-        });
-
-        // function addFixed(){
-        //     var screen_height=document.body.clientHeight;//body的高度
-        //     var body_height=document.documentElement.clientHeight;//当前页面的高度
-        //     if(screen_height<body_height){
-        //        $('.product_all').css('height','500px')
-        //     }
-        // }
-        // $(window).resize(function() {
-        //     addFixed()
-        // });
-
+    $("#search_btn").click(function () {
+        LoadProduct(1);
     });
 
-    //关闭预售html 弹出框
-    function closeExplain() {
-        $('.explain').removeClass('j_display');
-    }
-    //预售加减数量
-    $("#explain").on("click", ".decrementPresales", function () {
-        var _input = $(this).siblings("input.presaleInput");
-        var quantity = _input.val();
-        quantity--;
-        quantity = quantity > 0 ? quantity : 1;
-        _input.val(quantity);
-    })
-        .on('click', '.addPresale', function () {
-            var _input = $(this).siblings("input.presaleInput");
-            var max = parseInt(_input.data("max"));
-            var quantity = _input.val();
-            quantity++;
-            quantity = quantity > max ? max : quantity;
-            _input.val(quantity);
-        })
-        .on('click', '.addPresaleCart', function () {
-            var id = $(this).data("id");
-            var productId = $(this).data("productId");
-            var _input = $(this).prev(".presaleItems").children(".presaleInput");
-            var quantity = _input.val();
-            var _amount = $(this).siblings('.amountNum');
-            $.ajax({
-                type: "post",
-                url: "/cart/addPresaleItemToCart",
-                dataType: "json",
-                data: {
-                    product_id: productId,
-                    quantity: quantity, //_input.val()
-                    mode: 1,
-                    presaleId: id
-                },
-                success: function (res) {
-                    if (res.error) {
-                        build("red", res.info, "pressaleError")
-                    } else {
-                        GlobalCartItemNum();
-                        _amount.html(_amount.html() - quantity);
-                        $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
-                    }
-                },
-                error: function (error) {
-                    console.log(error)
-                }
-            });
-        });
 </script>
+
+

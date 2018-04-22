@@ -563,5 +563,13 @@ namespace SaleTools.Controllers
             var res = _order.CheckCancel(orderId, isAgree);
             return Utils.SerializeObject(res);
         }
+
+        
+        public ActionResult OrderDetail(Guid orderId )
+        {
+            var model = _order.GetOrderDetail(orderId);
+
+            return View(model);
+        }
     }
 }

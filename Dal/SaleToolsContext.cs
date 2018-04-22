@@ -46,6 +46,9 @@ namespace Dal
         public DbSet<Manjiusong> Manjiusongs { get; set; }
 
         public DbSet<ManToArea> ManToAreas { get; set; }
+
+        public DbSet<UserCollect> UserCollects { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new UserInfoMap());
@@ -67,6 +70,7 @@ namespace Dal
             modelBuilder.Configurations.Add(new ManjiujianMap());
             modelBuilder.Configurations.Add(new ManjiusongMap());
             modelBuilder.Configurations.Add(new ManToAreaMap());
+            modelBuilder.Configurations.Add(new UserCollectMap());
         }
     }
 }

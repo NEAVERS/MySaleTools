@@ -179,7 +179,7 @@
                 html += '<td>电脑端</td >';
                 html += '<td>' + getSutas(this.Stutas) + '</td >';
                 html += '<td>';
-                html += '<a href="/order/detail/' + this.Id + '">订单详情</a>'
+                html += '<a href="/Order/OrderDetail?orderId=' + this.Id + '">订单详情</a>'
                 if (this.Stutas == 1)
                     html += '<a class="del" href="" data-pick="0" data-state="1" data-id="' + this.Id + '">取消订单</a>'
                 if (this.Stutas == 4) 

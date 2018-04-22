@@ -199,5 +199,7 @@ namespace SaleTools.Controllers
             var res = manager.IsExitNum(num);
             return Utils.SerializeObject(res);
         }
+
+    
     }
 }

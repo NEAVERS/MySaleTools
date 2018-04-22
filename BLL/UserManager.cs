@@ -130,7 +130,7 @@ namespace BLL
         /// <returns></returns>
         public UserInfo Login(string account,string pwd)
         {
-            var model =_context.UserInfoes.FirstOrDefault(x => x.Account == account && x.PassWord == pwd&&!x.IsDelete);
+            var model =_context.UserInfoes.FirstOrDefault(x =>( x.Account == account ||x.Tel == account||x.UserNum == account)&& x.PassWord == pwd&&!x.IsDelete);
             return model;
         }
 

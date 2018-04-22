@@ -81,7 +81,7 @@
                                 <td>@item.SendPeople</td>
                                 <td>@item.SendPeopleTel</td>
                                 <td class="center">
-                                    <a href="http://buyer.pifa.yunmayi.com/trade/orderDetail?order_id=1804062139511020">订单详情</a>
+                                    <a href="/Order/OrderDetail?orderId=@item.Id">订单详情</a>
                                     @if (item.Stutas == (int)OrderStatus.等待商家发货)
                                     {
                                         <a onclick="CancelOrder('@item.Id')">取消订单</a>

@@ -41,12 +41,14 @@ namespace SaleTools.Controllers
             var trdType = _manager.GetGoodsType(trd);
             var loginUser = (UserInfo)ViewBag.User;
             string para = "fst";
+            string CurrentPara = "";
             Guid parentId = Guid.Empty;
             var TypeList = new List<GoodsType>();
             var BrandList = new List<GoodsBrand>();
             if (!string.IsNullOrWhiteSpace(trd))
             {
                 para = "trd";
+                CurrentPara =  "trd";
                 parentId = Utils.ParseGuid(trd);
                 secType = _manager.GetGoodsType(trdType.ParentId.ToString());
                 fstType = _manager.GetGoodsType(secType.ParentId.ToString());
@@ -54,12 +56,16 @@ namespace SaleTools.Controllers
             else if (!string.IsNullOrWhiteSpace(sec))
             {
                 para = "trd";
+                CurrentPara = "sec";
+
                 parentId = Utils.ParseGuid(sec);
                 fstType = _manager.GetGoodsType(secType.ParentId.ToString());
             }
             else if (!string.IsNullOrWhiteSpace(fst))
             {
                 para = "sec";
+                CurrentPara = "fst";
+
                 parentId = Utils.ParseGuid(fst);
             }
             TypeList = _manager.GetDownGoodsType(parentId, loginUser.CreateUserId);
@@ -78,6 +84,7 @@ namespace SaleTools.Controllers
                     { model };
                 }
             }
+            ViewBag.CurrentPara = CurrentPara;
             ViewBag.TypeList = TypeList;
             ViewBag.BrandList = BrandList;
             ViewBag.Para = para;
@@ -93,12 +100,12 @@ namespace SaleTools.Controllers
 
         }
 
-        public string LoadProductList(int page,int size, string fst = "", string sec = "", string trd = "", string brandId = "")
+        public string LoadProductList(int page,int size, string fst = "", string sec = "", string trd = "", string brandId = "",string key="")
         {
             var loginUser = (UserInfo)ViewBag.User;
 
 
-            var list = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, page,size, "", fst, sec, trd, brandId,"");
+            var list = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, page,size, "", fst, sec, trd, brandId, key);
             return Utils.SerializeObject(list);
         }
 
@@ -294,6 +301,27 @@ namespace SaleTools.Controllers
             var list = _order.GetOrderListByCreateUserId(startTime, endTime, loginUser.UserId);
             ViewBag.OrderList = list;
             return View();
+        }
+
+
+        public string SerCollect(Guid  goodId)
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var res = _manager.CollectGoods(loginUser.UserId, goodId);
+            return Utils.SerializeObject(res);
+        }
+
+        public ActionResult UserIndex()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            if(loginUser.TypeId > 0)
+            {
+                return RedirectToAction("UserOrderManager", "Order");
+            }
+            else
+            {
+                return RedirectToAction("Index", "User");
+            }
         }
     }
 }
