@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿
+@using Common.Entities;
+@{
+    ViewBag.Title = "Index";
+    var Resourse = (List<string>)ViewBag.SaleManList;
+}
+
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -431,6 +438,8 @@
                     <div class="col_side">
                         <!-- 侧边导航 -->
                         <div class="menu_box">
+                            @if (Resourse.Contains(ResourceStr.SaleManager))
+                            {
                             <dl class="menu">
                                 <dt class="menu_title">交易管理</dt>
                                 <dd class="menu_item">
@@ -441,6 +450,7 @@
                                     <a href="/Order/PickUpBill">拣货单查询</a>
                                 </dd>
                             </dl>
+                            }
                             <dl class="menu">
                                 <dt class="menu_title">商品管理</dt>
                                 <dd class="menu_item">
@@ -454,8 +464,6 @@
                                 <dt class="menu_title">账号管理</dt>
                                 <dd class="menu_item">
                                     <a href="/User/ChangePwd">修改密码</a>
-
-                                    <a href="/GoodsManager/GoodsList">账号管理</a>
                                     <a href="/User/SysAccount?type=-2">业务员管理</a>
                                     <a href="/User/SysAccount?type=-3">送货员管理</a>
                                 </dd>
@@ -478,7 +486,6 @@
                                     <a href="/System/ImgSetList">首页海报</a>
                                     <a href="/System/SendGoodsfoot">页尾设置</a>
                                     <a href="/System/Operate">系统设置</a>
-
                                 </dd>
                             </dl>
                             <dl class="menu">
@@ -590,7 +597,7 @@
                                 }
                                 content += ". . .";
                                 content += "<a>" + total + "</a>";
-                                //页码在中间部分时候	
+                                //页码在中间部分时候
                             } else {
                                 content += "<a>1</a>";
                                 content += ". . .";

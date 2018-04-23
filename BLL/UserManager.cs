@@ -320,7 +320,13 @@ namespace BLL
                     && !c.IsDelete
                     select c;
             return q.ToList();
+        }
 
+        public List<string> GetUserSourse(Guid userId)
+        {
+            var list = new List<string>();
+            ///TODO
+            return list;
         }
 
     }

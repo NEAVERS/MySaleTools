@@ -44,7 +44,7 @@ namespace SaleTools.Controllers
                 var list = _manager.GetGoddsTypeTree(userid);
                 ViewBag.GoddsTypeTree = list;
                 ViewBag.User = user;
-                
+                ViewBag.Resourse = _user.GetUserSourse(user.UserId);
                 ViewBag.ManagerId = userid;
 
 
