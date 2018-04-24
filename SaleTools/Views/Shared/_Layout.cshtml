@@ -2,7 +2,7 @@
 @using Common.Entities;
 @{
     ViewBag.Title = "Index";
-    var Resourse = (List<string>)ViewBag.SaleManList;
+    var Resourse = (List<string>)ViewBag.Resourse;
 }
 
 <!DOCTYPE html>
@@ -520,7 +520,7 @@
                         <dl class="menu">
                             <dt class="menu_title">系统管理</dt>
                             <dd class="menu_item">
-                                <a href="/User/Index">公告管理</a>
+                                <a href="/System/NoticeList">公告管理</a>
                                 <a href="/User/ShowSupplierList">首页类目管理</a>
                                 <a href="/System/ImgSetList">首页海报</a>
                                 <a href="/System/SendGoodsfoot">页尾设置</a>

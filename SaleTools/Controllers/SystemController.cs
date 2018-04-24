@@ -150,5 +150,53 @@ namespace SaleTools.Controllers
         }
 
 
+
+        public ActionResult NoticeList()
+        {
+            List<Notice> list = _system.GetAllNotice(ViewBag.ManagerId);
+            foreach(var item in list)
+            {
+                string utypes = "";
+                var typeIds = item.UserTypes.Split(',');
+                foreach(var id in typeIds)
+                {
+                    utypes += ((StoreUserType)Utils.ParseInt(id)).ToString();
+                }
+                item.UserTypes = utypes;
+            }
+            ViewBag.NoticeList = _system.GetAllNotice(ViewBag.ManagerId);
+            return View();
+        }
+
+        public string DeleteNotice(int id)
+        {
+            var res = _system.DealNotice(id);
+            return Utils.SerializeObject(res);
+        }
+
+
+        public ActionResult AddNotice(int id = 0)
+        {
+
+            var typelist = manager.GetTypeList();
+            ViewBag.TypeList = typelist;
+
+            var model = _system.GetNoticeById(id);
+            if (model == null)
+                model = new Notice();
+            return View(model);
+        }
+
+
+        public ActionResult SaveNotice(Notice notice,List<int> userTypes)
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            notice.CreateUserId = loginUser.UserId;
+            notice.CreattUserName = loginUser.UserName;
+            _system.SaveNotice(notice, userTypes);
+
+            return RedirectToAction("NoticeList", "System");
+        }
     }
 }

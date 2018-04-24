@@ -12,7 +12,7 @@ namespace Dal.Mapping
     {
         public UserResourseMap()
         {
-            this.ToTable("UserResourseMap");
+            this.ToTable("UserResourse");
             this.Property(t => t.Id).HasColumnName("Id");
             this.Property(t => t.UserId).HasColumnName("UserId");
             this.Property(t => t.Resourse).HasColumnName("Resourse");

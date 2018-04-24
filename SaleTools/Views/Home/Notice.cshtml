@@ -1,0 +1,196 @@
+﻿@using Model;
+@using Common.Entities;
+@{
+    ViewBag.Title = "Notice";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+
+    var typeList = (List<GoddsTypeTree>)ViewBag.GoddsTypeTree;
+    var list = (List<Notice>)ViewBag.NoticeList;
+
+}
+@model Notice
+<link href="~/Content/css/base.css" rel="stylesheet" />
+<link href="~/Content/css/normalize.css" rel="stylesheet" />
+<link href="~/Content/css/Notice.css" rel="stylesheet" />
+<div class="header" id="header">
+    <div class="module top clearfix">
+        <div class="logo lfloat">
+            <div class="logoImg">
+                <a href="http://www.yunmayi.com"><img src="/Content/images/new_log.png" href="/cart/"></a>
+            </div>
+            <div class="logoFont">
+                <a href="http://pifa.yunmayi.com/"><img src="/Content/images/index/04171124.png" style="width:100%;"></a>
+            </div>
+        </div>
+        <div class="searchbar lfloat">
+            <input type="text" name="q" class="search_input" id="C_GlobalSearchInput" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+            <button type="button" class="search_btn" id="search_btn">搜索</button>
+        </div>
+        <div class="toolbar lfloat">
+            <a href="/Home/ShoppingCar" class="shopCart">
+                购物车
+                <i style="font-style: normal;color: red;" id="C_GlobalCartItemNum">0</i>
+            </a>
+        </div>
+    </div>
+    <div class="module nav clearfix">
+        <div class="category lfloat" id="C_CategoryBox" data-fixed="0">
+            <h2 class="topMenuList"><i style="padding-right: 13px;"><img src="/Content/images/index/04151605.png"></i>全部商品分类</h2>
+            <div class="dropdown_menu" style="display: none;">
+                <!-- first category -->
+                <ul class="menu_nav_container" id="C_CategoryList">
+
+                    @foreach (var item in typeList)
+                    {
+                        <li data-source="">
+                            <div class="menu_nav_fst">
+                                <h3 class="fst_cat_title"><a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a></h3>
+                                <div class="fst_cat_child">
+                                    @foreach (var child in item.TypeList)
+                                    {
+                                        <a href="/Home/Product?sec=@child.GoodsType.Id">@child.GoodsType.TypeName</a>
+
+                                    }
+
+
+                                </div>
+                            </div>
+                        </li>
+
+                    }
+
+                </ul>
+            </div>
+        </div>
+        <ul class="list clearfix">
+            <li>
+                <a href="/Home/Index">首页</a>
+                <img src="/Content/images/christmas-tree.png" alt="">
+            </li>
+            @foreach (var item in typeList)
+            {
+                <li>
+                    <a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a>
+                    <img src="/Content/images/christmas-tree.png" alt="">
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+<script>
+    document.onkeydown = function (event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 13) { // enter 键
+            if (event.target.value == '' || event.target.value == NULL) {
+                return false;
+            }
+            window.location.href = 'http://pifa.v2.com/search/index?q=' + event.target.value;
+        }
+    };
+
+    var test = window.location.pathname; //获取当前页面的url的路径部分
+    if (test != "/") { //当不为首页时
+        $("#C_CategoryBox").find("h2").addClass('topMenuList');
+    }
+    $(".topMenuList").mouseover(function () {
+        $(".dropdown_menu").css({
+            display: 'block'
+        });
+        var scrollTop = $(document).scrollTop();
+        if (scrollTop < 130) {
+            if ($(".dropdown_menu").height() > windowH - $(".topfixeds").height()) {
+                $(".dropdown_menu .menu_nav_container").css({
+                    height: windowH - $(".topfixeds").height() + 'px'
+                })
+            }
+        } else {
+            $(".header .nav .category").addClass('topShow');
+        }
+        $(".header .nav .category").removeClass('fixed');
+        $(".header .nav .category").addClass('show');
+    })
+    $(".topMenuList").mouseleave(function () {
+        if ($(".header .nav .category").data("fixed") == 0) {
+            $(".dropdown_menu").css({
+                display: 'none'
+            });
+        } else {
+            $(".header .nav .category").addClass('fixed');
+        }
+        $(".header .nav .category").removeClass('show');
+        $(".header .nav .category").removeClass('topShow');
+
+    });
+    var windowH = $(window).height();
+    $(".dropdown_menu").mouseenter(function () {
+        $(".dropdown_menu").css({
+            display: 'block'
+        });
+        var scrollTop = $(document).scrollTop();
+        if (scrollTop > 130) {
+            $(".header .nav .category").addClass('topShow');
+            if ($(".dropdown_menu").height() > windowH - $(".topfixeds").height()) {
+                $(".dropdown_menu .menu_nav_container").css({
+                    height: windowH - $(".topfixeds").height() + 'px'
+                })
+            }
+        }
+        $(".header .nav .category").removeClass('fixed');
+        $(".header .nav .category").addClass('show');
+    });
+    $(".dropdown_menu").mouseleave(function () {
+        if ($(".header .nav .category").data("fixed") == 0) {
+            $(".dropdown_menu").css({
+                display: 'none'
+            });
+        } else {
+            $(".header .nav .category").addClass('fixed');
+        }
+        $(".dropdown_menu .menu_nav_container").css({
+            height: ''
+        })
+        $(".header .nav .category").removeClass('show');
+        $(".header .nav .category").removeClass('topShow');
+    });
+    $(window).on('scroll', function () {
+        var scrollTop = $(document).scrollTop();
+        if (scrollTop > 130) {
+            $(".topfixeds").css({ display: "block" });
+        } else {
+            $(".topfixeds").css({ display: "none" });
+            $(".header .nav .category").removeClass('topShow');
+            $(".dropdown_menu").css({
+                display: ''
+            });
+        }
+    });
+</script>
+<div class="menu-main" id="menu-main">
+    <div class="notice_menu">
+        <h2>公告栏</h2>
+        <ul class="notice_list">
+
+            @foreach (var notice in list)
+            {
+                string str = "";
+                if (notice.Id == ViewBag.NoticeId)
+                {
+                    str = "notice_list_a_clicked";
+                }
+                <li class="noticeTitle">
+                    <a class="notice_list_a  @str" data-id="@notice.Id " style="position: inherit; left: 0px;">@notice.Tittle  </a>
+                </li>
+
+            }
+
+
+        </ul>
+    </div>
+    <div class="notice_item">
+        <iframe frameborder="0" scrolling="no" id="notice_container" src="/Home/NoticeDetail/@ViewBag.NoticeId" height="392"></iframe>
+    </div>
+    <div id="toTop">
+        <img src="/statics/images/chevron-up.png">
+        <a class="goToTop">返回顶部</a>
+    </div>
+</div>

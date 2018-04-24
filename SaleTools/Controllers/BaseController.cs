@@ -39,12 +39,19 @@ namespace SaleTools.Controllers
                 var isAdmin = user.TypeId == (int)SystemUserType.系统管理员;
                 ViewBag.IsAdmin = isAdmin;
                 Guid userid = user.CreateUserId;
+                var resourse = _user.GetUserSourse(user.UserId);
                 if (isAdmin)
+                {
                     userid = user.UserId;
+                    if (resourse == null)
+                        resourse = new List<string>();
+                    resourse.Add(ResourceStr.SuperAdmin);
+                }
+                
                 var list = _manager.GetGoddsTypeTree(userid);
                 ViewBag.GoddsTypeTree = list;
                 ViewBag.User = user;
-                ViewBag.Resourse = _user.GetUserSourse(user.UserId);
+                ViewBag.Resourse = resourse;
                 ViewBag.ManagerId = userid;
 
 

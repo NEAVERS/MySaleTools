@@ -1,0 +1,83 @@
+﻿@using Model;
+@{
+    ViewBag.Title = "AddNotice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var typeList = (List<UserType>)ViewBag.TypeList;
+}
+@model Notice
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>编辑公告</h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="col_main_content">
+                <form action="/System/SaveNotice" method="POST" id="J_PublishProductForm">
+                    <table class="table table_border_td_none">
+                        <tbody>
+                            <tr>
+                                <td class="right" width="120"><span class="highlight">*</span>标题：</td>
+                                <td>
+                                    <input type="text" class="inputtext" style="width:400px;" name="Tittle" value="@Model.Tittle">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right" width="120"><span class="highlight">*</span>内容：</td>
+                                <td>
+                                    <!-- <div class="ke-container ke-container-default" style="width: 100%;">
+                                        <div class="ke-statusbar"><span class="ke-inline-block ke-statusbar-center-icon"></span><span class="ke-inline-block ke-statusbar-right-icon"></span></div>
+                                    </div> -->
+                                    <textarea id="content" name="Content" style="width: 100%; height: 350px; display: none;">@Model.Content</textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right" width="120"><span class="highlight">*</span>客户类型：</td>
+                                <td>
+                                    @foreach (var type in typeList)
+                                    {
+                                        string str = "";
+                                        if (Model.UserTypes.Contains(type.TypeId.ToString()))
+                                        {
+                                            str = "checked='checked'";
+                                        }
+                                        <input type="checkbox" name="userTypes" value="@type.TypeId" @str>@type.TypeName
+                                    }
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <button type="submit" class="btn btn_confirm">发布公告</button>
+                                    <input type="hidden" name="Id" value="@Model.Id">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+    var DOMAIN = { "main": "pifa.yunmayi.com", "passport": "passport.pifa.yunmayi.com", "buyer": "buyer.pifa.yunmayi.com", "seller": "seller.pifa.yunmayi.com", "ajax": "ajax.pifa.yunmayi.com", "agent": "agent.pifa.yunmayi.com" };
+</script>
+<script type="text/javascript" src="/Content/js/lib/help.js"></script>
+<script type="text/javascript" src="/Content/js/lib/kindeditor-4.1.10/kindeditor-min.js"></script>
+<script type="text/javascript">
+    // kindeditor
+    KindEditor.ready(function(K) {
+        K.create("#content", {
+            items: [
+                'undo', 'redo', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull',
+                'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript',
+                'clearhtml', 'selectall', '|', 'formatblock', 'fontname', 'fontsize', '|', 'forecolor',
+                'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', '|', 'image',
+                'multiimage', 'table', 'link', 'unlink'
+            ]
+        });
+    });
+</script>

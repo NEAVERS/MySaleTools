@@ -111,15 +111,15 @@
     <Content Include="Content\css\common\header\global.css" />
     <Content Include="Content\css\laydate.css" />
     <Content Include="Content\css\normalize.css" />
-    <Content Include="Content\css\pages\buyer\overlay\overlay.css" />
-    <Content Include="Content\css\pages\buyer\trade\buy_list.css" />
-    <Content Include="Content\css\pages\cart\v2.css" />
-    <Content Include="Content\css\pages\home\index\index.css" />
-    <Content Include="Content\css\pages\home\index\overlay.css" />
-    <Content Include="Content\css\pages\home\product\detail.css" />
-    <Content Include="Content\css\pages\home\trade\confirmV2.css" />
-    <Content Include="Content\css\pages\passport\lg\pifa.css" />
-    <Content Include="Content\css\pages\ucenter.css" />
+    <Content Include="Content\css\common\pages\buyer\overlay\overlay.css" />
+    <Content Include="Content\css\common\pages\buyer\trade\buy_list.css" />
+    <Content Include="Content\css\common\pages\cart\v2.css" />
+    <Content Include="Content\css\common\pages\home\index\index.css" />
+    <Content Include="Content\css\common\pages\home\index\overlay.css" />
+    <Content Include="Content\css\common\pages\home\product\detail.css" />
+    <Content Include="Content\css\common\pages\home\trade\confirmV2.css" />
+    <Content Include="Content\css\common\pages\passport\lg\pifa.css" />
+    <Content Include="Content\css\common\pages\ucenter.css" />
     <Content Include="Content\images\04171707.png" />
     <Content Include="Content\images\activity.jpg" />
     <Content Include="Content\images\buyer\buyer.png" />
@@ -205,6 +205,7 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\css\Notice.css" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -335,6 +336,10 @@
     <Content Include="Views\System\SetHomePageType.cshtml" />
     <Content Include="Views\Login\LogOut.cshtml" />
     <Content Include="Views\Order\OrderDetail.cshtml" />
+    <Content Include="Views\System\NoticeList.cshtml" />
+    <Content Include="Views\System\AddNotice.cshtml" />
+    <Content Include="Views\Home\Notice.cshtml" />
+    <Content Include="Views\Home\NoticeDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

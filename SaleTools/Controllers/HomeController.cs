@@ -20,8 +20,12 @@ namespace SaleTools.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            var loginUser = (UserInfo)ViewBag.User;
             var imgSet = _system.GetImgSet();
             ViewBag.ImgList = imgSet;
+            List<Notice> list = _system.GetNoticeForShow(loginUser.TypeId, ViewBag.ManagerId);
+            list = list.OrderByDescending(x => x.CreateTime).Take(6).ToList();
+            ViewBag.NoticeList = list;
             return View();
         }
 
@@ -322,6 +326,24 @@ namespace SaleTools.Controllers
             {
                 return RedirectToAction("Index", "User");
             }
+        }
+
+        public ActionResult Notice(int id)
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            var model = _system.GetNoticeById(id);
+            List<Notice> list = _system.GetNoticeForShow(loginUser.TypeId, ViewBag.ManagerId);
+            list = list.OrderByDescending(x => x.CreateTime).ToList();
+            ViewBag.NoticeList = list;
+            ViewBag.NoticeId = id;
+            return View();
+        }
+
+        public ActionResult NoticeDetail(int id)
+        {
+            var model = _system.GetNoticeById(id);
+            return View(model);
         }
     }
 }

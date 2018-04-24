@@ -7,6 +7,7 @@
     Layout = null;
     int floorIndex = 0;
     var imgList = (List<ImgSet>)ViewBag.ImgList;
+    var noticeList = (List<Notice>)ViewBag.NoticeList;
 }
 
 <html>
@@ -472,36 +473,14 @@
                         </div>
                         <div class="nc">
                             <ul>
+                                @foreach (var notice in noticeList)
+                                {
                                 <li>
-                                    <a href="/notice?new=1104" class="J_Notice" target="_blank">
-                                        国庆中秋双节放假通知
+                                    <a href="/Home/Notice/@notice.Id" class="J_Notice" target="_blank">
+                                        @notice.Tittle
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="/notice?new=1060" class="J_Notice" target="_blank">
-                                        敬请期待~
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/notice?new=1030" class="J_Notice" target="_blank">
-                                        调整通知
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/notice?new=841" class="J_Notice" target="_blank">
-                                        春节放假通知
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/notice?new=796" class="J_Notice" target="_blank">
-                                        喜迎新春特惠活动
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/notice?new=434" class="J_Notice" target="_blank">
-                                        致尊敬的客户!
-                                    </a>
-                                </li>
+                                }
                             </ul>
                         </div>
                     </div>
