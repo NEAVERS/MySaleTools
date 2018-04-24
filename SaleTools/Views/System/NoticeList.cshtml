@@ -46,7 +46,7 @@
                                 </td>
                                 <td class="center">
                                     <a href="/System/AddNotice/@notice.Id">编辑</a>&nbsp;&nbsp;
-                                    <a href="" onclick="deleteNotice(@notice.Id)">删除</a>
+                                    <a href="#" onclick="deleteNotice(@notice.Id)">删除</a>
                                 </td>
                             </tr>
                         }
@@ -64,7 +64,7 @@
             btn: ['取消', '确认'] //按钮
         }, function () {
             }, function () {
-                $.post("/System/NoticeList", { id: id }, function (e) {
+                $.post("/System/DeleteNotice", { id: id }, function (e) {
                     if (e) {
                         layer.msg("删除成功！", { icon: 1 }, function () {
                             location.reload();
