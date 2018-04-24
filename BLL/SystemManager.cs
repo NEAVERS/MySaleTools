@@ -117,6 +117,73 @@ namespace BLL
             var model = _context.ImgSets.FirstOrDefault(x => x.Id == setId);
             return model;
         }
+        /// <summary>
+        /// 获取所有公告
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public List<Notice> GetAllNotice(Guid userid)
+        {
+            var q = _context.Notices.Where(x => x.CreateUserId == userid && !x.IsDelete);
+            return q.ToList();
+        }
+
+        /// <summary>
+        /// 根据ID获取公告信息
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public Notice GetNoticeById(int Id)
+        {
+            return _context.Notices.FirstOrDefault(x => x.Id == Id);
+        }
+
+        /// <summary>
+        /// 保存公告
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="userTypes"></param>
+        /// <returns></returns>
+        public bool SaveNotice(Notice model,List<int> userTypes)
+        {
+            if(model.Id>0)
+            {
+                var temp = _context.Notices.FirstOrDefault(x => x.Id == model.Id);
+                temp.Tittle = model.Tittle;
+                temp.Content = model.Content;
+                temp.UserTypes = string.Join(",", userTypes);
+            }
+            else
+            {
+                model.UserTypes = string.Join(",", userTypes);
+                _context.Notices.Add(model);
+            }
+            return _context.SaveChanges() > 0;
+        }
+
+        /// <summary>
+        /// 删除公告
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool DealNotice(int id)
+        {
+            var model = _context.Notices.FirstOrDefault(x => x.Id == id);
+            if (model != null)
+                model.IsDelete = true;
+            return _context.SaveChanges() > 0;
+        }
+
+
+        public List<Notice> GetNoticeForShow(int userType,Guid createUserId)
+        {
+            var q = from c in _context.Notices
+                    where c.CreateUserId == createUserId
+                    && !c.IsDelete
+                    && (c.UserTypes.Contains(userType.ToString()) || c.UserTypes.Contains("1"))
+                    select c;
+            return q.ToList();
+        }
 
     }
 }

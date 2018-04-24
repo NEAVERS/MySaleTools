@@ -325,9 +325,63 @@ namespace BLL
         public List<string> GetUserSourse(Guid userId)
         {
             var list = new List<string>();
-            ///TODO
+            var q = _context.UserResourses.Where(x => x.UserId == userId);
+            list = q.Select(x => x.Resourse).ToList();
             return list;
         }
 
+
+        public bool SaveUserResourse(Guid userId,List<string> resourse)
+        {
+            var q= _context.UserResourses.Where(x => x.UserId == userId);
+            _context.UserResourses.RemoveRange(q);
+            var list = new List<UserResourse>();
+            resourse.ForEach(x =>
+            {
+                if (!string.IsNullOrWhiteSpace(x))
+                {
+                    var model = new UserResourse();
+                    model.UserId = userId;
+                    model.Resourse = x;
+                    list.Add(model);
+                }
+            });
+            _context.UserResourses.AddRange(list);
+            return _context.SaveChanges() > 0;
+        }
+
+        public List<string> GetAllSourse()
+        {
+            var list = new List<string>();
+            list.Add("超级管理员");
+            list.Add("财务管理员");
+            list.Add("订单管理");
+            list.Add("财务");
+            list.Add("仓库");
+            list.Add("业务员查询订单");
+            list.Add("财务查询");
+            list.Add("统计权限");
+            list.Add("商品编辑管理员");
+            list.Add("公告管理");
+            list.Add("首页查看");
+            list.Add("订单综合统计");
+            list.Add("修改密码");
+            list.Add("订单导出");
+            list.Add("小店列表");
+            list.Add("商品账单主管");
+            list.Add("供应商管理");
+            list.Add("活动管理");
+            list.Add("系统管理");
+            list.Add("业务员管理");
+            list.Add("分拣管理");
+            list.Add("应收未收对比");
+            list.Add("取消订单");
+            list.Add("小店管理");
+            list.Add("订单收款撤销");
+            list.Add("商品查询");
+            list.Add("送货员管理");
+            list.Add("商品导出");
+            return list;
+        }
     }
 }

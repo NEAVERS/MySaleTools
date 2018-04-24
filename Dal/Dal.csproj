@@ -60,6 +60,7 @@
     <Compile Include="Mapping\ManjiujianMap.cs" />
     <Compile Include="Mapping\ManjiusongMap.cs" />
     <Compile Include="Mapping\ManToAreaMap.cs" />
+    <Compile Include="Mapping\NoticeMap.cs" />
     <Compile Include="Mapping\OrderInfoMap.cs" />
     <Compile Include="Mapping\OrderItemMap.cs" />
     <Compile Include="Mapping\PriceOfUserTypeMap.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Mapping\SysConfigMap.cs" />
     <Compile Include="Mapping\UserCollectMap.cs" />
     <Compile Include="Mapping\UserInfoMap.cs" />
+    <Compile Include="Mapping\UserResourseMap.cs" />
     <Compile Include="Mapping\UserTypeMap.cs" />
     <Compile Include="SaleToolsContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

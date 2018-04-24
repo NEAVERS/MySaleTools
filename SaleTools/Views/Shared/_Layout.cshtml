@@ -416,7 +416,7 @@
             <div class="pace"></div>
             <div class="module clearfix">
                 <div class="lfloat">
-                    <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                    <a href="/Home/Index" target="_blank"><span class="main_title">首页  </span></a>
                     <span class="hello">您好，</span>
                     <span class="username">57700000</span>
                     <span>，欢迎来到温州批发平台 </span>
@@ -438,86 +438,140 @@
                     <div class="col_side">
                         <!-- 侧边导航 -->
                         <div class="menu_box">
-                            @if (Resourse.Contains(ResourceStr.SaleManager))
-                            {
                             <dl class="menu">
                                 <dt class="menu_title">交易管理</dt>
                                 <dd class="menu_item">
-                                    <a href="/Order/OrderSearch">订单查询</a>
-                                    <a href="/Order/OrderManager">订单管理</a>
-                                    <a href="/Order/CreateFile">订单导出</a>
-                                    <a href="/Order/GetBill">取货单查询</a>
-                                    <a href="/Order/PickUpBill">拣货单查询</a>
+                                    @if (Resourse.Contains(ResourceStr.SearchOrder) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+                        <a href="/Order/OrderSearch">订单查询</a>
+}
+                                    @if (Resourse.Contains(ResourceStr.BillManger) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+
+                        <a href="/Order/OrderManager">订单管理</a>}
+                                    @if (Resourse.Contains(ResourceStr.ExportOrder) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+
+                        <a href="/Order/CreateFile">订单导出</a>
+}
+                                    @if (Resourse.Contains(ResourceStr.PickupManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+
+                        <a href="/Order/GetBill">取货单查询</a>
+                        <a href="/Order/PickUpBill">拣货单查询</a>
+}
                                 </dd>
                             </dl>
-                            }
-                            <dl class="menu">
-                                <dt class="menu_title">商品管理</dt>
-                                <dd class="menu_item">
-                                    <a href="/GoodsManager/GoodsList">商品列表</a>
-                                    <a href="/GoodsManager/AddGoods">新增商品</a>
-                                    <a href="/GoodsManager/GoodsBrand">品牌管理</a>
-                                    <a href="/GoodsManager/GoodsTypeList">商品类型</a>
-                                </dd>
-                            </dl>
+                            @if (Resourse.Contains(ResourceStr.GoodsManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+    {
+
+                        <dl class="menu">
+                            <dt class="menu_title">商品管理</dt>
+                            <dd class="menu_item">
+                                <a href="/GoodsManager/GoodsList">商品列表</a>
+                                <a href="/GoodsManager/AddGoods">新增商品</a>
+                                <a href="/GoodsManager/GoodsBrand">品牌管理</a>
+                                <a href="/GoodsManager/GoodsTypeList">商品类型</a>
+                            </dd>
+                        </dl>
+}
                             <dl class="menu">
                                 <dt class="menu_title">账号管理</dt>
                                 <dd class="menu_item">
-                                    <a href="/User/ChangePwd">修改密码</a>
-                                    <a href="/User/SysAccount?type=-2">业务员管理</a>
-                                    <a href="/User/SysAccount?type=-3">送货员管理</a>
+                                    @if (Resourse.Contains(ResourceStr.ChangePwd) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+
+                        <a href="/User/ChangePwd">修改密码</a>
+}
+                                    @if (Resourse.Contains(ResourceStr.SaleManManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+
+                        <a href="/User/SysAccount?type=-2">业务员管理</a>
+}
+                                    @if (Resourse.Contains(ResourceStr.SendPeopleManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+
+                        <a href="/User/SysAccount?type=-3">送货员管理</a>
+}
                                 </dd>
                             </dl>
 
                             <dl class="menu">
                                 <dt class="menu_title">会员管理</dt>
                                 <dd class="menu_item">
-                                    <a href="/User/Index">小店管理</a>
-                                    <a href="/User/ShowSupplierList">供应商管理</a>
-                                    <a href="/User/SupplierDeltie">新增供应商</a>
+                                    @if (Resourse.Contains(ResourceStr.StoreList) || Resourse.Contains(ResourceStr.StoreManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+
+                        <a href="/User/Index">小店管理</a>
+}
+                                    @if (Resourse.Contains(ResourceStr.SupplierManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+
+
+                        <a href="/User/ShowSupplierList">供应商管理</a>
+}
 
                                 </dd>
                             </dl>
-                            <dl class="menu">
-                                <dt class="menu_title">系统管理</dt>
-                                <dd class="menu_item">
-                                    <a href="/User/Index">公告管理</a>
-                                    <a href="/User/ShowSupplierList">首页类目管理</a>
-                                    <a href="/System/ImgSetList">首页海报</a>
-                                    <a href="/System/SendGoodsfoot">页尾设置</a>
-                                    <a href="/System/Operate">系统设置</a>
-                                </dd>
-                            </dl>
-                            <dl class="menu">
-                                <dt class="menu_title">财务管理</dt>
-                                <dd class="menu_item">
-                                    <a href="/Order/ConfirmPayRecord">订单收款登记</a>
-                                    <a href="/Order/OrderPayContrast">应收未收对比</a>
-                                    <a href="/Order/AbnormalOrder">收款异常查询</a>
+                            @if (Resourse.Contains(ResourceStr.SystemManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+    {
 
-                                </dd>
-                            </dl>
 
-                            <dl class="menu">
-                                <dt class="menu_title"> 数据统计</dt>
-                                <dd class="menu_item">
-                                    <a href="/Order/OrderCount">订单综合统计</a>
-                                    <a href="/Order/ShopCount">商品销售统计</a>
-                                    <a href="/Order/AbnormalNumber">异常天数统计</a>
-                                    <a href="/Order/AbnormalCount">异常情况统计</a>
+                        <dl class="menu">
+                            <dt class="menu_title">系统管理</dt>
+                            <dd class="menu_item">
+                                <a href="/User/Index">公告管理</a>
+                                <a href="/User/ShowSupplierList">首页类目管理</a>
+                                <a href="/System/ImgSetList">首页海报</a>
+                                <a href="/System/SendGoodsfoot">页尾设置</a>
+                                <a href="/System/Operate">系统设置</a>
+                            </dd>
+                        </dl>
+}
+                            @if (Resourse.Contains(ResourceStr.AccountingAdmin) || Resourse.Contains(ResourceStr.Accounting) || Resourse.Contains(ResourceStr.SuperAdmin))
+    {
 
-                                </dd>
-                            </dl>
-                            <dl class="menu">
-                                <dt class="menu_title"> 活动管理</dt>
-                                <dd class="menu_item">
-                                    <a href="/Activtity/GetManSongList">满就送</a>
-                                    <a href="/Activtity/GetManJianList">满减</a>
-                                    <a href="/Activtity/ShowCoupon">优惠券</a>
 
-                                </dd>
-                            </dl>
+                        <dl class="menu">
 
+                            <dt class="menu_title">财务管理</dt>
+                            <dd class="menu_item">
+                                <a href="/Order/ConfirmPayRecord">订单收款登记</a>
+                                @if (Resourse.Contains(ResourceStr.AccountingAdmin) || Resourse.Contains(ResourceStr.ReceiveAndWait) || Resourse.Contains(ResourceStr.SuperAdmin))
+        {
+
+                        <a href="/Order/OrderPayContrast">应收未收对比</a>
+}
+                                <a href="/Order/AbnormalOrder">收款异常查询</a>
+
+                            </dd>
+                        </dl>
+}
+                            @if (Resourse.Contains(ResourceStr.Statistics) || Resourse.Contains(ResourceStr.SuperAdmin))
+    {
+                        <dl class="menu">
+                            <dt class="menu_title"> 数据统计</dt>
+                            <dd class="menu_item">
+                                <a href="/Order/OrderCount">订单综合统计</a>
+                                <a href="/Order/ShopCount">商品销售统计</a>
+                                <a href="/Order/AbnormalNumber">异常天数统计</a>
+                                <a href="/Order/AbnormalCount">异常情况统计</a>
+                            </dd>
+                        </dl>
+}
+                            @if (Resourse.Contains(ResourceStr.ActiveManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+                            {
+
+                        <dl class="menu">
+                            <dt class="menu_title"> 活动管理</dt>
+                            <dd class="menu_item">
+                                <a href="/Activtity/GetManSongList">满就送</a>
+                                <a href="/Activtity/GetManJianList">满减</a>
+                                <a href="/Activtity/ShowCoupon">优惠券</a>
+
+                            </dd>
+                        </dl>
+                            }
 
                         </div>
                     </div>
