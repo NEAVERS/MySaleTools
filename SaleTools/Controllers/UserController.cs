@@ -2,6 +2,7 @@
 using Common;
 using Common.Entities;
 using Model;
+using SaleTools.App_Start;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,21 +26,29 @@ namespace SaleTools.Controllers
             return View();
         }
 
-        public string SetSaleMan(Guid userId, Guid saleManId,string saleManName)
+        public string SetSaleMan(Guid userId, Guid saleManId, string saleManName)
         {
             var res = manager.SetSaleMan(userId, saleManId, saleManName);
             return Utils.SerializeObject(res);
         }
-
         public ActionResult AddNewUser()
         {
-            var loginUser = (UserInfo)ViewBag.User;
-            var list = manager.GetTypeList();
-            ViewBag.TypeList = list;
-            var saleList = manager.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
-            ViewBag.SaleManList = saleList;
+            var Resourse = (List<string>)ViewBag.Resourse;
+            if (Resourse.Contains(ResourceStr.StoreManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
 
-            return View();
+                var loginUser = (UserInfo)ViewBag.User;
+                var list = manager.GetTypeList();
+                ViewBag.TypeList = list;
+                var saleList = manager.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
+                ViewBag.SaleManList = saleList;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("NoResourse", "System");
+            }
         }
 
   
@@ -144,18 +153,28 @@ namespace SaleTools.Controllers
 
         public ActionResult EditUserInfo(Guid id)
         {
-            var loginUser = (UserInfo)ViewBag.User;
 
-            var list = manager.GetTypeList();
-            ViewBag.TypeList = list;
+            var Resourse = (List<string>)ViewBag.Resourse;
+            if (Resourse.Contains(ResourceStr.StoreManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
 
-            var model = manager.GetUserByUserId(id);
-            var saleList = manager.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
-            ViewBag.SaleManList = saleList;
+                var loginUser = (UserInfo)ViewBag.User;
 
-            if (model == null)
-                return RedirectToAction("AddNewUser", "User");
-            else return View(model);
+                var list = manager.GetTypeList();
+                ViewBag.TypeList = list;
+
+                var model = manager.GetUserByUserId(id);
+                var saleList = manager.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
+                ViewBag.SaleManList = saleList;
+
+                if (model == null)
+                    return RedirectToAction("AddNewUser", "User");
+                else return View(model);
+            }
+            else
+            {
+                return RedirectToAction("NoResourse", "System");
+            }
         }    
         
 

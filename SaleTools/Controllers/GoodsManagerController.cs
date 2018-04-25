@@ -160,19 +160,27 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public ActionResult AddGoods(string id ="")
         {
-            Guid goodId = Utils.ParseGuid(id);
-            var info = new GoodInfo();
-
-            if (goodId != Guid.Empty)
+            var Resourse = (List<string>)ViewBag.Resourse;
+            if (Resourse.Contains(ResourceStr.GoodsManager) || Resourse.Contains(ResourceStr.SuperAdmin))
             {
-                info = _manager.GetGoodInfoById(goodId);
+                Guid goodId = Utils.ParseGuid(id);
+                var info = new GoodInfo();
+
+                if (goodId != Guid.Empty)
+                {
+                    info = _manager.GetGoodInfoById(goodId);
+                }
+                var loginUser = (UserInfo)Session["LoginUser"];
+                var list = _user.GetTypeList();
+                var supplierList = _user.GetSupplierList(loginUser.UserId);
+                ViewBag.SupplierList = supplierList;
+                ViewBag.UserTypeList = list;
+                return View(info);
             }
-            var loginUser = (UserInfo)Session["LoginUser"];
-            var list = _user.GetTypeList();
-            var supplierList = _user.GetSupplierList(loginUser.UserId);
-            ViewBag.SupplierList = supplierList;
-            ViewBag.UserTypeList = list;
-            return View(info);
+            else
+            {
+                return RedirectToAction("NoResourse", "System");
+            }
         }
 
         /// <summary>

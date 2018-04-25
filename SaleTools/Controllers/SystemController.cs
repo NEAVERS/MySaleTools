@@ -198,5 +198,11 @@ namespace SaleTools.Controllers
 
             return RedirectToAction("NoticeList", "System");
         }
+
+
+        public ActionResult NoResourse()
+        {
+            return View();
+        }
     }
 }

@@ -340,6 +340,7 @@
     <Content Include="Views\System\AddNotice.cshtml" />
     <Content Include="Views\Home\Notice.cshtml" />
     <Content Include="Views\Home\NoticeDetail.cshtml" />
+    <Content Include="Views\System\NoResourse.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

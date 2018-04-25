@@ -1,9 +1,11 @@
 ﻿@using Model;
+@using Common.Entities;
 @{
     ViewBag.Title = "Index";
     var saleList = (List<UserInfo>)ViewBag.SaleManList;
     var typeList = (List<UserType>)ViewBag.TypeList;
 
+    var Resourse = (List<string>)ViewBag.Resourse;
 
 }
 <div class="col_main_hd">
@@ -12,7 +14,10 @@
     </h2>
 </div>
 <div class="col_main_bd">
+    @if (Resourse.Contains(ResourceStr.SuperAdmin) || Resourse.Contains(ResourceStr.StoreManager))
+    {
     <a href="/User/AddNewUser">+新增小店用户</a>
+    }
     <div class="inner">
         <div class="col_main_content">
             <label>区域:</label>
