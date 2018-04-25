@@ -149,5 +149,15 @@ namespace Common.Entities
         /// </summary>
         public const string ExportGoods = "商品导出";
 
-    }   
+        /// <summary>
+        /// 已购列表
+        /// </summary>
+        public const string ShowMyOrder = "已购列表";
+
+        /// <summary>
+        /// 我的优惠券
+        /// </summary>
+        public const string ShowMyCoupon = "我的优惠券";
+
+    }
 }

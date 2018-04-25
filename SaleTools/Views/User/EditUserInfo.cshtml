@@ -167,16 +167,6 @@
                     </tr>
 
 
-                    <tr>
-                        <td class="right">
-                            区域：
-                        </td>
-                        <td>
-                            <select id="province"></select>
-                            <select id="city"></select>
-                            <select id="area"></select>
-                        </td>
-                    </tr>
 
                 </tbody>
 
@@ -270,7 +260,14 @@
         para.SaleManGuid = $("#saleMan").val();
         para.SaleManName = $("#saleMan").find("option:selected").text();
         $.post("/User/SaveUser", para, function (e) {
-            alert(e);
+            if (e) {
+                layer.msg("添加成功！", { icon: 1 }, function () {
+                    location.href = "/User/Index";
+                })
+            }
+            else {
+                layer.msg("添加失败！请稍候重试！", { icon: 2 })
+            }
         }, "json")
     }
 </script>

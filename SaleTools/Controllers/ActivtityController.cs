@@ -23,6 +23,15 @@ namespace SaleTools.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 优惠券列表
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="stutas"></param>
+        /// <param name="storeNum"></param>
+        /// <returns></returns>
         public ActionResult ShowCoupon(int index =1,string start = "",string end = "",int stutas = -1,string storeNum="")
         {
             var loginUser = (UserInfo)ViewBag.User;
@@ -46,7 +55,10 @@ namespace SaleTools.Controllers
             ViewBag.Pager = page;
             return View();
         }
-
+        /// <summary>
+        /// 添加优惠券
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AddNewCoupon()
         {
             var loginUser = (UserInfo)ViewBag.User;
@@ -61,6 +73,14 @@ namespace SaleTools.Controllers
             return View(); 
         }
 
+        /// <summary>
+        /// 保存优惠券
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="number"></param>
+        /// <param name="userType"></param>
+        /// <param name="addtype"></param>
+        /// <returns></returns>
         public ActionResult SaveCoupon(Coupon c,string number, List<int> userType,int addtype)
         {
             var loginUser = (UserInfo)ViewBag.User;
@@ -83,7 +103,12 @@ namespace SaleTools.Controllers
             Response.Redirect("ShowCoupon");
             return View();
         }
-
+        /// <summary>
+        /// 修改优惠券过期时间
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="endTime"></param>
+        /// <returns></returns>
         public string UpdateCouponEndTime(Guid id,DateTime endTime)
         {
             var res = _active.UpdateCouponEndTime(id, endTime);
@@ -254,6 +279,16 @@ namespace SaleTools.Controllers
             m.UserTypes = userTypes;
             _active.SaveManjiujian(m, areaList);
             Response.Redirect("GetManJianList");
+            return View();
+        }
+
+
+        public ActionResult ShowMyCoupon(int type = -1)
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var coupons = _active.GetMyCoupons(loginUser.UserId, type);
+            ViewBag.Coupons = coupons;
+            ViewBag.TypeId = type;
             return View();
         }
 

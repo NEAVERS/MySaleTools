@@ -183,6 +183,12 @@ namespace SaleTools.Controllers
             }
         }
 
+        public ActionResult ShowGoodsInfo(Guid goodId)
+        {
+            var info = _manager.GetGoodInfoById(goodId);
+            return View(info);
+        }
+
         /// <summary>
         /// 获取品牌列表
         /// </summary>
@@ -281,6 +287,8 @@ namespace SaleTools.Controllers
             return Utils.SerializeObject(res);
         }
 
+
+       
 
 
     }

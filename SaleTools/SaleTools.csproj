@@ -109,6 +109,7 @@
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\common\footer\global.css" />
     <Content Include="Content\css\common\header\global.css" />
+    <Content Include="Content\css\Index.css" />
     <Content Include="Content\css\laydate.css" />
     <Content Include="Content\css\normalize.css" />
     <Content Include="Content\css\common\pages\buyer\overlay\overlay.css" />
@@ -341,6 +342,8 @@
     <Content Include="Views\Home\Notice.cshtml" />
     <Content Include="Views\Home\NoticeDetail.cshtml" />
     <Content Include="Views\System\NoResourse.cshtml" />
+    <Content Include="Views\Activtity\ShowMyCoupon.cshtml" />
+    <Content Include="Views\GoodsManager\ShowGoodsInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

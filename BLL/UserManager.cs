@@ -52,7 +52,7 @@ namespace BLL
                 model.SotreName = user.SotreName;
                 model.Email = user.Email;
                 model.Remark = user.Remark;
-
+                model.Tel = user.Tel;
             }
 
             return _context.SaveChanges() > 0;
@@ -229,6 +229,12 @@ namespace BLL
                     && c.TypeId == type
                     select c;
             return q.ToList();
+        }
+
+        public UserInfo GetUserByUserAndType(Guid id,int type)
+        {
+            return _context.UserInfoes.FirstOrDefault(x => x.UserId == id&&x.TypeId == type&&!x.IsDelete);
+
         }
         /// <summary>
         /// 解锁

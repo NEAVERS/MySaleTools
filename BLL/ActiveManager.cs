@@ -571,5 +571,20 @@ namespace BLL
             var res = list.Where(x => typeArr.Contains(x.TypeId.ToString()));
             return res.ToList();
         }
+
+        public List<Coupon> GetMyCoupons(Guid userId,int type)
+        {
+            var q = from c in _context.Coupons
+                    where c.UserId == userId
+                    select c;
+            if (type == 0)
+                q = q.Where(x => !x.IsUsed && x.StartTime < DateTime.Now && x.EndTime > DateTime.Now);
+            if (type == 1)
+                q = q.Where(x => x.IsUsed);
+            if (type == 2)
+                q = q.Where(x => !x.IsUsed && x.EndTime < DateTime.Now);
+            return q.ToList();
+
+        }
     }
 }

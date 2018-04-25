@@ -2,7 +2,6 @@
 using Common;
 using Common.Entities;
 using Model;
-using SaleTools.App_Start;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +13,7 @@ namespace SaleTools.Controllers
     public class UserController : BaseController
     {
         private UserManager manager = new UserManager();
+        private SystemManager _system = new SystemManager();
         // GET: Usei
         public ActionResult Index()
         {
@@ -56,8 +56,8 @@ namespace SaleTools.Controllers
 
         public string GetList(int index , int size , string  start, string end,string province,string city,string area,string saleManId, int userType, string  key = "")
         {
-            var startTime = Utils.GetTime(start, true);
-            var endTime = Utils.GetTime(end);
+            var startTime = DateTime.MinValue;
+            var endTime = DateTime.MaxValue;
             var list = manager.GetUserByPage(index, size, startTime, endTime,  province,  city,  area,  saleManId,  userType, key, false);
 
             return Utils.SerializeObject(list);
@@ -82,12 +82,18 @@ namespace SaleTools.Controllers
             return Utils.SerializeObject(res);
         }
 
-
-        public  string SaveUser(UserInfo user)
+        public string SaveUser(UserInfo user)
         {
+            List<string> Resourses = new List<string>();
             var loginUser = (UserInfo)Session["LoginUser"];
             user.PassWord = Utils.GetMD5(user.PassWord);
-            bool res =  false;
+            bool res = false;
+            if (user.TypeId > 0)
+            {
+                Resourses.Add(ResourceStr.ShowMyOrder);
+                Resourses.Add(ResourceStr.ChangePwd);
+                Resourses.Add(ResourceStr.ShowMyCoupon);
+            }
             if (user.UserId == Guid.Empty)
             {
                 user.CreateUser = loginUser.UserName;
@@ -97,6 +103,34 @@ namespace SaleTools.Controllers
             }
             else
                 res = manager.UpdateUser(user);
+            if (res)
+            {
+                res = manager.SaveUserResourse(user.UserId, Resourses);
+            }
+            return Utils.SerializeObject(res);
+
+        }
+
+        public string SaveSysUser(UserInfo user,List<string> Resourses)
+        {
+            var loginUser = (UserInfo)Session["LoginUser"];
+            user.PassWord = Utils.GetMD5(user.PassWord);
+            bool res =  false;
+            if (user.TypeId > 0)
+                Resourses.Add(ResourceStr.ShowMyOrder);
+            if (user.UserId == Guid.Empty)
+            {
+                user.CreateUser = loginUser.UserName;
+                user.CreateUserId = loginUser.UserId;
+                user.UserId = Guid.NewGuid();
+                res = manager.UserReg(user);
+            }
+            else
+                res = manager.UpdateUser(user);
+            if(res)
+            {
+                res = manager.SaveUserResourse(user.UserId, Resourses);
+            }
             return Utils.SerializeObject(res);
             
         }
@@ -175,15 +209,22 @@ namespace SaleTools.Controllers
             {
                 return RedirectToAction("NoResourse", "System");
             }
-        }    
-        
+        }
 
-        public ActionResult AddSysAccount(int type)
+
+        public ActionResult AddSysAccount(int type, string userId = "")
         {
+            var userGuid = Utils.ParseGuid(userId);
+            var user = manager.GetUserByUserAndType(userGuid, type);
+            if (user == null)
+                user = new UserInfo();
+            var userResourse = manager.GetUserSourse(user.UserId);
             string userTypeName = ((SystemUserType)type).ToString();
             ViewBag.UserTypeName = userTypeName;
             ViewBag.UserType = type;
-            return View();
+            ViewBag.AllResourse = manager.GetAllSourse();
+            ViewBag.UserResourse = userResourse;
+            return View(user);
         }
 
 

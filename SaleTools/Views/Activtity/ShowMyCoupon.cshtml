@@ -1,0 +1,65 @@
+﻿@using Model;
+@{
+    ViewBag.Title = "ShowMyCoupon";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Coupons = (List<Coupon>)ViewBag.Coupons;
+}
+<link href="~/Content/base.css" rel="stylesheet" />
+<link href="~/Content/normalize.css" rel="stylesheet" />
+<link href="~/Content/css/Index.css" rel="stylesheet" />
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            我的优惠券                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/buyer/优惠券管理-我的优惠券.htm" target="_new" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <form action="/coupon/index" method="get">
+                <h1 id="title">
+                    <span class="coupon_list @(ViewBag.TypeId==-1?"select":"") " onclick="submitForm(-1)">全部</span>
+                    <span class="usedCoupon  @(ViewBag.TypeId== 1?"select":"") " onclick="submitForm(1)">已使用</span>
+                    <span class="usefulCoupon  @(ViewBag.TypeId== 0 ?"select":"") " onclick="submitForm(0)">可使用</span>
+                    <span class="outTimeCoupon @(ViewBag.TypeId== 2 ?"select":"") " onclick="submitForm(2)">已过期</span>
+                    <input type="hidden" name="is_used" value="99" id="FormSb">
+                </h1>
+            </form>
+            <div class="col_main_content">
+                <ul class="clear">
+
+                    @if (Coupons.Count < 1)
+                    {
+                    <h2>暂无优惠券信息</h2>
+                    }
+                    else
+                    {
+
+                    <section class="coupon_list">
+                        @foreach (var coupon in Coupons)
+                        {
+                        <li class="item_list">
+
+                            <div class="item_main">
+                                <img src="http://i8.yunmayi.com/upload/2017/01/07/f720c922e9db0ab3104782c4b5c46f86.png">
+                                <p>@coupon.LessMoney  元<span> - 满@(coupon.Limit)元,可用</span></p>
+                            </div>
+                            <div class="get">
+                                <a style="color: #7d7d7d;">首单优惠 @(coupon.IsUsed? "已使用":"待使用")                                                                     </a>
+                            </div>
+                            <div class="time">
+                                有效期至:<span id="startTime">@coupon.EndTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                            </div>
+                        </li>
+                        }
+                    </section>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function submitForm(type) {
+        location.href = "/Activtity/ShowMyCoupon?type=" + type;
+    }
+</script>

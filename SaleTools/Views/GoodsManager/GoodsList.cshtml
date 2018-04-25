@@ -315,7 +315,7 @@
 <script type="text/javascript" src="/Content/js/lib/select_js/tabcomplete.min.js">
 </script>
 <script type="text/javascript" src="/Content/js/lib/paging.js"></script>
-
+<script src="~/Scripts/layer/layer.js"></script>
 <script>
     LoadList(1);
     $(function () {
@@ -367,7 +367,7 @@
                     html += '<td class="center">' + this.LastUpdateTime + '</td>'
                     html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum" data-id="808105" data-num="10" value="10"></td>';
                     html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" data-id="808105" data-sort="341" value="341"></td>';
-                    html += '<td class="center"><a href="http://agent.pifa.yunmayi.com/product/onlysee?id=808105">商品详情</a><br><br>';
+                    html += '<td class="center"><a href="/GoodsManager/ShowGoodsInfo?goodId=' + this.Id+'">商品详情</a><br><br>';
                     html += '<a href="http://agent.pifa.yunmayi.com/product/copyadd?id=808105">复制新增</a><br><br>';
                     html += '<a href="/GoodsManager/AddGoods/' + this.Id + '">编辑商品</a><br><br>';
                     var strShelves = "上架";
@@ -407,20 +407,35 @@
     });
 
     function DeleteGoods(goodsList) {
-        $.post("/GoodsManager/DeleteGoods", { goodsIds: goodsList }, function (e) {
-            if (e) {
-                LoadList(1);
-            }
-        }, "json");
+            layer.confirm('请确认是否删除？', {
+                btn: ['取消', '确认'] //按钮
+            }, function () {
+                layer.closeAll();
+            }, function () {
+
+                $.post("/GoodsManager/DeleteGoods", { goodsIds: goodsList }, function (e) {
+                    if (e) {
+                        LoadList(1);
+                    }
+                }, "json");
+            });
+
     }
 
 
     function ToggleShelves(goodsList, isShelves) {
+        layer.confirm('请确认下架该商品？', {
+            btn: ['取消', '确认'] //按钮
+        }, function () {
+            layer.closeAll();
+        }, function () {
+
         $.post("/GoodsManager/ToggleShelves", { goodsIds: goodsList, isShelves: isShelves }, function (e) {
             if (e) {
                 LoadList(1);
             }
-        }, "json");
+            }, "json");
+            });
     }
 
     function exportCSV()

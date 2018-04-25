@@ -3,7 +3,16 @@
 @{
     ViewBag.Title = "AddNewUser";
     var typeList = (List<UserType>)ViewBag.TypeList;
+    var allResourse = (List<string>)ViewBag.AllResourse;
+    var userResourse = (List<string>)ViewBag.UserResourse;
 }
+@model UserInfo
+<style>
+    .right
+    {
+        width:20%;
+    }
+</style>
 <div class="col_main_hd">
     <h2>
         加盟商个人中心 <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/ziling/index.php" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">系统操作说明</a></button>
@@ -20,7 +29,7 @@
                             用户名：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="userName" id="userName" value="">
+                            <input type="text" class="inputtext" style="width:150px;" name="userName" id="userName" value="@Model.UserName">
                         </td>
                     </tr>
                     <tr>
@@ -28,7 +37,7 @@
                             用户编号：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="userNum" id="userNum" value="">
+                            <input type="text" class="inputtext" style="width:150px;" name="userNum" id="userNum" value="@Model.UserNum">
                         </td>
                     </tr>
 
@@ -37,16 +46,16 @@
                             账号：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="account" id="account" value="">
+                            <input type="text" class="inputtext" style="width:150px;" name="account" id="account" value="@Model.Account">
                         </td>
                     </tr>
 
                     <tr>
                         <td class="right">
-                            账号：
+                            联系电话：
                         </td>
                         <td>
-                            <input type="text" class="inputtext" style="width:150px;" name="tel" id="tel" value="">
+                            <input type="text" class="inputtext" style="width:150px;" name="tel" id="tel" value="@Model.Tel">
                         </td>
                     </tr>
 
@@ -70,7 +79,23 @@
                     </tr>
 
 
-
+                    <tr>
+                        <td class="right">权限组：</td>
+                        <td>
+                            @foreach (string str in allResourse)
+                            {
+                                var _str = "";
+                                if(userResourse.Contains(str))
+                                {
+                                    _str = "checked='checked'";
+                                }
+                            <label style="display: inline-block;width: 18%;">
+                                <input style=" position: relative;top: 2px;" type="checkbox" name="resourses"  @_str value="@str">
+                                @str &nbsp;&nbsp;
+                            </label>
+                            }
+                        </td>
+                    </tr>
 
                     <tr>
                         <td class="right">
@@ -82,7 +107,12 @@
                             <select id="area"></select>
                         </td>
                     </tr>
-
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button id="btn_add">保存</button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -90,13 +120,12 @@
 </div>
 
 
+<input type="hidden"  id="userId" value="@Model.UserId"/>
 
 
-
-<button id="btn_add">添加</button>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-
+<script src="~/Scripts/layer/layer.js"></script>
 <input type="hidden" value="@ViewBag.UserType" id="UserType" />
 <input type="hidden" value="@ViewBag.UserTypeName" id="UserTypeName" />
 <script>
@@ -146,6 +175,7 @@
             alert("用户名、账号、用户编号不能为空！");
             return;
         }
+        var resourses = [];
         var para = {};
         para.UserName = userName;
         para.UserNum = userNum;
@@ -160,8 +190,21 @@
         para.City = $("#city").find("option:selected").text();
         para.AreaNum = $("#area").val();
         para.Area = $("#area").find("option:selected").text();
-        $.post("/User/SaveUser", para, function (e) {
-            alert(e);
+        para.UserId = $("#userId").val();
+        $("input:checkbox[name='resourses']:checked").each(function () {
+            resourses.push($(this).val());
+        });
+        $.post("/User/SaveSysUser", { user: para, Resourses: resourses }, function (e) {
+            if (e) {
+                layer.msg("保存成功", { icon: 1 }, function () {
+                    location.href = "/User/SysAccount?type=" + typeId;
+                })
+            }
+            else {
+                layer.msg("保存失败，请刷新后重试", { icon: 2 }, function () {
+                    location.reload();
+                })
+            }
         }, "json")
     }
 </script>

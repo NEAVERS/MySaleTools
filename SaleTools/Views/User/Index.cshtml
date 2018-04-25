@@ -19,37 +19,65 @@
     <a href="/User/AddNewUser">+新增小店用户</a>
     }
     <div class="inner">
-        <div class="col_main_content">
-            <label>区域:</label>
-            <select id="province"></select>
-            <select id="city"></select>
-            <select id="area"></select>
-            <label>业务员:</label>
 
-            <select id="saleMan">
-                <option value="-1">请选择</option>
-                @foreach (var item in saleList)
-                {
+
+        <div class="search_bar">
+            <ul class="search_item_list">
+                <li class="search_item">
+                    <label>区域::</label>
+                    <div class="item">
+                        <select id="province"></select>
+                        <select id="city"></select>
+                        <select id="area"></select>
+                    </div>
+                </li>
+                <li class="search_item">
+                    <label>业务员:</label>
+                    <div class="item">
+                        <select id="saleMan">
+                            <option value="-1">请选择</option>
+                            @foreach (var item in saleList)
+        {
                     <option value="@item.UserId">@item.UserName</option>
-                }
-            </select>
-            <label>用户类型:</label>
+}
+                        </select>
+                    </div>
+                </li>
+                <li class="search_item">
+                    <label>用户类型：</label>
+                    <div class="item">
+                        <select id="userType" class="seller-id">
+                            <option value="0">全部</option>
 
-            <select id="userType" class="seller-id">
-                <option value="0">全部</option>
-
-                @foreach (var item in typeList)
-                {
+                            @foreach (var item in typeList)
+        {
                     <option value="@item.TypeId">@item.TypeName </option>
-                }
-            </select>
-            <label>是否下载:</label>
-            <select id="isDown">
-                <option value="False">否</option>
-                <option value="True">是</option>
-            </select>
+}
+                        </select>
+                    </div>
+                </li>
+                <li class="search_item">
+                    <label>是否下载:</label>
+                    <select id="isDown">
+                        <option value="False">否</option>
+                        <option value="True">是</option>
+                    </select>
+                </li>
+                <li class="search_item">
+                    <label>关键字:</label>
+                    <div class="item">
+                        <input type="text" name="keyword" id="key" style="width:160px;" value="">
+                    </div>
+                </li>
+                <li class="search_item">
+                    <input type="hidden" value="1" name="diff">
+                    <button type="submit" id="search">搜索</button>
+                </li>
+                <li class="clearfix"></li>
+            </ul>
+        </div>
 
-            <button id="search"> 搜索</button>
+        <div class="col_main_content">
 
             <table class="table table_border">
                 <thead class="bg_color">
@@ -75,7 +103,7 @@
 </div>
 
 <script src="~/Scripts/layer/layer.js"></script>
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
 <script type="text/javascript" src="/Content/js/lib/paging.js"></script>
 
 <script>
@@ -112,7 +140,7 @@
         para.size = 10;
         para.start = "";
         para.end = "";
-        para.key = "";
+        para.key = $("#key").val();;
         para.province = $("#province").val();
         para.city = $("#city").val();
         para.area = $("#area").val();
@@ -144,15 +172,14 @@
                     html += '<button class="active lock"  userId = "' + this.UserId + '" >' + (this.IsLocked ? "解除锁定" : "锁定") + '</button>'
                     html += '<button class="active  del"  userId = "' + this.UserId + '" >删除</button>'
                     html += '<button class="active  edit"  userId = "' + this.UserId + '" >编辑</button>'
-                    html += '<button class="active  setSaleMan"  userId = "' + this.UserId + '" >设置业务员</button>'
                     html += "</td>";
                     html += "</tr>";
                 })
                 $("#dataList").html(html);
                 $("#page").paging({
                     pageNo: index,
-                    totalPage: e.TotalPage,
-                    totalSize: e.TotalCount,
+                    totalPage: data.TotalPage,
+                    totalSize: data.TotalCount,
                     callback: function (num) {
                         if (index != num)
                             LoadData(num);
@@ -175,33 +202,6 @@
         location.href = url + paraStr;
 
     }
-    $(document).on("click", ".setSaleMan", function () {
-        var userId = $(this).attr("userId");
-
-        layer.confirm($('#selecetSaleMandDiv'), {
-            btn: ['确定', '取消'] //按钮
-        }, function () {
-            var para = {};
-            para.userId = userId;
-            para.saleManId = $("#saleManList").val();
-            para.saleManName = $("#saleManList").find("option:selected").text();
-            $.post("/User/SetSaleMan", para, function (e) {
-                if (e) {
-                    layer.close();
-                    layer.msg("设置成功", { icon: 1 });
-                }
-                else {
-                    layer.close();
-                    layer.msg("设置失败，请刷新后重试", { icon: 2 });
-
-                }
-
-            }, "json")
-
-        }, function () {
-            layer.close();
-        });
-    })
 
 
 
@@ -217,14 +217,22 @@
     })
 
     $(document).on("click", ".del", function () {
-        var id = $(this).attr("userId");
-        $.post("/User/DelUser", { userId: id }, function (e) {
-            if (e) {
-                LoadData(1);
-            }
-            else
-                alert("操作失败！请刷新后重试！");
-        }, "json");
+        layer.confirm('请确认是否删除？', {
+            btn: ['取消', '确认'] //按钮
+        }, function () {
+            layer.closeAll();
+
+        }, function () {
+
+            var id = $(this).attr("userId");
+            $.post("/User/DelUser", { userId: id }, function (e) {
+                if (e) {
+                    LoadData(1);
+                }
+                else
+                    alert("操作失败！请刷新后重试！");
+            }, "json");
+        })
     })
     $(document).on("click", ".edit", function () {
         var id = $(this).attr("userId");

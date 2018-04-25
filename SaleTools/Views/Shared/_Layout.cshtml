@@ -441,6 +441,11 @@
                             <dl class="menu">
                                 <dt class="menu_title">交易管理</dt>
                                 <dd class="menu_item">
+                                    @if (Resourse.Contains(ResourceStr.ShowMyOrder))
+            {
+                        <a href="/Order/UserOrderManager">已买到的商品</a>
+}
+
                                     @if (Resourse.Contains(ResourceStr.SearchOrder) || Resourse.Contains(ResourceStr.SuperAdmin))
             {
                         <a href="/Order/OrderSearch">订单查询</a>
@@ -474,47 +479,50 @@
                                 <a href="/GoodsManager/GoodsTypeList">商品类型</a>
                             </dd>
                         </dl>
-}
-                            <dl class="menu">
-                                <dt class="menu_title">账号管理</dt>
-                                <dd class="menu_item">
-                                    @if (Resourse.Contains(ResourceStr.ChangePwd) || Resourse.Contains(ResourceStr.SuperAdmin))
-            {
+}                                    @if (Resourse.Contains(ResourceStr.SendPeopleManager) || Resourse.Contains(ResourceStr.SaleManManager) || Resourse.Contains(ResourceStr.ChangePwd) || Resourse.Contains(ResourceStr.SuperAdmin))
+    {
+                        <dl class="menu">
+                            <dt class="menu_title">账号管理</dt>
+                            <dd class="menu_item">
+                                @if (Resourse.Contains(ResourceStr.ChangePwd) || Resourse.Contains(ResourceStr.SuperAdmin))
+        {
 
                         <a href="/User/ChangePwd">修改密码</a>
 }
-                                    @if (Resourse.Contains(ResourceStr.SaleManManager) || Resourse.Contains(ResourceStr.SuperAdmin))
-            {
+                                @if (Resourse.Contains(ResourceStr.SaleManManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+        {
 
                         <a href="/User/SysAccount?type=-2">业务员管理</a>
 }
-                                    @if (Resourse.Contains(ResourceStr.SendPeopleManager) || Resourse.Contains(ResourceStr.SuperAdmin))
-            {
+                                @if (Resourse.Contains(ResourceStr.SendPeopleManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+        {
 
                         <a href="/User/SysAccount?type=-3">送货员管理</a>
 }
-                                </dd>
-                            </dl>
-
-                            <dl class="menu">
-                                <dt class="menu_title">会员管理</dt>
-                                <dd class="menu_item">
-                                    @if (Resourse.Contains(ResourceStr.StoreList) || Resourse.Contains(ResourceStr.StoreManager) || Resourse.Contains(ResourceStr.SuperAdmin))
-            {
+                            </dd>
+                        </dl>
+}                                @if (Resourse.Contains(ResourceStr.SupplierManager) || Resourse.Contains(ResourceStr.StoreList) || Resourse.Contains(ResourceStr.StoreManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
+                        <dl class="menu">
+                            <dt class="menu_title">会员管理</dt>
+                            <dd class="menu_item">
+                                @if (Resourse.Contains(ResourceStr.StoreList) || Resourse.Contains(ResourceStr.StoreManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+        {
 
                         <a href="/User/Index">小店管理</a>
 }
-                                    @if (Resourse.Contains(ResourceStr.SupplierManager) || Resourse.Contains(ResourceStr.SuperAdmin))
-            {
+                                @if (Resourse.Contains(ResourceStr.SupplierManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+        {
 
 
                         <a href="/User/ShowSupplierList">供应商管理</a>
 }
 
-                                </dd>
-                            </dl>
-                            @if (Resourse.Contains(ResourceStr.SystemManager) || Resourse.Contains(ResourceStr.SuperAdmin))
-    {
+                            </dd>
+                        </dl>
+}
+                        @if (Resourse.Contains(ResourceStr.SystemManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
 
 
                         <dl class="menu">
@@ -528,8 +536,8 @@
                             </dd>
                         </dl>
 }
-                            @if (Resourse.Contains(ResourceStr.AccountingAdmin) || Resourse.Contains(ResourceStr.Accounting) || Resourse.Contains(ResourceStr.SuperAdmin))
-    {
+                        @if (Resourse.Contains(ResourceStr.AccountingAdmin) || Resourse.Contains(ResourceStr.Accounting) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
 
 
                         <dl class="menu">
@@ -547,8 +555,8 @@
                             </dd>
                         </dl>
 }
-                            @if (Resourse.Contains(ResourceStr.Statistics) || Resourse.Contains(ResourceStr.SuperAdmin))
-    {
+                        @if (Resourse.Contains(ResourceStr.Statistics) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
                         <dl class="menu">
                             <dt class="menu_title"> 数据统计</dt>
                             <dd class="menu_item">
@@ -559,8 +567,8 @@
                             </dd>
                         </dl>
 }
-                            @if (Resourse.Contains(ResourceStr.ActiveManager) || Resourse.Contains(ResourceStr.SuperAdmin))
-                            {
+                        @if (Resourse.Contains(ResourceStr.ActiveManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
 
                         <dl class="menu">
                             <dt class="menu_title"> 活动管理</dt>
@@ -571,7 +579,19 @@
 
                             </dd>
                         </dl>
-                            }
+}
+
+                        @if (Resourse.Contains(ResourceStr.ShowMyCoupon))
+{
+
+                        <dl class="menu">
+                            <dt class="menu_title"> 优惠券管理</dt>
+                            <dd class="menu_item">
+                                <a href="/Activtity/ShowMyCoupon">我的优惠券</a>
+
+                            </dd>
+                        </dl>
+}
 
                         </div>
                     </div>

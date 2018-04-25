@@ -37,15 +37,36 @@
                     <td class="center">@item.UserName</td>
                     <td class="center">@item.Tel</td>
                     <td class="center">
-                        <a href="http://agent.pifa.yunmayi.com/account/editUser?id=16721692&amp;back=deliveryman">编辑</a>
-                        <a class="del" href="#" id="16721692">删除</a>
+                        <a href="/User/AddSysAccount?type=@ViewBag.UserType&userId=@item.UserId">编辑</a>
+                        <a class="del" href="#" userId="@item.UserId">删除</a>
                     </td>
                 </tr>
-
 }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<script src="~/Scripts/layer/layer.js"></script>
+<script>
 
+    $(document).on("click", ".del", function () {
+        var id = $(this).attr("userId");
+
+        layer.confirm('请确认是否删除？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            $.post("/User/DelUser", { userId: id }, function (e) {
+                if (e) {
+                    location.reload();
+                }
+                else
+                    alert("操作失败！请刷新后重试！");
+            }, "json");
+        }, function () {
+
+          
+        })
+    })
+
+</script>
