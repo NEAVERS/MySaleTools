@@ -366,7 +366,6 @@ namespace BLL
         public List<string> GetAllSourse()
         {
             var list = new List<string>();
-            list.Add("超级管理员");
             list.Add("财务管理员");
             list.Add("订单管理");
             list.Add("财务");

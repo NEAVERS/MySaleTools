@@ -82,7 +82,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "您暂无权限取消订单，请联系管理员";
             }
             return Utils.SerializeObject(_response);
-        }
+        }   
 
         public ActionResult PrintOrder(string start = "", string end = "", string province = "", string city = "", string area = "", int stutas = 0, string saleManId = "", int userType = 0, string key = "")
         {
