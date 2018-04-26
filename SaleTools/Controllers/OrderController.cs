@@ -16,6 +16,7 @@ namespace SaleTools.Controllers
         private UserManager _user = new UserManager();
 
         private GoodsManager _good = new GoodsManager();
+        private ResponseModel _response = new ResponseModel();
         // GET: Order
         public ActionResult Index()
         {
@@ -69,8 +70,18 @@ namespace SaleTools.Controllers
 
         public string CancelOrder(Guid orderId)
         {
-            var res = _order.CancelOrder(orderId);
-            return Utils.SerializeObject(res);
+
+            var Resourse = (List<string>)ViewBag.Resourse;
+            if(Resourse.Contains(ResourceStr.CancelOrder)|| Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+                _response.Stutas = _order.CancelOrder(orderId);
+
+            }
+            else
+            {
+                _response.Msg = "您暂无权限取消订单，请联系管理员";
+            }
+            return Utils.SerializeObject(_response);
         }
 
         public ActionResult PrintOrder(string start = "", string end = "", string province = "", string city = "", string area = "", int stutas = 0, string saleManId = "", int userType = 0, string key = "")
@@ -322,8 +333,17 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public string RevertOrderIsPay(Guid orderId)
         {
-            var res = _order.RevertIsPay(orderId);
-            return Utils.SerializeObject(res);
+            var Resourse = (List<string>)ViewBag.Resourse;
+            if (Resourse.Contains(ResourceStr.CancelOrder)|| Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+                _response.Stutas = _order.RevertIsPay(orderId);
+
+            }
+            else
+            {
+                _response.Msg = "您暂无权限撤销订单收款，请联系管理员";
+            }
+            return Utils.SerializeObject(_response);
         }
 
         public ActionResult AbnormalOrder(string start ="",string end="")

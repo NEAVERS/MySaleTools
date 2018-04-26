@@ -22,8 +22,8 @@ namespace SaleTools.Controllers
         public string  AccountLogin(string account,string Pwd)
         {
             Pwd = Utils.GetMD5(Pwd);
-
-            var user = _manager.Login(account, Pwd);
+            var ip = Utils.GetUserHostAddress();
+            var user = _manager.Login(account, Pwd, ip);
             if (user == null)
                 return "登陆失败";
             ///锁定后不能进行登陆
@@ -56,5 +56,6 @@ namespace SaleTools.Controllers
             Session["LoginUser"] = null;
             return View("Index");
         }
+
     }
 }

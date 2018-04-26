@@ -344,6 +344,7 @@
     <Content Include="Views\System\NoResourse.cshtml" />
     <Content Include="Views\Activtity\ShowMyCoupon.cshtml" />
     <Content Include="Views\GoodsManager\ShowGoodsInfo.cshtml" />
+    <Content Include="Views\User\MyInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

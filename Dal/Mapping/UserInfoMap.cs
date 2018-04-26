@@ -44,8 +44,10 @@ namespace Dal.Mapping
             this.Property(t => t.SotreName).HasColumnName("SotreName");
             this.Property(t => t.Email).HasColumnName("Email");
             this.Property(t => t.Remark).HasColumnName("Remark");
-            
 
+
+            this.Property(t => t.LastLoginIP).HasColumnName("LastLoginIP");
+            this.Property(t => t.LastLoginTime).HasColumnName("LastLoginTime");
 
 
         }

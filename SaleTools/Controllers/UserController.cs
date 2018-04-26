@@ -93,6 +93,7 @@ namespace SaleTools.Controllers
                 Resourses.Add(ResourceStr.ShowMyOrder);
                 Resourses.Add(ResourceStr.ChangePwd);
                 Resourses.Add(ResourceStr.ShowMyCoupon);
+                Resourses.Add(ResourceStr.ShowAccountInfo);
             }
             if (user.UserId == Guid.Empty)
             {
@@ -114,7 +115,8 @@ namespace SaleTools.Controllers
         public string SaveSysUser(UserInfo user,List<string> Resourses)
         {
             var loginUser = (UserInfo)Session["LoginUser"];
-            user.PassWord = Utils.GetMD5(user.PassWord);
+            if(!string.IsNullOrWhiteSpace(user.PassWord))
+                user.PassWord = Utils.GetMD5(user.PassWord);
             bool res =  false;
             if (user.TypeId > 0)
                 Resourses.Add(ResourceStr.ShowMyOrder);
@@ -260,6 +262,11 @@ namespace SaleTools.Controllers
             return Utils.SerializeObject(res);
         }
 
-    
+        public ActionResult MyInfo()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            return View(loginUser);
+        }
+
     }
 }

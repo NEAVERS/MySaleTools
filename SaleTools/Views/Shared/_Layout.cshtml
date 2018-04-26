@@ -21,7 +21,7 @@
     @*<link rel="stylesheet" type="text/css" href="/Content/css/pages/ucenter.css">*@
     <link rel="stylesheet" type="text/css" href="/Content/css/pages/buyer/overlay/overlay.css">
     <link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/need/laydate.css">
-    <link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+    <link type="text/css" rel="stylesheet" href="~/Content/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
     <script type="text/javascript" src="/Content/js/lib/laydate/laydate.js"></script>
     <style>
         /*供应商选择css*/ body, button, input, label, select, td, textarea {
@@ -479,25 +479,30 @@
                                 <a href="/GoodsManager/GoodsTypeList">商品类型</a>
                             </dd>
                         </dl>
-}                                    @if (Resourse.Contains(ResourceStr.SendPeopleManager) || Resourse.Contains(ResourceStr.SaleManManager) || Resourse.Contains(ResourceStr.ChangePwd) || Resourse.Contains(ResourceStr.SuperAdmin))
+}                                    @if(Resourse.Contains(ResourceStr.ShowAccountInfo)||Resourse.Contains(ResourceStr.SendPeopleManager) || Resourse.Contains(ResourceStr.SaleManManager) || Resourse.Contains(ResourceStr.ChangePwd) || Resourse.Contains(ResourceStr.SuperAdmin))
     {
                         <dl class="menu">
                             <dt class="menu_title">账号管理</dt>
                             <dd class="menu_item">
                                 @if (Resourse.Contains(ResourceStr.ChangePwd) || Resourse.Contains(ResourceStr.SuperAdmin))
-        {
+    {
 
-                        <a href="/User/ChangePwd">修改密码</a>
+                            <a href="/User/ChangePwd">修改密码</a>
+}                                @if (Resourse.Contains(ResourceStr.ShowAccountInfo))
+    {
+
+                            <a href="/User/MyInfo">个人信息</a>
 }
-                                @if (Resourse.Contains(ResourceStr.SaleManManager) || Resourse.Contains(ResourceStr.SuperAdmin))
-        {
 
-                        <a href="/User/SysAccount?type=-2">业务员管理</a>
+                            @if (Resourse.Contains(ResourceStr.SaleManManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
+
+                            <a href="/User/SysAccount?type=-2">业务员管理</a>
 }
-                                @if (Resourse.Contains(ResourceStr.SendPeopleManager) || Resourse.Contains(ResourceStr.SuperAdmin))
-        {
+                            @if (Resourse.Contains(ResourceStr.SendPeopleManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
 
-                        <a href="/User/SysAccount?type=-3">送货员管理</a>
+                            <a href="/User/SysAccount?type=-3">送货员管理</a>
 }
                             </dd>
                         </dl>

@@ -62,6 +62,11 @@ namespace Common
             return json;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static Guid ParseGuid(string str)
         {
             Guid res = new Guid();
@@ -92,7 +97,12 @@ namespace Common
             return res;
         }
 
-
+        /// <summary>
+        /// 深复制
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static T DeepCopyByReflect<T>(T obj)
         {
             //如果是字符串或值类型则直接返回
@@ -106,7 +116,10 @@ namespace Common
             }
             return (T)retval;
         }
-
+        /// <summary>
+        /// 获取所有的用户类型
+        /// </summary>
+        /// <returns></returns>
         public static List<UserType> GetUserTypes()
         {
             var list = new List<UserType>();
@@ -119,7 +132,33 @@ namespace Common
                 list.Add(model);
             }
             return list;
-
         }
+        /// <summary>
+        /// 获取客户端Ip
+        /// </summary>
+        /// <returns></returns>
+        public static string GetUserHostAddress()
+        {
+            string ip = string.Empty;
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+                ip = request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                if (string.IsNullOrEmpty(ip))
+                {
+                    ip = request.ServerVariables["REMOTE_ADDR"];
+                }
+                if (string.IsNullOrEmpty(ip))
+                {
+                    ip = request.UserHostAddress;
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return ip;
+        }
+
     }
 }

@@ -37,7 +37,8 @@ namespace BLL
                 model.UserNum = user.UserNum;
                 model.TypeId = user.TypeId;
                 model.TypeName = user.TypeName;
-                model.PassWord = user.PassWord;
+                if(!string.IsNullOrWhiteSpace(user.PassWord))
+                    model.PassWord = user.PassWord;
                 model.Province = user.Province;
                 model.ProvinceNum = user.ProvinceNum;
                 model.CityNum = user.CityNum;
@@ -128,9 +129,15 @@ namespace BLL
         /// <param name="account"></param>
         /// <param name="pwd"></param>
         /// <returns></returns>
-        public UserInfo Login(string account,string pwd)
+        public UserInfo Login(string account, string pwd, string ip = "")
         {
             var model =_context.UserInfoes.FirstOrDefault(x =>( x.Account == account ||x.Tel == account||x.UserNum == account)&& x.PassWord == pwd&&!x.IsDelete);
+            if(model!=null)
+            {
+                model.LastLoginIP = ip;
+                model.LastLoginTime = DateTime.Now;
+                _context.SaveChanges();
+            }
             return model;
         }
 

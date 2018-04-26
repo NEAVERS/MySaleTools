@@ -159,5 +159,9 @@ namespace Common.Entities
         /// </summary>
         public const string ShowMyCoupon = "我的优惠券";
 
+        /// <summary>
+        /// 个人信息
+        /// </summary>
+        public const string ShowAccountInfo = "个人信息";
     }
 }

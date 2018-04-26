@@ -140,6 +140,10 @@ namespace Model
         /// </summary>
         public string Remark { get; set; }
 
+
+        public DateTime? LastLoginTime { get; set; }
+
+        public string LastLoginIP { get; set; }
         public UserInfo()
         {
             UserId = Guid.Empty;
@@ -160,6 +164,8 @@ namespace Model
             SotreName = string.Empty;
             Email = string.Empty;
             Remark = string.Empty;
+            LastLoginIP = string.Empty;
+            
         }
     }
 }

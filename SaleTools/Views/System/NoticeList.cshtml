@@ -63,6 +63,7 @@
         layer.confirm('请确认是否删除？', {
             btn: ['取消', '确认'] //按钮
         }, function () {
+            layer.closeall();
             }, function () {
                 $.post("/System/DeleteNotice", { id: id }, function (e) {
                     if (e) {

@@ -1,10 +1,13 @@
 ﻿
 @using Model;
+@using Common.Entities;
 
 @{
     ViewBag.Title = "GoodsList";
     var SupplierList = (List<Supplier>)ViewBag.SupplierList;
     var UserTypeList = (List<UserType>)ViewBag.UserTypeList;
+    var Resourse = (List<string>)ViewBag.Resourse;
+
 }
 <link rel="stylesheet" type="text/css" href="/Content/css/bootstrap.min.css">
 
@@ -25,200 +28,203 @@
 
             <div class="col_main_content">
                 <div class="search_bar">
-                        <ul class="search_item_list">
-                            <li class="search_item">
-                                <label>
-                                    供应商:
-                                </label>
-                                <div class="item  item_li">
-                                    <div id="seller_id" class="selectpicker" data-clear="true" data-live="true">
-                                        <a href="#" class="clear" style="top:-5px !important;">
-                                            <span class="cancel">
-                                                ❌
-                                            </span>
-                                            <span class="sr-only">
-                                                Cancel the selection
-                                            </span>
-                                        </a>
-                                        <button data-id="prov" type="button" class="btn btn-lg btn-block btn-default dropdown-toggle">
-                                            <span class="placeholder text">
-                                                请选择
-                                            </span>
-                                            <span class="caret">
-                                            </span>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <div class="live-filtering" data-clear="true" data-autocomplete="true" data-keys="true">
-                                                <label class="sr-only" for="input-bts-ex-5">
-                                                    Search in the list
-                                                </label>
-                                                <div class="search-box">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon" id="search-icon5">
-                                                            <span class="search">
-                                                                🔍
-                                                            </span>
-                                                            <a href="#" class="fa fa-times hide filter-clear">
-                                                                <span class="sr-only">
-                                                                    Clear filter
-                                                                </span>
-                                                            </a>
-                                                        </span>
-                                                        <div style="position: relative; height: 34px; display: block;">
-                                                            <input type="text" class="form-control live-search hint" aria-describedby="search-icon5" tabindex="-1" autocomplete="off" style="background-color: transparent; position: absolute;">
-                                                            <input type="text" placeholder="Search in the list" id="input-bts-ex-5" class="form-control live-search" aria-describedby="search-icon5" tabindex="1" autocomplete="off" style="background-color: transparent; position: relative;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="list-to-filter">
-                                                    <ul class="list-unstyled">
-                                                        <li class="optgroup">
-                                                            <ul id="J_Seller" class="list-unstyled">
-                                                                @foreach (var item in SupplierList)
-                                                                {
-                                                                    <li class="filter-item items" data-filter="@item.SupplierCompany" data-value="@item.Id">
-                                                                        @item.SupplierCompany
-                                                                    </li>
-
-                                                                }
-
-
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="no-search-results" style="display: none;">
-                                                        <div class="alert alert-warning" role="alert">
-                                                            <i class="fa fa-warning margin-right-sm">
-                                                            </i> No entry for
-                                                            <strong>
-                                                                '
-                                                                <span>
-                                                                </span>
-                                                                '
-                                                            </strong> was found.
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" name="seller_id" id="Sid" value="0">
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="search_item">
-                                <label>
-                                    &nbsp;&nbsp;状态:
-                                </label>
-                                <select name="state" id="state">
-                                    <option value="0" selected="selected">
-                                        全部
-                                    </option>
-                                    <option value="-1">
-                                        下架
-                                    </option>
-                                    <option value="1">
-                                        上架
-                                    </option>
-                                </select>
-                            </li>
-                            <li class="search_item">
-                                <label>
-                                    类目:
-                                </label>
-                                <div class="item">
-                                    <div class="wgt_category_select" id="J_CategorySelector" data-fid="0" data-sid="0" data-tid="0">
-                                        <div class="wgt_category_select_hd" style="display: none;">
-                                            <div class="wgt_category_title">
-                                                请选择类目
-                                            </div>
-                                            <i class="iconfont">
-                                                
-                                            </i>
-                                        </div>
-                                        <div class="wgt_category_select_bd">
-                                            <div class="wgt_category_select_tabs">
-                                                <a class="wgt_category_select_tab cur" href="javascript:;">
-                                                    一级类目
-                                                </a>
-                                                <a class="wgt_category_select_tab" href="javascript:;">
-                                                    二级类目
-                                                </a>
-                                                <a class="wgt_category_select_tab" href="javascript:;">
-                                                    三级类目
-                                                </a>
-                                            </div>
-                                            <div class="wgt_category_select_contents">
-                                                <div class="wgt_category_select_content wgt_category_select_content_show">
-                                                </div>
-                                                <div class="wgt_category_select_content">
-                                                    <dl>
-                                                        <dd class="clearfix">
-                                                        </dd>
-                                                    </dl>
-                                                </div>
-                                                <div class="wgt_category_select_content">
-                                                    <dl>
-                                                        <dd class="clearfix">
-                                                        </dd>
-                                                    </dl>
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="fst_cat_id" value="0">
-                                            <input type="hidden" name="snd_cat_id" value="0">
-                                            <input type="hidden" name="thd_cat_id" value="0">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <!--隐藏sort排序-->
-                            <input type="hidden" name="sort" value="">
-                            <li class="clearfix">
-                            </li>
-                            <li class="search_item">
-                                <input type="checkbox" value="1" name="notLike"> 不包含
-                                <label>
-                                    关键字:
-                                </label>
-                                <input type="text" name="search_value" style="height:22px; margin-left:10px;" value="" id="search_value">
-                            </li>
-                            <li class="search_item">
-                                <label>
-                                    客户类型:
-                                </label>
-                                <select name="customer_type" id="customer_type">
-                                    <option value="">
-                                        全部
-                                    </option>
-                                    @foreach (var item in UserTypeList)
-                                    {
-                                        <option value="@item.TypeId">
-                                            @item.TypeName
-                                        </option>
-
-                                    }
-                                </select>
-                            </li>
-                            <li class="search_item">
-                                <input type="checkbox" value="1" name="repeat"> 重复商品
-                            </li>
-                            <li class="search_item">
-                                <button type="submit" onclick="LoadList(1)">
-                                    搜索
-                                </button>
-                            </li>
-                            <li class="search_item">
-                                <button type="button" id="goodExport">
-                                    <a href="#" onclick="exportCSV()" style="color:white">
-                                        商品导出
+                    <ul class="search_item_list">
+                        <li class="search_item">
+                            <label>
+                                供应商:
+                            </label>
+                            <div class="item  item_li">
+                                <div id="seller_id" class="selectpicker" data-clear="true" data-live="true">
+                                    <a href="#" class="clear" style="top:-5px !important;">
+                                        <span class="cancel">
+                                            ❌
+                                        </span>
+                                        <span class="sr-only">
+                                            Cancel the selection
+                                        </span>
                                     </a>
-                                </button>
-                            </li>
-                            <li class="search_item" style="color:#d70000;" id="totalCount">
-                                商品总数为:
-                            </li>
-                            <li class="clearfix">
-                            </li>
-                        </ul>
+                                    <button data-id="prov" type="button" class="btn btn-lg btn-block btn-default dropdown-toggle">
+                                        <span class="placeholder text">
+                                            请选择
+                                        </span>
+                                        <span class="caret">
+                                        </span>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="live-filtering" data-clear="true" data-autocomplete="true" data-keys="true">
+                                            <label class="sr-only" for="input-bts-ex-5">
+                                                Search in the list
+                                            </label>
+                                            <div class="search-box">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" id="search-icon5">
+                                                        <span class="search">
+                                                            🔍
+                                                        </span>
+                                                        <a href="#" class="fa fa-times hide filter-clear">
+                                                            <span class="sr-only">
+                                                                Clear filter
+                                                            </span>
+                                                        </a>
+                                                    </span>
+                                                    <div style="position: relative; height: 34px; display: block;">
+                                                        <input type="text" class="form-control live-search hint" aria-describedby="search-icon5" tabindex="-1" autocomplete="off" style="background-color: transparent; position: absolute;">
+                                                        <input type="text" placeholder="Search in the list" id="input-bts-ex-5" class="form-control live-search" aria-describedby="search-icon5" tabindex="1" autocomplete="off" style="background-color: transparent; position: relative;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="list-to-filter">
+                                                <ul class="list-unstyled">
+                                                    <li class="optgroup">
+                                                        <ul id="J_Seller" class="list-unstyled">
+                                                            @foreach (var item in SupplierList)
+                                                            {
+                                                                <li class="filter-item items" data-filter="@item.SupplierCompany" data-value="@item.Id">
+                                                                    @item.SupplierCompany
+                                                                </li>
+
+                                                            }
+
+
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                                <div class="no-search-results" style="display: none;">
+                                                    <div class="alert alert-warning" role="alert">
+                                                        <i class="fa fa-warning margin-right-sm">
+                                                        </i> No entry for
+                                                        <strong>
+                                                            '
+                                                            <span>
+                                                            </span>
+                                                            '
+                                                        </strong> was found.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="seller_id" id="Sid" value="0">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="search_item">
+                            <label>
+                                &nbsp;&nbsp;状态:
+                            </label>
+                            <select name="state" id="state">
+                                <option value="0" selected="selected">
+                                    全部
+                                </option>
+                                <option value="-1">
+                                    下架
+                                </option>
+                                <option value="1">
+                                    上架
+                                </option>
+                            </select>
+                        </li>
+                        <li class="search_item">
+                            <label>
+                                类目:
+                            </label>
+                            <div class="item">
+                                <div class="wgt_category_select" id="J_CategorySelector" data-fid="0" data-sid="0" data-tid="0">
+                                    <div class="wgt_category_select_hd" style="display: none;">
+                                        <div class="wgt_category_title">
+                                            请选择类目
+                                        </div>
+                                        <i class="iconfont">
+                                            
+                                        </i>
+                                    </div>
+                                    <div class="wgt_category_select_bd">
+                                        <div class="wgt_category_select_tabs">
+                                            <a class="wgt_category_select_tab cur" href="javascript:;">
+                                                一级类目
+                                            </a>
+                                            <a class="wgt_category_select_tab" href="javascript:;">
+                                                二级类目
+                                            </a>
+                                            <a class="wgt_category_select_tab" href="javascript:;">
+                                                三级类目
+                                            </a>
+                                        </div>
+                                        <div class="wgt_category_select_contents">
+                                            <div class="wgt_category_select_content wgt_category_select_content_show">
+                                            </div>
+                                            <div class="wgt_category_select_content">
+                                                <dl>
+                                                    <dd class="clearfix">
+                                                    </dd>
+                                                </dl>
+                                            </div>
+                                            <div class="wgt_category_select_content">
+                                                <dl>
+                                                    <dd class="clearfix">
+                                                    </dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="fst_cat_id" value="0">
+                                        <input type="hidden" name="snd_cat_id" value="0">
+                                        <input type="hidden" name="thd_cat_id" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!--隐藏sort排序-->
+                        <input type="hidden" name="sort" value="">
+                        <li class="clearfix">
+                        </li>
+                        <li class="search_item">
+                            <input type="checkbox" value="1" name="notLike"> 不包含
+                            <label>
+                                关键字:
+                            </label>
+                            <input type="text" name="search_value" style="height:22px; margin-left:10px;" value="" id="search_value">
+                        </li>
+                        <li class="search_item">
+                            <label>
+                                客户类型:
+                            </label>
+                            <select name="customer_type" id="customer_type">
+                                <option value="">
+                                    全部
+                                </option>
+                                @foreach (var item in UserTypeList)
+                                {
+                                    <option value="@item.TypeId">
+                                        @item.TypeName
+                                    </option>
+
+                                }
+                            </select>
+                        </li>
+                        <li class="search_item">
+                            <input type="checkbox" value="1" name="repeat"> 重复商品
+                        </li>
+                        <li class="search_item">
+                            <button type="submit" onclick="LoadList(1)">
+                                搜索
+                            </button>
+                        </li>
+                        @if (Resourse.Contains(ResourceStr.ExportGoods) || Resourse.Contains(ResourceStr.SuperAdmin))
+                        {
+                        <li class="search_item">
+                            <button type="button" id="goodExport">
+                                <a href="#" onclick="exportCSV()" style="color:white">
+                                    商品导出
+                                </a>
+                            </button>
+                        </li>
+                        }
+                        <li class="search_item" style="color:#d70000;" id="totalCount">
+                            商品总数为:
+                        </li>
+                        <li class="clearfix">
+                        </li>
+                    </ul>
                     <form method="post" action="http://agent.pifa.yunmayi.com/product/phpexcel" enctype="multipart/form-data">
                         <div style="margin:5px;">
                             商品批量导入：
@@ -367,7 +373,7 @@
                     html += '<td class="center">' + this.LastUpdateTime + '</td>'
                     html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum" data-id="808105" data-num="10" value="10"></td>';
                     html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" data-id="808105" data-sort="341" value="341"></td>';
-                    html += '<td class="center"><a href="/GoodsManager/ShowGoodsInfo?goodId=' + this.Id+'">商品详情</a><br><br>';
+                    html += '<td class="center"><a href="/GoodsManager/ShowGoodsInfo?goodId=' + this.Id + '">商品详情</a><br><br>';
                     html += '<a href="http://agent.pifa.yunmayi.com/product/copyadd?id=808105">复制新增</a><br><br>';
                     html += '<a href="/GoodsManager/AddGoods/' + this.Id + '">编辑商品</a><br><br>';
                     var strShelves = "上架";
@@ -407,18 +413,18 @@
     });
 
     function DeleteGoods(goodsList) {
-            layer.confirm('请确认是否删除？', {
-                btn: ['取消', '确认'] //按钮
-            }, function () {
-                layer.closeAll();
-            }, function () {
+        layer.confirm('请确认是否删除？', {
+            btn: ['取消', '确认'] //按钮
+        }, function () {
+            layer.closeAll();
+        }, function () {
 
-                $.post("/GoodsManager/DeleteGoods", { goodsIds: goodsList }, function (e) {
-                    if (e) {
-                        LoadList(1);
-                    }
-                }, "json");
-            });
+            $.post("/GoodsManager/DeleteGoods", { goodsIds: goodsList }, function (e) {
+                if (e) {
+                    LoadList(1);
+                }
+            }, "json");
+        });
 
     }
 
@@ -430,16 +436,15 @@
             layer.closeAll();
         }, function () {
 
-        $.post("/GoodsManager/ToggleShelves", { goodsIds: goodsList, isShelves: isShelves }, function (e) {
-            if (e) {
-                LoadList(1);
-            }
+            $.post("/GoodsManager/ToggleShelves", { goodsIds: goodsList, isShelves: isShelves }, function (e) {
+                if (e) {
+                    LoadList(1);
+                }
             }, "json");
-            });
+        });
     }
 
-    function exportCSV()
-    {
+    function exportCSV() {
         var postData = GetPara();
         var url = "/GoodsManager/ExportGoodInfo?";
         var paraStr = "";
