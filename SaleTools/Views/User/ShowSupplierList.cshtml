@@ -10,6 +10,7 @@
 <div class="col_main_bd">
     <div class="inner">
         <div class="col_main_content">
+            <a href="/User/SupplierDeltie">+新增供应商</a>
 
             <table class="table table_border">
                 <thead class="bg_color">
@@ -24,23 +25,23 @@
                 </thead>
                 <tbody id="dataList">
                     @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.SupplierNum</td>
-                            <td>@item.SupplierName</td>
-                            <td>@item.SupplierCompany</td>
-                            <td>@item.Tel</td>
-                            <td>
-                                <a href="/User/SupplierDeltie/@item.Id">编辑</a>
-                                <a href="#" onclick="Delete(@item.Id)">删除</a>
-                            </td>
-                        </tr>
-                    }
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.SupplierNum</td>
+                    <td>@item.SupplierName</td>
+                    <td>@item.SupplierCompany</td>
+                    <td>@item.Tel</td>
+                    <td>
+                        <a href="/User/SupplierDeltie/@item.Id">编辑</a>
+                        <a href="#" onclick="Delete(@item.Id)">删除</a>
+                    </td>
+                </tr>
+    }
                 </tbody>
 
             </table>
-            </div>
+        </div>
         </div>
     </div>
 

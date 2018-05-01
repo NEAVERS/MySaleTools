@@ -35,7 +35,8 @@ namespace SaleTools.Controllers
             var type = _manager.GetTypeById(guid);
             var list = _manager.GetDownGoodsType(guid,loginUser.UserId);
             ViewBag.GoodsTypeList = list;
-            ViewBag.TypeId = type!=null?type.ParentId.ToString():"";
+            ViewBag.ParentId = type != null ? type.ParentId.ToString() : "";
+            ViewBag.TypeId = guid;
             return View();
         }
         /// <summary>

@@ -11,24 +11,6 @@
 }
 <link href="~/Content/css/pages/home/product/detail.css" rel="stylesheet" />
 <div class="header" id="header">
-    <div class="topfixeds">
-        <div class="topfixed top clearfix">
-            <h2 class="topMenuList"><i style="padding-right: 13px;"><img src="/Content/images/index/04151605.png"></i>全部商品分类</h2>
-            <div class="searchbar lfloat" style="padding-top:5px;">
-                <form action="http://pifa.yunmayi.com/search/index" method="GET" id="C_GlobalSearchFormOne">
-                    <input type="text" name="q" class="search_input" id="C_GlobalSearchInputOne" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
-                    <!--                <input type="hidden" name="cid" value="" id="cid"/>-->
-                    <button type="submit" class="search_btn">搜索</button>
-                </form>
-            </div>
-            <div class="toolbar lfloat" style="padding-top:6px;">
-                <a href="/Home/ShoppingCar">
-                    购物车
-                    <i style="font-style: normal;color: #ff0000;font-size: 15px;" id="C_GlobalCartItemNum_fixed">0</i>
-                </a>
-            </div>
-        </div>
-    </div>
     <div class="module top clearfix">
         <div class="logo lfloat">
             <div class="logoImg">
@@ -39,10 +21,8 @@
             </div>
         </div>
         <div class="searchbar lfloat">
-            <form action="http://pifa.yunmayi.com/search/index" method="GET" id="C_GlobalSearchForm">
-                <input type="text" name="q" class="search_input" id="C_GlobalSearchInput" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
-                <button type="submit" class="search_btn">搜索</button>
-            </form>
+            <input type="text" name="q" class="search_input" id="C_GlobalSearchInput" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+            <button type="button" class="search_btn" id="search_btn">搜索</button>
         </div>
         <div class="toolbar lfloat">
             <a href="/Home/ShoppingCar" class="shopCart">
@@ -52,9 +32,9 @@
         </div>
     </div>
     <div class="module nav clearfix">
-        <div class="category lfloat fixed" id="C_CategoryBox" data-fixed="1">
-            <h2><i style="padding-right: 13px;"><img src="/Content/images/index/04151605.png"></i>全部商品分类</h2>
-            <div class="dropdown_menu">
+        <div class="category lfloat" id="C_CategoryBox" data-fixed="0">
+            <h2 class="topMenuList"><i style="padding-right: 13px;"><img src="/Content/images/index/04151605.png"></i>全部商品分类</h2>
+            <div class="dropdown_menu" style="display: none;">
                 <!-- first category -->
                 <ul class="menu_nav_container" id="C_CategoryList">
 
@@ -92,7 +72,6 @@
                     <img src="/Content/images/christmas-tree.png" alt="">
                 </li>
             }
-
         </ul>
     </div>
 </div>
