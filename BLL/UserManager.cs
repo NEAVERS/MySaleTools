@@ -43,9 +43,9 @@ namespace BLL
                 model.ProvinceNum = user.ProvinceNum;
                 model.CityNum = user.CityNum;
                 model.City = user.City;
-                model.AreaNum = user.CityNum;
-                model.Area = user.AreaNum;
-                model.ReceiveName = string.Empty;
+                model.AreaNum = user.AreaNum;
+                model.Area = user.Area;
+                model.ReceiveName =  user.UserName;
                 model.SaleManGuid = user.SaleManGuid;
                 model.SaleManName = user.SaleManName;
                 model.Addr = user.Addr;
