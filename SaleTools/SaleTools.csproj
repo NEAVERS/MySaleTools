@@ -109,6 +109,7 @@
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\common\footer\global.css" />
     <Content Include="Content\css\common\header\global.css" />
+    <Content Include="Content\css\footer\global.css" />
     <Content Include="Content\css\Index.css" />
     <Content Include="Content\css\laydate.css" />
     <Content Include="Content\css\normalize.css" />

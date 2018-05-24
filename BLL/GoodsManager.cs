@@ -1,5 +1,6 @@
 ﻿using Common.Entities;
 using Dal;
+using Dal.Mapping.Erp;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace BLL
     public class GoodsManager
     {
         private SaleToolsContext _context = new SaleToolsContext();
+        private ErpContext _erp = new ErpContext();
         ResponseModel _response = new ResponseModel();
 
         /// <summary>
@@ -173,7 +175,8 @@ namespace BLL
 
             list.ForEach(x =>
             {
-                x.RetailtPrice = GetPriceOfUserType(x, userType); ;
+                x.RetailtPrice = GetPriceOfUserType(x, userType);
+                x.Stock = (int)GetGoodsStock(x.ErpId);
             });
             page.ListData = list;
             return  page;
@@ -420,6 +423,19 @@ namespace BLL
             _response.Stutas = _context.SaveChanges() > 0;
             return _response;
         }
+
+
+         
+        #region ERP相关
+         
+        public decimal GetGoodsStock(string goodsId,string KId = "00001")
+        {
+            var model = _erp.GoodsStockses.FirstOrDefault(x => x.PtypeId == goodsId && x.KtypeId == KId);
+            if (model != null)
+                return model.Qty.Value;
+            return 0;
+        }
+        #endregion
 
     }
 }
