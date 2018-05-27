@@ -12,6 +12,7 @@ namespace Dal.Mapping.Erp
     {
         public ptypeMap()
         {
+            this.HasKey(x => x.typeId);
             this.ToTable("ptype");
 
             this.Property(t => t.typeId).HasColumnName("typeId");

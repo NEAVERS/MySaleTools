@@ -12,6 +12,8 @@ namespace Dal.Mapping.Erp
     {
         public GoodsStocksMap()
         {
+            this.HasKey(x => x.PtypeId);
+            this.HasKey(x => x.KtypeId);
             this.ToTable("GoodsStocks");
             this.Property(t => t.PtypeId).HasColumnName("PtypeId");
             this.Property(t => t.JobNumber).HasColumnName("JobNumber");

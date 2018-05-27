@@ -8,6 +8,8 @@
     int floorIndex = 0;
     var imgList = (List<ImgSet>)ViewBag.ImgList;
     var noticeList = (List<Notice>)ViewBag.NoticeList;
+    var tejiaList = (PageData<GoodInfo>)ViewBag.Tejia;
+    var xinpinList = (PageData<GoodInfo>)ViewBag.Xinping;
 }
 
 <html>
@@ -51,7 +53,7 @@
             <div class="pace"></div>
             <div class="module clearfix">
                 <div class="lfloat">
-                    <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                    <a href="/Home/Index" target="_blank"><span class="main_title">首页  </span></a>
                     <span class="hello">您好，</span>
                     <span class="username">57700000</span>
                     <span>
@@ -255,7 +257,7 @@
                         <form action="http://pifa.yunmayi.com/search/index" method="GET" id="C_GlobalSearchFormOne">
                             <input type="text" name="q" class="search_input" id="C_GlobalSearchInputOne" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
                             <!--                <input type="hidden" name="cid" value="" id="cid"/>-->
-                            <button type="submit" class="search_btn">搜索</button>
+                            <button type="submit" class="search_btn" >搜索</button>
                         </form>
                     </div>
                     <div class="toolbar lfloat" style="padding-top:6px;">
@@ -269,17 +271,15 @@
             <div class="module top clearfix">
                 <div class="logo lfloat">
                     <div class="logoImg">
-                        <a href="http://www.yunmayi.com"><img src="/Content/images/new_log.png" href="/cart/"></a>
+                        <a href="/Home/Index"><img src="/Content/images/new_log.png" href="/cart/"></a>
                     </div>
                     <div class="logoFont">
-                        <a href="http://pifa.yunmayi.com/"><img src="/Content/images/index/04171124.png" style="width:100%;"></a>
+                        <a href="/Home/Index"><img src="/Content/images/index/04171124.png" style="width:100%;"></a>
                     </div>
                 </div>
                 <div class="searchbar lfloat">
-                    <form action="http://pifa.yunmayi.com/search/index" method="GET" id="C_GlobalSearchForm">
-                        <input type="text" name="q" class="search_input" id="C_GlobalSearchInput" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
-                        <button type="submit" class="search_btn">搜索</button>
-                    </form>
+                        <input type="text" name="q" class="search_input" style="height: 37px;" id="C_GlobalSearchInput" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+                        <button type="submit" class="search_btn" id="searchGoods">搜索</button>
                 </div>
                 <div class="toolbar lfloat">
                     <a href="/Home/ShoppingCar" class="shopCart">
@@ -496,9 +496,40 @@
                     <div class="mc scroll" style="overflow: hidden; height: 350px;padding-left: 0" id="special">
                         <span class="ca-nav-prev" id="left"></span>
                         <span class="ca-nav-next" id="right"></span>
-                        <div class="box">
-                            <div class="scroll_list" style="left: -960px;">
-                                <ul class="recommend_con" style="width:20000px; position: absolute;" id="tejia">
+                        <div class="box" >
+                            <div class="scroll_list " style="left: -675.029px;" >
+                                <ul class="recommend_con " style="width:20000px; position: absolute;" id="tejia">
+                                    @if (tejiaList != null && tejiaList.ListData.Count > 0)
+                                    {
+                                        foreach (var item in tejiaList.ListData)
+                                        {
+                                    <li class="item_box">
+                                        <div class="item_pic">
+                                            <a href="/Home/ProductDetail/@(item.Id)" target="_blank"><img src="@item.pic1"></a>
+                                        </div>
+                                        <div class="item_name">
+                                            <a href="/Home/ProductDetail/@(item.Id)" target="_blank">@item.GoodsTittle</a>
+                                        </div>
+                                        <div class="item_price">
+                                            <span>￥@item.RetailtPrice/@item.Unit</span>
+                                            <b>规格:@item.Spec</b>
+                                        </div>
+                                        <div class="item_action clearfix">
+                                            <span class="J_AddCollectBtn add_collect_btn" id="268693" data-id="@item.Id">收藏</span>
+                                            <div class="rfloat">
+                                                <div class="item_quantity">
+                                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                                    <input type="text" value="1" data-min="@item.MinCount" data-max="@item.LimitCount" class="quantity_input J_QuantityInput">
+                                                    <a href="javascript:;" class="increment J_Increment">+</a>
+                                                </div>
+                                                <a href="#" class="J_AddCartBtn add_cart_btn" data-id="@item.Id" data-start="0" data-end="0" data-num="0">进货</a>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                        }
+                                    }
+
                                 </ul>
                             </div>
                         </div>
@@ -510,15 +541,44 @@
                         <span class="ca-nav-next" id="recommendRight"></span>
                         <div class="box">
                             <div class="scroll_list" style="left: 0px;">
-                                <ul class="recommend_con" style="width:20000px; position: absolute;" id="tuijian">
+                                <ul class="recommend_con special" style="width:20000px; position: absolute;" id="tuijian">
+                                    @if (xinpinList != null && xinpinList.ListData.Count > 0)
+    {
+        foreach (var item in xinpinList.ListData)
+        {
+                                <li class="item_box">
+                                    <div class="item_pic">
+                                        <a href="/Home/ProductDetail/@(item.Id)" target="_blank"><img src="@item.pic1"></a>
+                                    </div>
+                                    <div class="item_name">
+                                        <a href="/Home/ProductDetail/@(item.Id)" target="_blank">@item.GoodsTittle</a>
+                                    </div>
+                                    <div class="item_price">
+                                        <span>￥@item.RetailtPrice/@item.Unit</span>
+                                        <b>规格:@item.Spec</b>
+                                    </div>
+                                    <div class="item_action clearfix">
+                                        <span class="J_AddCollectBtn add_collect_btn" id="268693" data-id="@item.Id">收藏</span>
+                                        <div class="rfloat">
+                                            <div class="item_quantity">
+                                                <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                                <input type="text" value="1" data-min="@item.MinCount" data-max="@item.LimitCount" class="quantity_input J_QuantityInput">
+                                                <a href="javascript:;" class="increment J_Increment">+</a>
+                                            </div>
+                                            <a href="#" class="J_AddCartBtn add_cart_btn" data-id="@item.Id" data-start="0" data-end="0" data-num="0">进货</a>
+                                        </div>
+                                    </div>
+                                </li>
+
+}
+}
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <!-- 新品推荐列表 end-->
                 </div>
-            </div>
-            <div class="container floor_box">
+            </div>            <div class="container floor_box">
                 @foreach (var item in typeList)
                 {
                     floorIndex++;
@@ -534,29 +594,6 @@
                         </div>
                         <div class="mc">
                             <ul class="clearfix">
-                                <li class="item_box">
-                                    <div class="item_pic">
-                                        <a href="/product/detail?id=975597" target="_blank"><img src="http://i8.yunmayi.com/upload/2017/12/07/b267ef23187012a8eb35bfab94b6d642.jpgXXXXX!!!!!_300x300.jpg"></a>
-                                    </div>
-                                    <div class="item_name">
-                                        <a href="/product/detail?id=975597" target="_blank">上好佳80g特惠装原味薯条</a>
-                                    </div>
-                                    <div class="item_price">
-                                        <span>￥4.50/</span>
-                                        <b>规格:</b>
-                                    </div>
-                                    <div class="item_action clearfix">
-                                        <span class="J_AddCollectBtn add_collect_btn" id="975597" data-id="975597">收藏</span>
-                                        <div class="rfloat">
-                                            <div class="item_quantity">
-                                                <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                                <input type="text" value="1" data-min="1" data-max="" class="quantity_input J_QuantityInput">
-                                                <a href="javascript:;" class="increment J_Increment">+</a>
-                                            </div>
-                                            <span class="J_Nostock" data-id="975597">售罄</span>
-                                        </div>
-                                    </div>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -573,11 +610,6 @@
                 <div class="information">
                     <p class="telephone">加盟咨询热线：<i>0577-86000802</i></p>
                     <p class="linkLine">
-                        <a href="http://passport.pifa.yunmayi.com/login">批发平台</a>
-                        <a href="http://www.yunmayi.com/index.php">零售商城</a>
-                        <a href="http://dd.v2.yunmayi.com/passport/login">蚂蚁小店</a>
-                        <a href="http://www.yunmayi.com/home/join.html">区域加盟</a>
-                        <a href="http://www.yunmayi.com/home/supplier.html">供应商合作</a>
                     </p>
                     <p class="address">公司地址：浙江省杭州市拱墅区祥符街道祥园路108号中国（杭州）智慧信息产业园3期G座2号楼5楼</p>
                     <p class="copyright">Copyright©2014-2017版权归浙江云之涞网络科技有限公司所有</p>
@@ -658,6 +690,12 @@
                 }, "json")
             })
         }
+
+        $("#searchGoods").click(function () {
+            var key = $("#C_GlobalSearchInput").val();
+            location.href = "/Home/Product?key=" + key;
+        })
+      
     </script>
 
     <script type="text/javascript">

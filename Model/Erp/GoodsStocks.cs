@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,8 +9,10 @@ namespace Model.Erp
 {
     public class GoodsStocks
     {
+        [Key]
         public string PtypeId { get; set; }
 
+        [Key]
         public string KtypeId { get; set; }
 
         public string JobNumber { get; set; }

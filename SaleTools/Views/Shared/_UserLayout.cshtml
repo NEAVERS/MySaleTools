@@ -583,7 +583,7 @@
             <div class="pace"></div>
             <div class="module clearfix">
                 <div class="lfloat">
-                    <a href="http://www.yunmayi.com" target="_blank"><span class="main_title">首页  </span></a>
+                    <a href="/Home/Index" target="_blank"><span class="main_title">首页  </span></a>
                     <span class="hello">您好，</span>
                     <span class="username">57700000</span>
                     <span>
@@ -781,11 +781,6 @@
                 <div class="information">
                     <p class="telephone">加盟咨询热线：<i>0577-86000802</i></p>
                     <p class="linkLine">
-                        <a href="http://passport.pifa.yunmayi.com/login">批发平台</a>
-                        <a href="http://www.yunmayi.com/index.php">零售商城</a>
-                        <a href="http://dd.v2.yunmayi.com/passport/login">蚂蚁小店</a>
-                        <a href="http://www.yunmayi.com/home/join.html">区域加盟</a>
-                        <a href="http://www.yunmayi.com/home/supplier.html">供应商合作</a>
                     </p>
                     <p class="address">公司地址：浙江省杭州市拱墅区祥符街道祥园路108号中国（杭州）智慧信息产业园3期G座2号楼5楼</p>
                     <p class="copyright">Copyright©2014-2017版权归浙江云之涞网络科技有限公司所有</p>
@@ -859,7 +854,7 @@
                     case '收起':
                         tip = '更多';
                         $('#C_BrandList').addClass('fixed_height');
-                        $('.brand_con i').css('background', 'url(/Content/images/index/arrow-down.png)');
+                        //$('.brand_con i').css('background', 'url(/Content/images/index/arrow-down.png)');
                         $('.brand_con i').css('background-size', 'contain');
                         $('.brand_con i').css('background-repeat', 'no-repeat');
                         $('.brand_con h3').height($('#C_BrandList').height() + 10)
@@ -870,172 +865,172 @@
             });
 
             // 商品加入购物相关操作
-            $("#J_List").on("click", ".J_Decrement", function () {
-                var _input = $(this).siblings("input.J_QuantityInput");
-                var min = parseInt(_input.data("min"));
-                var max = parseInt(_input.data("max"));
-                if (max < min) {
-                    build("red", "商品库存不足", "Decrement");
-                    return false;
-                }
-                var quantity = parseInt(_input.val());
-                --quantity;
-                quantity = quantity > max ? max : quantity;
-                quantity = quantity < min ? min : quantity;
-                _input.val(quantity);
-            });
-            $("#J_List").on("click", ".J_Increment", function () {
-                var _input = $(this).siblings("input.J_QuantityInput");
-                var min = parseInt(_input.data("min"));
-                var max = parseInt(_input.data("max"));
-                if (max < min) {
-                    build("red", "商品库存不足", "Increment");
-                    return false;
-                }
-                var quantity = parseInt(_input.val());
-                ++quantity;
-                quantity = quantity > max ? max : quantity;
-                quantity = quantity < min ? min : quantity;
-                _input.val(quantity);
-            });
-            $("#J_List").on("blur", ".J_QuantityInput", function () {
-                var _this = $(this);
-                var max = _this.data("max");
-                var min = _this.data("min");
-                var quantity = _this.val();
-                quantity = quantity > max ? max : quantity;
-                quantity = quantity < min ? min : quantity;
-                _this.val(quantity);
-            });
-            $("#J_List").on("click", ".J_AddCartBtn", function (event) {
-                $(".add_cart_btn").removeClass("J_AddCartBtn");
-                var _this = $(this);
-                var _input = _this.prev(".item_quantity").children(".J_QuantityInput");
-                var quantity = _input.val();
-                var limit_start_time = _this.data("start");
-                var limit_end_time = _this.data("end");
-                var limit_buy_num = _this.data("num");
-                var curentTime = Date.parse(new Date()) / 1000;
-                var productId = _this.data("id");
-                var items = [];
-                var html = "";
-                $.ajax({
-                    type: 'post',
-                    dataType: 'json',
-                    url: '/cart/isPresaleItem',
-                    data: {
-                        pid: productId
-                    },
-                    success: function (res) {
-                        items = res;
-                        if (items.length != 0) {
-                            presaleShow = true;
-                            $(".explain").addClass('j_display');
-                            html += '   <ul class="explain_mian">';
-                            html += '       <li class="header">';
-                            html += '           <span>预售活动</span>';
-                            html += '           <span>商品剩余数量</span>';
-                            html += '           <span>购买数量</span>';
-                            html += '           <span>加入购物车</span>';
-                            html += '       </li>';
-                            for (var k in items) {
-                                html += '       <li class="items">';
-                                html += '           <span>' + items[k].title + '</span>';
-                                html += '           <span class="amountNum">' + items[k].amount + '</span>';
-                                html += '           <div class="presaleItems">';
-                                html += '               <a  href="javascript:;" class="decrementPresales"> - </a>';
-                                html += '               <input type="text" value="1" class="presaleInput" data-max=' + items[k].amount + '>';
-                                html += '               <a  href="javascript:;" class="addPresale"> + </a>';
-                                html += '           </div>';
-                                html += '           <button class="buyButton addPresaleCart" data-id=' + items[k].id + ' data-product-id=' + items[k].product_id + '>进货</button>';
-                                html += '       </li>';
-                            }
-                            html += '       <button class="coloseButton" onclick="closeExplain()"> x </button>';
-                            html += '   </ul>';
-                            $('.add_cart_btn').addClass("J_AddCartBtn");
-                            $(".explain").html(html);
-                        } else {
-                            if (limit_start_time > 0 && limit_end_time > 0) {
-                                if (curentTime >= limit_start_time && curentTime <= limit_end_time) {
-                                    if (quantity > limit_buy_num) {
-                                        build("red", "该商品限购", productId, limit_buy_num);
-                                        return false;
-                                    }
-                                }
-                            }
-                            if (limit_start_time == 0 && limit_end_time == 0 && limit_buy_num > 0) {
-                                if (quantity > limit_buy_num) {
-                                    build("red", "该商品限购", productId, limit_buy_num);
-                                    return false;
-                                }
-                            }
-                            $.ajax({
-                                "type": "POST",
-                                "url": "/cart/ajaxAddItemToCart",
-                                "dataType": "json",
-                                "data": {
-                                    "product_id": productId,
-                                    "quantity": _input.val(), //_input.val()
-                                    "is_cart": 1
-                                },
-                                "success": function (result) {
-                                    $('.add_cart_btn').addClass("J_AddCartBtn");
-                                    GlobalCartItemNum();
-                                    if (!result.error) {
-                                        var addcar = _this;
-                                        var img = addcar.parent().parent().parent().find('img').attr('src');
-                                        var flyer = $('<img class="u-flyer" src="' + img + '">');
-                                        var address1 = $('#C_GlobalCartItemNum_fixed');
-                                        var address2 = $('#C_GlobalCartItemNum');
-                                        var scrollTop = $(document).scrollTop();
-                                        if (scrollTop > 130) {
-                                            flyer.fly({
-                                                start: {
-                                                    left: event.clientX,
-                                                    top: event.clientY,
-                                                },
-                                                end: {
-                                                    left: address1[0].offsetLeft,
-                                                    top: address1[0].offsetTop,
-                                                    width: 0,
-                                                    height: 0
-                                                },
-                                                onEnd: function () {
-                                                    $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
-                                                    this.destory();
-                                                }
-                                            })
-                                        } else {
-                                            flyer.fly({
-                                                start: {
-                                                    left: event.clientX,
-                                                    top: event.clientY,
-                                                },
-                                                end: {
-                                                    left: address2[0].offsetLeft,
-                                                    top: address2[0].offsetTop - 20,
-                                                    width: 0,
-                                                    height: 0
-                                                },
-                                                onEnd: function () {
-                                                    $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
-                                                    this.destory();
-                                                }
-                                            })
-                                        }
-                                    } else {
-                                        build("red", result.info, productId);
-                                    }
-                                }
-                            });
-                        }
-                    },
-                    error: function (error) {
-                        console.log(error)
-                    }
-                });
-                return false;
-            });
+            //$("#J_List").on("click", ".J_Decrement", function () {
+            //    var _input = $(this).siblings("input.J_QuantityInput");
+            //    var min = parseInt(_input.data("min"));
+            //    var max = parseInt(_input.data("max"));
+            //    if (max < min) {
+            //        build("red", "商品库存不足", "Decrement");
+            //        return false;
+            //    }
+            //    var quantity = parseInt(_input.val());
+            //    --quantity;
+            //    quantity = quantity > max ? max : quantity;
+            //    quantity = quantity < min ? min : quantity;
+            //    _input.val(quantity);
+            //});
+            //$("#J_List").on("click", ".J_Increment", function () {
+            //    var _input = $(this).siblings("input.J_QuantityInput");
+            //    var min = parseInt(_input.data("min"));
+            //    var max = parseInt(_input.data("max"));
+            //    if (max < min) {
+            //        build("red", "商品库存不足", "Increment");
+            //        return false;
+            //    }
+            //    var quantity = parseInt(_input.val());
+            //    ++quantity;
+            //    quantity = quantity > max ? max : quantity;
+            //    quantity = quantity < min ? min : quantity;
+            //    _input.val(quantity);
+            //});
+            //$("#J_List").on("blur", ".J_QuantityInput", function () {
+            //    var _this = $(this);
+            //    var max = _this.data("max");
+            //    var min = _this.data("min");
+            //    var quantity = _this.val();
+            //    quantity = quantity > max ? max : quantity;
+            //    quantity = quantity < min ? min : quantity;
+            //    _this.val(quantity);
+            //});
+            //$("#J_List").on("click", ".J_AddCartBtn", function (event) {
+            //    $(".add_cart_btn").removeClass("J_AddCartBtn");
+            //    var _this = $(this);
+            //    var _input = _this.prev(".item_quantity").children(".J_QuantityInput");
+            //    var quantity = _input.val();
+            //    var limit_start_time = _this.data("start");
+            //    var limit_end_time = _this.data("end");
+            //    var limit_buy_num = _this.data("num");
+            //    var curentTime = Date.parse(new Date()) / 1000;
+            //    var productId = _this.data("id");
+            //    var items = [];
+            //    var html = "";
+            //    $.ajax({
+            //        type: 'post',
+            //        dataType: 'json',
+            //        url: '/cart/isPresaleItem',
+            //        data: {
+            //            pid: productId
+            //        },
+            //        success: function (res) {
+            //            items = res;
+            //            if (items.length != 0) {
+            //                presaleShow = true;
+            //                $(".explain").addClass('j_display');
+            //                html += '   <ul class="explain_mian">';
+            //                html += '       <li class="header">';
+            //                html += '           <span>预售活动</span>';
+            //                html += '           <span>商品剩余数量</span>';
+            //                html += '           <span>购买数量</span>';
+            //                html += '           <span>加入购物车</span>';
+            //                html += '       </li>';
+            //                for (var k in items) {
+            //                    html += '       <li class="items">';
+            //                    html += '           <span>' + items[k].title + '</span>';
+            //                    html += '           <span class="amountNum">' + items[k].amount + '</span>';
+            //                    html += '           <div class="presaleItems">';
+            //                    html += '               <a  href="javascript:;" class="decrementPresales"> - </a>';
+            //                    html += '               <input type="text" value="1" class="presaleInput" data-max=' + items[k].amount + '>';
+            //                    html += '               <a  href="javascript:;" class="addPresale"> + </a>';
+            //                    html += '           </div>';
+            //                    html += '           <button class="buyButton addPresaleCart" data-id=' + items[k].id + ' data-product-id=' + items[k].product_id + '>进货</button>';
+            //                    html += '       </li>';
+            //                }
+            //                html += '       <button class="coloseButton" onclick="closeExplain()"> x </button>';
+            //                html += '   </ul>';
+            //                $('.add_cart_btn').addClass("J_AddCartBtn");
+            //                $(".explain").html(html);
+            //            } else {
+            //                if (limit_start_time > 0 && limit_end_time > 0) {
+            //                    if (curentTime >= limit_start_time && curentTime <= limit_end_time) {
+            //                        if (quantity > limit_buy_num) {
+            //                            build("red", "该商品限购", productId, limit_buy_num);
+            //                            return false;
+            //                        }
+            //                    }
+            //                }
+            //                if (limit_start_time == 0 && limit_end_time == 0 && limit_buy_num > 0) {
+            //                    if (quantity > limit_buy_num) {
+            //                        build("red", "该商品限购", productId, limit_buy_num);
+            //                        return false;
+            //                    }
+            //                }
+            //                $.ajax({
+            //                    "type": "POST",
+            //                    "url": "/cart/ajaxAddItemToCart",
+            //                    "dataType": "json",
+            //                    "data": {
+            //                        "product_id": productId,
+            //                        "quantity": _input.val(), //_input.val()
+            //                        "is_cart": 1
+            //                    },
+            //                    "success": function (result) {
+            //                        $('.add_cart_btn').addClass("J_AddCartBtn");
+            //                        GlobalCartItemNum();
+            //                        if (!result.error) {
+            //                            var addcar = _this;
+            //                            var img = addcar.parent().parent().parent().find('img').attr('src');
+            //                            var flyer = $('<img class="u-flyer" src="' + img + '">');
+            //                            var address1 = $('#C_GlobalCartItemNum_fixed');
+            //                            var address2 = $('#C_GlobalCartItemNum');
+            //                            var scrollTop = $(document).scrollTop();
+            //                            if (scrollTop > 130) {
+            //                                flyer.fly({
+            //                                    start: {
+            //                                        left: event.clientX,
+            //                                        top: event.clientY,
+            //                                    },
+            //                                    end: {
+            //                                        left: address1[0].offsetLeft,
+            //                                        top: address1[0].offsetTop,
+            //                                        width: 0,
+            //                                        height: 0
+            //                                    },
+            //                                    onEnd: function () {
+            //                                        $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
+            //                                        this.destory();
+            //                                    }
+            //                                })
+            //                            } else {
+            //                                flyer.fly({
+            //                                    start: {
+            //                                        left: event.clientX,
+            //                                        top: event.clientY,
+            //                                    },
+            //                                    end: {
+            //                                        left: address2[0].offsetLeft,
+            //                                        top: address2[0].offsetTop - 20,
+            //                                        width: 0,
+            //                                        height: 0
+            //                                    },
+            //                                    onEnd: function () {
+            //                                        $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
+            //                                        this.destory();
+            //                                    }
+            //                                })
+            //                            }
+            //                        } else {
+            //                            build("red", result.info, productId);
+            //                        }
+            //                    }
+            //                });
+            //            }
+            //        },
+            //        error: function (error) {
+            //            console.log(error)
+            //        }
+            //    });
+            //    return false;
+            //});
             // 收藏商品
             /* $("#J_List").on("click", ".J_AddCollectBtn", function(){
                  $.post(

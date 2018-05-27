@@ -3,6 +3,7 @@ using Common;
 using Model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -25,6 +26,11 @@ namespace SaleTools.Controllers
             ViewBag.ImgList = imgSet;
             List<Notice> list = _system.GetNoticeForShow(loginUser.TypeId, ViewBag.ManagerId);
             list = list.OrderByDescending(x => x.CreateTime).Take(6).ToList();
+            string tejia = ConfigurationManager.AppSettings["tejia"].ToString();
+            string xinping = ConfigurationManager.AppSettings["xinping"].ToString();
+
+            ViewBag.Tejia = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10, "", tejia, "", "", "", "");
+            ViewBag.Xinping = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10, "", xinping, "", "", "", "");
             ViewBag.NoticeList = list;
             return View();
         }
@@ -38,7 +44,7 @@ namespace SaleTools.Controllers
         }
 
 
-        public ActionResult Product(string fst = "", string sec = "", string trd = "", string brandId = "")
+        public ActionResult Product(string fst = "", string sec = "", string trd = "", string brandId = "",string key = "")
         {
             var fstType = _manager.GetGoodsType(fst);
             var secType = _manager.GetGoodsType(sec);
@@ -100,6 +106,7 @@ namespace SaleTools.Controllers
             ViewBag.fst = fst;
             ViewBag.sec = sec;
             ViewBag.trd = trd;
+            ViewBag.Key = key;
             return View();
 
         }
@@ -185,6 +192,12 @@ namespace SaleTools.Controllers
         }
 
 
+        public string ChangeCount(Guid itemId,int count)
+        {
+            var res = _order.SaveOrderItem(itemId, count);
+            return Utils.SerializeObject(res);
+        }
+
         public string DeleteItems(List<Guid> itemIds)
         {
             var res = _order.DeleteOrderItem(itemIds);
@@ -211,12 +224,13 @@ namespace SaleTools.Controllers
             ViewBag.Mj = mj;
             ViewBag.Ms = ms;
             ViewBag.List = list;
+
             ViewBag.CouponList = couponList;
             return View();
         }
 
 
-        public void CreateOrder(string remark = "", string couponId = "")
+        public string CreateOrder(string remark = "", string couponId = "")
         {
             var loginUser = (UserInfo)ViewBag.User;
             var order = new OrderInfo();
@@ -242,7 +256,7 @@ namespace SaleTools.Controllers
             order.Area = loginUser.Area;
             order.AreaNum = loginUser.AreaNum;
             order.Stutas = (int)Common.Entities.OrderStatus.等待商家发货;
-            order.SaleManTel = saleMan.Tel;
+            order.SaleManTel = saleMan==null?"":saleMan.Tel;
             order.PayType = "货到付款";
             order.Remark = remark;
 
@@ -291,7 +305,7 @@ namespace SaleTools.Controllers
             }
 
             var ress = _order.SaveOrder(order);
-            
+            return Utils.SerializeObject(ress);
         }
 
 

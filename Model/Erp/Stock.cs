@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace Model.Erp
     /// </summary>
     public partial class Stock
     {
+        [Key]
         public string typeId { get; set; }
         public string parid { get; set; }
         public short leveal { get; set; }

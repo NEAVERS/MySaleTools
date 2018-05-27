@@ -22,8 +22,8 @@
             <p class="txt">购物车</p>
         </div>
         <div class="cart-search-wrap">
-            <form action="/product/keywordList" method="get">
-                <input type="text" name="q" placeholder="支持商品关键字、品牌、条码搜索">
+            <form action="/Home/Product" method="get">
+                <input type="text" name="key" placeholder="支持商品关键字、品牌、条码搜索">
                 <button type="submit">搜&nbsp;索</button>
             </form>
         </div>
@@ -70,7 +70,7 @@
                             </div>
                             <div class="cart-cell quantity">
                                 <a href="javascript:;" class="q-minus">-</a>
-                                <input type="text" value="@item.Count" data-quantity="2" data-cid="26235064" data-pid="268695" class="q-input q-input1">
+                                <input type="text" value="@item.Count" data-quantity="2" data-cid="@item.Id" data-pid="268695" class="q-input q-input1">
                                 <a href="javascript:;" class="q-add">+</a>
                                 <input type="hidden" data-min="1" data-old="2" data-pid="268695">
                             </div>
@@ -255,5 +255,41 @@
             layer.msg("请先添加商品", { icon: 2 });
         }
     });
+
+    $(".q-input").change(function () {
+        changeCount($(this));
+    })
+
+    $(".q-add").click(function () {
+        var input = $(this).prev("input");
+        var count = parseInt(input.val());
+        input.val(count + 1);
+        changeCount(input)
+    })
+    $(".q-minus").click(function () {
+        var input = $(this).next("input");
+        var count = parseInt(input.val());
+        input.val(count - 1);
+        changeCount(input)
+    })
+    function changeCount(obj) {
+        var id = obj.data("cid");
+        var count = obj.val();
+
+        if (!/^\d+$/.test(count)) {
+            layer.msg("请输入正确的商品数量", { icon: 2 }, function () {
+                location.reload();
+            });
+        }  
+        $.post("/Home/ChangeCount", { itemId: id, count: count }, function (e) {
+            if (e) {
+                location.reload();
+            }
+            else {
+                layer.msg("操作失败！请刷新后重试！", { icon: 2 });
+            }
+        }, "json")
+
+    }
 
 </script> 

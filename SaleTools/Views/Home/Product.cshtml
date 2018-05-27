@@ -16,20 +16,20 @@
     <div class="module top clearfix">
         <div class="logo lfloat">
             <div class="logoImg">
-                <a href="http://www.yunmayi.com"><img src="/Content/images/new_log.png" href="/cart/"></a>
+                <a href="/Home/Index"><img src="/Content/images/new_log.png" href="/cart/"></a>
             </div>
             <div class="logoFont">
                 <a href="http://pifa.yunmayi.com/"><img src="/Content/images/index/04171124.png" style="width:100%;"></a>
             </div>
         </div>
         <div class="searchbar lfloat">
-                <input type="text" name="q" class="search_input" id="C_GlobalSearchInput" autocomplete="off" placeholder="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+                <input type="text" name="q" class="search_input" id="C_GlobalSearchInput" autocomplete="off"  value="@ViewBag.Key"  placeholder="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
                 <button type="button" class="search_btn" id="search_btn">搜索</button>
         </div>
         <div class="toolbar lfloat">
             <a href="/Home/ShoppingCar" class="shopCart">
                 购物车
-                <i style="font-style: normal;color: red;" id="C_GlobalCartItemNum">0</i>
+                <i style="font-style: normal;color: #ff0000;font-size: 15px;" id="C_GlobalCartItemNum_fixed">0</i>
             </a>
         </div>
     </div>
@@ -39,25 +39,28 @@
             <div class="dropdown_menu" style="display: none;">
                 <!-- first category -->
                 <ul class="menu_nav_container" id="C_CategoryList">
-
-                    @foreach (var item in typeList)
-    {
+                    @if (typeList != null && typeList.Count > 0)
+                    {
+                    foreach (var item in typeList)
+                    {
                 <li data-source="">
                     <div class="menu_nav_fst">
                         <h3 class="fst_cat_title"><a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a></h3>
                         <div class="fst_cat_child">
                             @foreach (var child in item.TypeList)
-            {
+                            {
                 <a href="/Home/Product?sec=@child.GoodsType.Id">@child.GoodsType.TypeName</a>
 
-}
+                            }
 
 
                         </div>
                     </div>
                 </li>
 
-}
+                    }
+                    }
+                   
 
                 </ul>
             </div>
@@ -174,8 +177,10 @@
                 <div class="path" style="overflow:hidden;">
                     <div style="float:left;" id="C_Crumbs">
                         <a href="#" class="C_cat" data-id="0">全部商品</a>&gt;
+                        @if (fstType != null)
+                        {
                         <a href="/Home/Product?fst=@fstType.Id" class="C_cat" data-id="1030" data-name="@fstType.TypeName">@fstType.TypeName</a>
-                        @if (secType != null)
+                        if (secType != null)
                         {
                             var para = ">";
                             @para<a href="/Home/Product?sec=@secType.Id" class="C_cat" data-id="1031" data-name="@secType.TypeName">@secType.TypeName</a>
@@ -184,6 +189,11 @@
                                 @para<a href="/Home/Product?trd=@trdType.Id" class="C_cat" data-id="1031" data-name="@trdType.TypeName">@trdType.TypeName</a>
                             }
                         }
+                        }
+                         else
+                    {
+                                     <a href="/Home/Product?key=@ViewBag.Key" id="KeyUrl" class="C_cat" data-id="1030" data-name="@ViewBag.Key">@ViewBag.Key</a>
+                    }
                     </div>
                     <div class="search_box">
                         <!--input type="text" class="text_value" id="searchInput" value="{{ q is defined ? q : '' }}" />
@@ -238,7 +248,7 @@
                 </div>
                 <ul class="pro_content" id="productList"></ul>
             </div> -->
-            <div class="page" style="margin:20px 0;" id="C_page">
+            <div class="page_div" style="margin:20px 0; text-align: center;" id="C_page">
             </div>
         </div>
     </div>
@@ -275,19 +285,22 @@
                 html += '<div class="rfloat"><div class="item_quantity">';
                 html += '<a href="javascript:;" class="decrement J_Decrement">-</a>';
                 html += '<input type="text" value="10" data-min="' + this.MinCount + '" data-max="' + this.LimitCount + '" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>';
-                html += '</div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="' + this.Id + ' data-start=0 data-end=0 data-num=0">进货</a>';
+                html += '</div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="' + this.Id + '" data-start=0 data-end=0 data-num=0">进货</a>';
                 html += '</div></div></li>'
             });
             $("#productList").html(html);
             $("#totalProductNumTip").html(e.TotalCount);
-            $("#page").paging({
-                pageNo: index,
+            $("#KeyUrl").html(para.key);
+
+            $("#KeyUrl").attr("href", "/Home/Product?key=" + para.key);
+            pageIndex = index;
+            $("#C_page").paging({
+                pageNo: pageIndex,
                 totalPage: e.TotalPage,
                 totalSize: e.TotalCount,
                 callback: function (num) {
-                    pageIndex = num;
-                    if (index != num)
-                        GetData(num);
+                    if (pageIndex != num)
+                        LoadProduct(num);
                 }
             })
 
@@ -296,7 +309,121 @@
     $("#search_btn").click(function () {
         LoadProduct(1);
     });
+    $(function () {
+        loacCarCount(); 
+        $(document).on("click", ".J_Decrement", function () {
+            var _input = $(this).siblings("input.J_QuantityInput");
+            var min = parseInt(_input.data("min"));
+            var max = parseInt(_input.data("max"));
+            if (max < min) {
+                build("red", "商品库存不足", "Decrement");
+                return false;
+            }
+            var quantity = parseInt(_input.val());
+            --quantity;
+            quantity = quantity > max ? max : quantity;
+            quantity = quantity < min ? min : quantity;
+            _input.val(quantity);
+        });
 
+        $(document).on("click", ".J_Increment", function () {
+            var _input = $(this).siblings("input.J_QuantityInput");
+            var min = parseInt(_input.data("min"));
+            var max = parseInt(_input.data("max"));
+            if (max < min) {
+                build("red", "商品库存不足", "Increment");
+                return false;
+            }
+            var quantity = parseInt(_input.val());
+            ++quantity;
+            quantity = quantity > max ? max : quantity;
+            quantity = quantity < min ? min : quantity;
+            _input.val(quantity);
+        });
+
+        $(document).on("click", ".J_QuantityInput", function () {
+            var _this = $(this);
+            var max = _this.data("max");
+            var min = _this.data("min");
+            var quantity = _this.val();
+            quantity = quantity > max ? max : quantity;
+            quantity = quantity < min ? min : quantity;
+            _this.val(quantity);
+        });
+        $(document).on("click", ".J_AddCartBtn", function (event) {
+            $('.add_cart_btn').removeClass("J_AddCartBtn");
+            var _this = $(this);
+            var _input = _this.prev(".item_quantity").children(".J_QuantityInput");
+            var quantity = _input.val();
+            var limit_start_time = _this.data("start");
+            var limit_end_time = _this.data("end");
+            var limit_buy_num = _this.data("num");
+            var curentTime = Date.parse(new Date()) / 1000;
+            var productId = _this.data("id");
+            if (limit_start_time > 0 && limit_end_time > 0) {
+                if (curentTime >= limit_start_time && curentTime <= limit_end_time) {
+                    if (quantity > limit_buy_num) {
+                        build("red", "该商品限购", productId, limit_buy_num);
+                        return false;
+                    }
+                }
+            }
+            if (limit_start_time == 0 && limit_end_time == 0 && limit_buy_num > 0) {
+                if (quantity > limit_buy_num) {
+                    build("red", "该商品限购", productId, limit_buy_num);
+                    return false;
+                }
+            }
+            $.ajax({
+                "type": "POST",
+                "url": "/Home/AddToShoppingCar",
+                "dataType": "json",
+                "data": {
+                    "goodId": productId,
+                    "count": quantity, //_input.val()
+                    "is_cart": 1
+                },
+                "success": function (result) {
+                    $('.add_cart_btn').addClass("J_AddCartBtn");
+                    GlobalCartItemNum();
+                    loacCarCount();
+                    if (!result.error) {
+                        var addcar = _this;
+                        var img = addcar.parent().parent().parent().find('img').attr('src');
+                        var flyer = $('<img class="u-flyer" src="' + img + '">');
+                        var address1 = $('#C_GlobalCartItemNum_fixed');
+                        var address2 = $('#C_GlobalCartItemNum');
+                        var scrollTop = $(document).scrollTop();
+                            flyer.fly({
+                                start: {
+                                    left: event.clientX,
+                                    top: event.clientY,
+                                },
+                                end: {
+                                    left: address1[0].offsetLeft,
+                                    top: address1[0].offsetTop,
+                                    width: 0,
+                                    height: 0
+                                },
+                                onEnd: function () {
+                                    $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
+                                    this.destory();
+                                }
+                            })
+                    } else {
+                        build("red", result.info, productId);
+                    }
+                }
+            });
+            return false;
+        });
+        function loacCarCount() {
+            $.post("/Home/LoadShoopingCarCount", {}, function (e) {
+                $("#C_GlobalCartItemNum_fixed").html(e);
+            }, "json")
+        }
+
+    })
 </script>
 
 
