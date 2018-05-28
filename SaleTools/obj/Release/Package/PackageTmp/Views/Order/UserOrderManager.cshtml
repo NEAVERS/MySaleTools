@@ -1,0 +1,117 @@
+﻿@using Model;
+@using Common.Entities;
+@{
+    ViewBag.Title = "UserOrderManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var list = (List<OrderInfo>)ViewBag.List;
+}
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/need/laydate.css">
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+<script type="text/javascript" src="/Content/js/lib/laydate/laydate.js"></script>
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            已买到的商品                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/buyer/交易管理-已买到的商品.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="search_bar">
+                <form action="/Order/UserOrderManager" method="GET">
+                    <ul class="search_item_list">
+                        <li class="search_item">
+                            <label>下单时间:</label>
+                            <div class="item">
+                                <div class="calendar_input">
+                                    <input type="text" name="start" style="width: auto" value="@ViewBag.Start" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                                </div>
+                                到
+                                <div class="calendar_input">
+                                    <input type="text" name="end" style="width: auto" value="@ViewBag.End" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="search_item">
+                            <button type="submit" class="submit">搜索</button>
+                        </li>
+                        <li class="search_item">
+                            <label class="highlight">(只可查询三十一天之内的订单信息)</label>
+                        </li>
+                        <li class="clearfix"></li>
+                    </ul>
+                </form>
+                <div class="extra">
+                    <p>
+                        订单记录数:<span class="highlight">@list.Count</span>,
+                        订单总金额:<span class="highlight">@list.Sum(x => x.RealMoney)</span>,
+                        实收总金额:<span class="highlight">@list.Sum(x => x.PayMoney)</span>
+                    </p>
+                    <p>订单取消说明: <span class="highlight">每天16:00以后，16:00前下的订单无法取消，如有疑问请联系客服</span></p>
+                </div>
+            </div>
+            <div class="col_main_content">
+                <table class="table table_border">
+                    <thead class="bg_color">
+                        <tr>
+                            <th width="150">订单编号</th>
+                            <th width="120">订单时间</th>
+                            <!--th>收货人</th-->
+                            <th width="120">订单金额</th>
+                            <th width="85">交易状态</th>
+                            <th width="80">配送员</th>
+                            <th width="100">配送员电话</th>
+                            <th class="center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in list)
+                        {
+                            <tr>
+                                <td>@item.OrderNum</td>
+                                <td>@item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                <!--td></td-->
+                                <td>
+                                    <span class="highlight">@item.RealMoney</span>&nbsp;&nbsp;
+                                    [货到付款]
+                                </td>
+                                <td>
+                                    @(((OrderStatus)item.Stutas).ToString())
+                                </td>
+                                <td>@item.SendPeople</td>
+                                <td>@item.SendPeopleTel</td>
+                                <td class="center">
+                                    <a href="/Order/OrderDetail?orderId=@item.Id">订单详情</a>
+                                    @if (item.Stutas == (int)OrderStatus.等待商家发货)
+                                    {
+                                        <a onclick="CancelOrder('@item.Id')">取消订单</a>
+                                    }
+                                    <div class="extra">
+                                        <a href="" class="inline_block buy_again J_BuyAgain" data-order-id="1804062139511020"></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/layer/layer.js"></script>
+<script>
+
+    function CancelOrder(id) {
+        $.post("/Order/UserCancelOrder", { orderId: id }, function (e) {
+            if (e.Stutas) {
+                layer.msg("操作成功！", { icon: 1 }, function () {
+                    location.reload();
+                })
+            }
+            else {
+                layer.msg(e.Msg, { icon: 2 });
+            }
+        }, "json")
+    }
+
+</script>

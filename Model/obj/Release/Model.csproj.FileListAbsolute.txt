@@ -1,0 +1,6 @@
+E:\Project\test\SaleTools\Model\bin\Release\Model.dll
+E:\Project\test\SaleTools\Model\bin\Release\Model.pdb
+E:\Project\test\SaleTools\Model\obj\Release\Model.csprojResolveAssemblyReference.cache
+E:\Project\test\SaleTools\Model\obj\Release\Model.csproj.CoreCompileInputs.cache
+E:\Project\test\SaleTools\Model\obj\Release\Model.dll
+E:\Project\test\SaleTools\Model\obj\Release\Model.pdb

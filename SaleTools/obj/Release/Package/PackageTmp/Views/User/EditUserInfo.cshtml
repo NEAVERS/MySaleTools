@@ -1,0 +1,274 @@
+﻿
+@using Model;
+@{
+    ViewBag.Title = "AddNewUser";
+    var typeList = (List<UserType>)ViewBag.TypeList;
+    var saleList = (List<UserInfo>)ViewBag.SaleManList;
+
+}
+@model UserInfo
+
+<div class="col_main_hd">
+    <h2>
+        加盟商个人中心 <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/ziling/index.php" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">系统操作说明</a></button>
+    </h2>
+</div>
+<div class="col_main_bd">
+    <div class="inner">
+        <div class="col_main_content">
+
+            <table class="table table_border_td_none">
+                <tbody>
+                    <tr>
+                        <td class="right">
+                            账号：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="account" id="account" value="@Model.Account">
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="right">
+                            密码：
+                        </td>
+                        <td>
+                            <input type="password" class="inputtext" style="width:150px;" name="pws" id="pws" value="@Model.PassWord">
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="right">
+                            重复密码：
+                        </td>
+                        <td>
+                            <input type="password" class="inputtext" style="width:150px;" name="pws2" id="pws2" value="">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="right">
+                            小店编号：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="userNum" id="userNum" value="@Model.UserNum">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            名字：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="userName" id="userName" value="@Model.UserName">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            小店名称：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="storeName" id="storeName" value="@Model.SotreName">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            手机：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="tel" id="tel" value="@Model.Tel">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            邮箱：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="email" id="email" value="@Model.Email">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            区域：
+                        </td>
+                        <td>
+                            <select id="province"></select>
+                            <select id="city"></select>
+                            <select id="area"></select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="right">
+                            地址：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="addr" id="addr" value="@Model.Addr">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="right">
+                            小店平米数：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="storeArea" id="storeArea" value="@Model.StoreArea">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            送货备注：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="remark" id="remark" value="@Model.Remark">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            请选择业务员：
+                        </td>
+                        <td>
+                            <select id="saleMan">
+                                <option value="0">请选择业务员</option>
+                                @foreach (var item in saleList)
+                                {
+                                    string selected = "";
+                                    if (item.UserId == Model.SaleManGuid)
+                                    {
+                                        selected = "selected='selected'";
+                                    }
+                                    <option value="@item.UserId" @selected>@item.UserName</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="right">
+                            用户类型：
+                        </td>
+                        <td>
+                            <select id="userType" class="seller-id">
+                                @foreach (var item in typeList)
+                                {
+                                    if (item.TypeId == Model.TypeId)
+                                    {
+                                        <option value="@item.TypeId" selected="selected">@item.TypeName </option>
+                                    }
+
+                                    else
+                                    {
+                                        <option value="@item.TypeId">@item.TypeName </option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+
+
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+<input type="hidden" value="@Model.ProvinceNum" id="provinceId" />
+<input type="hidden" value="@Model.CityNum" id="cityId" />
+<input type="hidden" value="@Model.AreaNum" id="areaId" />
+<input type="hidden" value="@Model.UserId" id="UserId" />
+
+
+
+
+<button id="btn_save">保存</button>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/layer/layer.js"></script>
+<script>
+
+    $(function () {
+        $(document).on("change", "#province", function () {
+            LoadArea($(this).val(), "#city")
+        });
+        $(document).on("change", "#city", function () {
+            LoadArea($(this).val(), "#area")
+        });
+        LoadArea("0", "#province")
+    })
+
+
+
+
+
+    function LoadArea(num, obj) {
+        $.post("/Common/GetAreaList", { num: num }, function (res) {
+            var html = "";
+            var baseId = $(obj + "Id").val();
+            $(res).each(function () {
+                var selectd = "";
+                if (this.Num == baseId)
+                    selectd = 'selected="selected"';
+                html += '<option value="' + this.Num + '" ' + selectd + '>' + this.Name + '</option>';
+            });
+            $(obj).html(html);
+            $(obj).change();
+        }, "json");
+    }
+
+    $("#btn_save").click(function () {
+        SaveUser();
+    });
+    function SaveUser() {
+        var userId = $("#UserId").val();
+        var userName = $("#userName").val();
+        var userNum = $("#userNum").val();
+        var account = $("#account").val();
+        var pwd = $("#pws").val();
+        var typeId = $("#userType").val();
+        var typeName = $("#userType").find("option:selected").text();
+
+
+        if (pwd != $("#pws2").val()) {
+            alert("两次密码不一致！");
+            return;
+        }
+        if (userName == "" || userNum == "" || account == "") {
+            alert("用户名、账号、用户编号不能为空！");
+            return;
+        }
+        var para = {};
+        para.UserId = userId;
+        para.UserName = userName;
+        para.UserNum = userNum;
+        para.Account = account;
+        para.PassWord = pwd;
+        para.TypeId = typeId;
+        para.TypeName = typeName;
+        para.ProvinceNum = $("#province").val();
+        para.Province = $("#province").find("option:selected").text();
+        para.CityNum = $("#city").val();
+        para.City = $("#city").find("option:selected").text();
+        para.AreaNum = $("#area").val();
+        para.Area = $("#area").find("option:selected").text();
+        para.SotreName = $("#storeName").val();
+        para.Tel = $("#tel").val();
+        para.Email = $("#email").val();
+        para.Addr = $("#addr").val();
+        para.StoreArea = $("#storeArea").val();
+        para.Remark = $("#remark").val();
+        para.SaleManGuid = $("#saleMan").val();
+        para.SaleManName = $("#saleMan").find("option:selected").text();
+        $.post("/User/SaveUser", para, function (e) {
+            if (e) {
+                layer.msg("添加成功！", { icon: 1 }, function () {
+                    location.href = "/User/Index";
+                })
+            }
+            else {
+                layer.msg("添加失败！请稍候重试！", { icon: 2 })
+            }
+        }, "json")
+    }
+</script>

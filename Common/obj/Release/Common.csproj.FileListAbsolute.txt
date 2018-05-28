@@ -1,0 +1,11 @@
+E:\Project\test\SaleTools\Common\bin\Release\Common.dll
+E:\Project\test\SaleTools\Common\bin\Release\Common.pdb
+E:\Project\test\SaleTools\Common\bin\Release\Model.dll
+E:\Project\test\SaleTools\Common\bin\Release\Newtonsoft.Json.dll
+E:\Project\test\SaleTools\Common\bin\Release\Model.pdb
+E:\Project\test\SaleTools\Common\bin\Release\Newtonsoft.Json.xml
+E:\Project\test\SaleTools\Common\obj\Release\Common.csprojResolveAssemblyReference.cache
+E:\Project\test\SaleTools\Common\obj\Release\Common.csproj.CoreCompileInputs.cache
+E:\Project\test\SaleTools\Common\obj\Release\Common.csproj.CopyComplete
+E:\Project\test\SaleTools\Common\obj\Release\Common.dll
+E:\Project\test\SaleTools\Common\obj\Release\Common.pdb

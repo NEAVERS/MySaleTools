@@ -1,0 +1,370 @@
+﻿@using Common.Entities;
+@using Model;
+@{
+    ViewBag.Title = "ConfirmPayRecord";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var list = (List<ErrorReason>)ViewBag.ErrorList;
+    var sendPeople = (List<UserInfo>)ViewBag.SendPeople;
+}
+@model OrderDetail
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            订单收款登记                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/财务管理-订单收款登记.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="col_main_content">
+                <div class="search_bar">
+                        <ul class="search_item_list">
+                            <li class="search_item">
+                                <label>订单编号：</label>
+                                <div class="item">
+                                    <input type="text" name="order_id" id="orderId" class="inputtext" style="width:300px;font-size:18px;font-weight:bold;" value="1804101524394727">
+                                </div>
+                            </li>
+                            <li class="search_item">
+                                <button type="button" id="search">搜索</button>
+                                <!--                                                    <span style="color: red;">【确认收款后没及时收到反馈，请耐心等待！同个订单号不要进行再次确认收款！】</span>-->
+                            </li>
+                            <li class="clearfix"></li>
+                        </ul>
+                </div>
+                @if (ViewBag.IsTurn)
+                {
+                    if (Model.Info == null)
+                    {
+                        <div class="alert_error">订单不存在</div>
+                    }
+                    else
+                    {
+                        int num = 0;
+
+            <table class="table info_box" >
+                <tbody>
+                    <tr>
+                        <td width="120">收货地址</td>
+                        <td>地址</td>
+                    </tr>
+
+                    <tr>
+                        <td class="top order_info_title">订单信息</td>
+                        <td class="order_info_detail">
+                            <table class="table">
+                                <colgroup>
+                                    <col align="left" width="40%">
+                                    <col align="left" width="40%">
+                                    <col align="left" width="30%">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <td>订单编号：@Model.Info.OrderNum </td>
+                                        <td>
+                                            订单状态：@(((OrderStatus)Model.Info.Stutas).ToString())
+                                        </td>
+                                        <td>
+                                            配送员：@Model.Info.SendPeople                                                                        &nbsp;&nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>下单时间：@Model.Info.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                        <td>付款时间: @(Model.Info.PayTime.HasValue?Model.Info.PayTime.Value.ToString("yyyy-MM-dd HH:mm:ss"):"")</td>
+                                        <td>发货时间：@(Model.Info.SendTime.HasValue ? Model.Info.SendTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</td>
+                                    </tr>
+                                    <tr>
+                                        <td>买家备注：@Model.Info.Remark</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="top order_info_title">付款信息</td>
+                        <td class="order_info_detail">
+                            <table class="table">
+                                <colgroup>
+                                    <col align="left" width="40%">
+                                    <col align="left" width="40%">
+                                    <col align="left" width="30%">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <td>支付方式：货到付款</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            订单总金额：@Model.Info.TotalMoney
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            满就减 : - @Model.Info.LessMoney
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            应付金额 : @Model.Info.RealMoney
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            实付金额 :
+                                            @Model.Info.PayMoney
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table_border" id="J_OrderDetailListBox"  style="margin-bottom:100px;">
+                <colgroup>
+                    <col width="7%">
+                    <col width="28%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="16%">
+                    <col width="20%">
+                </colgroup>
+                <thead class="bg_color">
+                    <tr>
+                        <th class="center">序号</th>
+                        <th class="center">商品</th>
+                        <th class="center">单价(元)</th>
+                        <th class="center">数量</th>
+                        <th class="center">小计(元)</th>
+                        <th class="center">是否异常</th>
+                        <th class="center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    @foreach (var orderItem in Model.Items)
+                    {
+                        num++;
+                    <tr>
+                        <td class="center">@num</td>
+                        <td>
+                            <div class="product">
+                                <p class="">
+                                    <a href="">@orderItem.ProductTittle</a>
+                                </p>
+                            </div>
+                        </td>
+                        <td class="center">
+                            <del>@orderItem.Price</del><br>
+                            <b>@orderItem.RealPrice</b>
+                        </td>
+                        <td class="center">@orderItem.Count</td>
+                        <td class="center"><b>@orderItem.TotalPrice</b></td>
+                        @if (orderItem.IsError)
+                            {
+                               <td class="center J_AbnormalShowBox">异常</td>
+                        }
+                        else
+                        {
+                               <td class="center J_AbnormalShowBox">无异常</td>
+                        }
+                        <td>
+                            <label>异常类型：</label>
+                            <select class="J_AbnormalType" itemId="@(orderItem.Id)" id="J_AbnormalType@(orderItem.Id)">
+                                <option value="0">请选择</option>
+                                @foreach (var Rtype in list)
+                                {
+                                    string isBase = "";
+                                    if( Rtype.ErrorCode == orderItem.ErrorTypeCode)
+                                    {
+                                        isBase = "selected='selected'";
+                                    }
+
+                    <option value="@Rtype.ErrorCode" @isBase>@Rtype.Info</option>
+}
+                            </select>
+                            <br><br>
+                            <label>异常原因：</label>
+                            <select class="J_AbnormalReason" id="J_AbnormalReason@(orderItem.Id)">
+                                <option value="0">请选择</option>
+                                @if (orderItem.IsError)
+    {
+                            <option value="@orderItem.ErrorReasonCode" selected="selected">@orderItem.ErrorReason</option>
+
+}
+                            </select>
+                            <br><br>
+                            <label>异常数量：</label>
+                            <select class="J_AbnormalNum" id="J_AbnormalNum@(orderItem.Id)">
+                                @for (int i = 1; i <= orderItem.Count; i++)
+                                {
+                                    string isBase = "";
+                                    if (i == orderItem.ErrorCount)
+                                    {
+                                        isBase = "selected='selected'";
+                                    }
+
+                                <option value="@i" @isBase>@i</option>
+                                }
+                            </select>
+                            <br><br>
+                            <label>原因备注:</label>
+                            <input value="@orderItem.ErrorMark" type="text" class="J_AbnormalDescription" id="J_AbnormalDescription@(orderItem.Id)"><br><br>
+                            <button type="button" class="J_RecordAbnormal btn btn_confirm" data-detail-id="@orderItem.Id" itemId="@(orderItem.Id)">提交异常</button>
+                        </td>
+                    </tr>
+                    }
+                    <tr>
+                        <td colspan="7" style="font-size:18px;font-weight:bold;">
+                            <div style="text-align:right;margin-bottom:20px;">
+                                订单应收总金额：@Model.Info.RealMoney &nbsp;&nbsp;&nbsp;&nbsp;
+                                订单实收总金额：<input type="text" class="inputtext" id="J_ConfirmPayMenoy" style="width:100px;font-size:18px;" value="@Model.Info.PayMoney">&nbsp;&nbsp;&nbsp;&nbsp;
+                                金额变动提醒：<span id="changeClock">@Model.Info.PayMoney</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                支付方式：@Model.Info.PayType<br><br>
+                                备注：<input type="text" class="inputtext" id="J_ConfirmMemo" style="width:200px;font-size:18px;" value="@Model.Info.AdminRemark">
+                                <input type="button" class="btn" id="saveMemo" value="保存备注">
+                            </div>
+                            <div style="text-align:right;">
+                                <label>送货员:</label>
+                                <select style="margin-right:10px;" id="deliveryId">
+                                    <option value="0">请选择</option>
+                                    @foreach (var p in sendPeople)
+                                    {
+                                        string isBase = "";
+                                        if (p.UserId == Model.Info.SendPeopleId)
+                                        {
+                                            isBase = "selected='selected'";
+                                        }
+                                <option value="@p.UserId"  @isBase>
+                                    @p.UserName
+                                </option>
+
+}
+                                </select>
+                                @if (!Model.Info.IsPay && (OrderStatus)Model.Info.Stutas != OrderStatus.退货中 && (OrderStatus)Model.Info.Stutas != OrderStatus.退货成功)
+                                {
+                                    <input type="button" class="btn btn_confirm" id="J_ConfirmPay" value="确认收款">
+                                    <button type="button" class="btn" id="J_ReturnAllGoods">整单退货</button>
+                                }
+                                <input type="hidden" id="J_OrderId" value="@Model.Info.Id">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(document).on("change", ".J_AbnormalType", function () {
+        var itemId = $(this).attr("itemId");
+        var typeId = $(this).val();
+        if (typeId != "0") {
+            $.post("/Order/LoadErrorReason", { pid: typeId }, function (data) {
+                var html = '<option value="0">请选择</option>';
+                $(data).each(function () {
+                    html += '<option value="' + this.ErrorCode + '">' + this.Info + '</option>';
+                });
+                $("#J_AbnormalReason" + itemId).html(html);
+
+            }, "json")
+        }
+    })
+
+
+    $(document).on("click", ".J_RecordAbnormal", function () {
+        var itemId = $(this).attr("itemId");
+        var type = $("#J_AbnormalType" + itemId).val();
+        var typeName = $("#J_AbnormalType" + itemId).find("option:selected").text();
+        var reasonId = $("#J_AbnormalReason" + itemId).val();
+        var reason = $("#J_AbnormalReason" + itemId).find("option:selected").text();
+        var cout = $("#J_AbnormalNum" + itemId).val();
+        var remark = $("#J_AbnormalDescription" + itemId).val();
+        if (type == "0") {
+            alert("请选择异常类型")
+            return;
+        }
+        if (reasonId == "0") {
+            alert("请选择异常原因")
+            return;
+        }
+        var para = {};
+        para.orderItemId = itemId;
+        para.count = cout;
+        para.typeCode = type;
+        para.type = typeName;
+        para.reasonCode = reasonId;
+        para.reason = reason;
+        para.mark = remark;
+
+        $.post("/Order/SetOrderItemError", para, function (e) {
+            if (e) {
+                location.reload();
+            }
+        },"json")
+    })
+    $(document).on("click", "#saveMemo", function () {
+        var remark = $("#J_ConfirmMemo").val();
+        if (!remark || remark == "") {
+            alert("请输入备注信息")
+            return;
+        }
+        var para = {};
+        para.remark = remark;
+        para.orderId = $("#J_OrderId").val();
+        $.post("/Order/SaveRemark", para, function (e) {
+            if (e) {
+                location.reload();
+            }
+        }, "json")
+
+    })
+
+    $(document).on("click", "#J_ConfirmPay", function () {
+        var remark = $("#J_ConfirmMemo").val();
+        var paymoeney = $("#J_ConfirmPayMenoy").val();
+        var send = $("#deliveryId").val();
+        if (!paymoeney || paymoeney < 0) {
+            alert("请输入正确的实收金额")
+            return;
+        }
+        if (send == "0") {
+            alert("请选择送货员")
+            return;
+
+        }
+        var para = {};
+        para.remark = remark;
+        para.paymoeney = paymoeney;
+        para.send = send;
+        para.orderId = $("#J_OrderId").val();
+        $.post("/Order/ConfirmOrderPay", para, function (e) {
+            if (e) {
+                location.reload();
+            }
+        }, "json")
+
+    })
+
+    $("#search").click(function () {
+        search();
+    })
+
+    function search() {
+        var ordernum = $("#orderId").val();
+        if (!ordernum || ordernum == "") {
+            alert("请输入订单编号");
+            return;
+        }
+        location.href = '/Order/ConfirmPayRecord?orderNum=' + ordernum;
+    }
+
+    $("#J_ReturnAllGoods").click(function () {
+
+    });
+</script>

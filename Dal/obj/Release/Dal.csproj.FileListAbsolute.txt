@@ -1,0 +1,14 @@
+E:\Project\test\SaleTools\Dal\bin\Release\Dal.dll.config
+E:\Project\test\SaleTools\Dal\bin\Release\Dal.dll
+E:\Project\test\SaleTools\Dal\bin\Release\Dal.pdb
+E:\Project\test\SaleTools\Dal\bin\Release\EntityFramework.dll
+E:\Project\test\SaleTools\Dal\bin\Release\EntityFramework.SqlServer.dll
+E:\Project\test\SaleTools\Dal\bin\Release\Model.dll
+E:\Project\test\SaleTools\Dal\bin\Release\Model.pdb
+E:\Project\test\SaleTools\Dal\bin\Release\EntityFramework.xml
+E:\Project\test\SaleTools\Dal\bin\Release\EntityFramework.SqlServer.xml
+E:\Project\test\SaleTools\Dal\obj\Release\Dal.csprojResolveAssemblyReference.cache
+E:\Project\test\SaleTools\Dal\obj\Release\Dal.csproj.CoreCompileInputs.cache
+E:\Project\test\SaleTools\Dal\obj\Release\Dal.csproj.CopyComplete
+E:\Project\test\SaleTools\Dal\obj\Release\Dal.dll
+E:\Project\test\SaleTools\Dal\obj\Release\Dal.pdb

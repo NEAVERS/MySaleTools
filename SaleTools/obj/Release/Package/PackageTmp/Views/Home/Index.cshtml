@@ -1,0 +1,1080 @@
+﻿
+@using Common.Entities;
+@using Model;
+@{
+    ViewBag.Title = "Index";
+    var typeList = (List<GoddsTypeTree>)ViewBag.GoddsTypeTree;
+    Layout = null;
+    int floorIndex = 0;
+    var imgList = (List<ImgSet>)ViewBag.ImgList;
+    var noticeList = (List<Notice>)ViewBag.NoticeList;
+    var tejiaList = (PageData<GoodInfo>)ViewBag.Tejia;
+    var xinpinList = (PageData<GoodInfo>)ViewBag.Xinping;
+}
+
+<html>
+
+<head>
+    <title>首页 - 云蚂蚁批发平台</title>
+    <!-- global css -->
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/base.css">
+    <!-- 公用css -->
+    <link rel="stylesheet" type="text/css" href="/Content/css/common/header/global.css?04260915">
+    <link rel="stylesheet" type="text/css" href="/Content/css/common/footer/global.css?04260915">
+    <link rel="stylesheet" type="text/css" href="/Content/css/pages/home/index/index.css?05051358">
+    <link rel="stylesheet" type="text/css" href="/Content/css/pages/home/index/overlay.css?04260915">
+    <style>
+    </style>
+</head>
+
+<body>
+    <!-- 弹出层 -->
+    <section class="main_section">
+        <section class="inputBox">
+            <p class="title">海报与关键字编辑<span class="triangle">x</span></p>
+            <section class="wrapper"></section>
+            <section class="btnBox">
+                <a class="addition">增加一条</a>
+                <a class="reset">重置</a>
+                <input type="button" value="确定" class="confirm">
+                <input type="button" value="取消" class="cancle">
+            </section>
+        </section>
+    </section>
+    <section class="overlay"></section>
+    <!-- 下面是正式内容 -->
+    <div id="wraper">
+        <!--通知弹框-->
+        <!--  -->
+        <!-- 全局顶部导航 -->
+        <div class="topbar" id="topbar">
+            <div class="pace"></div>
+            <div class="module clearfix">
+                <div class="lfloat">
+                    <a href="/Home/Index" target="_blank"><span class="main_title">首页  </span></a>
+                    <span class="hello">您好，</span>
+                    <span class="username">57700000</span>
+                    <span>
+                        ，欢迎来到温州批发平台
+                        <!-- ,客服电话:0577-86000802 -->
+                    </span>
+                </div>
+                <div class="rfloat">
+                    <ul class="clearfix">
+                        <li><a href="/Home/Index">批发首页</a></li>
+                        <li><a href="/Home/UserIndex">会员中心</a></li>
+                        <li><a href="/Home/ShoppingCar">购物车</a></li>
+                        <li><a href="/Login/LogOut">退出</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
+        <script>
+            (function ($) {
+                $.fn.snow = function (options) {
+                    var $flake = $('<div id="flake" />').css({
+                        'position': 'absolute',
+                        'top': '-50px',
+                        'z-index': '99999999'
+                    }).html('&#10052;'),
+                        documentHeight = $(document).height(),
+                        documentWidth = $(document).width(),
+                        defaults = {
+                            minSize: 10,
+                            maxSize: 20,
+                            newOn: 2000,
+                            flakeColor: "red"
+                        },
+                        options = $.extend({}, defaults, options);
+                    var interval = setInterval(function () {
+                        documentHeight = $(document).height();
+                        var startPositionLeft = Math.random() * documentWidth - 100,
+                            startOpacity = 0.5 + Math.random(),
+                            sizeFlake = options.minSize + Math.random() * options.maxSize,
+                            endPositionTop = documentHeight - options.maxSize,
+                            endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                            durationFall = documentHeight * 10 + Math.random() * 5000;
+                        $flake.clone().appendTo('body').css({
+                            left: startPositionLeft,
+                            opacity: startOpacity,
+                            'font-size': sizeFlake,
+                            color: options.flakeColor
+                        }).animate({
+                            top: endPositionTop,
+                            left: endPositionLeft,
+                            opacity: 0.2
+                        },
+                            durationFall, 'linear',
+                            function () {
+                                $(this).remove()
+                            });
+                    },
+                        options.newOn);
+                };
+            })(jQuery);
+            //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+
+
+            //鼠标跟随 留言信息窗口
+            $('.remark').mousemove(function (e) {
+                $(this).children('.content').show();
+                $(this).children('.content').show().css({
+                    "top": e.pageY + 20,
+                    "left": e.pageX + 20
+                })
+            });
+            //滑出隐藏
+            $('.remark').mouseout(function () {
+                $(this).children('.content').hide();
+            });
+            $(window).resize(function () {
+                /* Act on the event */
+                if (document.documentElement.clientWidth < 1200) {
+                    $('#topbar').width(1200);
+                } else {
+                    $('#topbar').width('100%');
+                }
+
+            });
+            //加载效果
+            var paces = {
+                pace: $('#topbar .pace'),
+                timer: "",
+                w: 0,
+                start: function () {
+                    var _this = this;
+                    _this.w = 0;
+                    if (_this.timer) {
+                        _this.w = 0;
+                        _this.pace.width(_this.w + "%");
+                        clearInterval(_this.timer);
+                    } else {
+                        _this.timer = setInterval(function () {
+                            ++_this.w;
+                            _this.pace.width(_this.w + "%");
+                            if (_this.w >= 55) {
+                                clearInterval(_this.timer);
+                            }
+                        }, 0)
+                    }
+
+
+                },
+                end: function () {
+                    var _this = this;
+                    _this.w = parseInt(_this.pace[0].style.width);
+                    clearInterval(_this.timer);
+                    _this.timer = setInterval(function () {
+                        ++_this.w;
+                        _this.pace.width(_this.w + "%");
+                        if (_this.w >= 100) {
+                            clearInterval(_this.timer);
+                            var setTimer = setTimeout(function () {
+                                _this.w = 0;
+                                _this.pace.width(_this.w);
+                                clearInterval(_this.timer);
+                            }, 1000);
+                            clearTimeout(clearTimeout);
+                            return false
+                        }
+                    }, 10)
+                }
+            };
+
+            /*弹框 popup*/
+            function build(status, comment, id, num) {
+                if (!$(".globalPopContainer").length > 0) {
+                    $(document.body).append('<div class="globalPopContainer"></div>');
+                }
+                if (!num) {
+                    num = '';
+                }
+                if (status == "red") {
+                    var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+                    html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+                    html += "<div class='progress rprogress'></div>";
+                } else {
+                    var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+                    html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+                    html += "<div class='progress gprogress'></div>";
+                }
+                html += "<span class='closePop'>x</span>";
+                html += "</div>";
+                $(".globalPopContainer").prepend(html); // 追加新元素
+                $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth())
+                Popup(id, $("#popup_" + id).outerWidth());
+            }
+
+            function Popup(id, popWidth) {
+                $("#popup_" + id).find(".progress").animate({ width: 0 + 'px' }, 3000, function () {
+                    $("#popup_" + id).animate({ right: -popWidth + 'px' }, function () {
+                        $(this).remove();
+                    })
+                });
+                $("#popup_" + id).mouseout(function () {
+                    $(this).stop(true, false);
+                    $(this).find(".progress").stop(true, false);
+                    $(this).find(".progress").animate({ width: 0 + 'px' }, function () {
+                        $(this).parent().animate({ right: -popWidth + 'px' }, function () {
+                            $(this).remove();
+                        })
+                    })
+                });
+                $("#popup_" + id).mouseover(function () {
+                    var proWidth = $(this).outerWidth()
+                    $(this).stop(true, false);
+                    $(this).find(".progress").stop(true, false);
+                    $(this).animate({ right: 0 + 'px' }, function () {
+                        $(this).find(".progress").animate({ width: proWidth + 'px' });
+                    });
+                });
+                $("#popup_" + id).find(".closePop").on('click', function (event) {
+                    $(this).parent().unbind("mouseover");
+                    $(this).parent().unbind("mouseout");
+                    $(this).siblings('.progress').animate({ width: 0 + 'px' }, function () {
+                        $(this).parent().animate({ right: -popWidth + 'px' }, function () {
+                            $(this).remove();
+                        })
+                    })
+                })
+            }
+        </script>
+        <!-- 跑马灯 可以在每次更新维护的时候用 -->
+        <div style="width:100%;text-align:center;background:white;z-index:99;font-size:14px;height:30px;line-height:30px;display: none;" class="marq">
+            <marquee style="color:red;width: 1200px;margin:5px 0 -5px;">
+                系统将于2017年08月20日00:00-6:00进行升级维护，维护期间所有云蚂蚁网站、APP都将暂停使用，请各位老板提前做好准备。
+            </marquee>
+        </div>
+        <div class="header" id="header">
+            <div class="topfixeds">
+                <div class="topfixed top clearfix">
+                    <h2 class="topMenuList"><i style="padding-right: 13px;"><img src="/Content/images/index/04151605.png"></i>全部商品分类</h2>
+                    <div class="searchbar lfloat" style="padding-top:5px;">
+                        <form action="http://pifa.yunmayi.com/search/index" method="GET" id="C_GlobalSearchFormOne">
+                            <input type="text" name="q" class="search_input" id="C_GlobalSearchInputOne" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+                            <!--                <input type="hidden" name="cid" value="" id="cid"/>-->
+                            <button type="submit" class="search_btn" >搜索</button>
+                        </form>
+                    </div>
+                    <div class="toolbar lfloat" style="padding-top:6px;">
+                        <a href="/Home/ShoppingCar">
+                            购物车
+                            <i style="font-style: normal;color: #ff0000;font-size: 15px;" id="C_GlobalCartItemNum_fixed">0</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="module top clearfix">
+                <div class="logo lfloat">
+                    <div class="logoImg">
+                        <a href="/Home/Index"><img src="/Content/images/new_log.png" href="/cart/"></a>
+                    </div>
+                    <div class="logoFont">
+                        <a href="/Home/Index"><img src="/Content/images/index/04171124.png" style="width:100%;"></a>
+                    </div>
+                </div>
+                <div class="searchbar lfloat">
+                        <input type="text" name="q" class="search_input" style="height: 37px;" id="C_GlobalSearchInput" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+                        <button type="submit" class="search_btn" id="searchGoods">搜索</button>
+                </div>
+                <div class="toolbar lfloat">
+                    <a href="/Home/ShoppingCar" class="shopCart">
+                        购物车
+                        <i style="font-style: normal;color: red;" id="C_GlobalCartItemNum">0</i>
+                    </a>
+                </div>
+            </div>
+            <div class="module nav clearfix">
+                <div class="category lfloat fixed" id="C_CategoryBox" data-fixed="1">
+                    <h2><i style="padding-right: 13px;"><img src="/Content/images/index/04151605.png"></i>全部商品分类</h2>
+                    <div class="dropdown_menu">
+                        <!-- first category -->
+                        <ul class="menu_nav_container" id="C_CategoryList">
+
+                            @foreach (var item in typeList)
+                            {
+                                <li data-source="">
+                                    <div class="menu_nav_fst">
+                                        <h3 class="fst_cat_title"><a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a></h3>
+                                        <div class="fst_cat_child">
+                                            @foreach (var child in item.TypeList)
+                                            {
+                                                <a href="/Home/Product?sec=@child.GoodsType.Id">@child.GoodsType.TypeName</a>
+
+                                            }
+
+
+                                        </div>
+                                    </div>
+                                </li>
+
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+                <ul class="list clearfix">
+                    <li>
+                        <a href="/Home/Index">首页</a>
+                        <img src="/Content/images/christmas-tree.png" alt="">
+                    </li>
+                    @foreach (var item in typeList)
+                    {
+                        <li>
+                            <a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a>
+                            <img src="/Content/images/christmas-tree.png" alt="">
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+        <script>
+            document.onkeydown = function (event) {
+                var e = event || window.event || arguments.callee.caller.arguments[0];
+                if (e && e.keyCode == 13) { // enter 键
+                    if (event.target.value == '' || event.target.value == NULL) {
+                        return false;
+                    }
+                    window.location.href = 'http://pifa.v2.com/search/index?q=' + event.target.value;
+                }
+            };
+
+            var test = window.location.pathname; //获取当前页面的url的路径部分
+            if (test != "/") { //当不为首页时
+                $("#C_CategoryBox").find("h2").addClass('topMenuList');
+            }
+            $(".topMenuList").mouseover(function () {
+                $(".dropdown_menu").css({
+                    display: 'block'
+                });
+                var scrollTop = $(document).scrollTop();
+                if (scrollTop < 130) {
+                    if ($(".dropdown_menu").height() > windowH - $(".topfixeds").height()) {
+                        $(".dropdown_menu .menu_nav_container").css({
+                            height: windowH - $(".topfixeds").height() + 'px'
+                        })
+                    }
+                } else {
+                    $(".header .nav .category").addClass('topShow');
+                }
+                $(".header .nav .category").removeClass('fixed');
+                $(".header .nav .category").addClass('show');
+            })
+            $(".topMenuList").mouseleave(function () {
+                if ($(".header .nav .category").data("fixed") == 0) {
+                    $(".dropdown_menu").css({
+                        display: 'none'
+                    });
+                } else {
+                    $(".header .nav .category").addClass('fixed');
+                }
+                $(".header .nav .category").removeClass('show');
+                $(".header .nav .category").removeClass('topShow');
+
+            });
+            var windowH = $(window).height();
+            $(".dropdown_menu").mouseenter(function () {
+                $(".dropdown_menu").css({
+                    display: 'block'
+                });
+                var scrollTop = $(document).scrollTop();
+                if (scrollTop > 130) {
+                    $(".header .nav .category").addClass('topShow');
+                    if ($(".dropdown_menu").height() > windowH - $(".topfixeds").height()) {
+                        $(".dropdown_menu .menu_nav_container").css({
+                            height: windowH - $(".topfixeds").height() + 'px'
+                        })
+                    }
+                }
+                $(".header .nav .category").removeClass('fixed');
+                $(".header .nav .category").addClass('show');
+            });
+            $(".dropdown_menu").mouseleave(function () {
+                if ($(".header .nav .category").data("fixed") == 0) {
+                    $(".dropdown_menu").css({
+                        display: 'none'
+                    });
+                } else {
+                    $(".header .nav .category").addClass('fixed');
+                }
+                $(".dropdown_menu .menu_nav_container").css({
+                    height: ''
+                })
+                $(".header .nav .category").removeClass('show');
+                $(".header .nav .category").removeClass('topShow');
+            });
+            $(window).on('scroll', function () {
+                var scrollTop = $(document).scrollTop();
+                if (scrollTop > 130) {
+                    $(".topfixeds").css({ display: "block" });
+                } else {
+                    $(".topfixeds").css({ display: "none" });
+                    $(".header .nav .category").removeClass('topShow');
+                    $(".dropdown_menu").css({
+                        display: ''
+                    });
+                }
+            });
+        </script>
+        <div class="main" id="main">
+            <div class="container first_screen">
+                <div class="slider">
+                    <div class="main_slide" id="J_HomeMainSlide">
+                        <div class="flex-viewport" style="overflow: hidden; position: relative;">
+                            <ul class="slides clearfix" style="width: 1400%; transition-duration: 0.6s; transform: translate3d(-2190px, 0px, 0px);">
+                                @foreach (var item in imgList)
+                                {
+
+                                <li class="clone" aria-hidden="true" style="width: 730px; float: left; display: block;">
+                                    <a href="@item.TurnUrl" target="_blank">
+                                        <img src="@item.ImgUrl" draggable="false">
+                                    </a>
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                        <ul class="flex-direction-nav">
+                            <li><a class="flex-prev" href="#">Previous</a></li>
+                            <li><a class="flex-next" href="#">Next</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="m_func">
+                    <div class="integral clearfix">
+                        <div class="today_date">
+                            <span class="today_date_month">02月</span>
+                            <span class="today_date_day">5</span>
+                        </div>
+                        <div class="checkin_box">
+                            <p class="info">
+                                <a href="javascript:;" class="i_checkin" id="J_IntegralCheckin">领取</a>
+                                <span id="J_CheckinInfo">今日可获得<b>500</b>积分</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="clearfix btn_list">
+                        <ul>
+                            <li>
+                                <a href="http://pifa.yunmayi.com/index/ucenter"><img src="/Content/images/index/04151728.png" alt=""><p>会员中心</p></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="news">
+                        <div class="nt">
+                            <h2>公告栏</h2>
+                            <div class="extra">
+                                <a href="/notice?new=0">更多&nbsp;&gt;</a>
+                            </div>
+                        </div>
+                        <div class="nc">
+                            <ul>
+                                @foreach (var notice in noticeList)
+                                {
+                                <li>
+                                    <a href="/Home/Notice/@notice.Id" class="J_Notice" target="_blank">
+                                        @notice.Tittle
+                                    </a>
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container floor_box" id="JFloor0">
+                <div class="module floor">
+                    <div class="atSale">
+                        <span style="padding:0 10px;cursor: pointer;display: inline-block;" onclick="changeList(2)" id="spe" class="list_action">限时特价</span>
+                        <span style="padding:0 10px;cursor: pointer;display: inline-block;" onclick="changeList(1)" id="recom">新品推荐</span>
+                    </div>
+                    <!-- 限时特价列表 start -->
+                    <div class="mc scroll" style="overflow: hidden; height: 350px;padding-left: 0" id="special">
+                        <span class="ca-nav-prev" id="left"></span>
+                        <span class="ca-nav-next" id="right"></span>
+                        <div class="box" >
+                            <div class="scroll_list " style="left: -675.029px;" >
+                                <ul class="recommend_con " style="width:20000px; position: absolute;" id="tejia">
+                                    @if (tejiaList != null && tejiaList.ListData.Count > 0)
+                                    {
+                                        foreach (var item in tejiaList.ListData)
+                                        {
+                                    <li class="item_box">
+                                        <div class="item_pic">
+                                            <a href="/Home/ProductDetail/@(item.Id)" target="_blank"><img src="@item.pic1"></a>
+                                        </div>
+                                        <div class="item_name">
+                                            <a href="/Home/ProductDetail/@(item.Id)" target="_blank">@item.GoodsTittle</a>
+                                        </div>
+                                        <div class="item_price">
+                                            <span>￥@item.RetailtPrice/@item.Unit</span>
+                                            <b>规格:@item.Spec</b>
+                                        </div>
+                                        <div class="item_action clearfix">
+                                            <span class="J_AddCollectBtn add_collect_btn" id="268693" data-id="@item.Id">收藏</span>
+                                            <div class="rfloat">
+                                                <div class="item_quantity">
+                                                    <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                                    <input type="text" value="1" data-min="@item.MinCount" data-max="@item.LimitCount" class="quantity_input J_QuantityInput">
+                                                    <a href="javascript:;" class="increment J_Increment">+</a>
+                                                </div>
+                                                <a href="#" class="J_AddCartBtn add_cart_btn" data-id="@item.Id" data-start="0" data-end="0" data-num="0">进货</a>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                        }
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 限时列表 end -->
+                    <!-- 新品推荐列表 start-->
+                    <div class="mc scroll" style="overflow: hidden; height: 350px; display: none;" id="recommend">
+                        <span class="ca-nav-prev" id="recommendLeft"></span>
+                        <span class="ca-nav-next" id="recommendRight"></span>
+                        <div class="box">
+                            <div class="scroll_list" style="left: 0px;">
+                                <ul class="recommend_con special" style="width:20000px; position: absolute;" id="tuijian">
+                                    @if (xinpinList != null && xinpinList.ListData.Count > 0)
+    {
+        foreach (var item in xinpinList.ListData)
+        {
+                                <li class="item_box">
+                                    <div class="item_pic">
+                                        <a href="/Home/ProductDetail/@(item.Id)" target="_blank"><img src="@item.pic1"></a>
+                                    </div>
+                                    <div class="item_name">
+                                        <a href="/Home/ProductDetail/@(item.Id)" target="_blank">@item.GoodsTittle</a>
+                                    </div>
+                                    <div class="item_price">
+                                        <span>￥@item.RetailtPrice/@item.Unit</span>
+                                        <b>规格:@item.Spec</b>
+                                    </div>
+                                    <div class="item_action clearfix">
+                                        <span class="J_AddCollectBtn add_collect_btn" id="268693" data-id="@item.Id">收藏</span>
+                                        <div class="rfloat">
+                                            <div class="item_quantity">
+                                                <a href="javascript:;" class="decrement J_Decrement">-</a>
+                                                <input type="text" value="1" data-min="@item.MinCount" data-max="@item.LimitCount" class="quantity_input J_QuantityInput">
+                                                <a href="javascript:;" class="increment J_Increment">+</a>
+                                            </div>
+                                            <a href="#" class="J_AddCartBtn add_cart_btn" data-id="@item.Id" data-start="0" data-end="0" data-num="0">进货</a>
+                                        </div>
+                                    </div>
+                                </li>
+
+}
+}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 新品推荐列表 end-->
+                </div>
+            </div>            <div class="container floor_box">
+                @foreach (var item in typeList)
+                {
+                    floorIndex++;
+                    <div class="module floor goodsFloor " data-id="@item.GoodsType.Id">
+                        <a id="@item.GoodsType.TypeName"></a>
+                        <div class="mt clearfix">
+                            <!-- 这个东西是用来改客户类型的 -->
+                            <h2>
+                                <a href="/product/list?cid=@item.GoodsType.Id">
+                                    <i>@(floorIndex)F</i>@item.GoodsType.TypeName
+                                </a>
+                            </h2>
+                        </div>
+                        <div class="mc">
+                            <ul class="clearfix">
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div id="msg">已成功加入购物车！</div>
+        </div>
+        <section class="fourItems">
+            <p><img src="/Content/images/index/0502.jpg" alt=""></p>
+        </section>
+        <!-- footer -->
+        <div class="footer clearfix">
+            <div class="content3">
+                <div class="information">
+                    <p class="telephone">加盟咨询热线：<i>0577-86000802</i></p>
+                    <p class="linkLine">
+                    </p>
+                    <p class="address">公司地址：浙江省杭州市拱墅区祥符街道祥园路108号中国（杭州）智慧信息产业园3期G座2号楼5楼</p>
+                    <p class="copyright">Copyright©2014-2017版权归浙江云之涞网络科技有限公司所有</p>
+                </div>
+                <div class="loginCode">
+                    <img src="/Content/images/lg/04191204.jpg">
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="/Content/js/public/baiduspider.js"></script>
+        <div class="left_nav" id="J_LeftNav">
+            <ul>
+
+                <li>
+                    <a href="#JFloor0">
+                        限时特价
+                    </a>
+                </li>
+                @foreach (var item in typeList)
+                {
+
+                    <li>
+                        <a href="#@item.GoodsType.TypeName">
+                            @item.GoodsType.TypeName
+                        </a>
+                    </li>
+                }
+                <li class="goTop">
+                    <a href="javascript:document.body.scrollTop =0">
+                        返回顶部
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- global js -->
+    <script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+        var DOMAIN = { "main": "pifa.yunmayi.com", "passport": "passport.pifa.yunmayi.com", "buyer": "buyer.pifa.yunmayi.com", "seller": "seller.pifa.yunmayi.com", "ajax": "ajax.pifa.yunmayi.com", "agent": "agent.pifa.yunmayi.com" };
+    </script>
+    <script type="text/javascript" src="/Content/js/lib/help.js"></script>
+    <!-- home common js -->
+    <script type="text/javascript" src="/Content/js/pages/common/header/global.js"></script>
+    <script type="text/javascript" src="/Content/js/lib/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="/Content/js/lib/YMY_scroll.js"></script>
+    <script type="text/javascript" src="/Content/js/lib/jquery.fly.min.js"></script>
+    <script type="text/javascript" src="/Content/js/lib/requestAnimationFrame.js"></script>
+    <!--  -->
+
+
+
+    
+
+    <script>
+        LoadProduct();
+        function LoadProduct() {
+            $(".goodsFloor").each(function () {
+                var typeId = $(this).data("id");
+                var ul = $(this).find("ul");
+                var html = "";
+                $.post("/Home/LoadProduct", { firstTypeId: typeId }, function (e) {
+                    $(e.ListData).each(function () {
+                        html += '<li class="item_box"><div class="item_pic" >';
+                        html += '<a href= "/Home/ProductDetail/' + this.Id + '" target= "_blank" > <img src="' + this.pic1 + '"></a></div>';
+                        html += '<div class="item_name"><a href="/Home/ProductDetail/' + this.Id + '" target="_blank">' + this.GoodsTittle + '</a></div>';
+                        html += '<div class="item_price"><span >￥' + this.RetailtPrice +' / ' + this.Unit + '</span ><b>规格:' + this.Spec + '</b></div >';
+                        html += ' <div class="item_action clearfix">';
+                        html += '<span class="J_AddCollectBtn add_collect_btn" id="' + this.Id + '" data-id="' + this.Id + '">收藏</span>';
+                        html += '<div class="rfloat"><div class="item_quantity" >';
+                        html += ' <a href="javascript:;" class="decrement J_Decrement">-</a>';
+                        html += '<input type="text" value="1" data-min="1" data-max="986" class="quantity_input J_QuantityInput">';
+                        html += '<a href="javascript:;" class="increment J_Increment">+</a></div>'
+                        html += '<a href="#" class="J_AddCartBtn add_cart_btn" data-id="' + this.Id + '" data-start="0" data-end="0" data-num="0">进货</a>';
+                        html += '</div></div ></li >';
+                    });
+                    ul.append(html);
+
+                }, "json")
+            })
+        }
+
+        $("#searchGoods").click(function () {
+            var key = $("#C_GlobalSearchInput").val();
+            location.href = "/Home/Product?key=" + key;
+        })
+      
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            loacCarCount();
+            /*var screenWidth = $(window).width(), screenHeight = $(window).height();//当前浏览器窗口的 宽高
+            $(".newPop").css({
+                width: screenWidth * 0.6 + 'px'
+            });
+            $(".confirm").on('click',function(){
+                $('.Masker').css('display','none');
+                $('.newPop').css('display','none');
+            })*/
+            //跳转公告
+            $(".J_Notice").click(function () {
+                localStorage.setItem("id", $(this).attr("data-id"));
+            });
+
+            //关闭全屏通知
+            window.closeNotification = function () {
+                $("#news-notification").hide();
+            };
+            // 首屏轮播
+            $('#J_HomeMainSlide').flexslider({
+                animation: "slide",
+                slideshowSpeed: 3000,
+                start: function () {
+                    $('#J_HomeMainSlide').children('.loading').remove();
+                }
+            });
+
+            // 签到
+            $("#J_IntegralCheckin").on("click", function () {
+                $.getJSON("/integral/checkin", {}, function (result) {
+                    if (result.error == false) {
+                        $("#J_IntegralCheckin").css({ "backgroundColor": "#ccc" });
+                        $("#J_CheckinInfo").html('明日可获得<b>' + result.data.num + '</b>积分');
+                        $("#J_TotalIntegral").text(result.data.integral_total);
+                        build("red", result.info, "J_IntegralCheckin")
+                    } else {
+                        build("red", result.info, "J_IntegralCheckin")
+                    }
+                });
+                return false;
+            });
+
+
+
+
+            // 商品加入购物相关操作
+            $(document).on("click", ".J_Decrement", function () {
+                var _input = $(this).siblings("input.J_QuantityInput");
+                var min = parseInt(_input.data("min"));
+                var max = parseInt(_input.data("max"));
+                if (max < min) {
+                    build("red", "商品库存不足", "Decrement");
+                    return false;
+                }
+                var quantity = parseInt(_input.val());
+                --quantity;
+                quantity = quantity > max ? max : quantity;
+                quantity = quantity < min ? min : quantity;
+                _input.val(quantity);
+            });
+
+            $(document).on("click", ".J_Increment", function () {
+                var _input = $(this).siblings("input.J_QuantityInput");
+                var min = parseInt(_input.data("min"));
+                var max = parseInt(_input.data("max"));
+                if (max < min) {
+                    build("red", "商品库存不足", "Increment");
+                    return false;
+                }
+                var quantity = parseInt(_input.val());
+                ++quantity;
+                quantity = quantity > max ? max : quantity;
+                quantity = quantity < min ? min : quantity;
+                _input.val(quantity);
+            });
+
+            $(document).on("click", ".J_QuantityInput", function () {
+                var _this = $(this);
+                var max = _this.data("max");
+                var min = _this.data("min");
+                var quantity = _this.val();
+                quantity = quantity > max ? max : quantity;
+                quantity = quantity < min ? min : quantity;
+                _this.val(quantity);
+            });
+            $(document).on("click", ".J_AddCartBtn", function (event) {
+                $('.add_cart_btn').removeClass("J_AddCartBtn");
+                var _this = $(this);
+                var _input = _this.prev(".item_quantity").children(".J_QuantityInput");
+                var quantity = _input.val();
+                var limit_start_time = _this.data("start");
+                var limit_end_time = _this.data("end");
+                var limit_buy_num = _this.data("num");
+                var curentTime = Date.parse(new Date()) / 1000;
+                var productId = _this.data("id");
+                if (limit_start_time > 0 && limit_end_time > 0) {
+                    if (curentTime >= limit_start_time && curentTime <= limit_end_time) {
+                        if (quantity > limit_buy_num) {
+                            build("red", "该商品限购", productId, limit_buy_num);
+                            return false;
+                        }
+                    }
+                }
+                if (limit_start_time == 0 && limit_end_time == 0 && limit_buy_num > 0) {
+                    if (quantity > limit_buy_num) {
+                        build("red", "该商品限购", productId, limit_buy_num);
+                        return false;
+                    }
+                }
+                $.ajax({
+                    "type": "POST",
+                    "url": "/Home/AddToShoppingCar",
+                    "dataType": "json",
+                    "data": {
+                        "goodId": productId,
+                        "count": quantity, //_input.val()
+                        "is_cart": 1
+                    },
+                    "success": function (result) {
+                        $('.add_cart_btn').addClass("J_AddCartBtn");
+                        GlobalCartItemNum();
+                        loacCarCount();
+                        if (!result.error) {
+                            var addcar = _this;
+                            var img = addcar.parent().parent().parent().find('img').attr('src');
+                            var flyer = $('<img class="u-flyer" src="' + img + '">');
+                            var address1 = $('#C_GlobalCartItemNum_fixed');
+                            var address2 = $('#C_GlobalCartItemNum');
+                            var scrollTop = $(document).scrollTop();
+                            if (scrollTop > 130) {
+                                flyer.fly({
+                                    start: {
+                                        left: event.clientX,
+                                        top: event.clientY,
+                                    },
+                                    end: {
+                                        left: address1[0].offsetLeft,
+                                        top: address1[0].offsetTop,
+                                        width: 0,
+                                        height: 0
+                                    },
+                                    onEnd: function () {
+                                        $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
+                                        this.destory();
+                                    }
+                                })
+                            } else {
+                                flyer.fly({
+                                    start: {
+                                        left: event.clientX,
+                                        top: event.clientY,
+                                    },
+                                    end: {
+                                        left: address2[0].offsetLeft,
+                                        top: address2[0].offsetTop - 20,
+                                        width: 0,
+                                        height: 0
+                                    },
+                                    onEnd: function () {
+                                        $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
+                                        this.destory();
+                                    }
+                                })
+                            }
+                        } else {
+                            build("red", result.info, productId);
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+
+
+        function loacCarCount() {
+            $.post("/Home/LoadShoopingCarCount", {}, function (e) {
+                $("#C_GlobalCartItemNum").html(e);
+            },"json")
+        }
+
+        $(document).on("click", ".J_AddCollectBtn",function () {
+            var productId = $(this).attr("data-id");
+            $("#" + productId).addClass('disable')
+            if ($(this).hasClass("collected_btn")) {
+                $.post("/Home/SerCollect", { "goodId": productId }, function (data) {
+                    if (data.state) {
+                        $("#" + productId).text('收藏').removeClass('collected_btn').addClass('add_collect_btn').removeClass("disable");
+                        build("green", "已取消收藏！", productId);
+                    } else {
+                        build("green", "失败!请重试!", productId);
+                    }
+                }, 'json')
+            } else {
+                $.get("/Home/SerCollect", { "goodId": productId }, function (data) {
+                    if (data.Stutas) {
+                        $("#" + productId).text('已收藏').removeClass('add_collect_btn').addClass('collected_btn').removeClass("disable");
+                        build("green", "收藏成功！", productId);
+                    } else {
+                        build("green", "失败!请重试!", productId);
+                    }
+                }, 'json')
+            }
+        });
+
+        var size = $("#tejia li").size();
+        if (size > 0) {
+            $("#recommend").hide();
+        }
+
+        function changeList(type) {
+            if (type == 1) {
+                document.getElementById("recommend").style.display = "block";
+                $("#recom").addClass("list_action");
+                document.getElementById("special").style.display = "none";
+                $("#spe").removeClass("list_action");
+            } else {
+                document.getElementById("recommend").style.display = "none";
+                $("#recom").removeClass("list_action");
+                document.getElementById("special").style.display = "block";
+                $("#spe").addClass("list_action");
+
+            }
+        }
+        $(function () {
+            if ($("#recommendRight").parents(".scroll").find(".scroll_list").find("li").length > 5) {
+                var page = 1;
+                var i = 5; //每版四个图片
+                var t = setInterval(right, 3000);
+
+                $(".scroll").hover(function () {
+                    clearInterval(t)
+                }, function () {
+                    t = setInterval(right, 2000);
+                });
+                //向右滚动
+                $("#recommendRight").click(function () { //点击事件
+                    right
+                        ();
+                });
+
+                function right() {
+                    var v_wrap = $("#recommendRight").parents(".scroll"); // 根据当前点击的元素获取到父元素
+                    var v_show = v_wrap.find(".scroll_list"); //找到视频展示的区域
+                    var v_cont = v_wrap.find(".box"); //找到视频展示区域的外围区域
+                    var v_width = v_cont.width() / 5;
+                    var len = v_show.find("li").length; //我的视频图片个数
+                    var page_count = Math.ceil(len); //只要不是整数，就往大的方向取最小的整数
+                    if (!v_show.is(":animated")) {
+                        if (page == page_count - 4) {
+                            v_show.animate({ left: '0px' }, "slow");
+                            page = 1;
+                        } else {
+                            v_show.animate({ left: '-=' + v_width }, "slow");
+                            page++;
+                        }
+                    }
+                }
+                //向左滚动
+                $("#recommendLeft").click(function () { //点击事件
+                    left();
+                });
+
+                function left() {
+                    var v_wrap = $("#recommendRight").parents(".scroll"); // 根据当前点击的元素获取到父元素
+                    var v_show = v_wrap.find(".scroll_list"); //找到视频展示的区域
+                    var v_cont = v_wrap.find(".box"); //找到视频展示区域的外围区域
+                    var v_width = v_cont.width() / 5;
+                    var len = v_show.find("li").length; //我的视频图片个数
+                    var page_count = Math.ceil(len); //只要不是整数，就往大的方向取最小的整数
+                    if (!v_show.is(":animated")) {
+                        if (page == 1) {
+                            v_show.animate({ left: '-=' + v_width * (page_count - 5) }, "slow");
+                            page = page_count - 4;
+                        } else {
+                            v_show.animate({ left: '+=' + v_width }, "slow");
+                            page--;
+                        }
+                    }
+                }
+            }
+        });
+
+        $(function () {
+            if ($("#right").parents(".scroll").find(".scroll_list").find("li").length > 5) {
+                var page = 1;
+                var i = 5; //每版四个图片
+                var t = setInterval(right, 3000);
+
+                $(".scroll").hover(function () {
+                    clearInterval(t)
+                }, function () {
+                    t = setInterval(right, 2000);
+                });
+                //向右滚动
+                $("#right").click(function () { //点击事件
+                    right
+                        ();
+                });
+
+                function right() {
+                    var v_wrap = $("#right").parents(".scroll"); // 根据当前点击的元素获取到父元素
+                    var v_show = v_wrap.find(".scroll_list"); //找到视频展示的区域
+                    var v_cont = v_wrap.find(".box"); //找到视频展示区域的外围区域
+                    var v_width = v_cont.width() / 5;
+                    var len = v_show.find("li").length; //我的视频图片个数
+                    var page_count = Math.ceil(len); //只要不是整数，就往大的方向取最小的整数
+                    if (!v_show.is(":animated")) {
+                        if (page == page_count - 4) {
+                            v_show.animate({ left: '0px' }, "slow");
+                            page = 1;
+                        } else {
+                            v_show.animate({ left: '-=' + v_width }, "slow");
+                            page++;
+                        }
+                    }
+                }
+                //向左滚动
+                $("#left").click(function () { //点击事件
+                    left();
+                });
+
+                function left() {
+                    var v_wrap = $("#right").parents(".scroll"); // 根据当前点击的元素获取到父元素
+                    var v_show = v_wrap.find(".scroll_list"); //找到视频展示的区域
+                    var v_cont = v_wrap.find(".box"); //找到视频展示区域的外围区域
+                    var v_width = v_cont.width() / 5;
+                    var len = v_show.find("li").length; //我的视频图片个数
+                    var page_count = Math.ceil(len); //只要不是整数，就往大的方向取最小的整数
+                    if (!v_show.is(":animated")) {
+                        if (page == 1) {
+                            v_show.animate({ left: '-=' + v_width * (page_count - 5) }, "slow");
+                            page = page_count - 4;
+                        } else {
+                            v_show.animate({ left: '+=' + v_width }, "slow");
+                            page--;
+                        }
+                    }
+                }
+            }
+        });
+        $(function () {
+            var topBox = [];
+            $(".floor").each(function () {
+                topBox.push($(this).offset().top);
+            });
+
+            $(window).on("scroll", function () {
+                var scrollTop = $(document).scrollTop();
+                var showKey = -1;
+                var diff;
+                if (scrollTop > 340) {
+                    $("#J_LeftNav").css({ display: "block" });
+                    $(".marq").css({ position: 'fixed', top: '40px' }) //跑马灯 可以在每次更新维护的时候用
+                } else {
+                    $("#J_LeftNav").css({ display: "none" });
+                    $(".marq").css({ position: '', top: '' })
+
+                }
+                for (var k in topBox) {
+                    diff = topBox[k] - scrollTop - k * 36 + 30;
+                    if (diff < 240) {
+                        showKey = k;
+                    }
+                }
+                $("#J_LeftNav li").each(function (index) {
+                    if (index == showKey) {
+                        $(this).addClass("selected");
+                    } else {
+                        $(this).removeClass("selected");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
+

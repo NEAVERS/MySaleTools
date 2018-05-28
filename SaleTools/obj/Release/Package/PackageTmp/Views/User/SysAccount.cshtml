@@ -1,0 +1,72 @@
+﻿@using Model;
+@{
+    ViewBag.Title = "SysAccount";
+    var list = (List<UserInfo>)ViewBag.List;
+}
+
+<div class="col_main_hd">
+    <h2>
+        @(ViewBag.UserTypeName)管理                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/账户中心-送货员管理.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+    </h2>
+</div>
+<div class="col_main_bd">
+    <div class="inner">
+        <div class="col_main_content">
+            <div class="search_bar">
+                <ul class="search_item_list">
+                    <li class="search_item">
+                        <a href="/User/AddSysAccount?type=@ViewBag.UserType">新增 @(ViewBag.UserTypeName)</a>
+                    </li>
+                    <li class="clearfix"></li>
+                </ul>
+            </div>
+            <table class="table table_border">
+                <thead class="bg_color">
+                    <tr>
+                        <th class="center">用户ID</th>
+                        <th class="center">名字</th>
+                        <th class="center">手机</th>
+                        <th class="center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in list)
+    {
+                <tr>
+                    <td class="center">@item.UserId</td>
+                    <td class="center">@item.UserName</td>
+                    <td class="center">@item.Tel</td>
+                    <td class="center">
+                        <a href="/User/AddSysAccount?type=@ViewBag.UserType&userId=@item.UserId">编辑</a>
+                        <a class="del" href="#" userId="@item.UserId">删除</a>
+                    </td>
+                </tr>
+}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/layer/layer.js"></script>
+<script>
+
+    $(document).on("click", ".del", function () {
+        var id = $(this).attr("userId");
+
+        layer.confirm('请确认是否删除？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            $.post("/User/DelUser", { userId: id }, function (e) {
+                if (e) {
+                    location.reload();
+                }
+                else
+                    alert("操作失败！请刷新后重试！");
+            }, "json");
+        }, function () {
+
+          
+        })
+    })
+
+</script>

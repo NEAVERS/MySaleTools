@@ -28,16 +28,15 @@ namespace SaleTools.Controllers
             pwd = Utils.GetMD5(pwd);
             var ip = Utils.GetUserHostAddress();
             var user = _user.Login(userName, pwd, ip);
-            bool result = false;
             if (user != null)
             {
                 HttpCookie cookie = new HttpCookie("UserId");
                 cookie.Value = user.UserId.ToString();
                 cookie.Expires = DateTime.Now.AddDays(7);
                 Response.Cookies.Add(cookie);
-                result = true;
+                _response.Stutas = true;
             }
-            return "jsoncallback("+ Utils.SerializeObject(result)+")";
+            return Utils.SerializeObject(_response);
         }
 
         /// <summary>
@@ -51,7 +50,7 @@ namespace SaleTools.Controllers
             {
                 return "";
             }
-            return Request.Cookies[name].ToString();
+            return Request.Cookies[name].Value.ToString();
         }
 
         public Guid GetManagerId(UserInfo user)
@@ -77,6 +76,27 @@ namespace SaleTools.Controllers
 
             var user =_user.GetUserByUserId(id);
             return user;
+        }
+
+        public string GetImgSet()
+        {
+
+            var loginUser = GetUserInfo();
+            if (loginUser != null)
+            {
+                var imgSet = _system.GetImgSet();
+
+                _response.Stutas = true;
+                _response.Result = imgSet;
+            }
+            else
+            {
+                _response.Stutas = false;
+                _response.Msg = "请先登录";
+            }
+            string result = Utils.SerializeObject(_response);
+            return result;
+
         }
 
         /// <summary>
@@ -255,7 +275,7 @@ namespace SaleTools.Controllers
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string GetSpecialGoods(string method)
+        public string GetSpecialGoods()
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -279,7 +299,8 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
+            ;
         }
 
         /// <summary>
