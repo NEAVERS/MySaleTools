@@ -279,7 +279,7 @@ namespace BLL
     public Manjiujian CheckManjiujian(Guid userId,Guid managerId)
         {
             var couponList = new List<Coupon>();
-            var orderItems = _context.OrderItems.Where(x => x.CreateUserId == userId && x.IsInShoppingCar && !x.IsDelete);
+            var orderItems = _context.OrderItems.Where(x => x.CreateUserId == userId && x.IsInShoppingCar && !x.IsDelete).ToList();
             if (orderItems == null || orderItems.Count() < 1)
                 return null;
             var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == userId);

@@ -109,8 +109,15 @@ namespace SaleTools.Controllers
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
+                var managerId = GetManagerId(loginUser);
                 var list = _order.GetShoppingCar(loginUser.UserId);
-                _response.Result = list;
+                var manjian = _active.CheckManjiujian(loginUser.UserId, managerId);
+                var obj = new
+                {
+                    list = list,
+                    manjian = manjian
+                };
+                _response.Result = obj;
                 _response.Stutas = true;
             }
             else
@@ -207,11 +214,15 @@ namespace SaleTools.Controllers
         /// <param name="itemIds"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string DeleteItems(List<Guid> itemIds, string method)
+        public string DeleteItems(Guid itemId)
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
+                var itemIds = new List<Guid>()
+                {
+                    itemId
+                };
                 _response.Stutas = _order.DeleteOrderItem(itemIds);
             }
             else
@@ -228,7 +239,7 @@ namespace SaleTools.Controllers
         /// <param name="itemIds"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string ClearShoppingCar(List<Guid> itemIds)
+        public string ClearShoppingCar()
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -426,6 +437,30 @@ namespace SaleTools.Controllers
             string result = Utils.SerializeObject(_response);
             return result;
         }
+
+        public string GetReceiveInfo()
+        {
+            var loginUser = GetUserInfo();
+            if (loginUser != null)
+            {
+                var obj = new
+                {
+                    info = loginUser.ReceiveName + "   " + loginUser.Tel,
+                    addr = loginUser.Province + " " + loginUser.City + " " + loginUser.Area + " " + loginUser.Addr
+                };
+                _response.Result = obj;
+                _response.Stutas = true;
+            }
+            else
+            {
+                _response.Stutas = false;
+                _response.Msg = "请先登录";
+            }
+            string result = Utils.SerializeObject(_response);
+            return result;
+        }
+
+
         /// <summary>
         /// 创建订单
         /// </summary>
@@ -438,6 +473,8 @@ namespace SaleTools.Controllers
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
+                Guid managerId = GetManagerId(loginUser);
+
                 var order = new OrderInfo();
                 var saleMan = _user.GetUserByUserId(loginUser.SaleManGuid);
                 order.Id = Guid.NewGuid();
@@ -477,8 +514,8 @@ namespace SaleTools.Controllers
                     }
                 }
 
-                Manjiujian mj = _active.CheckManjiujian(loginUser.UserId, ViewBag.ManagerId);
-                Manjiusong ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
+                Manjiujian mj = _active.CheckManjiujian(loginUser.UserId, managerId);
+                Manjiusong ms = _active.CheckManSong(loginUser.UserId, managerId);
                 if (mj != null)
                 {
                     order.LessMoney = mj.LessMoeny;

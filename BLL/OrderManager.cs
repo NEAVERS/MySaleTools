@@ -32,6 +32,7 @@ namespace BLL
                     where c.IsInShoppingCar
                     && !c.IsDelete
                     && c.IsEffective
+                    &&c.CreateUserId == userId
                     select c;
             return q.ToList();
         }
