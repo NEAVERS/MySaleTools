@@ -104,7 +104,7 @@ namespace SaleTools.Controllers
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string LoadShoopingCarCount(string method)
+        public string LoadShoopingCarCount()
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -119,7 +119,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})",method, result);
+            return result;
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace SaleTools.Controllers
         /// <param name="goodId"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string AddToShoppingCar(Guid goodId,string method)
+        public string AddToShoppingCar(Guid goodId)
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -175,7 +175,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace SaleTools.Controllers
         /// <param name="count"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string ChangeCount(Guid itemId, int count, string method)
+        public string ChangeCount(Guid itemId, int count)
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -198,7 +198,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
         /// <summary>
         /// 清空购物车
@@ -228,7 +228,7 @@ namespace SaleTools.Controllers
         /// <param name="itemIds"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string ClearShoppingCar(List<Guid> itemIds, string method)
+        public string ClearShoppingCar(List<Guid> itemIds)
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -241,7 +241,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return  result;
         }
 
         /// <summary>
@@ -250,7 +250,7 @@ namespace SaleTools.Controllers
         /// <param name="parentId">上级</param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string GetTypeList(string parentId, string method)
+        public string GetTypeList(string parentId)
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -266,7 +266,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
 
         
@@ -313,7 +313,7 @@ namespace SaleTools.Controllers
         /// <param name="trdType"></param>
         /// <param name="brandId"></param>
         /// <returns></returns>
-        public string GetGoodsByPara(string method,string key = "", string fstType = "", string secType = "", string trdType = "", string brandId = "")
+        public string GetGoodsByPara(string key = "", string fstType = "", string secType = "", string trdType = "", string brandId = "")
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -329,7 +329,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
 
         /// <summary>
@@ -337,7 +337,7 @@ namespace SaleTools.Controllers
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string CheckManJian(string method)
+        public string CheckManJian()
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -353,14 +353,14 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
         /// <summary>
         /// 检查是否有符合的满送活动
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string CheckManSong(string method)
+        public string CheckManSong()
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -376,7 +376,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
 
         /// <summary>
@@ -384,7 +384,7 @@ namespace SaleTools.Controllers
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string CheckCanUseCoupon(string method)
+        public string CheckCanUseCoupon()
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -400,7 +400,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
 
         /// <summary>
@@ -408,7 +408,7 @@ namespace SaleTools.Controllers
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string GetCoupons(string method)
+        public string GetCoupons()
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -424,7 +424,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
         /// <summary>
         /// 创建订单
@@ -433,7 +433,7 @@ namespace SaleTools.Controllers
         /// <param name="remark"></param>
         /// <param name="couponId"></param>
         /// <returns></returns>
-        public string CreateOrder(string method, string remark = "", string couponId = "")
+        public string CreateOrder( string remark = "", string couponId = "")
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -517,7 +517,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
 
         /// <summary>
@@ -527,7 +527,7 @@ namespace SaleTools.Controllers
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public string GetBuyList(string method, string start = "", string end = "")
+        public string GetBuyList( string start = "", string end = "")
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -544,11 +544,11 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
 
 
-        public string GetOrderDetail(Guid orderid,string method)
+        public string GetOrderDetail(Guid orderid)
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -563,7 +563,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
 
         /// <summary>
@@ -571,7 +571,7 @@ namespace SaleTools.Controllers
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string  GetNoticeList(string method)
+        public string  GetNoticeList()
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -586,7 +586,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
 
         /// <summary>
@@ -595,7 +595,7 @@ namespace SaleTools.Controllers
         /// <param name="id"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string GetNoticeDetail(int id, string method)
+        public string GetNoticeDetail(int id)
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -610,7 +610,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "请先登录";
             }
             string result = Utils.SerializeObject(_response);
-            return string.Format("{0}({1})", method, result);
+            return result;
         }
     }
 }

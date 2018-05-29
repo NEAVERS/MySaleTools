@@ -305,6 +305,13 @@ namespace SaleTools.Controllers
             }
 
             var ress = _order.SaveOrder(order);
+            //保存订单成功后 保存销售订单到erp 系统中
+            if(ress)
+            {
+                string baseSupplier = ConfigurationManager.AppSettings["baseSupplierId"].ToString();
+                int baseSupplierId = Utils.ParseInt(baseSupplier);
+                var orderDetail = _order.InsertErp(order.Id, baseSupplierId);
+            }
             return Utils.SerializeObject(ress);
         }
 

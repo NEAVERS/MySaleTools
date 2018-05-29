@@ -45,6 +45,7 @@
     <Compile Include="BrandOfGoodsType.cs" />
     <Compile Include="Coupon.cs" />
     <Compile Include="Erp\GoodsStocks.cs" />
+    <Compile Include="Erp\OrderIndex.cs" />
     <Compile Include="Erp\ptype.cs" />
     <Compile Include="Erp\Stock.cs" />
     <Compile Include="ErrorReason.cs" />

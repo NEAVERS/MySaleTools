@@ -1,7 +1,9 @@
 ﻿using Common;
 using Common.Entities;
 using Dal;
+using Dal.Mapping.Erp;
 using Model;
+using Model.Erp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +17,7 @@ namespace BLL
     {
         private SaleToolsContext _context = new SaleToolsContext();
 
+        private ErpContext _erp = new ErpContext();
 
         private ResponseModel _response = new ResponseModel();
 
@@ -978,6 +981,44 @@ namespace BLL
                 _response.Msg = "该待取消的订单不存在！";
             return _response;
         }
+
+        #region 订单生成后倒入销售订单到erp
+
+        private string GetCode(int count)
+        {
+            var str = count.ToString();
+            int zeroCount = 4 - str.Length;
+            str = new string('0', zeroCount) + str;
+            return str;
+        }
+
+
+        public bool InsertErp(Guid orderId,int baseSupplierId)
+        {
+            var orderDetail = GetOrderDetail(orderId);
+            var list = orderDetail.Items.Where(x => x.SupplierId == baseSupplierId);
+            var date= DateTime.Now.Date;
+            var cout = _erp.OrderIndexes.Count(x => x.billtype == 300 && x.BillDate == date);
+            OrderIndex orderIndex = new OrderIndex();
+            #region 初始化
+            orderIndex.btypeid = "0000100001";
+            orderIndex.etypeid = "000010004100004";
+            orderIndex.ktypeid = "00001";
+            orderIndex.BillDate = date;
+            orderIndex.ReachDate = date;
+            orderIndex.Billcode = "XD-T-" + DateTime.Now.ToString("yyyy-MM-dd") + "-" + GetCode(cout+1);
+            orderIndex.billtype = 300;
+            orderIndex.totalmoney = list.Sum(x => x.TotalPrice);
+            orderIndex.totalqty = list.Sum(x => x.Count);
+            #endregion
+
+
+
+            return false;
+        }
+
+
+        #endregion
     }
 
 }

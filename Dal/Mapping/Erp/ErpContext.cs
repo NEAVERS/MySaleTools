@@ -21,11 +21,13 @@ namespace Dal.Mapping.Erp
         public DbSet<Stock> Stocks { get; set; }
 
         public DbSet<GoodsStocks> GoodsStockses { get; set; }
+        public DbSet<OrderIndex> OrderIndexes { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new ptypeMap());
             modelBuilder.Configurations.Add(new StockMap());
             modelBuilder.Configurations.Add(new GoodsStocksMap());
+            modelBuilder.Configurations.Add(new OrderIndexMap());
      }
 
 
