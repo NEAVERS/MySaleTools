@@ -62,6 +62,15 @@ namespace Common
             return json;
         }
 
+
+        public static T DeepCopyByJson<T>(T obj)
+        {
+            //如果是字符串或值类型则直接返回
+            string json = JsonConvert.SerializeObject(obj);
+            T newObj = JsonConvert.DeserializeObject<T>(json);
+            return newObj;
+        }
+
         /// <summary>
         /// 
         /// </summary>

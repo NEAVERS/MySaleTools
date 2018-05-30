@@ -179,6 +179,30 @@ namespace BLL
 
         }
 
+        /// <summary>
+        /// 获取分页数据
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="createUserId"></param>
+        /// <returns></returns>
+        public List<OrderInfo> GetOrderListPage(Guid createUserId,int index, int stutas)
+        {
+            var q = from c in _context.OrderInfoes
+                    where  c.CreateUserId == createUserId
+                    select c;
+            if(stutas != -1)
+            {
+                if (stutas == 1)///待收货
+                    q = q.Where(x => x.Stutas == 1 || x.Stutas == 2);
+                else///已收货
+                    q = q.Where(x => x.Stutas == 3);
+            }
+            var list = q.OrderByDescending(x => x.CreateTime).Skip((index - 1) * 5).Take(5).ToList();
+            return list;
+
+        }
+
         public PageData<OrderInfo> GetOrderList(int index, int size, DateTime start, DateTime end, string province, string city, string area, int stutas, string saleManId, int userType, string key, Guid managerId, bool isAdmin = false, decimal orderPay = 0)
         {
             PageData<OrderInfo> pager = new PageData<OrderInfo>();
@@ -219,6 +243,21 @@ namespace BLL
             detail.Info = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
             detail.Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar).ToList();
             return detail;
+        }
+
+        public bool ReBuy(Guid orderId)
+        {
+            var Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar).ToList();
+
+            var list = Utils.DeepCopyByJson(Items);
+            list.ForEach(x => {
+                x.Id = Guid.NewGuid();
+                x.OrderId = Guid.Empty;
+                x.OrderNum = string.Empty;
+                x.IsInShoppingCar = true;
+            });
+            _context.OrderItems.AddRange(list);
+            return _context.SaveChanges() > 0;
         }
 
         public OrderDetail GetOrderDetail(string orderNUm)

@@ -156,7 +156,9 @@ namespace Model
         /// </summary>
         public string ErrorMark { get; set; }
 
-
+        /// <summary>
+        /// 是否是礼物
+        /// </summary>
         public bool IsGift { get; set; }
         /// <summary>
         /// 

@@ -546,6 +546,12 @@ namespace SaleTools.Controllers
                     var res = _order.AddOrderItem(item);
                 }
                 var ress = _order.SaveOrder(order);
+                if(ress)
+                {
+                    string baseSupplier = ConfigurationManager.AppSettings["baseSupplierId"].ToString();
+                    int baseSupplierId = Utils.ParseInt(baseSupplier);
+                    var orderDetail = _order.InsertErp(order.Id, baseSupplierId);
+                }
                 _response.Stutas = ress;
             }
             else
@@ -564,15 +570,27 @@ namespace SaleTools.Controllers
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public string GetBuyList( string start = "", string end = "")
+        public string GetBuyList(int index,int stutas)
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
-                DateTime startTime = Utils.GetTime(start, true);
-                DateTime endTime = Utils.GetTime(end);
-                var list = _order.GetOrderListByCreateUserId(startTime, endTime, loginUser.UserId);
-                _response.Result = list;
+
+                var list = _order.GetOrderListPage(loginUser.UserId,index,stutas);
+                var q = from c in list
+                        select new
+                        {
+                            OrderId = c.Id,
+                            OrderNum = c.OrderNum,
+                            OrderImg = _order.GetOrderDetail(c.Id).Items.FirstOrDefault().Pic,
+                            GoodsTittle = _order.GetOrderDetail(c.Id).Items.FirstOrDefault().ProductTittle,
+                            Count = _order.GetOrderDetail(c.Id).Items.Count,
+                            TotalPrice = Math.Round( c.RealMoney,2),
+                            CreateTime = c.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                            Stutas = c.Stutas,
+                            StutasName = ((OrderStatus)c.Stutas).ToString(),
+                        };
+                _response.Result = q;
                 _response.Stutas = true;
             }
             else
@@ -584,6 +602,30 @@ namespace SaleTools.Controllers
             return result;
         }
 
+
+        public string CancelOrder(Guid orderId)
+        {
+            var response = _order.UserCancelOrder(orderId);
+            return Utils.SerializeObject(response);
+        }
+
+        public string GetOneMoreOrder(Guid orderId)
+        {
+            var loginUser = GetUserInfo();
+            if (loginUser != null)
+            {
+                var model = _order.ReBuy(orderId);
+                _response.Result = model;
+                _response.Stutas = true;
+            }
+            else
+            {
+                _response.Stutas = false;
+                _response.Msg = "请先登录";
+            }
+            string result = Utils.SerializeObject(_response);
+            return result;
+        }
 
         public string GetOrderDetail(Guid orderid)
         {
