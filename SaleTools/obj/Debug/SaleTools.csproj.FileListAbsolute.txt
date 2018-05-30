@@ -106,16 +106,13 @@ G:\study\git\MySaleTools\SaleTools\bin\roslyn\Microsoft.CSharp.Core.targets
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\Microsoft.VisualBasic.Core.targets
-G:\study\git\MySaleTools\SaleTools\bin\roslyn\Microsoft.Win32.Primitives.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.AppContext.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.Collections.Immutable.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.Console.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
-G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.Diagnostics.Process.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.Diagnostics.StackTrace.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.IO.Compression.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.IO.FileSystem.dll
-G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.IO.FileSystem.Primitives.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.IO.Pipes.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.Reflection.Metadata.dll
@@ -127,7 +124,6 @@ G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.Security.Cryptography.Primi
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.Security.Principal.Windows.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.Text.Encoding.CodePages.dll
-G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.Threading.Thread.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.ValueTuple.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.Xml.ReaderWriter.dll
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.Xml.XmlDocument.dll
@@ -274,3 +270,4 @@ E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.csproj.CoreCompileInputs
 E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.csproj.CopyComplete
 E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.dll
 E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.pdb
+G:\study\git\MySaleTools\SaleTools\bin\roslyn\Microsoft.Managed.Core.targets

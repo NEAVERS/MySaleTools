@@ -282,6 +282,7 @@ namespace SaleTools.Controllers
             {
                 var model = _manager.GetGoodsWithPrice(ms.SendGoodId, loginUser.TypeId);
                 OrderItem item = new OrderItem();
+                item.IsGift = true;
                 item.Count = ms.SendGoodCount;
                 item.CreateUserId = loginUser.UserId;
                 item.Id = Guid.NewGuid();

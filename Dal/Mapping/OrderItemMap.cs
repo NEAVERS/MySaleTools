@@ -47,6 +47,7 @@ namespace Dal.Mapping
             this.Property(t => t.ErrorReason).HasColumnName("ErrorReason");
             this.Property(t => t.ErrorMark).HasColumnName("ErrorMark");
             this.Property(t => t.ErrorCount).HasColumnName("ErrorCount");
+            this.Property(t => t.IsGift).HasColumnName("IsGift");
             
         }
     }

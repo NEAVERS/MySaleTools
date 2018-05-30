@@ -987,6 +987,7 @@ namespace BLL
 
         private string GetCode(int count)
         {
+            count = 9999 - count;
             var str = count.ToString();
             int zeroCount = 4 - str.Length;
             str = new string('0', zeroCount) + str;
@@ -1011,7 +1012,142 @@ namespace BLL
             orderIndex.billtype = 300;
             orderIndex.totalmoney = list.Sum(x => x.TotalPrice);
             orderIndex.totalqty = list.Sum(x => x.Count);
+            orderIndex.period = 1;
+            orderIndex.@checked = false;
+            orderIndex.redWord = false;
+            orderIndex.BillOver = false;
+            orderIndex.comment = string.Empty;
+            orderIndex.explain = string.Empty;
+            orderIndex.Checke = "000010004100004";
+            orderIndex.Tax = 0;
+            orderIndex.BillStatus = 0;
+            orderIndex.etypeid2 = string.Empty;
+            orderIndex.WayMode = string.Empty;
+            orderIndex.WayBillCode = string.Empty;
+            orderIndex.GoodsNumber = string.Empty;
+            orderIndex.PackWay = string.Empty;
+            orderIndex.TEL = string.Empty;
+            orderIndex.IfAudit = 1;
+            orderIndex.DtypeId = "000010004100004";
+            orderIndex.IsFinished = null;
+            orderIndex.CanAlert = "1";
+            orderIndex.DelayType = "0";
+            orderIndex.DelayValue = "0";
+            orderIndex.OrderState = "0";
+            orderIndex.Stypeid = "00001";
+            orderIndex.FromBillNumberID = null;
+            orderIndex.CustomerTotal = 0;
+            orderIndex.IsIni = false;
+            orderIndex.Ntotalmoney= list.Sum(x => x.TotalPrice);
+            orderIndex.CID = 1;
+            orderIndex.Rate = 1;
+            orderIndex.billproperty = -1;
+            orderIndex.PrePriceNum = 1;
+            orderIndex.IsYapi = false;
+            orderIndex.YapiOrderID = string.Empty;
+            orderIndex.NCustomerTotal = 0;
+            orderIndex.DealBTypeID = "0000100001";
+            orderIndex.atypeID = "0";
+            orderIndex.totalinmoney = 0;
+            orderIndex.ntotalinmoney = 0;
+            orderIndex.checkTime = DateTime.Now;
+            orderIndex.Discount = 1;
+            int showOrder = 1;
+            var billList = new List<OrderBill>();
+            orderDetail.Items.ForEach(x =>
+            {
+                var model = new OrderBill();
+                var goods = _context.GoodInfoes.FirstOrDefault(c => c.Id == x.ProductId);
+                var pinfo = _erp.ptypes.FirstOrDefault(c => c.typeId == goods.GoodsNum);
+                var unit_ex = _erp.PType_Units_Exts.FirstOrDefault(c => c.PtypeID == pinfo.typeId && c.UnitsId == pinfo.SaleUnitId);
+                model.ptypeid = goods.GoodsNum;
+                model.qty = x.Count * unit_ex.Rate;
+                model.price = x.RealPrice/ unit_ex.Rate;
+                model.total = x.TotalPrice;
+                model.ReachQty = 0;
+                model.comment = string.Empty;
+                model.Checked = false;
+                model.TeamNO1 = null;
+                model.PassQty = 0;
+                model.IsUnit2 =false;
+                model.Discount = 0;
+                model.DiscountPrice = x.RealPrice/ unit_ex.Rate;
+                model.TaxPrice = x.RealPrice/ unit_ex.Rate;
+                model.TaxTotal = x.TotalPrice;
+                model.SaleTotal = x.TotalPrice;
+                model.Tax = 0;
+                model.KTypeID = "00001";
+                model.Stypeid = "00001";
+                model.FromBillNumberID = 0;
+                model.entrycode = goods.BarCode;
+                model.FromBillID = 0;
+                model.ReachTotal = 0;
+                model.ReachTaxTotal = 0;
+                model.RequestBillNumberID = 0;
+                model.RequestBillID = 0;
+                model.AskBillNumberID = 0;
+                model.AskBillID = 0;
+                model.TaxMoney = 0;
+                model.NSalePrice = x.RealPrice/ unit_ex.Rate;
+                model.NSaleTotal = x.TotalPrice;
+                model.NDiscountPrice = x.RealPrice/ unit_ex.Rate;
+                model.NTotal = x.TotalPrice;
+                model.NTaxPrice = x.RealPrice/ unit_ex.Rate;
+                model.NTaxTotal = x.TotalPrice;
+                model.NTaxMoney = 0;
+                model.UnitID = pinfo.baseUnitId;
+                model.NUnitID = 0;
+                model.NQty = 0;
+                model.UnitRate = 0;
+                model.NUnitMsg = null;
+                model.MUnitID = unit_ex.UnitsId;
+                model.MQty = x.Count;
+                model.MUnitRate = unit_ex.Rate;
+                model.MUnitMsg = null;
+                model.MSalePrice = x.RealPrice;
+                model.MDiscountPrice = x.RealPrice;
+                model.MTaxPrice = x.RealPrice;
+                model.CurMSalePrice = x.RealPrice;
+                model.CurMDiscountPrice = x.RealPrice;
+                model.CurMTaxPrice = x.RealPrice;
+                model.ItemID = 0;
+                model.IsCombined = 0;
+                model.GoodsCostPrice = -1;
+                model.GoodsOrder = -1;
+                model.ProduceDate = string.Empty;
+                model.ValidDate = string.Empty;
+                model.IsGift = x.IsGift?1:0;
+                model.YapiID = string.Empty;
+                model.PriceSource = string.Empty;
+                model.Id = showOrder;
+                model.PromoType = 0;
+                model.ShowOrder = showOrder;
+                model.WaitQty = 0;
+                model.BillOver = false;
+                model.GoodsNumber = string.Empty;
+                model.CargoID = 0;
+                model.stopreason = string.Empty;
+                showOrder++;
+                billList.Add(model);
+
+            });
             #endregion
+            using (var scope = _erp.Database.BeginTransaction())
+            {
+                try
+                {
+                    _erp.OrderIndexes.Add(orderIndex);
+                    _erp.SaveChanges();
+                    billList.ForEach(x => x.billNumberID = orderIndex.billNumberId);
+                    _erp.OrderBills.AddRange(billList);
+                    _erp.SaveChanges();
+                    scope.Commit();//正常完成就可以提交
+                }
+                catch (Exception ex)
+                {
+                    scope.Rollback();//发生异常就回滚
+                }
+            }
 
 
 

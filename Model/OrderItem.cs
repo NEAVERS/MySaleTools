@@ -155,6 +155,9 @@ namespace Model
         /// 原因备注
         /// </summary>
         public string ErrorMark { get; set; }
+
+
+        public bool IsGift { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -175,6 +178,7 @@ namespace Model
             this.IsInShoppingCar = true;
             this.CreateUserId = Guid.Empty;
             this.Pic = string.Empty;
+            this.IsGift = false;
         }
 
     }

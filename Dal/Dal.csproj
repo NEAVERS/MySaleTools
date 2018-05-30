@@ -53,8 +53,10 @@
     <Compile Include="Mapping\CouponMap.cs" />
     <Compile Include="Mapping\Erp\ErpContext.cs" />
     <Compile Include="Mapping\Erp\GoodsStocksMap.cs" />
+    <Compile Include="Mapping\Erp\OrderBillMap.cs" />
     <Compile Include="Mapping\Erp\OrderIndexMap.cs" />
     <Compile Include="Mapping\Erp\ptypeMap.cs" />
+    <Compile Include="Mapping\Erp\PType_Units_ExtMap.cs" />
     <Compile Include="Mapping\Erp\StockMap.cs" />
     <Compile Include="Mapping\ErrorReasonMap.cs" />
     <Compile Include="Mapping\GoodInfoMap.cs" />
