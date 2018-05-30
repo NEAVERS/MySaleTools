@@ -58,6 +58,7 @@
     <Compile Include="Entities\PickUpModel.cs" />
     <Compile Include="Entities\ResourceStr.cs" />
     <Compile Include="Entities\ResponseModel.cs" />
+    <Compile Include="LogsHelper.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

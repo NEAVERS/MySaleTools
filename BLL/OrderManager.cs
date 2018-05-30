@@ -966,6 +966,7 @@ namespace BLL
 
         public ResponseModel CheckCancel(Guid orderId,bool isAgree)
         {
+
             var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId&&x.Stutas==(int)OrderStatus.订单取消中);
 
             if (order != null)
@@ -995,11 +996,11 @@ namespace BLL
         }
 
 
-        public bool InsertErp(Guid orderId,int baseSupplierId)
+        public bool InsertErp(Guid orderId, int baseSupplierId)
         {
             var orderDetail = GetOrderDetail(orderId);
             var list = orderDetail.Items.Where(x => x.SupplierId == baseSupplierId);
-            var date= DateTime.Now.Date;
+            var date = DateTime.Now.Date;
             var cout = _erp.OrderIndexes.Count(x => x.billtype == 300 && x.BillDate == date);
             OrderIndex orderIndex = new OrderIndex();
             #region 初始化
@@ -1008,7 +1009,7 @@ namespace BLL
             orderIndex.ktypeid = "00001";
             orderIndex.BillDate = date;
             orderIndex.ReachDate = date;
-            orderIndex.Billcode = "XD-T-" + DateTime.Now.ToString("yyyy-MM-dd") + "-" + GetCode(cout+1);
+            orderIndex.Billcode = "XD-T-" + DateTime.Now.ToString("yyyy-MM-dd") + "-" + GetCode(cout + 1);
             orderIndex.billtype = 300;
             orderIndex.totalmoney = list.Sum(x => x.TotalPrice);
             orderIndex.totalqty = list.Sum(x => x.Count);
@@ -1038,7 +1039,7 @@ namespace BLL
             orderIndex.FromBillNumberID = null;
             orderIndex.CustomerTotal = 0;
             orderIndex.IsIni = false;
-            orderIndex.Ntotalmoney= list.Sum(x => x.TotalPrice);
+            orderIndex.Ntotalmoney = list.Sum(x => x.TotalPrice);
             orderIndex.CID = 1;
             orderIndex.Rate = 1;
             orderIndex.billproperty = -1;
@@ -1054,25 +1055,32 @@ namespace BLL
             orderIndex.Discount = 1;
             int showOrder = 1;
             var billList = new List<OrderBill>();
-            orderDetail.Items.ForEach(x =>
+            foreach (var x in orderDetail.Items)
             {
                 var model = new OrderBill();
+
                 var goods = _context.GoodInfoes.FirstOrDefault(c => c.Id == x.ProductId);
+                if (goods == null || string.IsNullOrWhiteSpace(goods.GoodsNum))
+                    continue;
                 var pinfo = _erp.ptypes.FirstOrDefault(c => c.typeId == goods.GoodsNum);
+                if (pinfo == null)
+                    continue;
                 var unit_ex = _erp.PType_Units_Exts.FirstOrDefault(c => c.PtypeID == pinfo.typeId && c.UnitsId == pinfo.SaleUnitId);
+                if (unit_ex == null)
+                    continue;
                 model.ptypeid = goods.GoodsNum;
                 model.qty = x.Count * unit_ex.Rate;
-                model.price = x.RealPrice/ unit_ex.Rate;
+                model.price = x.RealPrice / unit_ex.Rate;
                 model.total = x.TotalPrice;
                 model.ReachQty = 0;
                 model.comment = string.Empty;
                 model.Checked = false;
                 model.TeamNO1 = null;
                 model.PassQty = 0;
-                model.IsUnit2 =false;
+                model.IsUnit2 = false;
                 model.Discount = 0;
-                model.DiscountPrice = x.RealPrice/ unit_ex.Rate;
-                model.TaxPrice = x.RealPrice/ unit_ex.Rate;
+                model.DiscountPrice = x.RealPrice / unit_ex.Rate;
+                model.TaxPrice = x.RealPrice / unit_ex.Rate;
                 model.TaxTotal = x.TotalPrice;
                 model.SaleTotal = x.TotalPrice;
                 model.Tax = 0;
@@ -1088,11 +1096,11 @@ namespace BLL
                 model.AskBillNumberID = 0;
                 model.AskBillID = 0;
                 model.TaxMoney = 0;
-                model.NSalePrice = x.RealPrice/ unit_ex.Rate;
+                model.NSalePrice = x.RealPrice / unit_ex.Rate;
                 model.NSaleTotal = x.TotalPrice;
-                model.NDiscountPrice = x.RealPrice/ unit_ex.Rate;
+                model.NDiscountPrice = x.RealPrice / unit_ex.Rate;
                 model.NTotal = x.TotalPrice;
-                model.NTaxPrice = x.RealPrice/ unit_ex.Rate;
+                model.NTaxPrice = x.RealPrice / unit_ex.Rate;
                 model.NTaxTotal = x.TotalPrice;
                 model.NTaxMoney = 0;
                 model.UnitID = pinfo.baseUnitId;
@@ -1116,7 +1124,7 @@ namespace BLL
                 model.GoodsOrder = -1;
                 model.ProduceDate = string.Empty;
                 model.ValidDate = string.Empty;
-                model.IsGift = x.IsGift?1:0;
+                model.IsGift = x.IsGift ? 1 : 0;
                 model.YapiID = string.Empty;
                 model.PriceSource = string.Empty;
                 model.Id = showOrder;
@@ -1129,8 +1137,7 @@ namespace BLL
                 model.stopreason = string.Empty;
                 showOrder++;
                 billList.Add(model);
-
-            });
+            };
             #endregion
             using (var scope = _erp.Database.BeginTransaction())
             {
@@ -1145,13 +1152,12 @@ namespace BLL
                 }
                 catch (Exception ex)
                 {
+                    LogsHelper.WriteErrorLog("导入ERP失败",ex, "订单管理");
                     scope.Rollback();//发生异常就回滚
+                    return false;
                 }
             }
-
-
-
-            return false;
+            return true;
         }
 
 

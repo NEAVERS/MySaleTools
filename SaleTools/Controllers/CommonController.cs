@@ -48,6 +48,7 @@ namespace SaleTools.Controllers
             }
             catch (Exception e )
             {
+                LogsHelper.WriteErrorLog("上传图片失败！",e,"商品管理");
             }
             return Json(new
             {
