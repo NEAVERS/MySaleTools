@@ -254,8 +254,8 @@
                 <div class="topfixed top clearfix">
                     <h2 class="topMenuList"><i style="padding-right: 13px;"><img src="/Content/images/index/04151605.png"></i>全部商品分类</h2>
                     <div class="searchbar lfloat" style="padding-top:5px;">
-                        <form action="http://pifa.yunmayi.com/search/index" method="GET" id="C_GlobalSearchFormOne">
-                            <input type="text" name="q" class="search_input" id="C_GlobalSearchInputOne" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+                        <form action="/Home/Product" method="GET" id="C_GlobalSearchFormOne">
+                            <input type="text" name="q" class="search_input" id="key" autocomplete="off"  data-placeholder="支持商品关键字、品牌、条码扫描搜索">
                             <!--                <input type="hidden" name="cid" value="" id="cid"/>-->
                             <button type="submit" class="search_btn" >搜索</button>
                         </form>
@@ -278,7 +278,7 @@
                     </div>
                 </div>
                 <div class="searchbar lfloat">
-                        <input type="text" name="q" class="search_input" style="height: 37px;" id="C_GlobalSearchInput" autocomplete="off" value="支持商品关键字、品牌、条码扫描搜索" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+                        <input type="text" name="q" class="search_input" style="height: 37px;" id="C_GlobalSearchInput" autocomplete="off"  data-placeholder="支持商品关键字、品牌、条码扫描搜索">
                         <button type="submit" class="search_btn" id="searchGoods">搜索</button>
                 </div>
                 <div class="toolbar lfloat">
@@ -446,21 +446,12 @@
                 </div>
                 <div class="m_func">
                     <div class="integral clearfix">
-                        <div class="today_date">
-                            <span class="today_date_month">02月</span>
-                            <span class="today_date_day">5</span>
-                        </div>
-                        <div class="checkin_box">
-                            <p class="info">
-                                <a href="javascript:;" class="i_checkin" id="J_IntegralCheckin">领取</a>
-                                <span id="J_CheckinInfo">今日可获得<b>500</b>积分</span>
-                            </p>
-                        </div>
+
                     </div>
                     <div class="clearfix btn_list">
                         <ul>
                             <li>
-                                <a href="http://pifa.yunmayi.com/index/ucenter"><img src="/Content/images/index/04151728.png" alt=""><p>会员中心</p></a>
+                                <a href="/User/Index"><img src="/Content/images/index/04151728.png" alt=""><p>会员中心</p></a>
                             </li>
                         </ul>
                     </div>
@@ -877,6 +868,7 @@
         function loacCarCount() {
             $.post("/Home/LoadShoopingCarCount", {}, function (e) {
                 $("#C_GlobalCartItemNum").html(e);
+                $("#C_GlobalCartItemNum_fixed").html(e);
             },"json")
         }
 

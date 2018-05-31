@@ -22,7 +22,7 @@
 </style>
 <div class="col_main_hd">
     <h2>
-        加盟商个人中心 <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/ziling/index.php" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">系统操作说明</a></button>
+        @ViewBag.ShowTittle
     </h2>
 </div>
 <div class="col_main_bd">
@@ -391,6 +391,14 @@
                                         <input type="number" class="inputtext" style="width:40px;" name="limit_buy_num" id="limit_buy_num" value="@Model.LimitCount">
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td class="right">
+                                        排序Id：
+                                    </td>
+                                    <td>
+                                        <input type="number" class="inputtext" style="width:40px;" name="SortId" id="SortId" value="@Model.SortId">
+                                    </td>
+                                </tr>
                                 <!-- 商品组图 -->
                                 <tr>
                                     <td class="right">
@@ -638,6 +646,16 @@
             <script>
                 var _n = 0;
                 $(document).on("click", "#save", function () {
+                    var fstTypeId = $("input[name='fst_cat_id']").val();
+                    var secTypeId = $("input[name='snd_cat_id']").val();
+                    var thdTypeId = $("input[name='thd_cat_id']").val();
+                    if (fstTypeId == "0") {
+                        fstTypeId = $("#FirstTypeId").val();
+                    } if (secTypeId == "0") {
+                        secTypeId = $("#SecondTypeId").val();
+                    } if (thdTypeId == "0") {
+                        thdTypeId = $("#ThirdTYypeId").val();
+                    }
                     if (_n == 1)
                         return;
                     var barcode = $("#J_BarCode").val();
@@ -650,8 +668,7 @@
                         layer.msg("请选择供应商", { icon: 2 });
                         return;
                     }
-                    var ThirdTYypeId = $("input:hidden[name=thd_cat_id]", $("#J_CategorySelector")).val();
-                    if (ThirdTYypeId == "0") {
+                    if (thdTypeId == "0" || thdTypeId == "") {
                         layer.msg("请选择商品类目", { icon: 2 });
                         return;
                     }
@@ -684,12 +701,12 @@
                     obj.SupplierId = SupplierId;
                     obj.SupplierNum = $("#seller_id").find("option:selected").attr("data-num");
                     obj.SupplierName = $("#seller_id").find("option:selected").text().trim();
-                    obj.FirstTypeId = $("input:hidden[name=fst_cat_id]", $("#J_CategorySelector")).val();
-                    obj.FirstTypeName = $("#J_Number").val();
-                    obj.SecondTypeId = $("input:hidden[name=snd_cat_id]", $("#J_CategorySelector")).val();
-                    obj.SecondTypeName = $("#J_Number").val();
-                    obj.ThirdTYypeId = ThirdTYypeId;
-                    obj.ThirdTypeName = $("#J_Number").val();
+                    obj.FirstTypeId = fstTypeId;
+                    obj.FirstTypeName = $(".cur:eq(2)").html();
+                    obj.SecondTypeId = secTypeId;
+                    obj.SecondTypeName = $(".cur:eq(3)").html();
+                    obj.ThirdTYypeId = thdTypeId;
+                    obj.ThirdTypeName = $(".cur:eq(4)").html();
                     obj.GoodsTittle = title;
                     obj.GoodsSubTittle = $("#J_SubTitle").val();
                     obj.BrandId = $("#Mbrand_id").val();
@@ -719,10 +736,11 @@
                     obj.KeyWord = $("#J_Keyword").val();
                     obj.Detail = $("#content").val();
                     obj.ErpId = $("#ErpId").val();
+                    obj.SortId = $("#SortId").val()
                     $.post("/GoodsManager/SaveGoods", { goods: obj }, function (e) {
                         if (e) {
                             _n = 0;
-                            layer.msg("添加成功！", { icon: 1 }, function () {
+                            layer.msg("保存成功！", { icon: 1 }, function () {
                                 location.href = '/GoodsManager/GoodsList';
                             });
                         }

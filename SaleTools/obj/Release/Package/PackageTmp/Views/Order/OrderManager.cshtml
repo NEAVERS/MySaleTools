@@ -9,14 +9,19 @@
     var Resourse = (List<string>)ViewBag.Resourse;
 
 }
-
+<style>
+    .alink
+    {
+        display:block;
+    }
+</style>
 <link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/need/laydate.css">
 <link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
 <script type="text/javascript" src="/Content/js/lib/laydate/laydate.js"></script>
 
 <div class="col_main_hd">
     <h2>
-        订单查询
+        订单管理
     </h2>
 </div>
 <div class="col_main_bd">
@@ -70,14 +75,7 @@
                         </select>
                     </div>
                 </li>
-                <li class="search_item">
-                    <label>配送类型:</label>
-                    <select name="deliver_type">
-                        <option value="" selected="">全部</option>
-                        <option value="platform_deliver">平台配送</option>
-                        <option value="vendor_deliver">自主配送</option>
-                    </select>
-                </li>
+
                 <li class="search_item">
                     <label>业务员：</label>
                     <select id="saleManId">
@@ -181,11 +179,11 @@
                 html += '<td>电脑端</td >';
                 html += '<td>' + getSutas(this.Stutas) + '</td >';
                 html += '<td>';
-                html += '<a href="/Order/OrderDetail?orderId=' + this.Id + '">订单详情</a>'
+                html += '<a class="alink" href="/Order/OrderDetail?orderId=' + this.Id + '">订单详情</a>'
                 if (this.Stutas == 1)
-                    html += '<a class="del" href="" data-pick="0" data-state="1" data-id="' + this.Id + '">取消订单</a>'
+                    html += '<a class="del alink" href="#" data-pick="0" data-state="1" data-id="' + this.Id + '">取消订单</a>'
                 if (this.Stutas == 4)
-                    html += '<a   href="#" data-pick="0" data-state="1" onclick="CheckAgree(\'' + this.Id + '\')">审核订单</a>'
+                    html += '<a class="alink"  href="javascript:void(0)" data-pick="0" data-state="1" onclick="CheckAgree(\'' + this.Id + '\')">审核订单</a>'
 
                 html += '</td >';
                 html += '</tr>';
@@ -219,18 +217,18 @@
                 if (e.Stutas) {
                     layer.msg("取消成功！", { icon: 1 }, function () {
                         GetData(pageIndex);
-                        layer.closeall();
+                        layer.closeAll();
                     })
                 }
                 else {
                     layer.msg(e.Msg, { icon: 2 }, function () {
-                        layer.closeall();
+                        layer.closeAll();
                     })
                 }
             }, "json")
 
         }, function () {
-            layer.closeall();
+            layer.closeAll();
         });
     });
 

@@ -19,7 +19,7 @@
 </style>
 <div class="col_main_hd">
     <h2>
-        加盟商个人中心 <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/ziling/index.php" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">系统操作说明</a></button>
+        商品列表
     </h2>
 </div>
 <div class="col_main_bd">
@@ -166,9 +166,7 @@
                                                 </dl>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="fst_cat_id" value="0">
-                                        <input type="hidden" name="snd_cat_id" value="0">
-                                        <input type="hidden" name="thd_cat_id" value="0">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -201,9 +199,7 @@
                                 }
                             </select>
                         </li>
-                        <li class="search_item">
-                            <input type="checkbox" value="1" name="repeat"> 重复商品
-                        </li>
+
                         <li class="search_item">
                             <button type="submit" onclick="LoadList(1)">
                                 搜索
@@ -225,19 +221,6 @@
                         <li class="clearfix">
                         </li>
                     </ul>
-                    <form method="post" action="http://agent.pifa.yunmayi.com/product/phpexcel" enctype="multipart/form-data">
-                        <div style="margin:5px;">
-                            商品批量导入：
-                            <input type="file" name="file_stu">
-                            <input type="submit" value="导入">
-                            <a href="/商品模板.xlsx" style="margin:0 10px 0 10px;">
-                                商品模板下载
-                            </a>
-                            <a href="/类目名称对应类目ID.xlsx">
-                                类目名称对应类目ID下载
-                            </a>
-                        </div>
-                    </form>
                 </div>
                 <table class="table table_border product_list">
                     <thead class="bg_color">
@@ -249,48 +232,25 @@
                             </th>
                             <th class="price center clickSort change" width="60">
                                 单价
-                                <span class="dot-top clickDot">
-                                </span>
-                                <span class="dot-bottom clickDot">
-                                </span>
+                              
                             </th>
                             <th class="sales_volume center clickSort change" width="80">
                                 销量
-                                <span class="dot-top clickDot">
-                                </span>
-                                <span class="dot-bottom clickDot">
-                                </span>
+                               
                             </th>
                             <th class="quantity center clickSort change" width="80">
                                 库存
-                                <span class="dot-top clickDot">
-                                </span>
-                                <span class="dot-bottom clickDot">
-                                </span>
+                              
                             </th>
-                            <th class="buyer center clickSort change" width="60">
-                                备仓
-                                <span class="dot-top clickDot">
-                                </span>
-                                <span class="dot-bottom clickDot">
-                                </span>
-                            </th>
+
                             <th class="state center" width="130">
                                 编辑时间
                             </th>
                             <th class="clickSort change">
                                 起批量
-                                <span class="dot-top clickDot">
-                                </span>
-                                <span class="dot-bottom clickDot">
-                                </span>
                             </th>
                             <th class="sort center clickSort change">
                                 排序
-                                <span class="dot-top clickDot">
-                                </span>
-                                <span class="dot-bottom clickDot">
-                                </span>
                             </th>
                             <th class="total center">
                                 操作
@@ -337,10 +297,10 @@
     function GetPara() {
         var para = {};
         para.SupplierId = $("#Sid").val();
-        para.SupplierId = $("#Sid").val();
-        para.fstTypeId = $("input:hidden[name=fst_cat_id]", $("#J_CategorySelector")).val();
-        para.secTypeId = $("input:hidden[name=snd_cat_id]", $("#J_CategorySelector")).val();
-        para.thdTypeId = $("input:hidden[name=thd_cat_id]", $("#J_CategorySelector")).val();
+        para.IsUpShelves = $("#state").val();
+        para.fstTypeId = $("input[name='fst_cat_id']").val();
+        para.secTypeId = $("input[name='snd_cat_id']").val();
+        para.thdTypeId = $("input[name='thd_cat_id']").val();
         para.keyWord = $("#search_value").val();
         return para;
     }
@@ -349,7 +309,6 @@
         var postData = GetPara();
         postData.index = pageIndex;
         postData.size = 10;
-
         $.ajax({
             url: "/GoodsManager/GetGoodsList",
             async: false,
@@ -366,15 +325,14 @@
                     html += '< tr class="product_bd" ><td class="center"><input type="checkbox" name="pass" value="' + this.Id + '"></td>'
                     html += '<td class="product"><a href="" class="lfloat"><img src="' + this.pic1 + '"></a>';
                     html += ' <div class="title"><a href="">' + this.GoodsTittle + '</a></div></td>';
-                    html += '<td class="center">' + this.BasePrice + '</td>';
+                    html += '<td class="center">' + GetPrice(this) + '</td>';
                     html += '<td class="center">-</td>';
-                    html += '<td class="center">-</td>';
-                    html += '<td class="center">-</td>';
+                    html += '<td class="center">' + this.Stock + '</td>';
                     html += '<td class="center">' + this.LastUpdateTime + '</td>'
-                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum" data-id="808105" data-num="10" value="10"></td>';
-                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" data-id="808105" data-sort="341" value="341"></td>';
+                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum" data-id="808105" data-num="10" value="' + this.MinCount + '"></td>';
+                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" data-id="808105" data-sort="341" value="'+ this.SortId + '"></td>';
                     html += '<td class="center"><a href="/GoodsManager/ShowGoodsInfo?goodId=' + this.Id + '">商品详情</a><br><br>';
-                    html += '<a href="http://agent.pifa.yunmayi.com/product/copyadd?id=808105">复制新增</a><br><br>';
+                    html += '<a href="/GoodsManager/CopyNew/' + this.Id + '">复制新增</a><br><br>';
                     html += '<a href="/GoodsManager/AddGoods/' + this.Id + '">编辑商品</a><br><br>';
                     var strShelves = "上架";
                     if (this.IsUpShelves) {
@@ -398,6 +356,35 @@
             }
         })
     }
+    function GetPrice(obj) {
+        var type = $("#customer_type").val();
+        var price = 0;
+        switch (type) {
+            case "1":
+                price = obj.BasePrice;
+                break;
+            case "2":
+                price = obj.PriceForA;
+                break;
+            case "3":
+                price = obj.PriceForB;
+                break;
+            case "4":
+                price = obj.PriceForC;
+                break;
+            case "5":
+                price = obj.PriceForD;
+                break;
+            case "6":
+                price = obj.PriceForLianSuo;
+                break;
+            default:
+                price = obj.BasePrice;
+                break;
+        }
+        return price.toFixed(2);
+    }
+
     $(document).on("click", ".delpro", function () {
         var goodsIds = [];
         goodsIds.push($(this).data("id"));

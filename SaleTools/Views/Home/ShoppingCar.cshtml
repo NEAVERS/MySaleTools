@@ -269,6 +269,8 @@
     $(".q-minus").click(function () {
         var input = $(this).next("input");
         var count = parseInt(input.val());
+        if (count < 2)
+            return;
         input.val(count - 1);
         changeCount(input)
     })

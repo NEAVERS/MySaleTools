@@ -13,7 +13,7 @@
 <div class="col_main">
     <div class="col_main_hd">
         <h2>
-            取货单查询                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/交易管理-取货单查询.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+            拣货单查询
         </h2>
     </div>
     <div class="col_main_bd">
@@ -49,21 +49,7 @@
                                 <input type="text" class="inputtext" style="width:200px;" name="endtime" id="endtime" value="@(DateTime.Now.ToString("yyyy-MM-dd 16:00:00"))" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss'});">
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2" style="padding-left: 180px;">
-                                <input type="checkbox" name="showSellPrice" value="1">
-                                <label>显示销售价(选择是否在取货单内显示销售价)</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="padding-left: 180px;">
-                                <select name="downFile">
-                                    <option value="0">否</option>
-                                    <option value="1">是</option>
-                                </select>
-                                <label>是否下载取货单(含商品ID)</label>
-                            </td>
-                        </tr>
+
                         <tr>
                             <td>&nbsp;</td>
                             <td><button type="button" class="btn btn_confirm">查询</button></td>

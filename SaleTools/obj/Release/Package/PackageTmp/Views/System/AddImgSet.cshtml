@@ -26,8 +26,8 @@
                         <tr>
                             <td class="right"><span class="highlight">*</span>海报图片：</td>
                             <td>
-                                <input type="text" class="inputtext" name="pic_url" style="width:300px;" id="J_PicList" value="@Model.ImgUrl">
-                                <div id="uploader-demo" style="height:24px;">
+                                <input type="text" class="inputtext" name="pic_url" style="width:300px;" id="J_PicList" value="@Model.ImgUrl"> <a href="#" onclick="UploadImg()">上传</a>
+                                <div id="uploader-demo" style="height:24px;display:none">
 
                                     <!--用来存放item-->
 
@@ -86,10 +86,13 @@
     </div>
 </div>
 <input type="hidden" id="Id" value="@Model.Id" />
+<script src="~/Scripts/layer/layer.js"></script>
 <script>
 
 
-
+    function UploadImg() {
+        $("#filePicker").find("input").click();
+    }
     var _n = 0;
     function SaveImgSet() {
         if (_n == 1)
@@ -107,7 +110,14 @@
         });
         $.post("/System/SaveImgSet", { set: para, userTypeList: typeList }, function (e) {
             _n = 0;
-            alert(e);
+            if (e) {
+                layer.msg("保存成功！", { icon: 1 }, function () {
+                    location.href = "/System/ImgSetList";
+                })
+            }
+            else {
+                layer.msg("保存失败！请刷新后重试！", { icon: 2 })
+            }
         }, "json")
 
     }

@@ -28,8 +28,8 @@
             <p class="txt">结算页</p>
         </div>
         <div class="trade-search-wrap">
-            <form action="/product/keywordList" method="get" target="_blank">
-                <input type="text" name="q" placeholder="支持商品关键字、品牌、条码搜索">
+            <form action="/Home/Product" method="get" target="_blank">
+                <input type="text" name="key" placeholder="支持商品关键字、品牌、条码搜索">
                 <button type="submit">搜&nbsp;索</button>
             </form>
         </div>
@@ -88,53 +88,53 @@
                         <div class="list">
                             <!-- 正常购买商品 -->
                             @foreach (var item in list)
-    {
-        totalPrice += item.TotalPrice;
-                        <div class="order">
-                            <div class="cell thinfo clearfix">
-                                <a href="javascript:;" class="pic"><img src="@item.Pic"></a>
-                                <div class="info">
-                                    <a href="javascript:;">@item.ProductTittle</a>
-                                    <span></span>
+                            {
+                                totalPrice += item.TotalPrice;
+                                <div class="order">
+                                    <div class="cell thinfo clearfix">
+                                        <a href="javascript:;" class="pic"><img src="@item.Pic"></a>
+                                        <div class="info">
+                                            <a href="javascript:;">@item.ProductTittle</a>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                    <div class="cell thprice">
+                                        <span>@item.Price</span>
+                                    </div>
+                                    <div class="cell thquantity">
+                                        <span>@item.Count</span>
+                                    </div>
+                                    <div class="cell thpromotion">
+                                    </div>
+                                    <div class="cell thtotal">
+                                        <span>@item.TotalPrice</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="cell thprice">
-                                <span>@item.Price</span>
-                            </div>
-                            <div class="cell thquantity">
-                                <span>@item.Count</span>
-                            </div>
-                            <div class="cell thpromotion">
-                            </div>
-                            <div class="cell thtotal">
-                                <span>@item.TotalPrice</span>
-                            </div>
-                        </div>
-}
+                            }
                             @if (ms != null)
-    {
-                        <div class="order">
-                            <div class="cell thinfo clearfix">
-                                <a href="javascript:;" class="pic"><img src="@ms.Tittle"></a>
-                                <div class="info">
-                                    <a href="javascript:;">@ms.SendGoodName</a>
-                                    <span></span>
+                            {
+                                <div class="order">
+                                    <div class="cell thinfo clearfix">
+                                        <a href="javascript:;" class="pic"><img src="@ms.Tittle"></a>
+                                        <div class="info">
+                                            <a href="javascript:;">@ms.SendGoodName</a>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                    <div class="cell thprice">
+                                        <span>0</span>
+                                    </div>
+                                    <div class="cell thquantity">
+                                        <span>@ms.SendGoodCount</span>
+                                    </div>
+                                    <div class="cell thpromotion">
+                                    </div>
+                                    <div class="cell thtotal">
+                                        <span>0</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="cell thprice">
-                                <span>0</span>
-                            </div>
-                            <div class="cell thquantity">
-                                <span>@ms.SendGoodCount</span>
-                            </div>
-                            <div class="cell thpromotion">
-                            </div>
-                            <div class="cell thtotal">
-                                <span>0</span>
-                            </div>
-                        </div>
 
-}
+                            }
                         </div>
                     </div>
                 </div>
@@ -165,16 +165,16 @@
                                 <div class="coupon-enable">
                                     <ul>
                                         @foreach (var coupon in coupons)
-    {
-                                    <li>
-                                        <input type="radio" name="coupons" lessMoney="@coupon.LessMoney" value="@coupon.Id" />@(((CouponType)coupon.CouponType).ToString() + ":满" + coupon.Limit + "减" + coupon.LessMoney)
-                                    </li>
-}   
+                                        {
+                                            <li>
+                                                <input type="radio" name="coupons" lessMoney="@coupon.LessMoney" value="@coupon.Id" />@(((CouponType)coupon.CouponType).ToString() + ":满" + coupon.Limit + "减" + coupon.LessMoney)
+                                            </li>
+                                        }
                                         @if (coupons.Count > 0)
                                         {
-                                        <li>
-                                            <input type="radio" name="coupons" lessMoney="0" value="" />不使用优惠券
-                                        </li>
+                                            <li>
+                                                <input type="radio" name="coupons" lessMoney="0" value="" />不使用优惠券
+                                            </li>
                                         }
                                     </ul>
                                 </div>
@@ -216,7 +216,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="order-footer">
                 <div class="order-info">
                     <div class="order-payment-main">
@@ -225,28 +225,29 @@
                             <em class="payment-price" id="realMoney">￥@totalPrice</em>
                         </div>
                     </div>
-                    <input type="hidden"  value="@totalPrice" id="TotalPrice"/>
+                    <input type="hidden" value="@totalPrice" id="TotalPrice" />
                     <div class="order-addr-detail">
                         <span>寄送至：@user.Province @user.City @user.Area @user.Addr </span>
                         <span>收货人：@user.UserName @user.Tel</span>
                     </div>
                 </div>
                 <div class="order-confirm-btn-wrap" id="JTradeConfirmForm">
-                        <a href="/Home/ShoppingCar" class="back-cart">返回购物车</a>
-                        <button type="button" id="JSubmitButton" onclick="ConfirmOrder()">提交订单</button>
-                        <input type="hidden" name="payType" value="1">
-                        <input type="hidden" name="payPlatform" value="cod">
-                        <input type="hidden" name="remark" value="">
-                        <input type="hidden" name="couponId" id="couponId" value="0">
-                        <input type="hidden" name="brandCouponIds" value="">
-                        <input type="hidden" name="vendorCouponIds" value="">
-                        <input type="hidden" name="brandMjsIds" value="">
-                        <input type="hidden" name="vendorMjsIds" value="">
+                    <a href="/Home/ShoppingCar" class="back-cart">返回购物车</a>
+                    <button type="button" id="JSubmitButton" onclick="ConfirmOrder()">提交订单</button>
+                    <input type="hidden" name="payType" value="1">
+                    <input type="hidden" name="payPlatform" value="cod">
+                    <input type="hidden" name="remark" value="">
+                    <input type="hidden" name="couponId" id="couponId" value="0">
+                    <input type="hidden" name="brandCouponIds" value="">
+                    <input type="hidden" name="vendorCouponIds" value="">
+                    <input type="hidden" name="brandMjsIds" value="">
+                    <input type="hidden" name="vendorMjsIds" value="">
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="~/Scripts/layer/layer.js"></script>
 <script>
 
     $(":radio").click(function () {
@@ -259,12 +260,23 @@
         $("#realMoney").html("￥" + real);
     });
 
-
+    var _n = 0;
     function ConfirmOrder() {
+        if (_n == 1)
+            return;
+        _n = 1;
         var remark = $("#JRemarkInput").val();
         var couponId = $("#couponId").val();
         $.post("/Home/CreateOrder", { remark: remark, couponId: couponId }, function (e) {
-            location.href ="/Home/BuyList"
+            _n = 0;
+            if (e.Stutas) {
+                layer.msg("保存订单成功！", { icon: 1 }, function () {
+                    location.href = "/Home/BuyList";
+                })
+            }
+            else {
+                layer.msg("保存订单失败！请刷新后重试！", { icon: 2 })
+            }
         }, "json");
     }
 </script>

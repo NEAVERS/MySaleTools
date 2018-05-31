@@ -10,28 +10,28 @@
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/BLL.dll">
-      <publishTime>05/31/2018 00:57:02</publishTime>
+      <publishTime>05/31/2018 20:33:50</publishTime>
     </File>
     <File Include="bin/BLL.dll.config">
-      <publishTime>01/18/2018 20:12:07</publishTime>
+      <publishTime>05/31/2018 20:32:10</publishTime>
     </File>
     <File Include="bin/BLL.pdb">
-      <publishTime>05/31/2018 00:57:02</publishTime>
+      <publishTime>05/31/2018 20:33:50</publishTime>
     </File>
     <File Include="bin/Common.dll">
-      <publishTime>05/31/2018 00:40:27</publishTime>
+      <publishTime>05/31/2018 20:33:49</publishTime>
     </File>
     <File Include="bin/Common.pdb">
-      <publishTime>05/31/2018 00:40:27</publishTime>
+      <publishTime>05/31/2018 20:33:49</publishTime>
     </File>
     <File Include="bin/Dal.dll">
-      <publishTime>05/30/2018 22:17:51</publishTime>
+      <publishTime>05/31/2018 20:33:49</publishTime>
     </File>
     <File Include="bin/Dal.dll.config">
-      <publishTime>01/18/2018 19:53:21</publishTime>
+      <publishTime>05/31/2018 20:32:26</publishTime>
     </File>
     <File Include="bin/Dal.pdb">
-      <publishTime>05/30/2018 22:17:51</publishTime>
+      <publishTime>05/31/2018 20:33:49</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>10/23/2017 13:15:18</publishTime>
@@ -46,10 +46,10 @@
       <publishTime>01/05/2012 11:08:46</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>05/30/2018 22:17:51</publishTime>
+      <publishTime>05/31/2018 20:33:49</publishTime>
     </File>
     <File Include="bin/Model.pdb">
-      <publishTime>05/30/2018 22:17:51</publishTime>
+      <publishTime>05/31/2018 20:33:49</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>01/03/2018 10:26:16</publishTime>
@@ -193,10 +193,10 @@
       <publishTime>05/16/2018 21:23:58</publishTime>
     </File>
     <File Include="bin/SaleTools.dll">
-      <publishTime>05/31/2018 00:57:06</publishTime>
+      <publishTime>05/31/2018 21:30:22</publishTime>
     </File>
     <File Include="bin/SaleTools.pdb">
-      <publishTime>05/31/2018 00:57:06</publishTime>
+      <publishTime>05/31/2018 21:30:22</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>03/15/2018 13:12:24</publishTime>
@@ -233,6 +233,9 @@
     </File>
     <File Include="bin/zh-Hans/System.Web.WebPages.resources.dll">
       <publishTime>03/15/2018 13:12:28</publishTime>
+    </File>
+    <File Include="Content/base.css">
+      <publishTime>02/03/2018 19:00:07</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.css">
       <publishTime>03/24/2018 16:35:21</publishTime>
@@ -277,7 +280,7 @@
       <publishTime>02/05/2018 19:42:48</publishTime>
     </File>
     <File Include="Content/css/base.css">
-      <publishTime>04/01/2018 23:09:35</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Content/css/bootstrap.min.css">
       <publishTime>04/01/2018 23:09:35</publishTime>
@@ -319,7 +322,7 @@
       <publishTime>04/01/2018 23:09:38</publishTime>
     </File>
     <File Include="Content/css/pages/home/index/index.css">
-      <publishTime>03/01/2018 21:52:37</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Content/css/pages/home/index/overlay.css">
       <publishTime>02/24/2018 21:03:01</publishTime>
@@ -332,6 +335,9 @@
     </File>
     <File Include="Content/css/pages/passport/lg/pifa.css">
       <publishTime>03/01/2018 21:52:37</publishTime>
+    </File>
+    <File Include="Content/css/pages/ucenter.css">
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Content/images/04171707.png">
       <publishTime>02/24/2018 21:03:02</publishTime>
@@ -518,6 +524,33 @@
     </File>
     <File Include="Content/js/lib/YMY_scroll.js">
       <publishTime>02/24/2018 21:03:02</publishTime>
+    </File>
+    <File Include="Content/js/pages/buyer/trade/buy_list.js">
+      <publishTime>04/01/2018 23:09:38</publishTime>
+    </File>
+    <File Include="Content/js/pages/common/header/global.js">
+      <publishTime>04/01/2018 23:09:38</publishTime>
+    </File>
+    <File Include="Content/js/public/baiduspider.js">
+      <publishTime>02/24/2018 21:03:02</publishTime>
+    </File>
+    <File Include="Content/js/public/rsa.js">
+      <publishTime>02/24/2018 21:03:02</publishTime>
+    </File>
+    <File Include="Content/pages/buyer/overlay/overlay.css">
+      <publishTime>02/01/2018 10:54:17</publishTime>
+    </File>
+    <File Include="Content/pages/home/index/index.css">
+      <publishTime>02/05/2018 19:49:08</publishTime>
+    </File>
+    <File Include="Content/pages/home/index/overlay.css">
+      <publishTime>02/05/2018 19:16:57</publishTime>
+    </File>
+    <File Include="Content/pages/passport/lg/pifa.css">
+      <publishTime>02/05/2018 18:34:01</publishTime>
+    </File>
+    <File Include="Content/pages/ucenter.css">
+      <publishTime>02/01/2018 10:05:47</publishTime>
     </File>
     <File Include="Content/Site.css">
       <publishTime>01/18/2018 20:08:05</publishTime>
@@ -745,28 +778,28 @@
       <publishTime>04/16/2018 22:05:48</publishTime>
     </File>
     <File Include="Views/Activtity/GetManJianList.cshtml">
-      <publishTime>04/16/2018 22:23:50</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Activtity/GetManSongList.cshtml">
-      <publishTime>04/16/2018 22:12:34</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Activtity/ShowCoupon.cshtml">
-      <publishTime>04/16/2018 22:46:22</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Activtity/ShowMyCoupon.cshtml">
       <publishTime>04/26/2018 00:00:24</publishTime>
     </File>
     <File Include="Views/GoodsManager/AddGoods.cshtml">
-      <publishTime>04/27/2018 00:15:09</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/GoodsManager/GoodsBrand.cshtml">
-      <publishTime>03/24/2018 14:37:27</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/GoodsManager/GoodsList.cshtml">
-      <publishTime>04/26/2018 22:01:49</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/GoodsManager/GoodsTypeList.cshtml">
-      <publishTime>04/26/2018 23:18:18</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/GoodsManager/SetBrand.cshtml">
       <publishTime>02/12/2018 20:59:16</publishTime>
@@ -778,7 +811,7 @@
       <publishTime>05/27/2018 22:26:18</publishTime>
     </File>
     <File Include="Views/Home/ConfirmOrder.cshtml">
-      <publishTime>05/27/2018 21:54:48</publishTime>
+      <publishTime>05/31/2018 21:25:44</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>05/27/2018 12:57:18</publishTime>
@@ -796,13 +829,13 @@
       <publishTime>05/27/2018 12:43:56</publishTime>
     </File>
     <File Include="Views/Home/ShoppingCar.cshtml">
-      <publishTime>05/27/2018 21:41:55</publishTime>
+      <publishTime>05/31/2018 21:29:15</publishTime>
     </File>
     <File Include="Views/Login/AddAdmin.cshtml">
       <publishTime>03/01/2018 21:52:37</publishTime>
     </File>
     <File Include="Views/Login/Index.cshtml">
-      <publishTime>05/27/2018 11:09:47</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Login/LogOut.cshtml">
       <publishTime>04/20/2018 17:57:50</publishTime>
@@ -814,13 +847,13 @@
       <publishTime>04/12/2018 23:50:13</publishTime>
     </File>
     <File Include="Views/Order/AbnormalOrder.cshtml">
-      <publishTime>04/11/2018 23:55:56</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Order/ConfirmPayRecord.cshtml">
-      <publishTime>04/12/2018 19:37:15</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Order/CreateFile.cshtml">
-      <publishTime>04/09/2018 21:53:34</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Order/CreateOrder.cshtml">
       <publishTime>04/01/2018 23:38:58</publishTime>
@@ -829,28 +862,28 @@
       <publishTime>04/09/2018 23:11:24</publishTime>
     </File>
     <File Include="Views/Order/OrderCount.cshtml">
-      <publishTime>04/18/2018 00:34:45</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Order/OrderDetail.cshtml">
-      <publishTime>04/20/2018 23:36:52</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Order/OrderManager.cshtml">
-      <publishTime>04/26/2018 22:01:49</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Order/OrderPayContrast.cshtml">
-      <publishTime>04/26/2018 22:01:49</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Order/OrderSearch.cshtml">
-      <publishTime>04/20/2018 23:40:06</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Order/PickUpBill.cshtml">
-      <publishTime>04/11/2018 23:00:32</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Order/PrintOrder.cshtml">
       <publishTime>04/08/2018 23:50:51</publishTime>
     </File>
     <File Include="Views/Order/ShopCount.cshtml">
-      <publishTime>04/12/2018 23:20:48</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Order/ShowGetBill.cshtml">
       <publishTime>04/12/2018 00:01:19</publishTime>
@@ -859,7 +892,7 @@
       <publishTime>04/12/2018 00:01:45</publishTime>
     </File>
     <File Include="Views/Order/UserOrderManager.cshtml">
-      <publishTime>04/20/2018 23:25:28</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
       <publishTime>05/27/2018 22:34:52</publishTime>
@@ -868,7 +901,7 @@
       <publishTime>05/27/2018 20:48:46</publishTime>
     </File>
     <File Include="Views/System/AddImgSet.cshtml">
-      <publishTime>04/07/2018 22:31:32</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/System/AddNotice.cshtml">
       <publishTime>04/24/2018 23:15:35</publishTime>
@@ -895,28 +928,28 @@
       <publishTime>04/25/2018 21:37:25</publishTime>
     </File>
     <File Include="Views/User/AddSysAccount.cshtml">
-      <publishTime>04/26/2018 00:09:31</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/User/ChangePwd.cshtml">
       <publishTime>04/07/2018 14:09:03</publishTime>
     </File>
     <File Include="Views/User/EditUserInfo.cshtml">
-      <publishTime>04/26/2018 22:06:53</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/User/Index.cshtml">
-      <publishTime>04/25/2018 23:40:16</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/User/MyInfo.cshtml">
-      <publishTime>04/26/2018 22:10:27</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/User/ShowSupplierList.cshtml">
-      <publishTime>04/27/2018 00:21:02</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/User/SupplierDeltie.cshtml">
-      <publishTime>03/24/2018 14:35:14</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/User/SysAccount.cshtml">
-      <publishTime>04/25/2018 21:04:55</publishTime>
+      <publishTime>05/31/2018 19:48:24</publishTime>
     </File>
     <File Include="Views/web.config">
       <publishTime>01/10/2018 19:45:48</publishTime>
@@ -925,7 +958,7 @@
       <publishTime>01/18/2018 20:08:04</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/29/2018 20:29:16</publishTime>
+      <publishTime>05/31/2018 20:33:54</publishTime>
     </File>
   </ItemGroup>
 </Project>

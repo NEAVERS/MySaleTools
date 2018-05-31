@@ -17,10 +17,15 @@ namespace SaleTools.Controllers
         // GET: Usei
         public ActionResult Index()
         {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            if (loginUser.TypeId >1)
+            {
+                return RedirectToAction("NoResourse", "System");
+            }
             var typelist = manager.GetTypeList();
             ViewBag.TypeList = typelist;
 
-            var loginUser = (UserInfo)ViewBag.User;
             var list = manager.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
             ViewBag.SaleManList = list;
             return View();
