@@ -28,8 +28,8 @@
             <p class="txt">结算页</p>
         </div>
         <div class="trade-search-wrap">
-            <form action="/product/keywordList" method="get" target="_blank">
-                <input type="text" name="q" placeholder="支持商品关键字、品牌、条码搜索">
+            <form action="/Home/Product" method="get" target="_blank">
+                <input type="text" name="key" placeholder="支持商品关键字、品牌、条码搜索">
                 <button type="submit">搜&nbsp;索</button>
             </form>
         </div>
@@ -259,12 +259,23 @@
         $("#realMoney").html("￥" + real);
     });
 
-
+    var _n = 0;
     function ConfirmOrder() {
+        if (_n == 1)
+            return;
+        _n = 1;
         var remark = $("#JRemarkInput").val();
         var couponId = $("#couponId").val();
         $.post("/Home/CreateOrder", { remark: remark, couponId: couponId }, function (e) {
-            location.href ="/Home/BuyList"
+            _n = 0;
+            if (e.Stutas) {
+                layer.msg("保存订单成功！", { icon: 1 }, function () {
+                    location.href = "/Home/BuyList";
+                })
+            }
+            else {
+                layer.msg("保存订单失败！请刷新后重试！", { icon: 2 })
+            }
         }, "json");
     }
 </script>

@@ -58,7 +58,7 @@ namespace SaleTools.Controllers
         {
             var startTime = DateTime.MinValue;
             var endTime = DateTime.MaxValue;
-            var list = manager.GetUserByPage(index, size, startTime, endTime,  province,  city,  area,  saleManId,  userType, key, false);
+            var list = manager.GetUserByPage(index, size, startTime, endTime,  province,  city,  area,  saleManId,  userType, key.Trim(), false);
 
             return Utils.SerializeObject(list);
         }
@@ -67,9 +67,8 @@ namespace SaleTools.Controllers
 
         public ActionResult ExportUserInfo(string start, string end, string province, string city, string area, string saleManId, int userType, string key = "")
         {
-            var startTime = Utils.GetTime(start, true);
-            var endTime = Utils.GetTime(end);
-
+            var startTime = DateTime.MinValue;
+            var endTime = DateTime.MaxValue;
             var output = manager.ExportUserInfo(startTime, endTime, province, city, area, saleManId, userType, key, false);
              return File(output, "text/comma-separated-values", Guid.NewGuid().ToString("N") + ".csv");
         }
@@ -218,14 +217,20 @@ namespace SaleTools.Controllers
         {
             var userGuid = Utils.ParseGuid(userId);
             var user = manager.GetUserByUserAndType(userGuid, type);
+            string modelName = "编辑";
             if (user == null)
+            {
                 user = new UserInfo();
+                modelName = "新增";
+            }
             var userResourse = manager.GetUserSourse(user.UserId);
             string userTypeName = ((SystemUserType)type).ToString();
+            modelName += userTypeName ;
             ViewBag.UserTypeName = userTypeName;
             ViewBag.UserType = type;
             ViewBag.AllResourse = manager.GetAllSourse();
             ViewBag.UserResourse = userResourse;
+            ViewBag.ModelName = modelName;
             return View(user);
         }
 

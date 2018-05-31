@@ -124,6 +124,7 @@
     <Content Include="Content\css\pages\home\product\detail.css" />
     <Content Include="Content\css\pages\home\trade\confirmV2.css" />
     <Content Include="Content\css\pages\passport\lg\pifa.css" />
+    <Content Include="Content\css\pages\ucenter.css" />
     <Content Include="Content\images\04171707.png" />
     <Content Include="Content\images\activity.jpg" />
     <Content Include="Content\images\buyer\buyer.png" />

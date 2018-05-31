@@ -1,6 +1,7 @@
 ﻿using Model.Erp;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,100 @@ using System.Threading.Tasks;
 
 namespace Dal.Mapping.Erp
 {
-    class ptypeMap : EntityTypeConfiguration<ptype>
+    public class ptypeMap : EntityTypeConfiguration<ptype>
     {
         public ptypeMap()
         {
-            this.HasKey(x => x.typeId);
-            this.ToTable("ptype");
+            // Primary Key
+            this.HasKey(t => new { t.leveal, t.sonnum, t.soncount, t.FullName, t.deleted, t.PosDataVersion, t.IsService, t.SortID, t.Pid });
 
+            // Properties
+            this.Property(t => t.typeId)
+                .HasMaxLength(50);
+
+            this.Property(t => t.ParId)
+                .HasMaxLength(50);
+
+            this.Property(t => t.leveal)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            this.Property(t => t.sonnum)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            this.Property(t => t.soncount)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            this.Property(t => t.CanModify)
+                .IsFixedLength()
+                .HasMaxLength(1);
+
+            this.Property(t => t.UserCode)
+                .HasMaxLength(200);
+
+            this.Property(t => t.FullName)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            this.Property(t => t.Name)
+                .HasMaxLength(200);
+
+            this.Property(t => t.Standard)
+                .HasMaxLength(200);
+
+            this.Property(t => t.Type)
+                .HasMaxLength(200);
+
+            this.Property(t => t.Area)
+                .HasMaxLength(200);
+
+            this.Property(t => t.Unit1)
+                .HasMaxLength(8);
+
+            this.Property(t => t.Unit2)
+                .HasMaxLength(8);
+
+            this.Property(t => t.Comment)
+                .HasMaxLength(250);
+
+            this.Property(t => t.EntryCode)
+                .HasMaxLength(200);
+
+            this.Property(t => t.IfSerial)
+                .IsFixedLength()
+                .HasMaxLength(1);
+
+            this.Property(t => t.PyCode)
+                .HasMaxLength(500);
+
+            this.Property(t => t.DwgNo)
+                .HasMaxLength(100);
+
+            this.Property(t => t.ImgURL)
+                .HasMaxLength(200);
+
+            this.Property(t => t.PosDataVersion)
+                .IsRequired()
+                .IsFixedLength()
+                .HasMaxLength(8)
+                .IsRowVersion();
+
+            this.Property(t => t.IsService)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            this.Property(t => t.SortID)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            this.Property(t => t.customitemid)
+                .HasMaxLength(20);
+
+            this.Property(t => t.customitemfrom)
+                .HasMaxLength(20);
+
+            this.Property(t => t.Pid)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            // Table & Column Mappings
+            this.ToTable("ptype");
             this.Property(t => t.typeId).HasColumnName("typeId");
             this.Property(t => t.ParId).HasColumnName("ParId");
             this.Property(t => t.leveal).HasColumnName("leveal");
@@ -23,8 +111,10 @@ namespace Dal.Mapping.Erp
             this.Property(t => t.CanModify).HasColumnName("CanModify");
             this.Property(t => t.UserCode).HasColumnName("UserCode");
             this.Property(t => t.FullName).HasColumnName("FullName");
-            this.Property(t => t.Name).HasColumnName("Standard");
-            this.Property(t => t.Type).HasColumnName("Area");
+            this.Property(t => t.Name).HasColumnName("Name");
+            this.Property(t => t.Standard).HasColumnName("Standard");
+            this.Property(t => t.Type).HasColumnName("Type");
+            this.Property(t => t.Area).HasColumnName("Area");
             this.Property(t => t.Unit1).HasColumnName("Unit1");
             this.Property(t => t.Unit2).HasColumnName("Unit2");
             this.Property(t => t.UnitRate1).HasColumnName("UnitRate1");
@@ -77,7 +167,6 @@ namespace Dal.Mapping.Erp
             this.Property(t => t.IfUseGoodsNum).HasColumnName("IfUseGoodsNum");
             this.Property(t => t.Pid).HasColumnName("Pid");
             this.Property(t => t.isyapi).HasColumnName("isyapi");
-
         }
     }
 }

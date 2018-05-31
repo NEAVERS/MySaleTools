@@ -166,9 +166,10 @@ namespace SaleTools.Controllers
             {
                 Guid goodId = Utils.ParseGuid(id);
                 var info = new GoodInfo();
-
+                ViewBag.ShowTittle = "新增商品";
                 if (goodId != Guid.Empty)
                 {
+                    ViewBag.ShowTittle = "编辑商品信息";
                     info = _manager.GetGoodInfoById(goodId);
                 }
                 var loginUser = (UserInfo)Session["LoginUser"];
@@ -250,10 +251,10 @@ namespace SaleTools.Controllers
         /// <param name="thdTypeId"></param>
         /// <param name="keyWord"></param>
         /// <returns></returns>
-        public string GetGoodsList(int index,int size,string SupplierId = "",string fstTypeId = "",string secTypeId="",string thdTypeId = "",string keyWord="")
+        public string GetGoodsList(int index,int size,string SupplierId = "",string fstTypeId = "",string secTypeId="",string thdTypeId = "",string keyWord="",string IsUpShelves="")
         {
             var loginUser = (UserInfo)Session["LoginUser"];
-            var page = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, index, size, SupplierId, fstTypeId, secTypeId, thdTypeId, "",keyWord);
+            var page = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, index, size, SupplierId, fstTypeId, secTypeId, thdTypeId, "",keyWord.Trim(), IsUpShelves);
             return Utils.SerializeObject(page);
         }
 
@@ -261,7 +262,7 @@ namespace SaleTools.Controllers
         public ActionResult ExportGoodInfo(string SupplierId = "", string fstTypeId = "", string secTypeId = "", string thdTypeId = "", string keyWord = "")
         {
             var loginUser = (UserInfo)Session["LoginUser"];
-            PageData<GoodInfo> page = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 100000, SupplierId, fstTypeId, secTypeId, thdTypeId, "", keyWord);
+            PageData<GoodInfo> page = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 100000, SupplierId, fstTypeId, secTypeId, thdTypeId, "", keyWord, "");
             var output = _manager.ExportGoodInfo(page.ListData);
             return File(output, "text/comma-separated-values", Guid.NewGuid().ToString("N")+".csv");
         }
@@ -286,6 +287,30 @@ namespace SaleTools.Controllers
         {
             var res = _manager.ToggleShelves(goodsIds, isShelves);
             return Utils.SerializeObject(res);
+        }
+
+        public ActionResult CopyNew(Guid Id)
+        {
+            var Resourse = (List<string>)ViewBag.Resourse;
+            if (Resourse.Contains(ResourceStr.GoodsManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+              
+                var info = new GoodInfo();
+                info = _manager.GetGoodInfoById(Id);
+                var loginUser = (UserInfo)Session["LoginUser"];
+                var list = _user.GetTypeList();
+                var supplierList = _user.GetSupplierList(loginUser.UserId);
+                ViewBag.SupplierList = supplierList;
+                ViewBag.UserTypeList = list;
+                info.Id = Guid.Empty;
+                ViewBag.ShowTittle = "复制新增商品";
+                return View("AddGoods",info);
+            }
+            else
+            {
+                return RedirectToAction("NoResourse", "System");
+            }
+           
         }
 
 

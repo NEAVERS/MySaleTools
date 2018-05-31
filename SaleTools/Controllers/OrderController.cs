@@ -4,6 +4,7 @@ using Common.Entities;
 using Model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -122,11 +123,11 @@ namespace SaleTools.Controllers
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public ActionResult OutpuFile(string start="",string end ="")
+        public ActionResult OutpuFile(string start="",string end ="",string key= "")
         {
             DateTime startTime = Utils.GetTime(start, true);
             DateTime endTime = Utils.GetTime(end);
-            var result = _order.CreateOrderFile(startTime, endTime);
+            var result = _order.CreateOrderFile(startTime, endTime, key.Trim());
             return File(result, "text/comma-separated-values",  Guid.NewGuid().ToString("N")+".csv");
         }
 
@@ -590,6 +591,22 @@ namespace SaleTools.Controllers
             var model = _order.GetOrderDetail(orderId);
 
             return View(model);
+        }
+
+        public string InsertErp(Guid orderid)
+        {
+            bool res = false;
+            try
+            {
+                string baseSupplier = ConfigurationManager.AppSettings["baseSupplierId"].ToString();
+                int baseSupplierId = Utils.ParseInt(baseSupplier);
+                 res = _order.InsertErp(orderid, baseSupplierId);
+            }
+            catch (Exception ex)
+            {
+                LogsHelper.WriteErrorLog(ex, "导入Erp");
+            }
+            return res.ToString();
         }
     }
 }

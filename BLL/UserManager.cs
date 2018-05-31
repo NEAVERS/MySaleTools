@@ -162,6 +162,7 @@ namespace BLL
                     where c.Account.Contains(key)
                     || c.UserName.Contains(key)
                     || c.UserNum.Contains(key)
+                    ||c.SotreName.Contains(key)
                     select c;
             
             q = q.Where(x => x.CreateTime > start && x.CreateTime < end);

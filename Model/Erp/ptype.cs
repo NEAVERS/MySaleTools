@@ -10,9 +10,8 @@ namespace Model.Erp
     /// <summary>
     /// 商品表
     /// </summary>
-    public  class ptype
+    public partial class ptype
     {
-        [Key]
         public string typeId { get; set; }
         public string ParId { get; set; }
         public short leveal { get; set; }
@@ -27,17 +26,17 @@ namespace Model.Erp
         public string Area { get; set; }
         public string Unit1 { get; set; }
         public string Unit2 { get; set; }
-        public decimal? UnitRate1 { get; set; }
-        public decimal? UnitRate2 { get; set; }
-        public decimal? preprice1 { get; set; }
-        public decimal? preprice2 { get; set; }
-        public decimal? preprice3 { get; set; }
-        public decimal? preprice4 { get; set; }
-        public decimal? preprice5 { get; set; }
-        public short? UsefulLifeMonth { get; set; }
-        public short? UsefulLifeDay { get; set; }
+        public Nullable<decimal> UnitRate1 { get; set; }
+        public Nullable<decimal> UnitRate2 { get; set; }
+        public Nullable<decimal> preprice1 { get; set; }
+        public Nullable<decimal> preprice2 { get; set; }
+        public Nullable<decimal> preprice3 { get; set; }
+        public Nullable<decimal> preprice4 { get; set; }
+        public Nullable<decimal> preprice5 { get; set; }
+        public Nullable<short> UsefulLifeMonth { get; set; }
+        public Nullable<short> UsefulLifeDay { get; set; }
         public string Comment { get; set; }
-        public decimal? recPrice { get; set; }
+        public Nullable<decimal> recPrice { get; set; }
         public bool deleted { get; set; }
         public Nullable<int> ColorGroupID { get; set; }
         public Nullable<int> SizeGroupID { get; set; }
@@ -46,7 +45,7 @@ namespace Model.Erp
         public string PyCode { get; set; }
         public Nullable<int> SerialCount { get; set; }
         public Nullable<int> ValidDays { get; set; }
-        public decimal? XiWaMaxNumber { get; set; }
+        public Nullable<decimal> XiWaMaxNumber { get; set; }
         public string DwgNo { get; set; }
         public string ImgURL { get; set; }
         public Nullable<bool> IsDownLoad { get; set; }
@@ -55,10 +54,10 @@ namespace Model.Erp
         public int IsService { get; set; }
         public int SortID { get; set; }
         public Nullable<bool> OmUse { get; set; }
-        public decimal? OmPrice { get; set; }
-        public decimal? BuyDefaultRate { get; set; }
-        public decimal? SaleDefaultRate { get; set; }
-        public decimal? Integral { get; set; }
+        public Nullable<decimal> OmPrice { get; set; }
+        public Nullable<decimal> BuyDefaultRate { get; set; }
+        public Nullable<decimal> SaleDefaultRate { get; set; }
+        public Nullable<decimal> Integral { get; set; }
         public Nullable<int> StopBuy { get; set; }
         public Nullable<int> IsOm { get; set; }
         public string customitemid { get; set; }

@@ -147,14 +147,14 @@ namespace BLL
         }
 
 
-        public PageData<GoodInfo> GetGoodsList(Guid CreaetUserId, int userType, int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId, string brandId, string keyWord)
+        public PageData<GoodInfo> GetGoodsList(Guid CreaetUserId, int userType, int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId, string brandId, string keyWord,string IsUpShelves)
         {
             PageData<GoodInfo> page = new PageData<GoodInfo>();
             page.PageIndex = index;
             page.PageSize = size;
             var q = from c in _context.GoodInfoes
                     where c.CreateUserId == CreaetUserId
-                    && (c.GoodsTittle.Contains(keyWord)||c.KeyWord.Contains(keyWord)||c.BarCode == keyWord)
+                    && (c.GoodsTittle.Contains(keyWord)||c.KeyWord.Contains(keyWord)||c.BarCode == keyWord||c.GoodsNum.Contains(keyWord))
                     && !c.IsDelete
                     select c;
             if (!string.IsNullOrWhiteSpace(SupplierId) && SupplierId != "0")
@@ -167,6 +167,10 @@ namespace BLL
                 q = q.Where(x => x.ThirdTYypeId.ToString() == thdTypeId);
             if (!string.IsNullOrWhiteSpace(brandId))
                 q = q.Where(x => x.BrandId.ToString() == brandId);
+            if(!string.IsNullOrWhiteSpace(IsUpShelves)&&IsUpShelves!="0")
+            {
+                q = q.Where(x => x.IsUpShelves ==(IsUpShelves =="1"));
+            }
             page.TotalCount = q.Count();
 
 

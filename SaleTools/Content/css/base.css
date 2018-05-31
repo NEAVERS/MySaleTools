@@ -24,6 +24,11 @@ a {
     text-decoration: none;
 }
 
+select {
+    
+    border: 1px solid #dddddd;
+    padding: 3px;
+}
 a:hover {
     text-decoration: none;
 }
@@ -416,4 +421,13 @@ ul.page .cur a {
             .totalSize span {
     color: #0073A9;
     margin: 0 5px;
+}
+
+.laydate_yms {
+    background-color: white;
+    border: 1px #dddddd solid;
+}
+.laydate_ys {
+    background-color: white;
+    border: 1px #dddddd solid;
 }

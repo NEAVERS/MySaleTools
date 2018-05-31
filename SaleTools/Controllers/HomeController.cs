@@ -1,5 +1,6 @@
 ﻿using BLL;
 using Common;
+using Common.Entities;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace SaleTools.Controllers
         private SystemManager _system = new SystemManager();
         private UserManager _user = new UserManager();
         private ActiveManager _active = new ActiveManager();
+        private ResponseModel _response = new ResponseModel();
         // GET: Home
         public ActionResult Index()
         {
@@ -29,8 +31,8 @@ namespace SaleTools.Controllers
             string tejia = ConfigurationManager.AppSettings["tejia"].ToString();
             string xinping = ConfigurationManager.AppSettings["xinping"].ToString();
 
-            ViewBag.Tejia = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10, "", tejia, "", "", "", "");
-            ViewBag.Xinping = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10, "", xinping, "", "", "", "");
+            ViewBag.Tejia = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10, "", tejia, "", "", "", "", "1");
+            ViewBag.Xinping = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10, "", xinping, "", "", "", "", "1");
             ViewBag.NoticeList = list;
             return View();
         }
@@ -39,7 +41,7 @@ namespace SaleTools.Controllers
         {
             var loginUser = (UserInfo)ViewBag.User;
  
-            var list = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10, "", firstTypeId, "", "", "","");
+            var list = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10, "", firstTypeId, "", "", "","", "1");
             return Utils.SerializeObject(list);
         }
 
@@ -114,9 +116,7 @@ namespace SaleTools.Controllers
         public string LoadProductList(int page,int size, string fst = "", string sec = "", string trd = "", string brandId = "",string key="")
         {
             var loginUser = (UserInfo)ViewBag.User;
-
-
-            var list = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, page,size, "", fst, sec, trd, brandId, key);
+            var list = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, page,size, "", fst, sec, trd, brandId, key, "1");
             return Utils.SerializeObject(list);
         }
 
@@ -233,87 +233,103 @@ namespace SaleTools.Controllers
         public string CreateOrder(string remark = "", string couponId = "")
         {
             var loginUser = (UserInfo)ViewBag.User;
-            var order = new OrderInfo();
-            var saleMan = _user.GetUserByUserId(loginUser.SaleManGuid);
-            order.Id = Guid.NewGuid();
-            order.CreateTime = DateTime.Now;
-            order.CreateUserId = loginUser.UserId;
-            order.CreateUserName = loginUser.UserName;
-            order.CreateUserType = loginUser.TypeName;
-            order.CreateUserNum = loginUser.UserNum;
-            order.StoreName = loginUser.SotreName;
-            order.CreateUserTel = loginUser.Tel;
-            order.CreateUserTypeId = loginUser.TypeId;
-            order.RootUserId = loginUser.CreateUserId;
-            order.RootUserName = loginUser.CreateUser;
-            order.SaleManGuid = loginUser.SaleManGuid;
-            order.SaleManName = loginUser.SaleManName;
-            order.ReceiveAddr = loginUser.Addr;
-            order.Province = loginUser.Province;
-            order.ProvinceNum = loginUser.ProvinceNum;
-            order.City = loginUser.City;
-            order.CityNum = loginUser.CityNum;
-            order.Area = loginUser.Area;
-            order.AreaNum = loginUser.AreaNum;
-            order.Stutas = (int)Common.Entities.OrderStatus.等待商家发货;
-            order.SaleManTel = saleMan==null?"":saleMan.Tel;
-            order.PayType = "货到付款";
-            order.Remark = remark;
-
-            Guid Cid = new Guid();
-            
-            if(Guid.TryParse(couponId, out Cid))
+            var list = _order.GetShoppingCar(loginUser.UserId);
+            if (list != null && list.Count > 0)
             {
-                Coupon c = _active.GetCouponById(Cid);
-                if(c!=null)
+                var order = new OrderInfo();
+                var saleMan = _user.GetUserByUserId(loginUser.SaleManGuid);
+                order.Id = Guid.NewGuid();
+                order.CreateTime = DateTime.Now;
+                order.CreateUserId = loginUser.UserId;
+                order.CreateUserName = loginUser.UserName;
+                order.CreateUserType = loginUser.TypeName;
+                order.CreateUserNum = loginUser.UserNum;
+                order.StoreName = loginUser.SotreName;
+                order.CreateUserTel = loginUser.Tel;
+                order.CreateUserTypeId = loginUser.TypeId;
+                order.RootUserId = loginUser.CreateUserId;
+                order.RootUserName = loginUser.CreateUser;
+                order.SaleManGuid = loginUser.SaleManGuid;
+                order.SaleManName = loginUser.SaleManName;
+                order.ReceiveAddr = loginUser.Addr;
+                order.Province = loginUser.Province;
+                order.ProvinceNum = loginUser.ProvinceNum;
+                order.City = loginUser.City;
+                order.CityNum = loginUser.CityNum;
+                order.Area = loginUser.Area;
+                order.AreaNum = loginUser.AreaNum;
+                order.Stutas = (int)Common.Entities.OrderStatus.等待商家发货;
+                order.SaleManTel = saleMan == null ? "" : saleMan.Tel;
+                order.PayType = "货到付款";
+                order.Remark = remark;
+
+                Guid Cid = new Guid();
+
+                if (Guid.TryParse(couponId, out Cid))
                 {
-                    order.LessMoney += c.LessMoney;
-                    _active.SetCouponUse(Cid, order.Id);
+                    Coupon c = _active.GetCouponById(Cid);
+                    if (c != null)
+                    {
+                        order.LessMoney += c.LessMoney;
+                        _active.SetCouponUse(Cid, order.Id);
+                    }
                 }
-            }
 
-            Manjiujian mj = _active.CheckManjiujian(loginUser.UserId, ViewBag.ManagerId);
-            Manjiusong ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
-            if(mj!=null)
-            {
-                order.LessMoney = mj.LessMoeny;
-            }
-            if (ms != null)
-            {
-                var model = _manager.GetGoodsWithPrice(ms.SendGoodId, loginUser.TypeId);
-                OrderItem item = new OrderItem();
-                item.IsGift = true;
-                item.Count = ms.SendGoodCount;
-                item.CreateUserId = loginUser.UserId;
-                item.Id = Guid.NewGuid();
-                item.LessPrice = 0;
-                item.Price = model.RetailtPrice;
-                item.RealPrice = 0;
-                item.ProductId = model.Id;
-                item.ProductTittle = model.GoodsTittle;
-                item.TotalPrice = 0;
-                item.ProductType = model.FirstTypeName;
-                item.ProductTypeId = model.FirstTypeId;
-                item.ProductId = model.Id;
-                item.BarCode = model.BarCode;
-                item.Spec = model.Spec;
-                item.Unit = model.Unit;
-                item.SupplierId = model.SupplierId;
-                item.SupplierName = model.SupplierName;
-                item.BrandId = model.BrandId;
-                item.Brand = model.BrandName;
-                var res = _order.AddOrderItem(item);
-            }
+                Manjiujian mj = _active.CheckManjiujian(loginUser.UserId, ViewBag.ManagerId);
+                Manjiusong ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
+                if (mj != null)
+                {
+                    order.LessMoney = mj.LessMoeny;
+                }
+                if (ms != null)
+                {
+                    var model = _manager.GetGoodsWithPrice(ms.SendGoodId, loginUser.TypeId);
+                    OrderItem item = new OrderItem();
+                    item.IsGift = true;
+                    item.Count = ms.SendGoodCount;
+                    item.CreateUserId = loginUser.UserId;
+                    item.Id = Guid.NewGuid();
+                    item.LessPrice = 0;
+                    item.Price = model.RetailtPrice;
+                    item.RealPrice = 0;
+                    item.ProductId = model.Id;
+                    item.ProductTittle = model.GoodsTittle;
+                    item.TotalPrice = 0;
+                    item.ProductType = model.FirstTypeName;
+                    item.ProductTypeId = model.FirstTypeId;
+                    item.ProductId = model.Id;
+                    item.BarCode = model.BarCode;
+                    item.Spec = model.Spec;
+                    item.Unit = model.Unit;
+                    item.SupplierId = model.SupplierId;
+                    item.SupplierName = model.SupplierName;
+                    item.BrandId = model.BrandId;
+                    item.Brand = model.BrandName;
+                    var res = _order.AddOrderItem(item);
+                }
 
-            var ress = _order.SaveOrder(order);
-            //保存订单成功后 保存销售订单到erp 系统中
-            if(ress)
-            {
-                string baseSupplier = ConfigurationManager.AppSettings["baseSupplierId"].ToString();
-                int baseSupplierId = Utils.ParseInt(baseSupplier);
-                var orderDetail = _order.InsertErp(order.Id, baseSupplierId);
+                _response.Stutas = _order.SaveOrder(order);
+                //保存订单成功后 保存销售订单到erp 系统中
+                if (_response.Stutas)
+                {
+                    try
+                    {
+                        string baseSupplier = ConfigurationManager.AppSettings["baseSupplierId"].ToString();
+                        int baseSupplierId = Utils.ParseInt(baseSupplier);
+                        var res = _order.InsertErp(order.Id, baseSupplierId);
+                    }
+                    catch(Exception ex)
+                    {
+                        LogsHelper.WriteErrorLog(ex, "导入Erp");
+                    }
+                    
+                 }
             }
-            return Utils.SerializeObject(ress);
+            else
+            {
+                _response.Msg ="请先添加商品！";
+            }
+            return Utils.SerializeObject(_response);
         }
 
 

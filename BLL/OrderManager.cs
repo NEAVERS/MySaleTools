@@ -32,7 +32,7 @@ namespace BLL
                     where c.IsInShoppingCar
                     && !c.IsDelete
                     && c.IsEffective
-                    &&c.CreateUserId == userId
+                    && c.CreateUserId == userId
                     select c;
             return q.ToList();
         }
@@ -186,12 +186,12 @@ namespace BLL
         /// <param name="end"></param>
         /// <param name="createUserId"></param>
         /// <returns></returns>
-        public List<OrderInfo> GetOrderListPage(Guid createUserId,int index, int stutas)
+        public List<OrderInfo> GetOrderListPage(Guid createUserId, int index, int stutas)
         {
             var q = from c in _context.OrderInfoes
-                    where  c.CreateUserId == createUserId
+                    where c.CreateUserId == createUserId
                     select c;
-            if(stutas != -1)
+            if (stutas != -1)
             {
                 if (stutas == 1)///待收货
                     q = q.Where(x => x.Stutas == 1 || x.Stutas == 2);
@@ -222,6 +222,8 @@ namespace BLL
                 q = q.Where(x => x.CreateUserTypeId == userType);
             if (stutas != 0)
                 q = q.Where(x => x.Stutas == stutas);
+            key = key.Trim();
+            q = q.Where(x => x.OrderNum.Contains(key) || x.StoreName.Contains(key) || x.CreateUserNum.Contains(key));
             if (managerId != Guid.Empty)
             {
                 if (isAdmin)
@@ -409,13 +411,14 @@ namespace BLL
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public MemoryStream CreateOrderFile(DateTime start, DateTime end)
+        public MemoryStream CreateOrderFile(DateTime start, DateTime end,string key)
         {
             var q = from c in _context.OrderInfoes
                     join d in _context.OrderItems on c.Id equals d.OrderId
                     join u in _context.UserInfoes on c.CreateUserId equals u.UserId
                     join g in _context.GoodInfoes on d.ProductId equals g.Id
                     where c.CreateTime > start && c.CreateTime < end
+                    &&(c.OrderNum.Contains(key) || c.StoreName.Contains(key) || c.CreateUserNum.Contains(key))
                     select new
                     {
                         info = c,
@@ -985,8 +988,19 @@ namespace BLL
             if (order != null)
             {
                 var now = DateTime.Now;
-                DateTime start = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
+                var yesterday = DateTime.Now.AddDays(-1);
+                DateTime start = new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, 16, 0, 0);
                 DateTime end = new DateTime(now.Year, now.Month, now.Day, 16, 0, 0);
+                if ((order.CreateTime>start&&order.CreateTime<end&&DateTime.Now<end)||(order.CreateTime>end&&DateTime.Now>end))
+                {
+                    order.Stutas = (int)OrderStatus.订单取消中;
+                    order.OrderCancelTime = DateTime.Now;
+                    _response.Stutas = _context.SaveChanges() > 0;
+                    _response.Msg = "保存失败！请刷新后重试";
+                }
+                else
+                    _response.Msg = "超出时限无法取消";
+
                 if ((order.CreateTime > start && order.CreateTime < end) || (order.CreateTime < start && order.CreateTime > start.AddDays(-1) && order.CreateTime < end))
                 {
                     order.Stutas = (int)OrderStatus.订单取消中;
