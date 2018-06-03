@@ -144,6 +144,11 @@ namespace Model
         public DateTime? LastLoginTime { get; set; }
 
         public string LastLoginIP { get; set; }
+
+        /// <summary>
+        /// 用户编码
+        /// </summary>
+        public string UserCode { get; set; }
         public UserInfo()
         {
             UserId = Guid.Empty;
@@ -165,7 +170,7 @@ namespace Model
             Email = string.Empty;
             Remark = string.Empty;
             LastLoginIP = string.Empty;
-            
+            UserCode = string.Empty;
         }
     }
 }

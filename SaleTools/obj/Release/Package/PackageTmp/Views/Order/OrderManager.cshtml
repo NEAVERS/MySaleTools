@@ -111,6 +111,7 @@
                         <th>区域</th>
                         <th>标记</th>
                         <th>订单总金额</th>
+                        <th>已付金额</th>
                         <th>来源</th>
                         <th>交易状态</th>
                         <th class="center">操作</th>
@@ -175,6 +176,8 @@
                 html += '<td>' + this.CreateUserType + '</td >';
                 html += '<td>' + this.Area + '</td >';
                 html += '<td>' + this.Remark + '</td >';
+                html += '<td>' + this.RealMoney + '</td >';
+
                 html += '<td><span class="highlight">' + this.PayMoney + '</span>&nbsp;&nbsp; [货到付款]</td >';
                 html += '<td>电脑端</td >';
                 html += '<td>' + getSutas(this.Stutas) + '</td >';

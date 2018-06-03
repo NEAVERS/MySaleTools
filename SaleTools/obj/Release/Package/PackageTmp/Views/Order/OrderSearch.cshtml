@@ -100,6 +100,7 @@
                         <th>区域</th>
                         <th>标记</th>
                         <th>订单总金额</th>
+                        <th>已付金额</th>
                         <th>来源</th>
                         <th>交易状态</th>
                         <th class="center">操作</th>
@@ -146,6 +147,7 @@
                 html += '<td>' + this.StoreName + '</td >';
                 html += '<td>' + this.Area + '</td >';
                 html += '<td>' + this.Remark + '</td >';
+                html += '<td>' + this.RealMoney + '</td >';
                 html += '<td><span class="highlight">' + this.PayMoney + '</span>&nbsp;&nbsp; [货到付款]</td >';
                 html += '<td>电脑端</td >';
                 html += '<td>' + getSutas(this.Stutas) + '</td >';
@@ -173,25 +175,25 @@
     function getSutas(code) {
         var res = "";
         switch (code) {
-            case 0:
+            case 1:
                 res = "等待商家发货";
                 break;
-            case 1:
+            case 2:
                 res = "商家已发货";
                 break;
-            case 2:
+            case 3:
                 res = "交易完成";
                 break;
-            case 3:
+            case 4:
                 res = "订单取消中";
                 break;
-            case 4:
+            case 5:
                 res = "订单取消成功";
                 break;
-            case 5:
+            case 6:
                 res = "退货中";
                 break;
-            case 6:
+            case 7:
                 res = "退货成功";
                 break;
         }

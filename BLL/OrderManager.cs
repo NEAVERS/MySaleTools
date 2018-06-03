@@ -1055,6 +1055,9 @@ namespace BLL
             var list = orderDetail.Items.Where(x => x.SupplierId == baseSupplierId);
             var date = DateTime.Now.Date;
             var cout = _erp.OrderIndexes.Count(x => x.billtype == 300 && x.BillDate == date);
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == orderDetail.Info.CreateUserId);
+            var userCode = _erp.btypes.FirstOrDefault(x => x.UserCode == user.UserCode);
+
             OrderIndex orderIndex = new OrderIndex();
             #region 初始化
             orderIndex.btypeid = "0000100001";
@@ -1131,7 +1134,7 @@ namespace BLL
                 model.TeamNO1 = null;
                 model.PassQty = 0;
                 model.IsUnit2 = false;
-                model.Discount = 0;
+                model.Discount = 1;
                 model.DiscountPrice = x.RealPrice / unit_ex.Rate;
                 model.TaxPrice = x.RealPrice / unit_ex.Rate;
                 model.TaxTotal = x.TotalPrice;
@@ -1212,6 +1215,7 @@ namespace BLL
             }
             return true;
         }
+
 
 
         #endregion

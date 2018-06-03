@@ -352,8 +352,9 @@ namespace SaleTools.Controllers
             DateTime startTime = new DateTime();
             DateTime endTime = new DateTime();
             DateTime now = DateTime.Now;
+            DateTime dateTime = now.AddDays(-1);
             if (string.IsNullOrEmpty(start))
-                startTime = new DateTime(now.Year, now.Month, now.Day - 1, 16, 0, 0);
+                startTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 16, 0, 0);
             else
                 startTime = Utils.GetTime(start, true);
             if (string.IsNullOrEmpty(end))
@@ -387,8 +388,10 @@ namespace SaleTools.Controllers
             DateTime startTime = new DateTime();
             DateTime endTime = new DateTime();
             DateTime now = DateTime.Now;
+            DateTime dateTime = now.AddDays(-1);
+
             if (string.IsNullOrEmpty(start))
-                startTime = new DateTime(now.Year, now.Month, now.Day - 1, 16, 0, 0);
+                startTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day , 16, 0, 0);
             else
                 startTime = Utils.GetTime(start, true);
             if (string.IsNullOrEmpty(end))
@@ -444,8 +447,10 @@ namespace SaleTools.Controllers
             DateTime startTime = new DateTime();
             DateTime endTime = new DateTime();
             DateTime now = DateTime.Now;
+            DateTime dateTime = now.AddDays(-1);
+
             if (string.IsNullOrEmpty(start))
-                startTime = new DateTime(now.Year, now.Month, now.Day - 1, 16, 0, 0);
+                startTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day , 16, 0, 0);
             else
                 startTime = Utils.GetTime(start, true);
             if (string.IsNullOrEmpty(end))
@@ -478,8 +483,9 @@ namespace SaleTools.Controllers
             DateTime startTime = new DateTime();
             DateTime endTime = new DateTime();
             DateTime now = DateTime.Now;
+            DateTime dateTime = now.AddDays(-1);
             if (string.IsNullOrEmpty(start))
-                startTime = new DateTime(now.Year, now.Month, now.Day - 1, 16, 0, 0);
+                startTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day , 16, 0, 0);
             else
                 startTime = Utils.GetTime(start, true);
             if (string.IsNullOrEmpty(end))
@@ -519,8 +525,9 @@ namespace SaleTools.Controllers
             DateTime startTime = new DateTime();
             DateTime endTime = new DateTime();
             DateTime now = DateTime.Now;
+            DateTime date = now.AddDays(-1);
             if (string.IsNullOrEmpty(start))
-                startTime = new DateTime(now.Year, now.Month, now.Day - 1, 16, 0, 0);
+                startTime = new DateTime(date.Year, date.Month, date.Day , 16, 0, 0);
             else
                 startTime = Utils.GetTime(start, true);
             if (string.IsNullOrEmpty(end))
@@ -547,8 +554,9 @@ namespace SaleTools.Controllers
             DateTime startTime = new DateTime();
             DateTime endTime = new DateTime();
             DateTime now = DateTime.Now;
+            DateTime date = now.AddDays(-1);
             if (string.IsNullOrEmpty(start))
-                startTime = new DateTime(now.Year, now.Month, now.Day - 1, 16, 0, 0);
+                startTime = new DateTime(date.Year, date.Month, date.Day, 16, 0, 0);
             else
                 startTime = Utils.GetTime(start, true);
             if (string.IsNullOrEmpty(end))

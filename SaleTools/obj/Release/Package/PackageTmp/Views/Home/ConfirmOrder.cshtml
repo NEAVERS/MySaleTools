@@ -10,7 +10,6 @@
     var coupons = (List<Coupon>)ViewBag.CouponList;
     decimal totalPrice = 0;
 }
-
 <link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
 <link rel="stylesheet" type="text/css" href="/Content/css/base.css">
 <!-- 公用css -->
@@ -203,7 +202,7 @@
                             totalPrice -= mj.LessMoeny;
                             <em>-￥@mj.LessMoeny</em>
                         }
-                        <em>-￥0.00</em>
+                        
 
                     </div>
                     <div class="summary-item">
@@ -271,7 +270,7 @@
             _n = 0;
             if (e.Stutas) {
                 layer.msg("保存订单成功！", { icon: 1 }, function () {
-                    location.href = "/Home/BuyList";
+                    location.href = "/Order/UserOrderManager";
                 })
             }
             else {

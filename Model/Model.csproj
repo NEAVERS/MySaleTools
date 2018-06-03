@@ -45,6 +45,7 @@
     <Compile Include="Area.cs" />
     <Compile Include="BrandOfGoodsType.cs" />
     <Compile Include="Coupon.cs" />
+    <Compile Include="Erp\btype.cs" />
     <Compile Include="Erp\GoodsStocks.cs" />
     <Compile Include="Erp\OrderBill.cs" />
     <Compile Include="Erp\OrderIndex.cs" />

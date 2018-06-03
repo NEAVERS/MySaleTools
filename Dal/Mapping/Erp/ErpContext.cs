@@ -26,6 +26,8 @@ namespace Dal.Mapping.Erp
         public DbSet<OrderBill> OrderBills { get; set; }
 
         public DbSet<PType_Units_Ext> PType_Units_Exts { get; set; }
+
+        public DbSet<btype> btypes { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new ptypeMap());
@@ -34,6 +36,7 @@ namespace Dal.Mapping.Erp
             modelBuilder.Configurations.Add(new OrderIndexMap());
             modelBuilder.Configurations.Add(new OrderBillMap());
             modelBuilder.Configurations.Add(new PType_Units_ExtMap());
+            modelBuilder.Configurations.Add(new btypeMap());
         }
 
 
