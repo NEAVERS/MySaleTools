@@ -135,6 +135,11 @@ namespace SaleTools.Controllers
             bool res = false;
             var loginUser = (UserInfo)ViewBag.User;
             OrderItem basItem = new OrderItem();
+            if(!_active.CheckCanBuy(goodId, loginUser.AreaNum))
+            {
+                return Utils.SerializeObject(false);
+            }
+
             if (_order.IsExitInCar(goodId,loginUser.UserId, out basItem))
             {
                 count += basItem.Count;

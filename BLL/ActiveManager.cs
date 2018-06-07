@@ -368,7 +368,12 @@ namespace BLL
             return _response;
         }
 
-
+        /// <summary>
+        /// 保存满就送
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="areNum"></param>
+        /// <returns></returns>
         public ResponseModel SaveManjiusong(Manjiusong model, List<string> areNum)
         {
 
@@ -407,12 +412,13 @@ namespace BLL
             _context.ManToAreas.AddRange(list);
             _response.Stutas = _context.SaveChanges() > 0;
             return _response;
-        }        /// <summary>
-                 /// 检查是否符合满就送
-                 /// </summary>
-                 /// <param name="userId"></param>
-                 /// <param name="managerId"></param>
-                 /// <returns></returns>
+        }
+        /// <summary>
+        /// 检查是否符合满就送
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="managerId"></param>
+        /// <returns></returns>
         public Manjiusong CheckManSong(Guid userId, Guid managerId)
         {
             var couponList = new List<Coupon>();
@@ -474,7 +480,16 @@ namespace BLL
             return canUserActive.OrderByDescending(x => x.LimitMoney).FirstOrDefault();
         }
 
-
+        /// <summary>
+        /// 获取优惠卷
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="status"></param>
+        /// <param name="storeNum"></param>
+        /// <param name="createUserId"></param>
+        /// <returns></returns>
         public PageData<Coupon> GetCouponPager(int index,DateTime start, DateTime end,int status,string storeNum,Guid createUserId)
         {
             PageData<Coupon> page = new PageData<Coupon>();
@@ -495,6 +510,11 @@ namespace BLL
             return page;
         }
 
+        /// <summary>
+        /// 获取满送活动详情
+        /// </summary>
+        /// <param name="activeId"></param>
+        /// <returns></returns>
 
         public ManDetail<Manjiusong> GetManSongDetial(Guid activeId)
         {
@@ -505,6 +525,11 @@ namespace BLL
             return detail;
         }
 
+        /// <summary>
+        /// 获取满减活动详情
+        /// </summary>
+        /// <param name="activeId"></param>
+        /// <returns></returns>
         public ManDetail<Manjiujian> GetManJianDetial(Guid activeId)
         {
             var detail = new ManDetail<Manjiujian>();
@@ -514,7 +539,12 @@ namespace BLL
             return detail;
         }
 
-
+        /// <summary>
+        /// 获取满减列表
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public PageData<Manjiujian> GetManJianPager(Guid userid,int index)
         {
             var q = from c in _context.Manjiujians
@@ -535,7 +565,12 @@ namespace BLL
             }
             return pager;
         }
-
+        /// <summary>
+        /// 获取满送活动列表
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public PageData<Manjiusong> GetManSongPager(Guid userid, int index)
         {
             var q = from c in _context.Manjiusongs
@@ -556,6 +591,12 @@ namespace BLL
             }
             return pager;
         }
+
+        /// <summary>
+        /// 获取用户类型列表
+        /// </summary>
+        /// <param name="types"></param>
+        /// <returns></returns>
         public List<UserType> GetUserType(string types)
         {
             var typeArr = types.Split(',');
@@ -571,7 +612,12 @@ namespace BLL
             var res = list.Where(x => typeArr.Contains(x.TypeId.ToString()));
             return res.ToList();
         }
-
+        /// <summary>
+        /// 获取我的优惠卷
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public List<Coupon> GetMyCoupons(Guid userId,int type)
         {
             var q = from c in _context.Coupons
@@ -585,6 +631,24 @@ namespace BLL
                 q = q.Where(x => !x.IsUsed && x.EndTime < DateTime.Now);
             return q.ToList();
 
+        }
+
+        /// <summary>
+        /// 检查是否能买
+        /// </summary>
+        /// <param name="goodId"></param>
+        /// <param name="areaNum"></param>
+        /// <returns></returns>
+        public bool CheckCanBuy(Guid goodId,string areaNum)
+        {
+            var model = _context.BlackLists.FirstOrDefault(x => x.GoodsId == goodId && !x.IsDelete);
+            if(model != null)
+            {
+                var area = _context.ManToAreas.FirstOrDefault(x => x.ActiveId == model.GoodsId && x.AreaNum == areaNum);
+                if (area != null)///如果黑名单中存在对应的记录则不能购买
+                    return false;
+            }
+            return true;
         }
     }
 }
