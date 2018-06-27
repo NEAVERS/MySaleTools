@@ -644,11 +644,272 @@ namespace BLL
             var model = _context.BlackLists.FirstOrDefault(x => x.GoodsId == goodId && !x.IsDelete);
             if(model != null)
             {
-                var area = _context.ManToAreas.FirstOrDefault(x => x.ActiveId == model.GoodsId && x.AreaNum == areaNum);
+                var area = _context.ManToAreas.FirstOrDefault(x => x.ActiveId == model.Id && x.AreaNum == areaNum.Trim());
                 if (area != null)///如果黑名单中存在对应的记录则不能购买
                     return false;
             }
             return true;
         }
+
+        /// <summary>
+        /// 添加类目折扣
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public bool AddDiscountInfo(DiscountInfo info,List<string> areNum)
+        {
+
+            if(info.Id == Guid.Empty)
+            {
+                info.Id = Guid.NewGuid();
+                var model = _context.DiscountInfos.FirstOrDefault(x => x.TypeId == info.TypeId);
+                if (model != null)
+                    return false;
+                _context.DiscountInfos.Add(info);
+            }
+            else
+            {
+                var model = _context.DiscountInfos.FirstOrDefault(x => x.Id == info.Id);
+                model.StartTime = info.StartTime;
+                model.EndTime = info.EndTime;
+                model.Discount = info.Discount;
+                model.UserTypes = info.UserTypes;
+                model.TypeId = info.TypeId;
+                model.TypeName = info.TypeName;
+            }
+
+
+            List<ManToArea> list = new List<ManToArea>();
+            var areaHis = _context.ManToAreas.Where(x => x.ActiveId == info.Id);
+            areNum.ForEach(x =>
+            {
+                var area = _context.Areas.FirstOrDefault(c => c.Num == x);
+                if (area != null)
+                {
+
+                    var newArea = new ManToArea();
+                    newArea.ActiveId = info.Id;
+                    newArea.ActiveName = string.Empty;
+                    newArea.AreaNum = area.Num;
+                    newArea.AreaName = area.Name;
+                    list.Add(newArea);
+                }
+            });
+            _context.ManToAreas.RemoveRange(areaHis);
+            _context.ManToAreas.AddRange(list);
+
+            return _context.SaveChanges() > 0;
+        }
+
+
+        
+
+        public List<DiscountDetail> GetDiscountList(Guid userId)
+        {
+            var q = _context.DiscountInfos.Where(x=>x.UpdateUserId == userId).ToList();
+            var list = new List<DiscountDetail>();
+            foreach(var item in q)
+            {
+                var model = new DiscountDetail();
+                model.Info = item;
+                model.Areas = _context.ManToAreas.Where(x => x.ActiveId == item.Id).ToList();
+                list.Add(model);
+            }
+            return list;
+        }
+
+        public DiscountDetail GetDiscountDetail(Guid discountId)
+        {
+            var q = _context.DiscountInfos.FirstOrDefault(x => x.Id == discountId);
+            if (q == null)
+                return null;
+            var model = new DiscountDetail();
+            model.Info = q;
+            model.Areas = _context.ManToAreas.Where(x => x.ActiveId == q.Id).ToList();
+            return model;
+        }
+
+        /// <summary>
+        /// 查询类目折扣
+        /// </summary>
+        /// <param name="typeId"></param>
+        /// <param name="areaNum"></param>
+        /// <param name="userType"></param>
+        /// <returns></returns>
+        public decimal CheckDiscountDetail(Guid typeId,string areaNum,string userType)
+        {
+            decimal discount = 1;
+            var model = _context.DiscountInfos.FirstOrDefault(x => x.TypeId == typeId && x.StartTime < DateTime.Now && x.EndTime > DateTime.Now&&x.UserTypes.Contains(userType));
+            if(model!=null)
+            {
+                var areas = _context.ManToAreas.Where(x => x.ActiveId == model.Id).ToList();
+                if (areas == null || areas.Count < 1 || areas.Exists(x => x.AreaNum == areaNum))
+                    discount = model.Discount;
+            }
+            return discount;
+        }
+
+        /// <summary>
+        /// 删除类目折扣
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
+        public ResponseModel DeleteDiscount(Guid id)
+        {
+            try
+            {
+                var model = _context.DiscountInfos.FirstOrDefault(x => x.Id == id);
+                if (model != null)
+                {
+                    var areas = _context.ManToAreas.Where(x => x.ActiveId == id);
+                    _context.DiscountInfos.Remove(model);
+                    _context.ManToAreas.RemoveRange(areas);
+                    _response.Stutas = _context.SaveChanges() > 0;
+                }
+                else
+                {
+                    _response.Msg = "该记录不存在请刷新后重试";
+                }
+            }
+            catch(Exception ex)
+            {
+                LogsHelper.WriteErrorLog(ex, "类目折扣");
+                _response.Msg = ex.Message;
+            }
+            return _response;
+        }
+
+        #region 黑名单功能
+
+        /// <summary>
+        /// 添加类目折扣
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public bool AddBlackList(BlackList info, List<string> areNum)
+        {
+
+            if (info.Id == Guid.Empty)
+            {
+                var goodsInfo = _context.GoodInfoes.FirstOrDefault(x => x.GoodsNum == info.GoodsNum);
+                if (goodsInfo == null)
+                    return false;
+                info.GoodsName = goodsInfo.GoodsTittle;
+                info.Id = Guid.NewGuid();
+                info.GoodsId = goodsInfo.Id;
+                var model = _context.BlackLists.FirstOrDefault(x => x.GoodsId == info.GoodsId);
+                if (model != null)
+                    return false;
+                _context.BlackLists.Add(info);
+            }
+
+            List<ManToArea> list = new List<ManToArea>();
+            var areaHis = _context.ManToAreas.Where(x => x.ActiveId == info.Id);
+            areNum.ForEach(x =>
+            {
+                var area = _context.Areas.FirstOrDefault(c => c.Num == x);
+                if (area != null)
+                {
+
+                    var newArea = new ManToArea();
+                    newArea.ActiveId = info.Id;
+                    newArea.ActiveName = string.Empty;
+                    newArea.AreaNum = area.Num;
+                    newArea.AreaName = area.Name;
+                    list.Add(newArea);
+                }
+            });
+            _context.ManToAreas.RemoveRange(areaHis);
+            _context.ManToAreas.AddRange(list);
+
+            return _context.SaveChanges() > 0;
+        }
+
+
+
+
+        public List<BlackListDetail> GetBlackList(Guid userId)
+        {
+            var q = _context.BlackLists.Where(x => x.CreateUserId == userId).ToList();
+            var list = new List<BlackListDetail>();
+            foreach (var item in q)
+            {
+                var model = new BlackListDetail();
+                model.Info = item;
+                model.Areas = _context.ManToAreas.Where(x => x.ActiveId == item.Id).ToList();
+                model.goodInfo = _context.GoodInfoes.FirstOrDefault(x => x.Id == item.GoodsId);
+                list.Add(model);
+            }
+            return list;
+        }
+
+        public BlackListDetail GetBlackListDetail(Guid Id)
+        {
+            var q = _context.BlackLists.FirstOrDefault(x => x.Id == Id);
+            if (q == null)
+                return null;
+            var model = new BlackListDetail();
+            model.Info = q;
+            model.Areas = _context.ManToAreas.Where(x => x.ActiveId == q.Id).ToList();
+            model.goodInfo = _context.GoodInfoes.FirstOrDefault(x => x.Id == q.GoodsId);
+
+            return model;
+        }
+
+        /// <summary>
+        /// 是否在黑名单中
+        /// </summary>
+        /// <param name="typeId"></param>
+        /// <param name="areaNum"></param>
+        /// <param name="userType"></param>
+        /// <returns></returns>
+        public bool CheckIsInBlack(Guid goodsId, string areaNum)
+        {
+            bool isInBlack = false;
+            var model = _context.BlackLists.FirstOrDefault(x => x.GoodsId == goodsId);
+            if (model != null)
+            {
+                var areas = _context.ManToAreas.Where(x => x.ActiveId == model.Id).ToList();
+                if (areas == null || areas.Count < 1 || areas.Exists(x => x.AreaNum == areaNum))
+                    isInBlack = true;
+            }
+            return isInBlack;
+        }
+
+
+
+        /// <summary>
+        /// 删除类目折扣
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
+        public ResponseModel DeleteBlackList(Guid id)
+        {
+            try
+            {
+                var model = _context.BlackLists.FirstOrDefault(x => x.Id == id);
+                if (model != null)
+                {
+                    var areas = _context.ManToAreas.Where(x => x.ActiveId == id);
+                    _context.BlackLists.Remove(model);
+                    _context.ManToAreas.RemoveRange(areas);
+                    _response.Stutas = _context.SaveChanges() > 0;
+                }
+                else
+                {
+                    _response.Msg = "该记录不存在请刷新后重试";
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsHelper.WriteErrorLog(ex, "黑名单");
+                _response.Msg = ex.Message;
+            }
+            return _response;
+        }
+        #endregion
+
     }
 }

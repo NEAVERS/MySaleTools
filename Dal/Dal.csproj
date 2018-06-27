@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlackListMap.cs" />
+    <Compile Include="Mapping\BlackListMap.cs" />
     <Compile Include="Mapping\AreaMap.cs" />
     <Compile Include="Mapping\BrandOfGoodsTypeMap.cs" />
     <Compile Include="Mapping\CouponMap.cs" />

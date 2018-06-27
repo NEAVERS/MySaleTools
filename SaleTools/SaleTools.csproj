@@ -360,6 +360,12 @@
     <Content Include="Views\Activtity\ShowMyCoupon.cshtml" />
     <Content Include="Views\GoodsManager\ShowGoodsInfo.cshtml" />
     <Content Include="Views\User\MyInfo.cshtml" />
+    <Content Include="Views\Activtity\AddDiscount.cshtml" />
+    <Content Include="Views\Activtity\DiscountList.cshtml" />
+    <Content Include="Views\Activtity\EditDiscount.cshtml" />
+    <Content Include="Views\Activtity\AddBlackList.cshtml" />
+    <Content Include="Views\Activtity\BlackListView.cshtml" />
+    <Content Include="Views\Activtity\EditBlackList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -368,7 +374,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="Content\App_Data\" />
     <Folder Include="Content\css\common\pages\buyer\" />
     <Folder Include="Content\css\common\pages\cart\" />
     <Folder Include="Content\css\common\pages\home\" />

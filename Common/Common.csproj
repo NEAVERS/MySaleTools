@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\BlackListDetail.cs" />
+    <Compile Include="Entities\DiscountDetail.cs" />
     <Compile Include="Entities\Enums.cs" />
     <Compile Include="Entities\ErrorDayModel.cs" />
     <Compile Include="Entities\ErrorInfoModel.cs" />

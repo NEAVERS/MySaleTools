@@ -85,9 +85,9 @@
                                 <select id="saleMan">
                                     <option value="0">请选择业务员</option>
                                     @foreach (var item in saleList)
-                                    {
-                                        <option value="@item.UserId">@item.UserName</option>
-                                    }
+                {
+                    <option value="@item.UserId">@item.UserName</option>
+}
                                 </select>
                             </td>
                         </tr>
@@ -96,9 +96,9 @@
                             <td>
                                 <select id="userType" class="seller-id">
                                     @foreach (var item in typeList)
-                                    {
-                                        <option value="@item.TypeId">@item.TypeName </option>
-                                    }
+                {
+                    <option value="@item.TypeId">@item.TypeName </option>
+}
                                 </select>
                             </td>
                         </tr>
@@ -109,6 +109,14 @@
                                     <option value="0">无优惠券</option>
                                     <option value="226">15.00元</option>
                                 </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right">
+                                单位Id：
+                            </td>
+                            <td>
+                                <input type="text" class="inputtext" style="width:150px;" name="UserCode" id="UserCode" value="">
                             </td>
                         </tr>
                         <tr>
@@ -255,6 +263,8 @@
         para.Remark = $("#remark").val();
         para.SaleManGuid = $("#saleMan").val();
         para.SaleManName = $("#saleMan").find("option:selected").text();
+        para.UserCode = $("#UserCode").val();
+
         _n = 1;
         $.post("/User/SaveUser", para, function (e) {
             _n = 0;

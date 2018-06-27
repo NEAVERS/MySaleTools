@@ -493,7 +493,7 @@
                 },
                 success: function (result) {
                     $(".actbtn").attr("id", "CartDetailBtn");
-                    if (result.info != "出现异常") {
+                    if (result.Stutas) {
                         var img = $(".big-pic").children('img').attr('src');
                         var flyer = $('<img class="u-flyer" src="' + img + '">');
                         var address1 = $('#C_GlobalCartItemNum_fixed');
@@ -535,7 +535,7 @@
                             })
                         }
                     } else {
-                        build("red", result.info, productId);
+                        build("red", result.Msg, productId);
                     }
                     // 更新页头购物车数量信息
                     loacCarCount();

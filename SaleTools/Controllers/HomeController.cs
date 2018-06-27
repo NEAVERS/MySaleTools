@@ -132,12 +132,14 @@ namespace SaleTools.Controllers
 
         public string AddToShoppingCar(Guid goodId,int count)
         {
+            
             bool res = false;
             var loginUser = (UserInfo)ViewBag.User;
             OrderItem basItem = new OrderItem();
             if(!_active.CheckCanBuy(goodId, loginUser.AreaNum))
             {
-                return Utils.SerializeObject(false);
+                _response.Msg = "您无法购买该商品！";
+                return Utils.SerializeObject(_response);
             }
 
             if (_order.IsExitInCar(goodId,loginUser.UserId, out basItem))
@@ -151,8 +153,9 @@ namespace SaleTools.Controllers
                 OrderItem item = new OrderItem();
                 item.Count = count;
                 item.CreateUserId = loginUser.UserId;
+                decimal discount = _active.CheckDiscountDetail(model.FirstTypeId, loginUser.AreaNum, loginUser.TypeId.ToString());
                 item.Id = Guid.NewGuid();
-                item.LessPrice = 0;
+                item.LessPrice = Math.Round((100-discount)* model.RetailtPrice/100,2);
                 item.Price = model.RetailtPrice;
                 item.RealPrice = item.Price - item.LessPrice;
                 item.ProductId = model.Id;
@@ -168,7 +171,7 @@ namespace SaleTools.Controllers
                 item.SupplierName = model.SupplierName;
                 item.BrandId = model.BrandId;
                 item.Brand = model.BrandName;
-                res = _order.AddOrderItem(item);
+                _response.Stutas = _order.AddOrderItem(item);
             }
             return Utils.SerializeObject(res);
         }

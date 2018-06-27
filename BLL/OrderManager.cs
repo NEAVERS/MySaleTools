@@ -103,7 +103,7 @@ namespace BLL
             if (item != null)
             {
                 item.Count = count;
-                item.TotalPrice = count * item.Price;
+                item.TotalPrice = count * item.RealPrice;
             }
             return _context.SaveChanges() > 0;
         }
@@ -1056,11 +1056,10 @@ namespace BLL
             var date = DateTime.Now.Date;
             var cout = _erp.OrderIndexes.Count(x => x.billtype == 300 && x.BillDate == date);
             var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == orderDetail.Info.CreateUserId);
-            var userCode = _erp.btypes.FirstOrDefault(x => x.UserCode == user.UserCode);
 
             OrderIndex orderIndex = new OrderIndex();
             #region 初始化
-            orderIndex.btypeid = "0000100001";
+            orderIndex.btypeid = string.IsNullOrWhiteSpace(user.UserCode) ? "0000100001" : user.UserCode;///该用户是否有对应的到erp的userId 如果没有就赋默认值"";
             orderIndex.etypeid = "000010004100004";
             orderIndex.ktypeid = "00001";
             orderIndex.BillDate = date;
@@ -1129,7 +1128,7 @@ namespace BLL
                 model.price = x.RealPrice / unit_ex.Rate;
                 model.total = x.TotalPrice;
                 model.ReachQty = 0;
-                model.comment = string.Empty;
+                model.comment = user.TypeName + (x.LessPrice > 0 ? "优惠金额:" + x.LessPrice : "");///在备注中添加用户类型和优惠金额
                 model.Checked = false;
                 model.TeamNO1 = null;
                 model.PassQty = 0;

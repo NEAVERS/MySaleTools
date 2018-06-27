@@ -387,7 +387,7 @@
                     $('.add_cart_btn').addClass("J_AddCartBtn");
                     GlobalCartItemNum();
                     loacCarCount();
-                    if (!result.error) {
+                    if (result.Stutas) {
                         var addcar = _this;
                         var img = addcar.parent().parent().parent().find('img').attr('src');
                         var flyer = $('<img class="u-flyer" src="' + img + '">');
@@ -411,7 +411,7 @@
                                 }
                             })
                     } else {
-                        build("red", result.info, productId);
+                        build("red", result.Msg, productId);
                     }
                 }
             });

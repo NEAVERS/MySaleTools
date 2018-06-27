@@ -293,5 +293,121 @@ namespace SaleTools.Controllers
             return View();
         }
 
+        public ActionResult AddDiscount()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            ViewBag.TypeList = _good.GetDownGoodsType(Guid.Empty, loginUser.UserId);
+            ViewBag.UserTypeList  = _user.GetTypeList();
+            return View();
+        }
+
+
+        public ActionResult SaveDiscount(DiscountInfo m, List<int> userType, string areaNums)
+        {
+
+            var areaList = areaNums.Split(',').ToList();
+            var loginUser = (UserInfo)ViewBag.User;
+            m.UpdateTime = DateTime.Now;
+            m.UpdateUserId = loginUser.UserId;
+            m.UpdateUserName = loginUser.UserName;
+            string userTypes = "";
+            userType.ForEach(x =>
+            {
+                userTypes += x;
+                userTypes += ",";
+            });
+            m.UserTypes = userTypes;
+            
+            _active.AddDiscountInfo(m, areaList);
+            Response.Redirect("DiscountList");
+
+            return View();
+        }
+
+
+        public ActionResult DiscountList()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var list = _active.GetDiscountList(loginUser.UserId);
+            ViewBag.DiscountList = list;
+            return View();
+
+        }
+
+
+        public ActionResult EditDiscount(Guid DiscountId)
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var model = _active.GetDiscountDetail(DiscountId);
+            ViewBag.TypeList = _good.GetDownGoodsType(Guid.Empty, loginUser.UserId);
+            ViewBag.UserTypeList = _user.GetTypeList();
+
+            return View(model);
+        }
+
+
+
+        public string DeleteDiscount(Guid id)
+        {
+            var res = _active.DeleteDiscount(id);
+            return Utils.SerializeObject(res);
+        }
+
+
+
+        #region
+
+        public ActionResult AddBlackList()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            return View();
+        }
+
+
+        public ActionResult SaveBlackList(BlackList m, string areaNums)
+        {
+
+            var areaList = areaNums.Split(',').ToList();
+            var loginUser = (UserInfo)ViewBag.User;
+            m.CreateTime = DateTime.Now;
+            m.CreateUserId = loginUser.UserId;
+            m.CreateUserName = loginUser.UserName;
+
+            _active.AddBlackList(m, areaList);
+            Response.Redirect("BlackListView");
+            return View();
+        }
+
+
+        public ActionResult BlackListView()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var list = _active.GetBlackList(loginUser.UserId);
+            ViewBag.BlackList = list;
+            return View();
+
+        }
+
+
+        public ActionResult EditBlackList(Guid Id)
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var model = _active.GetBlackListDetail(Id);
+            return View(model);
+        }
+
+
+        public string DeleteBlackList(Guid id)
+        {
+            var res = _active.DeleteBlackList(id);
+            return Utils.SerializeObject(res);
+        }
+
+
+
+        #endregion
+
+
     }
 }

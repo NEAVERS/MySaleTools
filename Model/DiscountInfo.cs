@@ -8,7 +8,7 @@ namespace Model
 {
     public class DiscountInfo
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public Guid TypeId { get; set; }
 
@@ -20,7 +20,15 @@ namespace Model
 
         public Guid UpdateUserId { get; set; }
 
+        public string UserTypes { get; set; }
+
         public string UpdateUserName { get; set; }
+
+        public DateTime EndTime { get; set; }
+
+
+        public DateTime StartTime { get; set; }
+
 
     }
 }

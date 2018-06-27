@@ -54,6 +54,7 @@ namespace BLL
                 model.Email = user.Email;
                 model.Remark = user.Remark;
                 model.Tel = user.Tel;
+                model.UserCode = user.UserCode;
             }
 
             return _context.SaveChanges() > 0;
