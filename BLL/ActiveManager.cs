@@ -738,7 +738,7 @@ namespace BLL
         /// <returns></returns>
         public decimal CheckDiscountDetail(Guid typeId,string areaNum,string userType)
         {
-            decimal discount = 1;
+            decimal discount = 100;
             var model = _context.DiscountInfos.FirstOrDefault(x => x.TypeId == typeId && x.StartTime < DateTime.Now && x.EndTime > DateTime.Now&&x.UserTypes.Contains(userType));
             if(model!=null)
             {

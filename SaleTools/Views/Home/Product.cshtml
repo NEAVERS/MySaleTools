@@ -284,7 +284,7 @@
                 html += '<span class="J_AddCollectBtn add_collect_btn" id="' + this.Id + '" data-id="' + this.Id + '">收藏</span>'
                 html += '<div class="rfloat"><div class="item_quantity">';
                 html += '<a href="javascript:;" class="decrement J_Decrement">-</a>';
-                html += '<input type="text" value="10" data-min="' + this.MinCount + '" data-max="' + this.LimitCount + '" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>';
+                html += '<input type="text" value="' + this.MinCount + '" data-min="' + this.MinCount + '" data-max="' + this.LimitCount + '" class="quantity_input J_QuantityInput"><a href="javascript:;" class="increment J_Increment">+</a>';
                 html += '</div><a href="#" class="J_AddCartBtn add_cart_btn" data-id="' + this.Id + '" data-start=0 data-end=0 data-num=0">进货</a>';
                 html += '</div></div></li>'
             });

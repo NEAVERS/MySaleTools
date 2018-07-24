@@ -162,6 +162,20 @@ namespace BLL
         }
 
         /// <summary>
+        /// 恢复已取消的订单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public bool RecoverOrder(Guid orderId)
+        {
+            var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId&&x.Stutas ==(int)OrderStatus.订单取消成功);
+            if (order != null)
+            {
+                order.Stutas = (int)OrderStatus.等待商家发货;
+            }
+            return _context.SaveChanges() > 0;
+        }
+        /// <summary>
         /// 根据创建人获取订单列表
         /// </summary>
         /// <param name="start"></param>
@@ -244,6 +258,7 @@ namespace BLL
             var detail = new OrderDetail();
             detail.Info = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
             detail.Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar).ToList();
+            detail.User = _context.UserInfoes.FirstOrDefault(x => x.UserId == detail.Info.CreateUserId);
             return detail;
         }
 
@@ -991,15 +1006,7 @@ namespace BLL
                 var yesterday = DateTime.Now.AddDays(-1);
                 DateTime start = new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, 16, 0, 0);
                 DateTime end = new DateTime(now.Year, now.Month, now.Day, 16, 0, 0);
-                if ((order.CreateTime>start&&order.CreateTime<end&&DateTime.Now<end)||(order.CreateTime>end&&DateTime.Now>end))
-                {
-                    order.Stutas = (int)OrderStatus.订单取消中;
-                    order.OrderCancelTime = DateTime.Now;
-                    _response.Stutas = _context.SaveChanges() > 0;
-                    _response.Msg = "保存失败！请刷新后重试";
-                }
-                else
-                    _response.Msg = "超出时限无法取消";
+      
 
                 if ((order.CreateTime > start && order.CreateTime < end) || (order.CreateTime < start && order.CreateTime > start.AddDays(-1) && order.CreateTime < end))
                 {
@@ -1059,7 +1066,7 @@ namespace BLL
 
             OrderIndex orderIndex = new OrderIndex();
             #region 初始化
-            orderIndex.btypeid = string.IsNullOrWhiteSpace(user.UserCode) ? "0000100001" : user.UserCode;///该用户是否有对应的到erp的userId 如果没有就赋默认值"";
+            orderIndex.btypeid = string.IsNullOrWhiteSpace(user.BTypeId) ? "0000100001" : user.BTypeId;///该用户是否有对应的到erp的userId 如果没有就赋默认值"";
             orderIndex.etypeid = "000010004100004";
             orderIndex.ktypeid = "00001";
             orderIndex.BillDate = date;
@@ -1102,7 +1109,7 @@ namespace BLL
             orderIndex.IsYapi = false;
             orderIndex.YapiOrderID = string.Empty;
             orderIndex.NCustomerTotal = 0;
-            orderIndex.DealBTypeID = "0000100001";
+            orderIndex.DealBTypeID = string.IsNullOrWhiteSpace(user.BTypeId) ? "0000100001" : user.BTypeId;
             orderIndex.atypeID = "0";
             orderIndex.totalinmoney = 0;
             orderIndex.ntotalinmoney = 0;
@@ -1128,7 +1135,7 @@ namespace BLL
                 model.price = x.RealPrice / unit_ex.Rate;
                 model.total = x.TotalPrice;
                 model.ReachQty = 0;
-                model.comment = user.TypeName + (x.LessPrice > 0 ? "优惠金额:" + x.LessPrice : "");///在备注中添加用户类型和优惠金额
+                model.comment = user.TypeName + (x.LessPrice > 0 ? "优惠金额:" + x.LessPrice*x.Count : "");///在备注中添加用户类型和优惠金额
                 model.Checked = false;
                 model.TeamNO1 = null;
                 model.PassQty = 0;

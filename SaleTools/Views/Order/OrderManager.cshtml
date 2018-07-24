@@ -187,6 +187,8 @@
                     html += '<a class="del alink" href="#" data-pick="0" data-state="1" data-id="' + this.Id + '">取消订单</a>'
                 if (this.Stutas == 4)
                     html += '<a class="alink"  href="javascript:void(0)" data-pick="0" data-state="1" onclick="CheckAgree(\'' + this.Id + '\')">审核订单</a>'
+                if (this.Stutas == 5)
+                    html += '<a class="alink"  href="javascript:void(0)" data-pick="0" data-state="1" onclick="RecoverOrder(\'' + this.Id + '\')">恢复订单</a>'
 
                 html += '</td >';
                 html += '</tr>';
@@ -290,4 +292,27 @@
         }, "json");
     }
 
+
+    function RecoverOrder(orderId) {
+        layer.confirm('请确认是否恢复该订单？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            $.post("/Order/RecoverOrder", { orderId: orderId }, function (e) {
+                if (e.Stutas) {
+                    layer.msg("取消成功！", { icon: 1 }, function () {
+                        GetData(pageIndex);
+                        layer.closeAll();
+                    })
+                }
+                else {
+                    layer.msg(e.Msg, { icon: 2 }, function () {
+                        layer.closeAll();
+                    })
+                }
+            }, "json")
+
+        }, function () {
+            layer.closeAll();
+        })
+    }
 </script>

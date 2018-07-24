@@ -34,7 +34,7 @@
                             密码：
                         </td>
                         <td>
-                            <input type="password" class="inputtext" style="width:150px;" name="pws" id="pws" value="@Model.PassWord">
+                            <input type="password" class="inputtext" style="width:150px;" name="pws" id="pws" value="">
                         </td>
                     </tr>
 
@@ -44,7 +44,7 @@
                             重复密码：
                         </td>
                         <td>
-                            <input type="password" class="inputtext" style="width:150px;" name="pws2" id="pws2" value="@Model.PassWord">
+                            <input type="password" class="inputtext" style="width:150px;" name="pws2" id="pws2" value="">
                         </td>
                     </tr>
 
@@ -132,14 +132,14 @@
                             <select id="saleMan">
                                 <option value="0">请选择业务员</option>
                                 @foreach (var item in saleList)
-                                {
-                                    string selected = "";
-                                    if (item.UserId == Model.SaleManGuid)
-                                    {
-                                        selected = "selected='selected'";
-                                    }
-                                    <option value="@item.UserId" @selected>@item.UserName</option>
-                                }
+                {
+                    string selected = "";
+                    if (item.UserId == Model.SaleManGuid)
+                    {
+                        selected = "selected='selected'";
+                    }
+                    <option value="@item.UserId" @selected>@item.UserName</option>
+}
                             </select>
                         </td>
                     </tr>
@@ -151,23 +151,34 @@
                         <td>
                             <select id="userType" class="seller-id">
                                 @foreach (var item in typeList)
-                                {
-                                    if (item.TypeId == Model.TypeId)
-                                    {
-                                        <option value="@item.TypeId" selected="selected">@item.TypeName </option>
-                                    }
+                {
+                    if (item.TypeId == Model.TypeId)
+                    {
+                        <option value="@item.TypeId" selected="selected">@item.TypeName </option>
+    }
 
-                                    else
-                                    {
-                                        <option value="@item.TypeId">@item.TypeName </option>}
+    else
+    {
+                <option value="@item.TypeId">@item.TypeName </option>}
 
-                                }
+}
                             </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            单位Id：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="UserCode" id="UserCode" value="@Model.UserCode">
                         </td>
                     </tr>
 
 
-
+                    <tr>
+                        <td></td>
+                        <td><button id="btn_save" class="btn btn_confirm">保存</button></td>
+                    </tr>
                 </tbody>
 
             </table>
@@ -183,7 +194,7 @@
 
 
 
-<button id="btn_save">保存</button>
+
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/layer/layer.js"></script>
 <script>
@@ -260,14 +271,15 @@
         para.Remark = $("#remark").val();
         para.SaleManGuid = $("#saleMan").val();
         para.SaleManName = $("#saleMan").find("option:selected").text();
+        para.UserCode = $("#UserCode").val();
         $.post("/User/SaveUser", para, function (e) {
             if (e) {
-                layer.msg("添加成功！", { icon: 1 }, function () {
+                layer.msg("保存成功！", { icon: 1 }, function () {
                     location.href = "/User/Index";
                 })
             }
             else {
-                layer.msg("添加失败！请稍候重试！", { icon: 2 })
+                layer.msg("保存失败！请稍候重试！", { icon: 2 })
             }
         }, "json")
     }

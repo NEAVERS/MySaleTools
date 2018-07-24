@@ -90,17 +90,19 @@ namespace SaleTools.Controllers
         {
             List<string> Resourses = new List<string>();
             var loginUser = (UserInfo)Session["LoginUser"];
-            user.PassWord = Utils.GetMD5(user.PassWord);
+            if(!string.IsNullOrWhiteSpace(user.PassWord))
+                user.PassWord = Utils.GetMD5(user.PassWord);
             bool res = false;
-            if (user.TypeId > 0)
-            {
-                Resourses.Add(ResourceStr.ShowMyOrder);
-                Resourses.Add(ResourceStr.ChangePwd);
-                Resourses.Add(ResourceStr.ShowMyCoupon);
-                Resourses.Add(ResourceStr.ShowAccountInfo);
-            }
+
             if (user.UserId == Guid.Empty)
             {
+                if (user.TypeId > 0)
+                {
+                    Resourses.Add(ResourceStr.ShowMyOrder);
+                    Resourses.Add(ResourceStr.ChangePwd);
+                    Resourses.Add(ResourceStr.ShowMyCoupon);
+                    Resourses.Add(ResourceStr.ShowAccountInfo);
+                }
                 user.CreateUser = loginUser.UserName;
                 user.CreateUserId = loginUser.UserId;
                 user.UserId = Guid.NewGuid();

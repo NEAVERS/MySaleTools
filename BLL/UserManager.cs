@@ -1,6 +1,7 @@
 ﻿using Common;
 using Common.Entities;
 using Dal;
+using Dal.Mapping.Erp;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace BLL
     public class UserManager
     {
         private  SaleToolsContext _context = new SaleToolsContext();
+        private ErpContext _erp = new ErpContext();
 
         /// <summary>
         /// 用户注册
@@ -55,9 +57,19 @@ namespace BLL
                 model.Remark = user.Remark;
                 model.Tel = user.Tel;
                 model.UserCode = user.UserCode;
+                model.BTypeId = GetBtypeId(user.UserCode);
             }
 
             return _context.SaveChanges() > 0;
+        }
+
+
+        private string GetBtypeId(string userCode)
+        {
+            var model = _erp.btypes.FirstOrDefault(x => x.UserCode == userCode);
+            if (model == null)
+                return "";
+            return model.typeId;
         }
         public bool DelUser(Guid userid)
         {

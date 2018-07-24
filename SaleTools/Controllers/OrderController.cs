@@ -581,6 +581,15 @@ namespace SaleTools.Controllers
             var response = _order.UserCancelOrder(orderId);
             return Utils.SerializeObject(response);
         }
+
+
+
+        public string RecoverOrder(Guid orderId)
+        {
+            _response.Stutas = _order.RecoverOrder(orderId);
+            return Utils.SerializeObject(_response);
+
+        }
         /// <summary>
         /// 审核取消订单
         /// </summary>

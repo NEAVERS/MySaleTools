@@ -179,6 +179,7 @@ G:\study\git\MySaleTools\SaleTools\obj\Debug\SaleTools.csproj.CoreCompileInputs.
 G:\study\git\MySaleTools\SaleTools\obj\Debug\SaleTools.dll
 G:\study\git\MySaleTools\SaleTools\obj\Debug\SaleTools.pdb
 G:\study\git\MySaleTools\SaleTools\bin\roslyn\System.IO.Pipes.AccessControl.dll
+G:\study\git\MySaleTools\SaleTools\bin\roslyn\Microsoft.Managed.Core.targets
 E:\Project\test\SaleTools\SaleTools\bin\SaleTools.dll.config
 E:\Project\test\SaleTools\SaleTools\bin\SaleTools.dll
 E:\Project\test\SaleTools\SaleTools\bin\SaleTools.pdb
@@ -222,4 +223,3 @@ E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.csproj.CoreCompileInputs
 E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.csproj.CopyComplete
 E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.dll
 E:\Project\test\SaleTools\SaleTools\obj\Debug\SaleTools.pdb
-G:\study\git\MySaleTools\SaleTools\bin\roslyn\Microsoft.Managed.Core.targets

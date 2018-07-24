@@ -277,7 +277,7 @@
                             <span class="num-tit">数&nbsp;&nbsp;&nbsp;量：</span>
                             <div class="computing_item">
                                 <div class="amount">
-                                    <input type="text" value="1" class="num" id="ProAmount">
+                                    <input type="text" value="@Model.MinCount" data-mini="@Model.MinCount" class="num" id="ProAmount">
                                     <div class="B-box">
                                         <a href="javascript:;" class="no_bdd" id="CartAmountAdd">+</a>
                                         <a href="javascript:;" class="no_add cant_add" id="CartAmountReduce">-</a>
@@ -555,23 +555,13 @@
                 return false;
             }
             var buyCount = parseInt($('#ProAmount').val());
-            var minSoldNum = parseInt($('#C_MinSoldNum').val());
+            var minSoldNum = parseInt($('#ProAmount').data("mini"));
             var stock = parseInt($('#C_Stock').val());
-            ++buyCount;
+            buyCount+=minSoldNum;
             if ($('#CartAmountReduce').hasClass('cant_add')) {
                 $('#CartAmountReduce').removeClass('cant_add')
             }
-            if (buyCount >= stock) {
-                buyCount = stock;
-                if (!$(this).hasClass('cant_add')) {
-                    $(this).addClass('cant_add');
-                }
-            } else if (buyCount < minSoldNum) {
-                buyCount = minSoldNum;
-                if (!$('#CartAmountReduce').hasClass('cant_add')) {
-                    $('#CartAmountReduce').addClass('cant_add')
-                }
-            }
+ 
             $('#ProAmount').val(buyCount);
         });
 
@@ -582,25 +572,15 @@
                 return false;
             }
             var buyCount = parseInt($('#ProAmount').val());
-            var minSoldNum = parseInt($('#C_MinSoldNum').val());
-            var stock = parseInt($('#C_Stock').val());
-            --buyCount;
+            var minSoldNum = parseInt($('#ProAmount').data("mini"));
+            buyCount -= minSoldNum;
             if (buyCount <= minSoldNum) {
                 buyCount = minSoldNum;
                 if (!$(this).hasClass('cant_add')) {
                     $(this).addClass('cant_add');
                 }
-            } else if (buyCount > stock) {
-                buyCount = stock;
-                if (!$('#CartAmountAdd').hasClass('cant_add')) {
-                    $('#CartAmountAdd').addClass('cant_add');
-                }
-            }
-            if (buyCount < stock) {
-                if ($('#CartAmountAdd').hasClass('cant_add')) {
-                    $('#CartAmountAdd').removeClass('cant_add');
-                }
-            }
+            } 
+            
             $('#ProAmount').val(buyCount);
         });
     });

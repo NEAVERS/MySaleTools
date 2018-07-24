@@ -49,7 +49,8 @@ namespace Dal.Mapping
             this.Property(t => t.LastLoginIP).HasColumnName("LastLoginIP");
             this.Property(t => t.LastLoginTime).HasColumnName("LastLoginTime");
             this.Property(t => t.UserCode).HasColumnName("UserCode");
-
+            this.Property(t => t.BTypeId).HasColumnName("BTypeId");
+            
 
         }
     }

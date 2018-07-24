@@ -34,7 +34,7 @@
                             密码：
                         </td>
                         <td>
-                            <input type="password" class="inputtext" style="width:150px;" name="pws" id="pws" value="@Model.PassWord">
+                            <input type="password" class="inputtext" style="width:150px;" name="pws" id="pws" value="">
                         </td>
                     </tr>
 
@@ -44,7 +44,7 @@
                             重复密码：
                         </td>
                         <td>
-                            <input type="password" class="inputtext" style="width:150px;" name="pws2" id="pws2" value="@Model.PassWord">
+                            <input type="password" class="inputtext" style="width:150px;" name="pws2" id="pws2" value="">
                         </td>
                     </tr>
 
@@ -274,12 +274,12 @@
         para.UserCode = $("#UserCode").val();
         $.post("/User/SaveUser", para, function (e) {
             if (e) {
-                layer.msg("添加成功！", { icon: 1 }, function () {
+                layer.msg("保存成功！", { icon: 1 }, function () {
                     location.href = "/User/Index";
                 })
             }
             else {
-                layer.msg("添加失败！请稍候重试！", { icon: 2 })
+                layer.msg("保存失败！请稍候重试！", { icon: 2 })
             }
         }, "json")
     }

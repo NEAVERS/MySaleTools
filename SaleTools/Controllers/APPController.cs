@@ -324,13 +324,13 @@ namespace SaleTools.Controllers
         /// <param name="trdType"></param>
         /// <param name="brandId"></param>
         /// <returns></returns>
-        public string GetGoodsByPara(string key = "", string fstType = "", string secType = "", string trdType = "", string brandId = "")
+        public string GetGoodsByPara(int index = 1, string key = "", string fstType = "", string secType = "", string trdType = "", string brandId = "")
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
                 Guid managerId = GetManagerId(loginUser);
-                var goodsPager = _goodsmanager.GetGoodsList(managerId, loginUser.TypeId, 1, 10, "",fstType, secType, trdType, brandId, key, "");
+                var goodsPager = _goodsmanager.GetGoodsList(managerId, loginUser.TypeId, index, 10, "",fstType, secType, trdType, brandId, key, "");
                 _response.Result = goodsPager;
                 _response.Stutas = true;
             }
@@ -645,6 +645,23 @@ namespace SaleTools.Controllers
             return result;
         }
 
+        public string GetGoodsDetail(Guid goodsId)
+        {
+            var loginUser = GetUserInfo();
+            if (loginUser != null)
+            {
+                var model = _goodsmanager.GetGoodInfoById(goodsId);
+                _response.Result = model;
+                _response.Stutas = true;
+            }
+            else
+            {
+                _response.Stutas = false;
+                _response.Msg = "请先登录";
+            }
+            string result = Utils.SerializeObject(_response);
+            return result;
+        }
         /// <summary>
         /// 获取公告列表
         /// </summary>

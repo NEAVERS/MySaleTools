@@ -145,7 +145,7 @@ namespace SaleTools.Controllers
             if (_order.IsExitInCar(goodId,loginUser.UserId, out basItem))
             {
                 count += basItem.Count;
-                res = _order.SaveOrderItem(basItem.Id, count);
+                _response.Stutas = _order.SaveOrderItem(basItem.Id, count);
             }
             else
             {
@@ -173,7 +173,7 @@ namespace SaleTools.Controllers
                 item.Brand = model.BrandName;
                 _response.Stutas = _order.AddOrderItem(item);
             }
-            return Utils.SerializeObject(res);
+            return Utils.SerializeObject(_response);
         }
 
 

@@ -149,6 +149,10 @@ namespace Model
         /// 用户编码
         /// </summary>
         public string UserCode { get; set; }
+        /// <summary>
+        /// erp中的用户Id
+        /// </summary>
+        public string BTypeId { get; set; }
         public UserInfo()
         {
             UserId = Guid.Empty;
@@ -171,6 +175,7 @@ namespace Model
             Remark = string.Empty;
             LastLoginIP = string.Empty;
             UserCode = string.Empty;
+            BTypeId = string.Empty;
         }
     }
 }

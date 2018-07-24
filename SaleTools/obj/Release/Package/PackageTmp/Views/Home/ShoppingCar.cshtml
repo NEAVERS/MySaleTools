@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                             <div class="cart-cell price">
-                                <span>@item.Price</span>
+                                <span>@item.RealPrice</span>
                             </div>
                             <div class="cart-cell quantity">
                                 <a href="javascript:;" class="q-minus">-</a>
@@ -86,58 +86,68 @@
                     }
                 </ul>
                 <ul class="cart-group" style="padding-top:10px;border-top:1px solid #f3f3f3;">
+                    <li class="cart-event ">
+                        <p class="event-normal">
+                            享受<b>@(list.Sum(x=>x.LessPrice))</b>元类目折扣优惠优惠
+                        </p>
+                        <span class="line"></span>
+                        <span class="line line2"></span>
+                        <em class="ball"></em>
+                        <span class="tag">类目折扣</span>
+                    </li>
+
                     @if (mj != null)
-                    {
-                        string type = "";
-                        switch (mj.TypeId)
-                        {
-                            case 1:
-                                type = "通用折扣";
-                                break;
-                            case 2:
-                                type = "品牌折扣";
-                                break;
-                            case 3:
-                                type = "供应商折扣";
-                                break;
+    {
+        string type = "";
+        switch (mj.TypeId)
+        {
+            case 1:
+                type = "通用折扣";
+                break;
+            case 2:
+                type = "品牌折扣";
+                break;
+            case 3:
+                type = "供应商折扣";
+                break;
 
-                        }
-                        <li class="cart-event ">
-                            <p class="event-normal">
-                                享受<b>@mj.LessMoeny</b>元@(type)优惠
-                            </p>
-                            <span class="line"></span>
-                            <span class="line line2"></span>
-                            <em class="ball"></em>
-                            <span class="tag">@(type)</span>
-                        </li>
-                    }
+        }
+                <li class="cart-event ">
+                    <p class="event-normal">
+                        享受<b>@mj.LessMoeny</b>元@(type)优惠
+                    </p>
+                    <span class="line"></span>
+                    <span class="line line2"></span>
+                    <em class="ball"></em>
+                    <span class="tag">@(type)</span>
+                </li>
+}
                     @if (ms != null)
-                    {
-                        string type = "";
-                        switch (ms.TypeId)
-                        {
-                            case 1:
-                                type = "通用满送";
-                                break;
-                            case 2:
-                                type = "品牌满送";
-                                break;
-                            case 3:
-                                type = "供应商满送";
-                                break;
+    {
+        string type = "";
+        switch (ms.TypeId)
+        {
+            case 1:
+                type = "通用满送";
+                break;
+            case 2:
+                type = "品牌满送";
+                break;
+            case 3:
+                type = "供应商满送";
+                break;
 
-                        }
-                        <li class="cart-event ">
-                            <p class="event-normal">
-                                享受赠送<b>@(ms.SendGoodName + "x" + ms.SendGoodCount.ToString())</b>@(type)优惠
-                            </p>
-                            <span class="line"></span>
-                            <span class="line line2"></span>
-                            <em class="ball"></em>
-                            <span class="tag">@(type)</span>
-                        </li>
-                    }
+        }
+                <li class="cart-event ">
+                    <p class="event-normal">
+                        享受赠送<b>@(ms.SendGoodName + "x" + ms.SendGoodCount.ToString())</b>@(type)优惠
+                    </p>
+                    <span class="line"></span>
+                    <span class="line line2"></span>
+                    <em class="ball"></em>
+                    <span class="tag">@(type)</span>
+                </li>
+}
 
                 </ul>
             </div>
