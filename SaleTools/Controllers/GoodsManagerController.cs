@@ -127,6 +127,14 @@ namespace SaleTools.Controllers
             return Utils.SerializeObject(res);
         }
 
+
+        public string DeleteGoodBrand(List<string> brandsId)
+        {
+            var res = _manager.DeleteGoodsBrands(brandsId);
+            return Utils.SerializeObject(res);
+        }
+
+
         /// <summary>
         /// 给某个商品类型添加商品品牌
         /// </summary>

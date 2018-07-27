@@ -14,17 +14,17 @@
             <label>类型名</label>
             <input type="text" id="typeName" />
             <button id="add">添加</button>
+            <button id="delete">批量删除</button>
 
 
             @foreach (var item in Model)
-            {
-                <input type="checkbox" name="brands" value="@item.Id" /> @item.BrandName
-            }
-            </div>
+    {
+        <input type="checkbox" name="brands" value="@item.Id" /> @item.BrandName
+}
+        </div>
         </div>
     </div>
-
-            <script src="~/Scripts/layer.js"></script>
+<script src="~/Scripts/layer/layer.js"></script>
             <script>
                 $(document).on("click", "#add", function () {
                     var para = {};
@@ -36,6 +36,35 @@
                         else
                             alert("操作失败！请刷新后重试！");
                     }, "json");
+                })
+
+
+                $(document).on("click", "#delete", function () {
+
+                    layer.confirm('请确认是否删除选中的品牌？', {
+                        btn: ['确认', '取消'] //按钮
+                    }, function () {
+                        var ids = [];
+                        $.each($('input:checkbox:checked'), function () {
+                            ids.push($(this).val());
+                        });
+                        if (ids.length < 1) {
+                            layer.msg("您还未选择任何一项！",{ icon: 2 });
+                            return;
+                        }
+                        $.post("/GoodsManager/DeleteGoodBrand", { brandsId: ids }, function (e) {
+                            if (e) {
+                                location.reload();
+                            }
+                            else
+                                alert("操作失败！请刷新后重试！");
+                        }, "json");
+
+                    }, function () {
+                        layer.closeAll();
+                    })
+
+                  
                 })
 
 

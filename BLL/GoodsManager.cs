@@ -1,4 +1,5 @@
-﻿using Common.Entities;
+﻿using Common;
+using Common.Entities;
 using Dal;
 using Dal.Mapping.Erp;
 using Model;
@@ -97,6 +98,22 @@ namespace BLL
             return _context.SaveChanges() > 0;
         }
 
+
+        public ResponseModel DeleteGoodsBrands(List<string> ids)
+        {
+            try
+            {
+                var q = _context.GoodsBrands.Where(x => ids.Contains(x.Id.ToString()));
+                _context.GoodsBrands.RemoveRange(q);
+                _response.Stutas = _context.SaveChanges() > 0;
+            }
+            catch(Exception ex)
+            {
+                LogsHelper.WriteErrorLog(ex);
+                _response.Msg = "删除失败！请刷新后重试！";
+            }
+            return _response;
+        }
         public GoodsType GetTypeById(Guid typeId)
         {
             var q = _context.GoodsTypes.FirstOrDefault(x => x.Id == typeId);

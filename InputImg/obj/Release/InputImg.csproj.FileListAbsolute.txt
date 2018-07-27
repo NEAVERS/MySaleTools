@@ -1,0 +1,7 @@
+E:\Project\test\SaleTools\InputImg\bin\Release\InputImg.exe.config
+E:\Project\test\SaleTools\InputImg\bin\Release\InputImg.exe
+E:\Project\test\SaleTools\InputImg\bin\Release\InputImg.pdb
+E:\Project\test\SaleTools\InputImg\obj\Release\InputImg.csprojResolveAssemblyReference.cache
+E:\Project\test\SaleTools\InputImg\obj\Release\InputImg.csproj.CoreCompileInputs.cache
+E:\Project\test\SaleTools\InputImg\obj\Release\InputImg.exe
+E:\Project\test\SaleTools\InputImg\obj\Release\InputImg.pdb
