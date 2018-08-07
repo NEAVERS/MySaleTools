@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 body,
 .header,
 #main {
@@ -15,14 +15,14 @@ body,
     float: left;
     overflow: hidden;
 }
-.header .cart-logo .logo {
-    background: url(/statics/images/new_log.png) center no-repeat;
-    display: block;
-    float: left;
-    height: 76px;
-    text-indent: -9999em;
-    width: 98px;
-}
+    .header .cart-logo .logo {
+        background: url(/Content/images/new_log.png) center no-repeat;
+        display: block;
+        float: left;
+        height: 76px;
+        text-indent: -9999em;
+        width: 98px;
+    }
 .header .cart-logo .txt {
     float: left;
     font-size: 32px;
@@ -90,13 +90,13 @@ body,
     color: #ffffff;
 }
 .cart-loading {
-    background: url(/statics/images/RainbowSquare.gif) center no-repeat;
+    background: url(/Content/images/RainbowSquare.gif) center no-repeat;
     /* -webkit-filter: grayscale(90); */
     height: 580px;
 }
 .cart-cover {
     background-color: rgba(0, 0, 0, .2);
-    background-image: url(/statics/images/RainbowSquare.gif);
+    background-image: url(/Content/images/RainbowSquare.gif);
     /*-webkit-filter: grayscale(90);*/
     background-position: center;
     background-repeat: no-repeat;

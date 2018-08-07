@@ -64,7 +64,7 @@ namespace SaleTools.Controllers
             return userId;
         }
 
-        public UserInfo GetUserInfo()
+        private UserInfo GetUserInfo()
         {
             string userId = GetCookie("UserId");
             Guid id = new Guid();
@@ -76,6 +76,23 @@ namespace SaleTools.Controllers
 
             var user =_user.GetUserByUserId(id);
             return user;
+        }
+
+        public string GetUserInfoStr()
+        {
+            var loginUser = GetUserInfo();
+            if (loginUser != null)
+            {
+                _response.Stutas = true;
+                _response.Result = loginUser;
+            }
+            else
+            {
+                _response.Stutas = false;
+                _response.Msg = "请先登录";
+            }
+            string result = Utils.SerializeObject(_response);
+            return result;
         }
 
         public string GetImgSet()
@@ -171,6 +188,7 @@ namespace SaleTools.Controllers
                     item.SupplierName = model.SupplierName;
                     item.BrandId = model.BrandId;
                     item.Brand = model.BrandName;
+                    item.Pic = model.pic1;
                     res = _order.AddOrderItem(item);
                 }
                 _response.Result = count;
