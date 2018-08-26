@@ -135,17 +135,28 @@ namespace SaleTools.Controllers
             
             bool res = false;
             var loginUser = (UserInfo)ViewBag.User;
+            var goodsInfo = _manager.GetGoodInfoById(goodId);
+            decimal Stock = _manager.GetGoodsStock(goodsInfo.ErpId);
             OrderItem basItem = new OrderItem();
             if(!_active.CheckCanBuy(goodId, loginUser.AreaNum))
             {
                 _response.Msg = "您无法购买该商品！";
                 return Utils.SerializeObject(_response);
             }
-
+            if (count > Stock)
+            {
+                _response.Msg = "您无法购买该商品！已超过库存！";
+                return Utils.SerializeObject(_response);
+            }
             if (_order.IsExitInCar(goodId,loginUser.UserId, out basItem))
             {
                 count += basItem.Count;
-                _response.Stutas = _order.SaveOrderItem(basItem.Id, count);
+                if(count> Stock)
+                {
+                    _response.Msg = "您无法购买该商品！已超过库存！";
+                }
+                else
+                    _response.Stutas = _order.SaveOrderItem(basItem.Id, count);
             }
             else
             {
@@ -202,8 +213,17 @@ namespace SaleTools.Controllers
 
         public string ChangeCount(Guid itemId,int count)
         {
-            var res = _order.SaveOrderItem(itemId, count);
-            return Utils.SerializeObject(res);
+            var orderItem = _order.GetOrderItem(itemId);
+            if (orderItem != null)
+            {
+                var goodsInfo = _manager.GetGoodInfoById(orderItem.ProductId);
+                decimal Stock = _manager.GetGoodsStock(goodsInfo.ErpId);
+                if(Stock<count||count<1)
+                    return Utils.SerializeObject(false);
+                var res = _order.SaveOrderItem(itemId, count);
+                return Utils.SerializeObject(res);
+            }
+            return Utils.SerializeObject(false);
         }
 
         public string DeleteItems(List<Guid> itemIds)

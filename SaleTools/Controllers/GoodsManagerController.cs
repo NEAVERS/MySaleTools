@@ -196,6 +196,12 @@ namespace SaleTools.Controllers
         public ActionResult ShowGoodsInfo(Guid goodId)
         {
             var info = _manager.GetGoodInfoById(goodId);
+            var loginUser = (UserInfo)Session["LoginUser"];
+
+            var list = _user.GetTypeList();
+            var supplierList = _user.GetSupplierList(loginUser.UserId);
+            ViewBag.SupplierList = supplierList;
+            ViewBag.UserTypeList = list;
             return View(info);
         }
 

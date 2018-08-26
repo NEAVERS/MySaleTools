@@ -175,12 +175,23 @@
                                                 </span>
                                             </a>
                                             <button data-id="prov" type="button" class="btn btn-lg btn-block btn-default dropdown-toggle">
-                                                <span class="placeholder">
-                                                    请选择
-                                                </span>
+                                                @if (string.IsNullOrWhiteSpace(Model.BrandName))
+                                                {
+                                                    <span class="placeholder">请选择</span>
+
+                                                }
+                                                else
+                                                {
+                                                    <span class="placeholder">@Model.BrandName</span>
+                                                }
                                                 <span class="caret">
                                                 </span>
                                             </button>
+
+                                            
+                                                
+                                            
+
                                             <div class="dropdown-menu">
                                                 <div class="live-filtering" data-clear="true" data-autocomplete="true" data-keys="true">
                                                     <label class="sr-only" for="input-bts-ex-5">

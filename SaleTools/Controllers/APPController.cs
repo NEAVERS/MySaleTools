@@ -159,17 +159,36 @@ namespace SaleTools.Controllers
             {
                 int count = 1;
                 bool res = false;
+                var goodsInfo = _goodsmanager.GetGoodInfoById(goodId);
+                decimal Stock = _goodsmanager.GetGoodsStock(goodsInfo.ErpId);
+
+                
+                if (!_active.CheckCanBuy(goodId, loginUser.AreaNum))
+                {
+                    _response.Msg = "您无法购买该商品！";
+                    return Utils.SerializeObject(false);
+                }
+                if (count > Stock)
+                {
+                    _response.Msg = "您无法购买该商品！已超过库存！";
+                    return Utils.SerializeObject(_response);
+                }
                 OrderItem basItem = new OrderItem();
                 if (_order.IsExitInCar(goodId, loginUser.UserId, out basItem))
                 {
                     count += basItem.Count;
-                    res = _order.SaveOrderItem(basItem.Id, count);
+                    if (count > Stock)
+                    {
+                        _response.Msg = "您无法购买该商品！已超过库存！";
+                    }
+                    else
+                        res = _order.SaveOrderItem(basItem.Id, count);
                 }
                 else
                 {
                     var model = _goodsmanager.GetGoodsWithPrice(goodId, loginUser.TypeId);
                     OrderItem item = new OrderItem();
-                    item.Count = count;
+                    item.Count = model.MinCount;
                     item.CreateUserId = loginUser.UserId;
                     item.Id = Guid.NewGuid();
                     item.LessPrice = 0;
@@ -491,6 +510,8 @@ namespace SaleTools.Controllers
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
+                var list = _order.GetShoppingCar(loginUser.UserId);
+
                 Guid managerId = GetManagerId(loginUser);
 
                 var order = new OrderInfo();

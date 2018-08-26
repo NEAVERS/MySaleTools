@@ -26,7 +26,7 @@
 .logo p {
     position: relative;
     left: 105px;
-    top: -71px;
+    top: -91px;
     font-size: 20px;
     color: #d92226;
     line-height: 98px;
@@ -111,34 +111,34 @@
 }
 
 .submit {
-    margin-left: 20px;
+    margin-left: 34px;
     margin-left: 33px\9;
-    margin-top: 27px;
+    margin-top: 18px;
     margin-top: 17px\9;
 }
 
-    .submit button {
-        width: 150px;
-        width: 306px\9;
-        height: 40px;
-        height: 35px\9;
-        position: relative;
-        background: #27963a;
-        color: #E4E4E4;
-        font-size: 18px;
-        border-radius: 6px;
-        -ms-border-radius: 6px;
-        border: 0px solid #960000;
-        letter-spacing: 8px;
-        top: 5px;
-        left: 13px;
-    }
+.submit button {
+    width: 304px;
+    width: 306px\9;
+    height: 40px;
+    height: 35px\9;
+    position: relative;
+    background: #d20c0c;
+    color: #E4E4E4;
+    font-size: 18px;
+    border-radius: 6px;
+    -ms-border-radius: 6px;
+    border: 0px solid #960000;
+    letter-spacing: 8px;
+    top: 8px;
+    left: 65px;
+}
 
-        .submit button:hover {
-            background: #27963a;
-            color: #E4E4E4;
-            border: 1px solid #790404;
-        }
+.submit button:hover {
+    background: #ae0303;
+    color: #E4E4E4;
+    border: 1px solid #790404;
+}
 
 .footer {
     width: 100%;
@@ -169,7 +169,7 @@
     font-size: 20px;
     margin-top: 30px;
     color: #757575;
-    
+    background: url(../../../../../Content/images/lg/1117-04.png) top left no-repeat;
     background-size: contain;
     height: 24px;
     line-height: 24px;
@@ -206,6 +206,8 @@
 .loginCode {
     float: right;
     margin-top: 33px;
+    margin-right: 30px;
+
 }
 
 /*2015/12/09*/
@@ -290,21 +292,20 @@ input:-webkit-autofill {
 
 #J_Username {
     width: 247px;
-    height: 31px;
+    height: 39px;
     line-height: 40px;
-    margin-left: 38px;
+    margin-left: 101px;
     padding-left: 10px;
-    margin-top: 5px;
     background: white;
 }
 
 #J_Password {
-    width: 247px;
-    height: 31px;
-    line-height: 40px;
-    margin-left: 38px;
+    width: 245px;
+    height: 39px;
+    line-height: 38px;
     padding-left: 10px;
-    margin-top: 25px;
+    margin-left: 101px;
+    margin-top: 16px;
     background: white;
 }
 
@@ -312,9 +313,9 @@ input:-webkit-autofill {
     width: 565px;
     height: 543px;
     position: absolute;
-    top: 55px;
+    top: 0;
     right: -113px;
-    
+
 }
 
 .wrapperCon {
@@ -331,8 +332,8 @@ input:-webkit-autofill {
 }
 
 .wrapper form {
-    margin-left: 99px;
-    margin-top: 193px;
+    margin-left: 33px;
+    margin-top: 251px;
 }
 
 .autoLogin {

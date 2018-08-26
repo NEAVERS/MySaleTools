@@ -91,6 +91,13 @@ namespace BLL
             _context.OrderItems.Add(item);
             return _context.SaveChanges() > 0;
         }
+
+
+        public OrderItem GetOrderItem(Guid itemId)
+        {
+            var item = _context.OrderItems.FirstOrDefault(x => x.Id == itemId);
+            return item;
+        }
         /// <summary>
         /// 修改商品数量
         /// </summary>
