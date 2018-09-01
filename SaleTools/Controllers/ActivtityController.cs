@@ -130,7 +130,7 @@ namespace SaleTools.Controllers
             return View();
         }
 
-        public void SaveManSong(Manjiusong m, List<int> userType,string areaNums)
+        public ActionResult SaveManSong(Manjiusong m, List<int> userType,string areaNums)
         {
 
             var areaList = areaNums.Split(',').ToList();
@@ -146,6 +146,9 @@ namespace SaleTools.Controllers
             });
             m.UserTypes = userTypes;
             _active.CreateManjiusong(m, areaList);
+            Response.Redirect("GetManSongList");
+            return View();
+
         }
 
 
@@ -162,7 +165,7 @@ namespace SaleTools.Controllers
             ViewBag.BrandList = BrandList;
             return View();
         }
-        public void SaveManJian(Manjiujian m, List<int> userType, string areaNums)
+        public ActionResult SaveManJian(Manjiujian m, List<int> userType, string areaNums)
         {
             var loginUser = (UserInfo)ViewBag.User;
             var areaList = areaNums.Split(',').ToList();
@@ -177,6 +180,9 @@ namespace SaleTools.Controllers
             });
             m.UserTypes = userTypes;
             _active.CreateManjiujian(m, areaList);
+            Response.Redirect("GetManJianList");
+            return View();
+
         }
 
         public string CheckGoods(string num)
@@ -193,10 +199,12 @@ namespace SaleTools.Controllers
         public ActionResult GetManSongList(int index = 1)
         {
             var loginUser = (UserInfo)ViewBag.User;
-            var pager= _active.GetManSongPager(loginUser.UserId, index);
+            var pager = _active.GetManSongPager(loginUser.UserId, index);
             ViewBag.Pager = pager;
             return View();
         }
+
+
 
         public ActionResult GetManJianList(int index = 1)
         {
@@ -406,8 +414,170 @@ namespace SaleTools.Controllers
 
 
 
+
+
         #endregion
 
 
+        #region 单品送
+
+
+
+
+
+        public ActionResult DPSList(int index = 1)
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var pager = _active.GetDPSPager(loginUser.UserId, index);
+            ViewBag.Pager = pager;
+            return View();
+        }
+        public ActionResult AddNewDPS()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            var typelist = _user.GetTypeList();
+
+
+            ViewBag.TypeList = typelist;
+
+            return View();
+        }
+
+        public ActionResult SaveDPS(DPS m, List<int> userType, string areaNums)
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var areaList = areaNums.Split(',').ToList();
+            m.Id = Guid.NewGuid();
+            m.CreateTime = DateTime.Now;
+            m.CreateUserId = loginUser.UserId;
+            m.CreateUserName = loginUser.UserName;
+
+            var goodsItem = _good.GetGoodsByNum(m.GoodsNum,loginUser.UserId);
+            var sendGoodsItem = _good.GetGoodsByNum(m.SendGoodsNum, loginUser.UserId);
+            if(goodsItem!=null)
+            {
+                m.GoodsId = goodsItem.Id;
+                m.GoodsName = goodsItem.GoodsTittle;
+            }
+
+            if (sendGoodsItem != null)
+            {
+                m.SendGoodsId = sendGoodsItem.Id;
+                m.SendGoodsName = sendGoodsItem.GoodsTittle;
+            }
+            string userTypes = "";
+            userType.ForEach(x =>
+            {
+                userTypes += x;
+                userTypes += ",";
+            });
+            m.UserTypes = userTypes;
+            _active.CreateDPS(m, areaList);
+
+            Response.Redirect("DPSList");
+
+            return View();
+        }
+
+
+
+        public ActionResult EditDPS(Guid Id)
+        {
+            var detail = _active.GetDPSDetial(Id);
+            var loginUser = (UserInfo)ViewBag.User;
+
+            var typelist = _user.GetTypeList();
+
+            var areas = detail.areas.Select(x => x.Num + "_" + x.Name).ToArray();
+            ViewBag.AreaStr = string.Join(",", areas);
+
+            ViewBag.TypeList = typelist;
+
+
+            return View(detail);
+        }
+
+        public ActionResult SaveEdiEditDPS(DPS m, List<int> userType, string areaNums)
+        {
+            var areaList = areaNums.Split(',').ToList();
+            var loginUser = (UserInfo)ViewBag.User;
+
+            m.CreateTime = DateTime.Now;
+            m.CreateUserId = loginUser.UserId;
+
+            var goodsItem = _good.GetGoodsByNum(m.GoodsNum, loginUser.UserId);
+            var sendGoodsItem = _good.GetGoodsByNum(m.SendGoodsNum, loginUser.UserId);
+            if (goodsItem != null)
+            {
+                m.GoodsId = goodsItem.Id;
+                m.GoodsName = goodsItem.GoodsTittle;
+            }
+
+            if (sendGoodsItem != null)
+            {
+                m.SendGoodsId = sendGoodsItem.Id;
+                m.SendGoodsName = sendGoodsItem.GoodsTittle;
+            }
+            string userTypes = "";
+            userType.ForEach(x =>
+            {
+                userTypes += x;
+                userTypes += ",";
+            });
+            m.UserTypes = userTypes;
+            _active.SaveDPS(m, areaList);
+            Response.Redirect("DPSList");
+            return View();
+        }
+        #endregion
+
+
+        #region  新增活动黑名单
+
+        public ActionResult AddActiveBlacklist(int page = 1, string key= "")
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            var goodsList = _good.GetGoodsList(loginUser.UserId, -1, page, 30, "", "", "", "", "", key, "");
+            ViewBag.GoodsList = goodsList;
+            ViewBag.Key = key;
+            ViewBag.Page = page;
+            return View();
+        }
+
+        public string SaveActiveBlacklist(string goodsIds,int type)
+        {
+            var strs = goodsIds.Split('|');
+            List<Guid> list = new List<Guid>();
+            foreach(var str in strs)
+            {
+                if (!string.IsNullOrWhiteSpace(str))
+                    list.Add(Utils.ParseGuid(str));
+            }
+
+            var loginUser = (UserInfo)ViewBag.User;
+
+            var res = _active.SaveBlackFoActive(list, loginUser.UserId, type);
+            return Utils.SerializeObject(res);
+        }
+
+        public ActionResult ShowActiveBlacklist(int index =1,int type = 0,string key = "")
+        {
+            var pager = _active.GetBlackForActiveByPage(index, type, key);
+
+            ViewBag.Page = pager;
+            ViewBag.ActiveType = type;
+            ViewBag.Key = key;
+            return View();
+        }
+
+        public string DeleteBlackForActive(List<Guid> ids)
+        {
+            _response = _active.DeleteBlackForActive(ids);
+            return Utils.SerializeObject(_response);
+        }
+
+        #endregion
     }
 }

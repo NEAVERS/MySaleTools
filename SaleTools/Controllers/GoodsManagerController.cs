@@ -234,6 +234,8 @@ namespace SaleTools.Controllers
                 goods.CreateUserName = loginUser.UserName;
                 goods.CreateTime = DateTime.Now;
             }
+            string erpId = _manager.GetErpId(goods.GoodsNum);
+            goods.ErpId = erpId;
             res = _manager.UpdateGoodsInfo(goods);
 
             return res.ToString();
@@ -250,8 +252,18 @@ namespace SaleTools.Controllers
             var supplierList = _user.GetSupplierList(loginUser.UserId);
             ViewBag.SupplierList = supplierList;
             ViewBag.UserTypeList = list;
-
             return View();
+        }
+
+        public string UpdateSortId(Guid goodsId,int sortId)
+        {
+            var res = _manager.UpdateSortId(goodsId, sortId);
+            return Utils.SerializeObject(res);
+        }
+        public string UpdateMinCount(Guid goodsId, int minCount)
+        {
+            var res = _manager.UpdateMinCount(goodsId, minCount);
+            return Utils.SerializeObject(res);
         }
 
         /// <summary>
@@ -265,10 +277,10 @@ namespace SaleTools.Controllers
         /// <param name="thdTypeId"></param>
         /// <param name="keyWord"></param>
         /// <returns></returns>
-        public string GetGoodsList(int index,int size,string SupplierId = "",string fstTypeId = "",string secTypeId="",string thdTypeId = "",string keyWord="",string IsUpShelves="")
+        public string GetGoodsList(int index,int size,string SupplierId = "",string fstTypeId = "",string secTypeId="",string thdTypeId = "",string keyWord="",string IsUpShelves="",string sort= "",string order = "Asc")
         {
             var loginUser = (UserInfo)Session["LoginUser"];
-            var page = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, index, size, SupplierId, fstTypeId, secTypeId, thdTypeId, "",keyWord.Trim(), IsUpShelves);
+            var page = _manager.GetGoodsListByManager(ViewBag.ManagerId, loginUser.TypeId, index, size, SupplierId, fstTypeId, secTypeId, thdTypeId, "",keyWord.Trim(), IsUpShelves,sort,order);
             return Utils.SerializeObject(page);
         }
 

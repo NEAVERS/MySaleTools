@@ -510,7 +510,7 @@
                                             <div class="rfloat">
                                                 <div class="item_quantity">
                                                     <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                                    <input type="text" value="1" data-min="@item.MinCount" data-max="@item.LimitCount" class="quantity_input J_QuantityInput">
+                                                    <input type="text" value="item.MinCount" data-min="@item.MinCount" data-max="@item.LimitCount" class="quantity_input J_QuantityInput">
                                                     <a href="javascript:;" class="increment J_Increment">+</a>
                                                 </div>
                                                 <a href="#" class="J_AddCartBtn add_cart_btn" data-id="@item.Id" data-start="0" data-end="0" data-num="0">进货</a>
@@ -553,7 +553,7 @@
                                         <div class="rfloat">
                                             <div class="item_quantity">
                                                 <a href="javascript:;" class="decrement J_Decrement">-</a>
-                                                <input type="text" value="1" data-min="@item.MinCount" data-max="@item.LimitCount" class="quantity_input J_QuantityInput">
+                                                <input type="text" value="@item.MinCount" data-min="@item.MinCount" data-max="@item.LimitCount" class="quantity_input J_QuantityInput">
                                                 <a href="javascript:;" class="increment J_Increment">+</a>
                                             </div>
                                             <a href="#" class="J_AddCartBtn add_cart_btn" data-id="@item.Id" data-start="0" data-end="0" data-num="0">进货</a>

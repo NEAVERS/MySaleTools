@@ -8,6 +8,8 @@
     var ms = (Manjiusong)ViewBag.Ms;
     var user = (UserInfo)ViewBag.User;
     var coupons = (List<Coupon>)ViewBag.CouponList;
+    var dpses = (List<DPS>)ViewBag.DPSES;
+
     decimal totalPrice = 0;
 }
 <link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
@@ -127,6 +129,7 @@
                                         <span>@ms.SendGoodCount</span>
                                     </div>
                                     <div class="cell thpromotion">
+                                        满就送
                                     </div>
                                     <div class="cell thtotal">
                                         <span>0</span>
@@ -134,6 +137,32 @@
                                 </div>
 
                             }
+
+                            @foreach (var item in dpses)
+                            {
+                                <div class="order">
+                                    <div class="cell thinfo clearfix">
+                                        <a href="javascript:;" class="pic"><img src="@item.SendGoodsNum"></a>
+                                        <div class="info">
+                                            <a href="javascript:;">@item.SendGoodsName</a>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                    <div class="cell thprice">
+                                        <span>0</span>
+                                    </div>
+                                    <div class="cell thquantity">
+                                        <span>@(item.SendCount)</span>
+                                    </div>
+                                    <div class="cell thpromotion">
+                                        单品送
+                                    </div>
+                                    <div class="cell thtotal">
+                                        <span>0</span>
+                                    </div>
+                                </div>
+                            }
+
                         </div>
                     </div>
                 </div>
@@ -193,7 +222,7 @@
                 <div class="summary-list">
                     <div class="summary-item">
                         <span><i>@list.Count</i>件商品，总商品金额：</span>
-                        <em>￥@totalPrice</em>
+                        <em>￥@(totalPrice+list.Sum(x => x.LessPrice * x.Count))</em>
                     </div>
                     <div class="summary-item">
                         <span>满就减：</span>
@@ -211,7 +240,7 @@
                     </div>
                     <div class="summary-item">
                         <span>类目折扣：</span>
-                        <em>-￥0.00</em>
+                        <em>-￥@(list.Sum(x => x.LessPrice*x.Count))</em>
                     </div>
                 </div>
             </div>

@@ -9,10 +9,9 @@ namespace Model.Erp
 {
     public class GoodsStocks
     {
-        [Key]
+        public int Id { get; set; }
         public string PtypeId { get; set; }
 
-        [Key]
         public string KtypeId { get; set; }
 
         public string JobNumber { get; set; }

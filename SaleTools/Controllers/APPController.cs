@@ -129,10 +129,20 @@ namespace SaleTools.Controllers
                 var managerId = GetManagerId(loginUser);
                 var list = _order.GetShoppingCar(loginUser.UserId);
                 var manjian = _active.CheckManjiujian(loginUser.UserId, managerId);
+                var dps = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
+                var mansong = _active.CheckManSong(loginUser.UserId, managerId);
+                dps.ForEach(x =>
+                {
+                    var model = _goodsmanager.GetGoodInfoById(x.SendGoodsId);
+                    if (model != null)
+                        x.SendGoodsNum = model.pic1;
+                });
                 var obj = new
                 {
                     list = list,
-                    manjian = manjian
+                    manjian = manjian,
+                    dps = dps,
+                    mansong = mansong
                 };
                 _response.Result = obj;
                 _response.Stutas = true;
@@ -157,12 +167,12 @@ namespace SaleTools.Controllers
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
-                int count = 1;
                 bool res = false;
                 var goodsInfo = _goodsmanager.GetGoodInfoById(goodId);
                 decimal Stock = _goodsmanager.GetGoodsStock(goodsInfo.ErpId);
+                int count = goodsInfo.MinCount;
 
-                
+
                 if (!_active.CheckCanBuy(goodId, loginUser.AreaNum))
                 {
                     _response.Msg = "您无法购买该商品！";
@@ -173,6 +183,12 @@ namespace SaleTools.Controllers
                     _response.Msg = "您无法购买该商品！已超过库存！";
                     return Utils.SerializeObject(_response);
                 }
+                if (goodsInfo.LimitCount > 0 && count > goodsInfo.LimitCount)
+                {
+                    _response.Msg = "该商品限购" + goodsInfo.LimitCount;
+                    return Utils.SerializeObject(_response);
+                }
+
                 OrderItem basItem = new OrderItem();
                 if (_order.IsExitInCar(goodId, loginUser.UserId, out basItem))
                 {
@@ -181,17 +197,29 @@ namespace SaleTools.Controllers
                     {
                         _response.Msg = "您无法购买该商品！已超过库存！";
                     }
+                    else if (goodsInfo.LimitCount > 0 && count > goodsInfo.LimitCount)
+                    {
+                        _response.Msg = "该商品限购" + goodsInfo.LimitCount;
+                        return Utils.SerializeObject(_response);
+                    }
+
                     else
                         res = _order.SaveOrderItem(basItem.Id, count);
                 }
                 else
                 {
                     var model = _goodsmanager.GetGoodsWithPrice(goodId, loginUser.TypeId);
+                    decimal discount = _active.CheckDiscountDetail(model.FirstTypeId, loginUser.AreaNum, loginUser.TypeId.ToString());
+                    if (_active.CheckInBlack(loginUser.CreateUserId, model.Id))
+                    {
+                        discount = 100;
+                    }
                     OrderItem item = new OrderItem();
+                    item.LessPrice = Math.Round((100 - discount) * model.RetailtPrice / 100, 2);
+
                     item.Count = model.MinCount;
                     item.CreateUserId = loginUser.UserId;
                     item.Id = Guid.NewGuid();
-                    item.LessPrice = 0;
                     item.Price = model.RetailtPrice;
                     item.RealPrice = item.Price - item.LessPrice;
                     item.ProductId = model.Id;
@@ -584,7 +612,34 @@ namespace SaleTools.Controllers
                     item.Brand = model.BrandName;
                     var res = _order.AddOrderItem(item);
                 }
-                var ress = _order.SaveOrder(order);
+                var dpses = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
+                foreach (var dps in dpses)
+                {
+                    var model = _goodsmanager.GetGoodsWithPrice(dps.SendGoodsId, loginUser.TypeId);
+                    OrderItem item = new OrderItem();
+                    item.IsGift = true;
+                    item.Count = dps.SendCount;
+                    item.CreateUserId = loginUser.UserId;
+                    item.Id = Guid.NewGuid();
+                    item.LessPrice = 0;
+                    item.Price = model.RetailtPrice;
+                    item.RealPrice = 0;
+                    item.ProductId = model.Id;
+                    item.ProductTittle = model.GoodsTittle;
+                    item.TotalPrice = 0;
+                    item.ProductType = model.FirstTypeName;
+                    item.ProductTypeId = model.FirstTypeId;
+                    item.ProductId = model.Id;
+                    item.BarCode = model.BarCode;
+                    item.Spec = model.Spec;
+                    item.Unit = model.Unit;
+                    item.SupplierId = model.SupplierId;
+                    item.SupplierName = model.SupplierName;
+                    item.BrandId = model.BrandId;
+                    item.Brand = model.BrandName;
+                    var res = _order.AddOrderItem(item);
+                }
+                var ress = _order.SaveOrder(order,loginUser.UserId);
                 if(ress)
                 {
                     string baseSupplier = ConfigurationManager.AppSettings["baseSupplierId"].ToString();

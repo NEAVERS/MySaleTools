@@ -348,7 +348,7 @@
                                         商品单位：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext" style="width:80px;" name="unit" id="J_Unit" value="@Model.Unit.Trim()">
+                                        <input type="text" class="inputtext" style="width:80px;" name="unit" id="J_Unit" value="@Model.Unit">
                                     </td>
                                 </tr>
                                 <tr>
@@ -356,7 +356,7 @@
                                         单位总数：
                                     </td>
                                     <td>
-                                        <input type="number" class="inputtext" style="width:80px;" name="unit_total" id="J_UnitTotal" value="@Model.BoxSpec.Trim()">
+                                        <input type="number" class="inputtext" style="width:80px;" name="unit_total" id="J_UnitTotal" value="@Model.BoxSpec">
                                         <span class="highlight">
                                             （商品单位总数，比如一箱农夫山泉有24瓶，则一箱农夫山泉的单位总数为24）
                                         </span>
@@ -502,7 +502,7 @@
                                         关键字：
                                     </td>
                                     <td>
-                                        <input type="text" class="inputtext" style="width:400px;" name="keyword" id="J_Keyword" value="@Model.KeyWord.Trim()">
+                                        <input type="text" class="inputtext" style="width:400px;" name="keyword" id="J_Keyword" value="@Model.KeyWord">
                                         <span class="highlight" style="margin-left:10px;">
                                             关键字之间请用逗号隔开
                                         </span>

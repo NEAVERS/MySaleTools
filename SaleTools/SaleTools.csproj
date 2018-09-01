@@ -366,6 +366,11 @@
     <Content Include="Views\Activtity\AddBlackList.cshtml" />
     <Content Include="Views\Activtity\BlackListView.cshtml" />
     <Content Include="Views\Activtity\EditBlackList.cshtml" />
+    <Content Include="Views\Activtity\DPSList.cshtml" />
+    <Content Include="Views\Activtity\AddNewDPS.cshtml" />
+    <Content Include="Views\Activtity\EditDPS.cshtml" />
+    <Content Include="Views\Activtity\AddActiveBlacklist.cshtml" />
+    <Content Include="Views\Activtity\ShowActiveBlacklist.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

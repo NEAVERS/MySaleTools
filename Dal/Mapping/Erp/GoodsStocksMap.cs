@@ -12,9 +12,9 @@ namespace Dal.Mapping.Erp
     {
         public GoodsStocksMap()
         {
-            this.HasKey(x => x.PtypeId);
-            this.HasKey(x => x.KtypeId);
+            this.HasKey(t => t.Id);
             this.ToTable("GoodsStocks");
+            this.Property(t => t.Id).HasColumnName("Id");
             this.Property(t => t.PtypeId).HasColumnName("PtypeId");
             this.Property(t => t.JobNumber).HasColumnName("JobNumber");
             this.Property(t => t.KtypeId).HasColumnName("KtypeId");

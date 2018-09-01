@@ -55,6 +55,8 @@ namespace Dal
         public DbSet<DiscountInfo> DiscountInfos { get; set; }
 
         public DbSet<BlackList> BlackLists { get; set; }
+        public DbSet<DPS> DPSes { get; set; }
+        public DbSet<BlackForActive> BlackForActives { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -82,6 +84,8 @@ namespace Dal
             modelBuilder.Configurations.Add(new NoticeMap());
             modelBuilder.Configurations.Add(new DiscountInfoMap());
             modelBuilder.Configurations.Add(new BlackListMap());
+            modelBuilder.Configurations.Add(new DPSMap());
+            modelBuilder.Configurations.Add(new BlackForActiveMap());
         }
     }
 }

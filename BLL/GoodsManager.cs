@@ -164,7 +164,7 @@ namespace BLL
         }
 
 
-        public PageData<GoodInfo> GetGoodsList(Guid CreaetUserId, int userType, int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId, string brandId, string keyWord,string IsUpShelves)
+        public PageData<GoodInfo> GetGoodsListByManager(Guid CreaetUserId, int userType, int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId, string brandId, string keyWord,string IsUpShelves, string sort , string order)
         {
             PageData<GoodInfo> page = new PageData<GoodInfo>();
             page.PageIndex = index;
@@ -192,15 +192,105 @@ namespace BLL
 
 
             q = q.OrderByDescending(x => x.SortId).ThenBy(x=>x.CreateTime);
+            if(order =="Asc")
+            {
+                switch(sort)
+                {
+                    case "price":
+                        q = q.OrderBy(x => x.BasePrice);
+                        break;
+                    case "edittime":
+                        q = q.OrderBy(x => x.LastUpdateTime);
+                        break;
+                    case "mincount":
+                        q = q.OrderBy(x => x.MinCount);
+                        break;
+                    case "sortid":
+                        q = q.OrderBy(x => x.SortId);
+                        break;
+                    default:
+                        q = q.OrderBy(x => x.LastUpdateTime);
+                        break;
+                }
+            }
+            else
+            {
+                switch (sort)
+                {
+                    case "price":
+                        q = q.OrderByDescending(x => x.BasePrice);
+                        break;
+                    case "edittime":
+                        q = q.OrderByDescending(x => x.LastUpdateTime);
+                        break;
+                    case "mincount":
+                        q = q.OrderByDescending(x => x.MinCount);
+                        break;
+                    case "sortid":
+                        q = q.OrderByDescending(x => x.SortId);
+                        break;
+                    default:
+                        q = q.OrderByDescending(x => x.LastUpdateTime);
+                        break;
+
+                }
+            }
             var list = q.Skip((index - 1) * size).Take(size).ToList();
 
-            list.ForEach(x =>
+            foreach (var item in list)
             {
-                x.RetailtPrice = GetPriceOfUserType(x, userType);
-                x.Stock = (int)GetGoodsStock(x.ErpId);
-            });
+                item.RetailtPrice = GetPriceOfUserType(item, userType);
+                string id = item.ErpId;
+                int stock = GetGoodsStock(id);
+                item.Stock = stock;
+
+            }
             page.ListData = list;
             return  page;
+        }
+
+
+        public PageData<GoodInfo> GetGoodsList(Guid CreaetUserId, int userType, int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId, string brandId, string keyWord, string IsUpShelves)
+        {
+            PageData<GoodInfo> page = new PageData<GoodInfo>();
+            page.PageIndex = index;
+            page.PageSize = size;
+            var q = from c in _context.GoodInfoes
+                    where c.CreateUserId == CreaetUserId
+                    && (c.GoodsTittle.Contains(keyWord) || c.KeyWord.Contains(keyWord) || c.BarCode == keyWord || c.GoodsNum.Contains(keyWord))
+                    && !c.IsDelete
+                    select c;
+            if (!string.IsNullOrWhiteSpace(SupplierId) && SupplierId != "0")
+                q = q.Where(x => x.SupplierId.ToString() == SupplierId);
+            if (!string.IsNullOrWhiteSpace(fstTypeId) && fstTypeId != "0")
+                q = q.Where(x => x.FirstTypeId.ToString() == fstTypeId);
+            if (!string.IsNullOrWhiteSpace(secTypeId) && secTypeId != "0")
+                q = q.Where(x => x.SecondTypeId.ToString() == secTypeId);
+            if (!string.IsNullOrWhiteSpace(thdTypeId) && thdTypeId != "0")
+                q = q.Where(x => x.ThirdTYypeId.ToString() == thdTypeId);
+            if (!string.IsNullOrWhiteSpace(brandId))
+                q = q.Where(x => x.BrandId.ToString() == brandId);
+            if (!string.IsNullOrWhiteSpace(IsUpShelves) && IsUpShelves != "0")
+            {
+                q = q.Where(x => x.IsUpShelves == (IsUpShelves == "1"));
+            }
+            page.TotalCount = q.Count();
+
+
+            q = q.OrderByDescending(x => x.SortId).ThenBy(x => x.CreateTime);
+            
+            var list = q.Skip((index - 1) * size).Take(size).ToList();
+
+            foreach (var item in list)
+            {
+                item.RetailtPrice = GetPriceOfUserType(item, userType);
+                string id = item.ErpId;
+                int stock = GetGoodsStock(id);
+                item.Stock = stock;
+
+            }
+            page.ListData = list;
+            return page;
         }
 
         /// <summary>
@@ -212,6 +302,40 @@ namespace BLL
         {
             return _context.GoodInfoes.FirstOrDefault(x => x.Id == id);
         }
+
+        /// <summary>
+        /// 更新排序ID
+        /// </summary>
+        /// <param name="goodsId"></param>
+        /// <param name="sortId"></param>
+        /// <returns></returns>
+        public bool UpdateSortId(Guid goodsId,int sortId)
+        {
+            var model = _context.GoodInfoes.FirstOrDefault(x => x.Id == goodsId);
+            if (model != null)
+            {
+                model.SortId = sortId;
+                model.LastUpdateTime = DateTime.Now;
+            }
+            return _context.SaveChanges() > 0;
+        }
+        /// <summary>
+        /// 更新最小起批量
+        /// </summary>
+        /// <param name="goodsId"></param>
+        /// <param name="minCount"></param>
+        /// <returns></returns>
+        public bool UpdateMinCount(Guid goodsId, int minCount)
+        {
+            var model = _context.GoodInfoes.FirstOrDefault(x => x.Id == goodsId);
+            if (model != null)
+            {
+                model.MinCount = minCount;
+                model.LastUpdateTime = DateTime.Now;
+            }
+            return _context.SaveChanges() > 0;
+        }
+
 
         /// <summary>
         /// 批量删除商品
@@ -297,6 +421,7 @@ namespace BLL
                 obj.KeyWord = newInfo.KeyWord;
                 obj.Detail = newInfo.Detail;
                 obj.ErpId = newInfo.ErpId;
+                obj.SortId = newInfo.SortId;
             }
 
             return _context.SaveChanges() > 0;
@@ -449,12 +574,22 @@ namespace BLL
          
         #region ERP相关
          
-        public decimal GetGoodsStock(string goodsId,string KId = "00001")
+        public int GetGoodsStock(string goodsId,string KId = "00001")
         {
+            var list = _erp.GoodsStockses.Where(x => x.PtypeId == goodsId && x.KtypeId == KId).ToList();
             var model = _erp.GoodsStockses.FirstOrDefault(x => x.PtypeId == goodsId && x.KtypeId == KId);
             if (model != null)
-                return model.Qty.Value;
+                return (int)model.Qty.Value;
             return 0;
+        }
+
+
+        public string GetErpId(string goodNum)
+        {
+            var model = _erp.ptypes.FirstOrDefault(x => x.UserCode == goodNum);
+            if (model != null)
+                return model.typeId;
+            return "";
         }
         #endregion
 

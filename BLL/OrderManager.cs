@@ -62,22 +62,25 @@ namespace BLL
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        public bool SaveOrder(OrderInfo order)
+        public bool SaveOrder(OrderInfo order,Guid userId)
         {
             var list = from c in _context.OrderItems
                        where c.IsInShoppingCar
                        && !c.IsDelete
                        && c.IsEffective
+                       &&c.CreateUserId == userId
                        select c;
             decimal totalPrice = 0;
+            decimal lessMoney = 0;
             foreach (var item in list)
             {
                 item.OrderId = order.Id;
                 item.OrderNum = order.OrderNum;
                 item.IsInShoppingCar = false;
                 totalPrice += item.TotalPrice;
+                lessMoney += (item.Count * item.LessPrice);
             }
-
+            order.LessMoney += lessMoney;
             order.TotalMoney = totalPrice;
             order.RealMoney = totalPrice - order.LessMoney;
             order.Stutas = (int)OrderStatus.等待商家发货;
@@ -1070,11 +1073,11 @@ namespace BLL
             var date = DateTime.Now.Date;
             var cout = _erp.OrderIndexes.Count(x => x.billtype == 300 && x.BillDate == date);
             var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == orderDetail.Info.CreateUserId);
-
+            var saleMan = _context.UserInfoes.FirstOrDefault(x => x.UserId == user.SaleManGuid);
             OrderIndex orderIndex = new OrderIndex();
             #region 初始化
             orderIndex.btypeid = string.IsNullOrWhiteSpace(user.BTypeId) ? "0000100001" : user.BTypeId;///该用户是否有对应的到erp的userId 如果没有就赋默认值"";
-            orderIndex.etypeid = "000010004100004";
+            orderIndex.etypeid = saleMan==null? "000010004100004":saleMan.BTypeId;
             orderIndex.ktypeid = "00001";
             orderIndex.BillDate = date;
             orderIndex.ReachDate = date;
@@ -1088,7 +1091,7 @@ namespace BLL
             orderIndex.BillOver = false;
             orderIndex.comment = string.Empty;
             orderIndex.explain = string.Empty;
-            orderIndex.Checke = "000010004100004";
+            orderIndex.Checke = saleMan == null ? "000010004100004" : saleMan.BTypeId;
             orderIndex.Tax = 0;
             orderIndex.BillStatus = 0;
             orderIndex.etypeid2 = string.Empty;
@@ -1098,7 +1101,7 @@ namespace BLL
             orderIndex.PackWay = string.Empty;
             orderIndex.TEL = string.Empty;
             orderIndex.IfAudit = 1;
-            orderIndex.DtypeId = "000010004100004";
+            orderIndex.DtypeId = saleMan == null ? "000010004100004" : saleMan.BTypeId;
             orderIndex.IsFinished = null;
             orderIndex.CanAlert = "1";
             orderIndex.DelayType = "0";
@@ -1139,7 +1142,7 @@ namespace BLL
                     continue;
                 model.ptypeid = goods.GoodsNum;
                 model.qty = x.Count * unit_ex.Rate;
-                model.price = x.RealPrice / unit_ex.Rate;
+                model.price = x.RealPrice;
                 model.total = x.TotalPrice;
                 model.ReachQty = 0;
                 model.comment = user.TypeName + (x.LessPrice > 0 ? "优惠金额:" + x.LessPrice*x.Count : "");///在备注中添加用户类型和优惠金额
@@ -1148,8 +1151,8 @@ namespace BLL
                 model.PassQty = 0;
                 model.IsUnit2 = false;
                 model.Discount = 1;
-                model.DiscountPrice = x.RealPrice / unit_ex.Rate;
-                model.TaxPrice = x.RealPrice / unit_ex.Rate;
+                model.DiscountPrice = x.RealPrice;
+                model.TaxPrice = x.RealPrice ;
                 model.TaxTotal = x.TotalPrice;
                 model.SaleTotal = x.TotalPrice;
                 model.Tax = 0;
@@ -1181,12 +1184,12 @@ namespace BLL
                 model.MQty = x.Count;
                 model.MUnitRate = unit_ex.Rate;
                 model.MUnitMsg = null;
-                model.MSalePrice = x.RealPrice;
-                model.MDiscountPrice = x.RealPrice;
-                model.MTaxPrice = x.RealPrice;
-                model.CurMSalePrice = x.RealPrice;
-                model.CurMDiscountPrice = x.RealPrice;
-                model.CurMTaxPrice = x.RealPrice;
+                model.MSalePrice = x.RealPrice * unit_ex.Rate;
+                model.MDiscountPrice = x.RealPrice * unit_ex.Rate;
+                model.MTaxPrice = x.RealPrice * unit_ex.Rate;
+                model.CurMSalePrice = x.RealPrice * unit_ex.Rate;
+                model.CurMDiscountPrice = x.RealPrice * unit_ex.Rate;
+                model.CurMTaxPrice = x.RealPrice * unit_ex.Rate;
                 model.ItemID = 0;
                 model.IsCombined = 0;
                 model.GoodsCostPrice = -1;

@@ -148,12 +148,22 @@ namespace SaleTools.Controllers
                 _response.Msg = "您无法购买该商品！已超过库存！";
                 return Utils.SerializeObject(_response);
             }
+            if (goodsInfo.LimitCount>0&& count > goodsInfo.LimitCount)
+            {
+                _response.Msg = "该商品限购" + goodsInfo.LimitCount;
+                return Utils.SerializeObject(_response);
+            }
             if (_order.IsExitInCar(goodId,loginUser.UserId, out basItem))
             {
                 count += basItem.Count;
                 if(count> Stock)
                 {
                     _response.Msg = "您无法购买该商品！已超过库存！";
+                }
+                else if (goodsInfo.LimitCount > 0 && count > goodsInfo.LimitCount)
+                {
+                    _response.Msg = "该商品限购"+ goodsInfo.LimitCount;
+                    return Utils.SerializeObject(_response);
                 }
                 else
                     _response.Stutas = _order.SaveOrderItem(basItem.Id, count);
@@ -165,6 +175,10 @@ namespace SaleTools.Controllers
                 item.Count = count;
                 item.CreateUserId = loginUser.UserId;
                 decimal discount = _active.CheckDiscountDetail(model.FirstTypeId, loginUser.AreaNum, loginUser.TypeId.ToString());
+                if(_active.CheckInBlack(ViewBag.ManagerId,model.Id))
+                {
+                    discount = 100;
+                }
                 item.Id = Guid.NewGuid();
                 item.LessPrice = Math.Round((100-discount)* model.RetailtPrice/100,2);
                 item.Price = model.RetailtPrice;
@@ -182,6 +196,7 @@ namespace SaleTools.Controllers
                 item.SupplierName = model.SupplierName;
                 item.BrandId = model.BrandId;
                 item.Brand = model.BrandName;
+                item.Pic = model.pic1;
                 _response.Stutas = _order.AddOrderItem(item);
             }
             return Utils.SerializeObject(_response);
@@ -204,9 +219,11 @@ namespace SaleTools.Controllers
             var list = _order.GetShoppingCar(loginUser.UserId);
             var mj = _active.CheckManjiujian(loginUser.UserId, ViewBag.ManagerId);
             var ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
+            var dpses = _active.CheckDPS(list,loginUser.TypeId,loginUser.AreaNum);
             ViewBag.Mj = mj;
             ViewBag.Ms = ms;
             ViewBag.List = list;
+            ViewBag.DPSES = dpses;
             return View();
         }
 
@@ -218,7 +235,11 @@ namespace SaleTools.Controllers
             {
                 var goodsInfo = _manager.GetGoodInfoById(orderItem.ProductId);
                 decimal Stock = _manager.GetGoodsStock(goodsInfo.ErpId);
-                if(Stock<count||count<1)
+                if (goodsInfo.LimitCount > 0 && count > goodsInfo.LimitCount)
+                {
+                    return Utils.SerializeObject(false);
+                }
+                if (Stock<count||count<1)
                     return Utils.SerializeObject(false);
                 var res = _order.SaveOrderItem(itemId, count);
                 return Utils.SerializeObject(res);
@@ -247,13 +268,28 @@ namespace SaleTools.Controllers
             var loginUser = (UserInfo)ViewBag.User;
             var list = _order.GetShoppingCar(loginUser.UserId);
             var mj = _active.CheckManjiujian(loginUser.UserId, ViewBag.ManagerId);
-            var ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
+            Manjiusong ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
             var couponList = _active.FindCanUseCoupon(loginUser.UserId);
+            var dpses = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
+            dpses.ForEach(x =>
+            {
+                var model = _manager.GetGoodInfoById(x.SendGoodsId);
+                if(model!=null)
+                    x.SendGoodsNum = model.pic1;
+            });
+            if (ms != null)
+            {
+                var msGoods = _manager.GetGoodInfoById(ms.SendGoodId);
+                if (msGoods != null)
+                    ms.Tittle = msGoods.pic1;
+            }
             ViewBag.Mj = mj;
             ViewBag.Ms = ms;
             ViewBag.List = list;
 
             ViewBag.CouponList = couponList;
+            ViewBag.DPSES = dpses;
+
             return View();
         }
 
@@ -307,7 +343,7 @@ namespace SaleTools.Controllers
                 Manjiusong ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
                 if (mj != null)
                 {
-                    order.LessMoney = mj.LessMoeny;
+                    order.LessMoney += mj.LessMoeny;
                 }
                 if (ms != null)
                 {
@@ -335,8 +371,34 @@ namespace SaleTools.Controllers
                     item.Brand = model.BrandName;
                     var res = _order.AddOrderItem(item);
                 }
-
-                _response.Stutas = _order.SaveOrder(order);
+                var dpses = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
+                foreach (var dps in dpses)
+                {
+                    var model = _manager.GetGoodsWithPrice(dps.SendGoodsId, loginUser.TypeId);
+                    OrderItem item = new OrderItem();
+                    item.IsGift = true;
+                    item.Count = dps.SendCount;
+                    item.CreateUserId = loginUser.UserId;
+                    item.Id = Guid.NewGuid();
+                    item.LessPrice = 0;
+                    item.Price = model.RetailtPrice;
+                    item.RealPrice = 0;
+                    item.ProductId = model.Id;
+                    item.ProductTittle = model.GoodsTittle;
+                    item.TotalPrice = 0;
+                    item.ProductType = model.FirstTypeName;
+                    item.ProductTypeId = model.FirstTypeId;
+                    item.ProductId = model.Id;
+                    item.BarCode = model.BarCode;
+                    item.Spec = model.Spec;
+                    item.Unit = model.Unit;
+                    item.SupplierId = model.SupplierId;
+                    item.SupplierName = model.SupplierName;
+                    item.BrandId = model.BrandId;
+                    item.Brand = model.BrandName;
+                    var res = _order.AddOrderItem(item);
+                }
+                _response.Stutas = _order.SaveOrder(order,loginUser.UserId);
                 //保存订单成功后 保存销售订单到erp 系统中
                 if (_response.Stutas)
                 {

@@ -5,6 +5,7 @@
     var list = (List<OrderItem>)ViewBag.List;
     var mj = (Manjiujian)ViewBag.Mj;
     var ms = (Manjiusong)ViewBag.Ms;
+    var dpses = (List<DPS>)ViewBag.DPSES;
     decimal totalPrice = 0;
 }
 
@@ -66,7 +67,7 @@
                                 </div>
                             </div>
                             <div class="cart-cell price">
-                                <span>@item.RealPrice</span>
+                                <span>@item.Price</span>
                             </div>
                             <div class="cart-cell quantity">
                                 <a href="javascript:;" class="q-minus">-</a>
@@ -75,7 +76,7 @@
                                 <input type="hidden" data-min="1" data-old="2" data-pid="268695">
                             </div>
                             <div class="cart-cell total">
-                                <span>@item.TotalPrice</span>
+                                <span>@(@item.Price*item.Count)</span>
                             </div>
                             <div class="cart-cell opt">
                                 <p>
@@ -88,7 +89,7 @@
                 <ul class="cart-group" style="padding-top:10px;border-top:1px solid #f3f3f3;">
                     <li class="cart-event ">
                         <p class="event-normal">
-                            享受<b>@(list.Sum(x=>x.LessPrice))</b>元类目折扣优惠优惠
+                            享受<b>@(list.Sum(x => x.LessPrice*x.Count))</b>元类目折扣优惠优惠
                         </p>
                         <span class="line"></span>
                         <span class="line line2"></span>
@@ -97,58 +98,69 @@
                     </li>
 
                     @if (mj != null)
-    {
-        string type = "";
-        switch (mj.TypeId)
-        {
-            case 1:
-                type = "通用折扣";
-                break;
-            case 2:
-                type = "品牌折扣";
-                break;
-            case 3:
-                type = "供应商折扣";
-                break;
+                    {
+                        string type = "";
+                        switch (mj.TypeId)
+                        {
+                            case 1:
+                                type = "通用折扣";
+                                break;
+                            case 2:
+                                type = "品牌折扣";
+                                break;
+                            case 3:
+                                type = "供应商折扣";
+                                break;
 
-        }
-                <li class="cart-event ">
-                    <p class="event-normal">
-                        享受<b>@mj.LessMoeny</b>元@(type)优惠
-                    </p>
-                    <span class="line"></span>
-                    <span class="line line2"></span>
-                    <em class="ball"></em>
-                    <span class="tag">@(type)</span>
-                </li>
-}
+                        }
+                        <li class="cart-event ">
+                            <p class="event-normal">
+                                享受<b>@mj.LessMoeny</b>元@(type)优惠
+                            </p>
+                            <span class="line"></span>
+                            <span class="line line2"></span>
+                            <em class="ball"></em>
+                            <span class="tag">@(type)</span>
+                        </li>
+                    }
                     @if (ms != null)
-    {
-        string type = "";
-        switch (ms.TypeId)
-        {
-            case 1:
-                type = "通用满送";
-                break;
-            case 2:
-                type = "品牌满送";
-                break;
-            case 3:
-                type = "供应商满送";
-                break;
+                    {
+                        string type = "";
+                        switch (ms.TypeId)
+                        {
+                            case 1:
+                                type = "通用满送";
+                                break;
+                            case 2:
+                                type = "品牌满送";
+                                break;
+                            case 3:
+                                type = "供应商满送";
+                                break;
 
-        }
-                <li class="cart-event ">
-                    <p class="event-normal">
-                        享受赠送<b>@(ms.SendGoodName + "x" + ms.SendGoodCount.ToString())</b>@(type)优惠
-                    </p>
-                    <span class="line"></span>
-                    <span class="line line2"></span>
-                    <em class="ball"></em>
-                    <span class="tag">@(type)</span>
-                </li>
-}
-
+                        }
+                        <li class="cart-event ">
+                            <p class="event-normal">
+                                享受赠送<b>@(ms.SendGoodName + "x" + ms.SendGoodCount.ToString())</b>@(type)优惠
+                            </p>
+                            <span class="line"></span>
+                            <span class="line line2"></span>
+                            <em class="ball"></em>
+                            <span class="tag">@(type)</span>
+                        </li>
+                    }
+                    @foreach (var item in dpses)
+                    {
+                        <li class="cart-event ">
+                            <p class="event-normal">
+                                享受买@(item.GoodsName)满@(item.Count)赠送<b>@(item.SendGoodsName + "x" + item.SendCount)</b>单品赠优惠
+                            </p>
+                            <span class="line"></span>
+                            <span class="line line2"></span>
+                            <em class="ball"></em>
+                            <span class="tag">单品送</span>
+                        </li>
+                    }
                 </ul>
             </div>
             <div class="cart-action-bar">
@@ -164,7 +176,7 @@
                         <p class="main-price">
                             <span>商品总计：</span>
                             <b>
-                                ¥ @totalPrice
+                                ¥ @(totalPrice-(mj==null?0:mj.LessMoeny))
 
                             </b>
                         </p>

@@ -45,6 +45,7 @@ namespace Dal.Mapping
 
             this.Property(t => t.UseTime).HasColumnName("UseTime");
             this.Property(t => t.UserOrderId).HasColumnName("UserOrderId");
+            this.Property(t => t.EffectTime).HasColumnName("EffectTime");
 
 
             

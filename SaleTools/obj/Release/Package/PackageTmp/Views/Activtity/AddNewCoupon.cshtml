@@ -48,9 +48,9 @@
                                 <td class="right"><span class="highlight">*</span>店铺类型:</td>
                                 <td>
                                     @foreach (var item in typeList)
-                    {
-                        <input type="checkbox" name="userType" value="@item.TypeId">@item.TypeName
-    }
+                                    {
+                                        <input type="checkbox" name="userType" value="@item.TypeId">@item.TypeName
+                                    }
                                     &nbsp; &nbsp;
                                 </td>
                             </tr>
@@ -60,9 +60,9 @@
                                 <td>
                                     <select name="SupplierId" id="SupplierId" style="width:100px;">
                                         @foreach (var item in suppliers)
-                        {
-                            <option value="@item.Id"> @item.SupplierCompany</option>
-        }
+                                        {
+                                            <option value="@item.Id"> @item.SupplierCompany</option>
+                                        }
                                     </select>
 
                                 </td>
@@ -73,9 +73,9 @@
                                 <td>
                                     <select name="BrandId" id="BrandId" style="width:100px;">
                                         @foreach (var item in brandList)
-                        {
-                            <option value="@item.Id"> @item.BrandName</option>
-}
+                                        {
+                                            <option value="@item.Id"> @item.BrandName</option>
+                                        }
                                     </select>
 
                                 </td>
@@ -102,6 +102,16 @@
                                     <span class="tip">满足多少金额才能使用此优惠券</span>
                                 </td>
                             </tr>
+                            <tr>
+                                <td class="right" width="120"><span class="highlight">*</span>有效期：</td>
+                                <td>
+                                    <input type="number" class="inputtext float" name="EffectTime" style="width:100px;" value="">
+                                    <span class="tip">天</span>
+                                </td>
+                            </tr>
+
+
+                            
                             <tr>
                                 <td class="right" width="120">优惠券描述：</td>
                                 <td>

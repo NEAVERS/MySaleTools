@@ -151,7 +151,7 @@
                                     </td>
                                     <td class="center">@orderItem.Count</td>
                                     <td class="center"><b>@orderItem.TotalPrice</b></td>
-                                    <td class="center"><b>@orderItem.LessPrice</b></td>
+                                    <td class="center"><b>@(orderItem.LessPrice*orderItem.Count)</b></td>
                                 </tr>
                                 }
                             </tbody>

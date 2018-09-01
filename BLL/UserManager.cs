@@ -57,7 +57,12 @@ namespace BLL
                 model.Remark = user.Remark;
                 model.Tel = user.Tel;
                 model.UserCode = user.UserCode;
-                model.BTypeId = GetBtypeId(user.UserCode);
+                if(model.TypeId <0)
+                {
+                    model.BTypeId = GetEmployeeId(user.UserCode);
+                }
+                else
+                    model.BTypeId = GetBtypeId(user.UserCode);
             }
 
             return _context.SaveChanges() > 0;
@@ -67,6 +72,14 @@ namespace BLL
         private string GetBtypeId(string userCode)
         {
             var model = _erp.btypes.FirstOrDefault(x => x.UserCode == userCode);
+            if (model == null)
+                return "";
+            return model.typeId;
+        }
+
+        private string GetEmployeeId(string userCode)
+        {
+            var model = _erp.employees.FirstOrDefault(x => x.UserCode == userCode);
             if (model == null)
                 return "";
             return model.typeId;

@@ -43,11 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Area.cs" />
+    <Compile Include="BlackForActive.cs" />
     <Compile Include="BlackList.cs" />
     <Compile Include="BrandOfGoodsType.cs" />
     <Compile Include="Coupon.cs" />
     <Compile Include="DiscountInfo.cs" />
+    <Compile Include="DPS.cs" />
     <Compile Include="Erp\btype.cs" />
+    <Compile Include="Erp\employee.cs" />
     <Compile Include="Erp\GoodsStocks.cs" />
     <Compile Include="Erp\OrderBill.cs" />
     <Compile Include="Erp\OrderIndex.cs" />

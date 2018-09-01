@@ -243,6 +243,8 @@
                             </th>
                             <th class="price center clickSort change" width="60">
                                 单价
+                                <span class="dot-top clickDot"  sort ="price"></span>
+                                <span class="dot-bottom clickDot" sort ="price"></span>
 
                             </th>
                             <th class="sales_volume center clickSort change" width="80">
@@ -256,12 +258,21 @@
 
                             <th class="state center" width="130">
                                 编辑时间
+                                <span class="dot-top clickDot" sort ="edittime"></span>
+                                <span class="dot-bottom clickDot" sort ="edittime"></span>
+
                             </th>
                             <th class="clickSort change">
                                 起批量
+                                <span class="dot-top clickDot" sort ="mincount"></span>
+                                <span class="dot-bottom clickDot" sort ="mincount"></span>
+
                             </th>
                             <th class="sort center clickSort change">
                                 排序
+                                <span class="dot-top clickDot" sort ="sortid"></span>
+                                <span class="dot-bottom clickDot" sort ="sortid"></span>
+
                             </th>
                             <th class="total center">
                                 操作
@@ -284,7 +295,8 @@
         </div>
     </div>
 </div>
-
+<input type="hidden" id="sort" value="edittime"/>
+<input type="hidden" id="order" value="Desc" />
 <script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
 
 <script type="text/javascript" src="/Content/js/lib/help.js">
@@ -307,6 +319,18 @@
     $(function () {
 
     })
+    $(".dot-top").click(function () {
+        var sort = $(this).attr("sort");
+        $("#sort").val(sort);
+        $("#order").val("Asc");
+        LoadList(index);
+    })
+    $(".dot-bottom").click(function () {
+        var sort = $(this).attr("sort");
+        $("#sort").val(sort);
+        $("#order").val("Desc");
+        LoadList(index);
+    })
     $("#J_CategorySelector").CategorySelector({
         afterThdSelect: function (cid) {
             // 品牌信息
@@ -322,6 +346,8 @@
         para.secTypeId = $("input[name='snd_cat_id']").val();
         para.thdTypeId = $("input[name='thd_cat_id']").val();
         para.keyWord = $("#search_value").val();
+        para.sort = $("#sort").val();
+        para.order = $("#order").val();
         return para;
     }
 
@@ -350,8 +376,8 @@
                     html += '<td class="center">-</td>';
                     html += '<td class="center">' + this.Stock + '</td>';
                     html += '<td class="center">' + this.LastUpdateTime + '</td>'
-                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum" data-id="808105" data-num="10" value="' + this.MinCount + '"></td>';
-                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" data-id="808105" data-sort="341" value="'+ this.SortId + '"></td>';
+                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum" data-id="' + this.Id + '" data-num="' + this.MinCount + '" value="' + this.MinCount + '"></td>';
+                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" data-id="' + this.Id + '" data-sort="' + this.SortId + '" value="'+ this.SortId + '"></td>';
                     html += '<td class="center"><a href="/GoodsManager/ShowGoodsInfo?goodId=' + this.Id + '">商品详情</a><br><br>';
                     html += '<a href="/GoodsManager/CopyNew/' + this.Id + '">复制新增</a><br><br>';
                     html += '<a href="/GoodsManager/AddGoods/' + this.Id + '">编辑商品</a><br><br>';
@@ -527,5 +553,23 @@
             }, "json");
         });
     }
+    $(".J_midSoldNum").on("change", function () {
+        var minCount = $(this).val();
+        var goodsId = $(this).data("id");
+        $.post("/GoodsManager/UpdateMinCount", { goodsId: goodsId, minCount: minCount }, function (e) {
+            if (e) {
+                LoadList(index);
+            }
+        },"json")
+    })
 
+    $(".J_QuickSort").on("change", function () {
+        var sortId = $(this).val();
+        var goodsId = $(this).data("id");
+        $.post("/GoodsManager/UpdateSortId", { goodsId: goodsId, sortId: sortId }, function (e) {
+            if (e) {
+                LoadList(index);
+            }
+        }, "json")
+    })
 </script>

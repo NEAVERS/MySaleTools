@@ -34,6 +34,9 @@ namespace Model
         /// </summary>
         public DateTime EndTime { get; set; }
 
+
+        public int EffectTime { get; set; }
+
         /// <summary>
         /// 使用满足条件
         /// </summary>

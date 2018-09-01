@@ -6,7 +6,7 @@ E:\Project\test\SaleTools\Model\obj\Release\Model.dll
 E:\Project\test\SaleTools\Model\obj\Release\Model.pdb
 D:\Project\test\SaleTools\Model\bin\Release\Model.dll
 D:\Project\test\SaleTools\Model\bin\Release\Model.pdb
-D:\Project\test\SaleTools\Model\obj\Release\Model.csprojAssemblyReference.cache
 D:\Project\test\SaleTools\Model\obj\Release\Model.csproj.CoreCompileInputs.cache
 D:\Project\test\SaleTools\Model\obj\Release\Model.dll
 D:\Project\test\SaleTools\Model\obj\Release\Model.pdb
+D:\Project\test\SaleTools\Model\obj\Release\Model.csprojAssemblyReference.cache

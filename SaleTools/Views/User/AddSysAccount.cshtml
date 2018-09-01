@@ -49,7 +49,14 @@
                             <input type="text" class="inputtext" style="width:150px;" name="account" id="account" value="@Model.Account">
                         </td>
                     </tr>
-
+                    <tr>
+                        <td class="right">
+                            erpId：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="UserCode" id="UserCode" value="@Model.UserCode">
+                        </td>
+                    </tr>
                     <tr>
                         <td class="right">
                             联系电话：
@@ -85,14 +92,14 @@
                             @foreach (string str in allResourse)
                             {
                                 var _str = "";
-                                if(userResourse.Contains(str))
+                                if (userResourse.Contains(str))
                                 {
                                     _str = "checked='checked'";
                                 }
-                            <label style="display: inline-block;width: 18%;">
-                                <input style=" position: relative;top: 2px;" type="checkbox" name="resourses"  @_str value="@str">
-                                @str &nbsp;&nbsp;
-                            </label>
+                                <label style="display: inline-block;width: 18%;">
+                                    <input style=" position: relative;top: 2px;" type="checkbox" name="resourses" @_str value="@str">
+                                    @str &nbsp;&nbsp;
+                                </label>
                             }
                         </td>
                     </tr>
@@ -184,6 +191,7 @@
         para.PassWord = pwd;
         para.TypeId = typeId;
         para.TypeName = typeName;
+        para.UserCode = $("#UserCode").val();
         para.ProvinceNum = $("#province").val();
         para.Province = $("#province").find("option:selected").text();
         para.CityNum = $("#city").val();

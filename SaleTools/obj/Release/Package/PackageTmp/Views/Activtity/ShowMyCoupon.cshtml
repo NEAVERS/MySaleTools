@@ -44,10 +44,10 @@
                                 <p>@coupon.LessMoney  元<span> - 满@(coupon.Limit)元,可用</span></p>
                             </div>
                             <div class="get">
-                                <a style="color: #7d7d7d;">首单优惠 @(coupon.IsUsed? "已使用":"待使用")                                                                     </a>
+                                <a style="color: #7d7d7d;">@coupon.Remark  @(coupon.IsUsed? "已使用":"待使用")                                                                     </a>
                             </div>
                             <div class="time">
-                                有效期至:<span id="startTime">@coupon.EndTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                                有效期至:<span id="startTime">@coupon.CreateTime.AddDays(coupon.EffectTime).ToString("yyyy-MM-dd HH:mm:ss")</span>
                             </div>
                         </li>
                         }

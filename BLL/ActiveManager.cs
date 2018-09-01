@@ -32,6 +32,7 @@ namespace BLL
                 tempModel.UserNum = user.UserNum;
                 tempModel.StoreId = user.UserId;
                 tempModel.StoreNum = user.UserNum;
+                tempModel.EffectTime = model.EffectTime;
                 _context.Coupons.Add(tempModel);
             }
             _response.Stutas = _context.SaveChanges() > 0;
@@ -86,9 +87,19 @@ namespace BLL
                     select c;
             if (isCheckUsed)
                 q = q.Where(x => x.IsUsed == isUsed);
+            List<Coupon> list = new List<Coupon>();
             if (isCheckOnTime)
-                q = q.Where(x => x.StartTime < DateTime.Now && x.EndTime > DateTime.Now);
-            return q.ToList();
+            {
+                foreach(var item in q)
+                {
+                    if(item.CreateTime.AddDays(1 * item.EffectTime) > DateTime.Now)
+                    {
+                        list.Add(item);
+                    }
+                }
+            }
+                
+            return list;
         }
 
         /// <summary>
@@ -136,9 +147,17 @@ namespace BLL
         public List<Coupon> FindCanUseCoupon(Guid   userid)
         {
             var couponList = new List<Coupon>();
-            var orderItems = _context.OrderItems.Where(x => x.CreateUserId == userid && x.IsInShoppingCar && !x.IsDelete);
+            var orderItems = _context.OrderItems.Where(x => x.CreateUserId == userid && x.IsInShoppingCar && !x.IsDelete).ToList();
+
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == userid);
+
+
+            var blackList = GetBlackForActiveByType(user.CreateUserId, (int)ActiveType.使用优惠劵);
+            orderItems = orderItems.Where(x => !blackList.Exists(c => c.GoodsId == x.ProductId)).ToList();///不计算在黑名单中的商品
+
+
             var canUseCoupons = GetCouponByUserId(userid, true, false, true);
-            if (canUseCoupons != null && canUseCoupons.Count > 1)
+            if (canUseCoupons != null && canUseCoupons.Count > 0)
             {
 
                 foreach (var coupon in canUseCoupons)
@@ -203,6 +222,36 @@ namespace BLL
             });
             _context.ManToAreas.AddRange(list);
             _context.Manjiujians.Add(model);
+            _response.Stutas = _context.SaveChanges() > 0;
+            return _response;
+        }
+
+        /// <summary>
+        /// 创建单品送
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="areNum"></param>
+        /// <returns></returns>
+        public ResponseModel CreateDPS(DPS model, List<string> areNum)
+        {
+
+            List<ManToArea> list = new List<ManToArea>();
+            areNum.ForEach(x =>
+            {
+                var area = _context.Areas.FirstOrDefault(c => c.Num == x);
+                if (area != null)
+                {
+
+                    var newArea = new ManToArea();
+                    newArea.ActiveId = model.Id;
+                    newArea.ActiveName = string.Empty;
+                    newArea.AreaNum = area.Num;
+                    newArea.AreaName = area.Name;
+                    list.Add(newArea);
+                }
+            });
+            _context.ManToAreas.AddRange(list);
+            _context.DPSes.Add(model);
             _response.Stutas = _context.SaveChanges() > 0;
             return _response;
         }
@@ -282,7 +331,11 @@ namespace BLL
             var orderItems = _context.OrderItems.Where(x => x.CreateUserId == userId && x.IsInShoppingCar && !x.IsDelete).ToList();
             if (orderItems == null || orderItems.Count() < 1)
                 return null;
+
             var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == userId);
+            var blackList = GetBlackForActiveByType(managerId, (int)ActiveType.满就减);
+            orderItems = orderItems.Where(x => !blackList.Exists(c => c.GoodsId == x.ProductId)).ToList();///不计算在黑名单中的商品
+
             var q = from c in _context.Manjiujians
                     where c.StartTime < DateTime.Now
                     && c.EndTime > DateTime.Now
@@ -422,8 +475,13 @@ namespace BLL
         public Manjiusong CheckManSong(Guid userId, Guid managerId)
         {
             var couponList = new List<Coupon>();
-            var orderItems = _context.OrderItems.Where(x => x.CreateUserId == userId && x.IsInShoppingCar && !x.IsDelete);
+            var orderItems = _context.OrderItems.Where(x => x.CreateUserId == userId && x.IsInShoppingCar && !x.IsDelete).ToList();
+
+
             var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == userId);
+            var blackList = GetBlackForActiveByType(user.CreateUserId, (int)ActiveType.满就送);
+            orderItems = orderItems.Where(x => !blackList.Exists(c => c.GoodsId == x.ProductId)).ToList();///不计算在黑名单中的商品
+
             if (orderItems == null || orderItems.Count() < 1)
                 return null;
             var q = from c in _context.Manjiusongs
@@ -525,6 +583,16 @@ namespace BLL
             return detail;
         }
 
+
+        public ManDetail<DPS> GetDPSDetial(Guid activeId)
+        {
+            var detail = new ManDetail<DPS>();
+            detail.Info = _context.DPSes.FirstOrDefault(x => x.Id == activeId);
+            var areas = GetActiveArea(activeId);
+            detail.areas = GetCanUserArea(areas);
+            return detail;
+        }
+
         /// <summary>
         /// 获取满减活动详情
         /// </summary>
@@ -591,6 +659,120 @@ namespace BLL
             }
             return pager;
         }
+
+
+
+        /// <summary>
+        /// 获取满减列表
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public PageData<DPS> GetDPSPager(Guid userid, int index)
+        {
+            var q = from c in _context.DPSes
+                    where c.CreateUserId == userid
+                    &&!c.IsDelete
+                    select c;
+            var pager = new PageData<DPS>();
+            pager.PageIndex = index;
+            pager.PageSize = 30;
+            pager.TotalCount = q.Count();
+            pager.ListData = q.OrderByDescending(x => x.CreateTime).Skip((index - 1) * 30).Take(30).ToList();
+            foreach (var item in pager.ListData)
+            {
+                var areas = GetActiveArea(item.Id);
+                var areaList = GetCanUserArea(areas);
+                item.Areas = string.Join(",", areaList.Select(x => x.Name));
+                var userTypes = GetUserType(item.UserTypes);
+                item.UserTypes = string.Join(",", userTypes.Select(x => x.TypeName));
+            }
+            return pager;
+        }
+
+
+        public ResponseModel SaveDPS(DPS model, List<string> areNum)
+        {
+
+            List<ManToArea> list = new List<ManToArea>();
+            var areaHis = _context.ManToAreas.Where(x => x.ActiveId == model.Id);
+            areNum.ForEach(x =>
+            {
+                var area = _context.Areas.FirstOrDefault(c => c.Num == x);
+                if (area != null)
+                {
+
+                    var newArea = new ManToArea();
+                    newArea.ActiveId = model.Id;
+                    newArea.ActiveName = model.GoodsName;
+                    newArea.AreaNum = area.Num;
+                    newArea.AreaName = area.Name;
+                    list.Add(newArea);
+                }
+            });
+            var modelHis = _context.DPSes.FirstOrDefault(x => x.Id == model.Id);
+            modelHis.StartTime = model.StartTime;
+            modelHis.EndTime = model.EndTime;
+            modelHis.GoodsId = model.GoodsId;
+            modelHis.GoodsName= model.GoodsName;
+            modelHis.GoodsNum = model.GoodsNum;
+            modelHis.SendGoodsId = model.SendGoodsId;
+            modelHis.SendGoodsNum = model.SendGoodsNum;
+            modelHis.SendGoodsName = model.SendGoodsName;
+            modelHis.Count = model.Count;
+            modelHis.SendCount = model.SendCount;
+            modelHis.IsOnly = model.IsOnly;
+            modelHis.IsRepeat = model.IsRepeat;
+            modelHis.UserTypes = model.UserTypes;
+            _context.ManToAreas.RemoveRange(areaHis);
+            _context.ManToAreas.AddRange(list);
+            _response.Stutas = _context.SaveChanges() > 0;
+            return _response;
+        }
+
+
+        public List<DPS> CheckDPS(List<OrderItem> list,int userType,string areaNum)
+        {
+            var allDps = GetDPS();
+            List<DPS> dpses = new List<DPS>();
+
+            list.ForEach(x =>
+            {
+                var model = allDps.FirstOrDefault(c => c.Info.GoodsId == x.ProductId && c.Info.Count <= x.Count&&c.Info.UserTypes.Contains(userType.ToString())&&c.areas.Exists(a=>a.Num == areaNum));
+                if (model != null)
+                {
+                    if (!model.Info.IsOnly)
+                        model.Info.SendCount = (model.Info.SendCount) * ((int)(x.Count / model.Info.Count));
+                    dpses.Add(model.Info);
+
+                }
+            });
+
+            return dpses;
+        }
+
+
+        public List<ManDetail<DPS>> GetDPS()
+        {
+            var list = new List<ManDetail<DPS>>();
+            var q = from c in _context.DPSes
+                    where c.StartTime < DateTime.Now
+                    && c.EndTime > DateTime.Now
+                    && !c.IsDelete
+                    select c;
+            if (q != null && q.Count() > 0)
+            {
+                var tempList = q.ToList();
+                foreach(var item in tempList)
+                {
+                    var temp = GetDPSDetial(item.Id);
+                    list.Add(temp);
+                }
+            }
+            return list;
+
+        }
+
 
         /// <summary>
         /// 获取用户类型列表
@@ -911,5 +1093,109 @@ namespace BLL
         }
         #endregion
 
+
+        /// <summary>
+        /// 批量添加活动黑名单
+        /// </summary>
+        /// <param name="goodsList"></param>
+        /// <param name="CreateUserId"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        #region
+        public ResponseModel SaveBlackFoActive(List<Guid> goodsList , Guid CreateUserId,int type)
+        {
+            try
+            {
+                List<BlackForActive> list = new List<BlackForActive>();
+                foreach (var item in goodsList)
+                {
+                    var isInBlack = CheckIsInBlack(item, type);
+                    if (!isInBlack)
+                    {
+                        var model = _context.GoodInfoes.FirstOrDefault(c => c.Id == item);
+                        if (model == null)
+                            continue;
+                        var blackForActive = new BlackForActive();
+                        blackForActive.GoodsId = item;
+                        blackForActive.GoodsName = model.GoodsTittle;
+                        blackForActive.GoodsNum = model.GoodsNum;
+                        blackForActive.ProviderName = model.SupplierName;
+                        blackForActive.Satutas = model.IsUpShelves ? "已上架" : "已下架";
+                        blackForActive.ActiveType = type;
+                        blackForActive.CreateUserId = CreateUserId;
+                        list.Add(blackForActive);
+                    }
+
+                }
+                 _context.BlackForActives.AddRange(list);
+                _response.Stutas = _context.SaveChanges() > 0;
+            }
+            catch(Exception ex)
+            {
+                _response.Msg = ex.Message;
+                LogsHelper.WriteErrorLog(ex, "添加活动黑名单");
+            }
+            return _response;
+
+        }
+
+        public bool CheckIsInBlack(Guid goodsId,int type)
+        {
+            var res = _context.BlackForActives.Any(x => x.GoodsId == goodsId && x.ActiveType == type);
+            return res;
+        }
+
+
+
+        public PageData<BlackForActive> GetBlackForActiveByPage(int index,int type,string key)
+        {
+
+            var q = from c in _context.BlackForActives
+                    where c.GoodsName.Contains(key)
+                    || c.GoodsNum.Contains(key)
+                    select c;
+            if (type > 0)
+                q = q.Where(x => x.ActiveType == type);
+
+            PageData<BlackForActive> pager = new PageData<BlackForActive>();
+            pager.TotalCount = q.Count();
+            pager.PageSize = 30;
+            pager.PageIndex = index;
+            pager.ListData = q.OrderByDescending(x => x.CreateTime).Skip((index - 1) * 30).Take(30).ToList();
+
+            return pager;
+        }
+
+
+        public ResponseModel DeleteBlackForActive(List<Guid> ids)
+        {
+
+            try
+            {
+                var q = _context.BlackForActives.Where(x => ids.Contains(x.Id));
+                _context.BlackForActives.RemoveRange(q);
+                _response.Stutas = _context.SaveChanges() > 0;
+            }
+            catch(Exception ex)
+            {
+                _response.Msg = ex.Message;
+                LogsHelper.WriteErrorLog(ex, "删除活动黑名单");
+            }
+
+            return _response;
+        }
+        public List<BlackForActive> GetBlackForActiveByType(Guid userId,int type)
+        {
+            var q = _context.BlackForActives.Where(x => x.CreateUserId == userId && x.ActiveType == type);
+            return q.ToList();
+        }
+
+        public bool CheckInBlack(Guid userid, Guid goodsId)
+        {
+            var list = GetBlackForActiveByType(userid, (int)ActiveType.类目折扣);
+            return list.Any(x => x.GoodsId == goodsId);
+        }
+
+        #endregion
     }
 }

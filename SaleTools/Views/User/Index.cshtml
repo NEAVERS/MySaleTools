@@ -212,7 +212,7 @@
 
 
     $(document).on("click", ".lock", function () {
-        var id = $(this).attr("userId");
+        var id = $(this).attr("userid");
         $.post("/User/ToggaleLock", { userId: id }, function (e) {
             if (e) {
                 LoadData(1);
@@ -223,6 +223,8 @@
     })
 
     $(document).on("click", ".del", function () {
+        var id = $(this).attr("userid");
+
         layer.confirm('请确认是否删除？', {
             btn: ['取消', '确认'] //按钮
         }, function () {
@@ -230,7 +232,6 @@
 
         }, function () {
 
-            var id = $(this).attr("userId");
             $.post("/User/DelUser", { userId: id }, function (e) {
                 if (e) {
                     LoadData(1);
@@ -241,7 +242,7 @@
         })
     })
     $(document).on("click", ".edit", function () {
-        var id = $(this).attr("userId");
+        var id = $(this).attr("userid");
         location.href = "/User/EditUserInfo/" + id;
     })
 

@@ -54,4 +54,13 @@ namespace Common.Entities
         供应商券
     }
 
+    public enum ActiveType
+    {
+        满就送 =1,
+        满就减,
+        类目折扣,
+        生成优惠劵,
+        使用优惠劵,
+    }
+
 }
