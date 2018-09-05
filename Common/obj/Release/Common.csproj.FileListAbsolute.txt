@@ -20,3 +20,12 @@ D:\Project\test\SaleTools\Common\obj\Release\Common.csproj.CoreCompileInputs.cac
 D:\Project\test\SaleTools\Common\obj\Release\Common.csproj.CopyComplete
 D:\Project\test\SaleTools\Common\obj\Release\Common.dll
 D:\Project\test\SaleTools\Common\obj\Release\Common.pdb
+H:\Project\MySaleTools\Common\bin\Release\Common.dll
+H:\Project\MySaleTools\Common\bin\Release\Common.pdb
+H:\Project\MySaleTools\Common\bin\Release\Model.dll
+H:\Project\MySaleTools\Common\bin\Release\Newtonsoft.Json.dll
+H:\Project\MySaleTools\Common\bin\Release\Model.pdb
+H:\Project\MySaleTools\Common\bin\Release\Newtonsoft.Json.xml
+H:\Project\MySaleTools\Common\obj\Release\Common.csprojResolveAssemblyReference.cache
+H:\Project\MySaleTools\Common\obj\Release\Common.dll
+H:\Project\MySaleTools\Common\obj\Release\Common.pdb

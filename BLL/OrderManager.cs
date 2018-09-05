@@ -1134,7 +1134,7 @@ namespace BLL
                 var goods = _context.GoodInfoes.FirstOrDefault(c => c.Id == x.ProductId);
                 if (goods == null || string.IsNullOrWhiteSpace(goods.GoodsNum))
                     continue;
-                var pinfo = _erp.ptypes.FirstOrDefault(c => c.typeId == goods.GoodsNum);
+                var pinfo = _erp.ptypes.FirstOrDefault(c => c.typeId == goods.ErpId);
                 if (pinfo == null)
                     continue;
                 var unit_ex = _erp.PType_Units_Exts.FirstOrDefault(c => c.PtypeID == pinfo.typeId && c.UnitsId == pinfo.SaleUnitId);
@@ -1177,11 +1177,11 @@ namespace BLL
                 model.NTaxMoney = 0;
                 model.UnitID = pinfo.baseUnitId;
                 model.NUnitID = 0;
-                model.NQty = 0;
+                model.NQty = x.Count;
                 model.UnitRate = 0;
                 model.NUnitMsg = null;
                 model.MUnitID = unit_ex.UnitsId;
-                model.MQty = x.Count;
+                model.MQty = 0;
                 model.MUnitRate = unit_ex.Rate;
                 model.MUnitMsg = null;
                 model.MSalePrice = x.RealPrice * unit_ex.Rate;

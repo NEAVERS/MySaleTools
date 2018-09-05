@@ -10,3 +10,8 @@ D:\Project\test\SaleTools\Model\obj\Release\Model.csproj.CoreCompileInputs.cache
 D:\Project\test\SaleTools\Model\obj\Release\Model.dll
 D:\Project\test\SaleTools\Model\obj\Release\Model.pdb
 D:\Project\test\SaleTools\Model\obj\Release\Model.csprojAssemblyReference.cache
+H:\Project\MySaleTools\Model\bin\Release\Model.dll
+H:\Project\MySaleTools\Model\bin\Release\Model.pdb
+H:\Project\MySaleTools\Model\obj\Release\Model.csprojResolveAssemblyReference.cache
+H:\Project\MySaleTools\Model\obj\Release\Model.dll
+H:\Project\MySaleTools\Model\obj\Release\Model.pdb

@@ -26,3 +26,15 @@ D:\Project\test\SaleTools\Dal\obj\Release\Dal.csproj.CoreCompileInputs.cache
 D:\Project\test\SaleTools\Dal\obj\Release\Dal.csproj.CopyComplete
 D:\Project\test\SaleTools\Dal\obj\Release\Dal.dll
 D:\Project\test\SaleTools\Dal\obj\Release\Dal.pdb
+H:\Project\MySaleTools\Dal\bin\Release\Dal.dll.config
+H:\Project\MySaleTools\Dal\bin\Release\Dal.dll
+H:\Project\MySaleTools\Dal\bin\Release\Dal.pdb
+H:\Project\MySaleTools\Dal\bin\Release\EntityFramework.dll
+H:\Project\MySaleTools\Dal\bin\Release\EntityFramework.SqlServer.dll
+H:\Project\MySaleTools\Dal\bin\Release\Model.dll
+H:\Project\MySaleTools\Dal\bin\Release\Model.pdb
+H:\Project\MySaleTools\Dal\bin\Release\EntityFramework.xml
+H:\Project\MySaleTools\Dal\bin\Release\EntityFramework.SqlServer.xml
+H:\Project\MySaleTools\Dal\obj\Release\Dal.csprojResolveAssemblyReference.cache
+H:\Project\MySaleTools\Dal\obj\Release\Dal.dll
+H:\Project\MySaleTools\Dal\obj\Release\Dal.pdb

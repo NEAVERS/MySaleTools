@@ -191,7 +191,7 @@
                             <label>
                                 关键字:
                             </label>
-                            <input type="text" name="search_value" style="height:22px; margin-left:10px;" value="" id="search_value">
+                            <input type="text" name="search_value" style="height:22px; margin-left:10px;" value="" id="search_value" >
                         </li>
                         <li class="search_item">
                             <label>
@@ -376,8 +376,8 @@
                     html += '<td class="center">-</td>';
                     html += '<td class="center">' + this.Stock + '</td>';
                     html += '<td class="center">' + this.LastUpdateTime + '</td>'
-                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum" data-id="' + this.Id + '" data-num="' + this.MinCount + '" value="' + this.MinCount + '"></td>';
-                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" data-id="' + this.Id + '" data-sort="' + this.SortId + '" value="'+ this.SortId + '"></td>';
+                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_midSoldNum"   onchange="ChangemidSoldNum(this)" data-id="' + this.Id + '" data-num="' + this.MinCount + '" value="' + this.MinCount + '"></td>';
+                    html += '<td class="center"><input type="text" style="width:60px;text-align:center;" class="J_QuickSort" onchange="ChangeQuickSort(this)" data-id="' + this.Id + '" data-sort="' + this.SortId + '" value="' + this.SortId + '"></td>';
                     html += '<td class="center"><a href="/GoodsManager/ShowGoodsInfo?goodId=' + this.Id + '">商品详情</a><br><br>';
                     html += '<a href="/GoodsManager/CopyNew/' + this.Id + '">复制新增</a><br><br>';
                     html += '<a href="/GoodsManager/AddGoods/' + this.Id + '">编辑商品</a><br><br>';
@@ -562,6 +562,30 @@
             }
         },"json")
     })
+
+    function ChangemidSoldNum(input)
+    {
+        var minCount = $(input).val();
+        var goodsId = $(input).data("id");
+        $.post("/GoodsManager/UpdateMinCount", { goodsId: goodsId, minCount: minCount }, function (e) {
+            if (e) {
+                LoadList(index);
+            }
+        }, "json")
+    }
+
+    
+    function ChangeQuickSort(input)
+    {
+        var sortId = $(input).val();
+        var goodsId = $(input).data("id");
+        $.post("/GoodsManager/UpdateSortId", { goodsId: goodsId, sortId: sortId }, function (e) {
+            if (e) {
+                LoadList(index);
+            }
+        }, "json")
+    }
+
 
     $(".J_QuickSort").on("change", function () {
         var sortId = $(this).val();

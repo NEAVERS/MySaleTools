@@ -376,7 +376,7 @@ namespace BLL
             }
             else
             {
-                
+                obj.LastUpdateTime = DateTime.Now;
                 obj.GoodsNum = newInfo.GoodsNum;
                 obj.BarCode = newInfo.BarCode;
                 obj.MiddleCode = newInfo.MiddleCode;

@@ -369,6 +369,7 @@ namespace SaleTools.Controllers
                     item.SupplierName = model.SupplierName;
                     item.BrandId = model.BrandId;
                     item.Brand = model.BrandName;
+                    item.Pic = model.pic1;
                     var res = _order.AddOrderItem(item);
                 }
                 var dpses = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
@@ -396,6 +397,7 @@ namespace SaleTools.Controllers
                     item.SupplierName = model.SupplierName;
                     item.BrandId = model.BrandId;
                     item.Brand = model.BrandName;
+                    item.Pic = model.pic1;
                     var res = _order.AddOrderItem(item);
                 }
                 _response.Stutas = _order.SaveOrder(order,loginUser.UserId);

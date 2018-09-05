@@ -1,0 +1,6 @@
+H:\Project\MySaleTools\InputImg\bin\Debug\InputImg.exe.config
+H:\Project\MySaleTools\InputImg\bin\Debug\InputImg.exe
+H:\Project\MySaleTools\InputImg\bin\Debug\InputImg.pdb
+H:\Project\MySaleTools\InputImg\obj\Debug\InputImg.csprojResolveAssemblyReference.cache
+H:\Project\MySaleTools\InputImg\obj\Debug\InputImg.exe
+H:\Project\MySaleTools\InputImg\obj\Debug\InputImg.pdb
