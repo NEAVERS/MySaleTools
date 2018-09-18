@@ -298,7 +298,8 @@ namespace SaleTools.Controllers
         {
             var loginUser = (UserInfo)ViewBag.User;
             var list = _order.GetShoppingCar(loginUser.UserId);
-            if (list != null && list.Count > 0)
+            var totalPrice = list.Sum(x => x.Count * x.Price);
+            if (list != null && list.Count > 0&& totalPrice>380)
             {
                 var order = new OrderInfo();
                 var saleMan = _user.GetUserByUserId(loginUser.SaleManGuid);
@@ -343,7 +344,7 @@ namespace SaleTools.Controllers
                 Manjiusong ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
                 if (mj != null)
                 {
-                    order.LessMoney += mj.LessMoeny;
+                    order.Manjian = mj.LessMoeny;
                 }
                 if (ms != null)
                 {
@@ -354,7 +355,7 @@ namespace SaleTools.Controllers
                     item.CreateUserId = loginUser.UserId;
                     item.Id = Guid.NewGuid();
                     item.LessPrice = 0;
-                    item.Price = model.RetailtPrice;
+                    item.Price = 0;
                     item.RealPrice = 0;
                     item.ProductId = model.Id;
                     item.ProductTittle = model.GoodsTittle;
@@ -382,7 +383,7 @@ namespace SaleTools.Controllers
                     item.CreateUserId = loginUser.UserId;
                     item.Id = Guid.NewGuid();
                     item.LessPrice = 0;
-                    item.Price = model.RetailtPrice;
+                    item.Price =  0 ;
                     item.RealPrice = 0;
                     item.ProductId = model.Id;
                     item.ProductTittle = model.GoodsTittle;
@@ -406,9 +407,8 @@ namespace SaleTools.Controllers
                 {
                     try
                     {
-                        string baseSupplier = ConfigurationManager.AppSettings["baseSupplierId"].ToString();
-                        int baseSupplierId = Utils.ParseInt(baseSupplier);
-                        var res = _order.InsertErp(order.Id, baseSupplierId);
+
+                        var res = _order.InsertErp(order.Id);
                     }
                     catch(Exception ex)
                     {
@@ -419,7 +419,7 @@ namespace SaleTools.Controllers
             }
             else
             {
-                _response.Msg ="请先添加商品！";
+                _response.Msg ="总金额不足380无法下单！请继续添加商品！";
             }
             return Utils.SerializeObject(_response);
         }

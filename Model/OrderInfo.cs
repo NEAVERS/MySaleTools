@@ -198,6 +198,8 @@ namespace Model
         public DateTime? OrderCancelTime { get; set; }
 
         public DateTime? CheckCancelTime { get; set; }
+
+        public decimal Manjian { get; set; }
         public OrderInfo()
         {
             this.Id = Guid.NewGuid();
@@ -229,6 +231,7 @@ namespace Model
             this.ReceiveAddr = string.Empty;
             this.OrderCancelTime = null;
             this.CheckCancelTime = null;
+            this.Manjian = 0;
         }
     }
 }

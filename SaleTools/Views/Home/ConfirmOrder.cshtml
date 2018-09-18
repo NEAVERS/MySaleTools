@@ -91,6 +91,7 @@
                             @foreach (var item in list)
                             {
                                 totalPrice += item.TotalPrice;
+                                Decimal lessprice = item.LessPrice * item.Count;
                                 <div class="order">
                                     <div class="cell thinfo clearfix">
                                         <a href="javascript:;" class="pic"><img src="@item.Pic"></a>
@@ -106,6 +107,7 @@
                                         <span>@item.Count</span>
                                     </div>
                                     <div class="cell thpromotion">
+                                        @(lessprice>0?"类目折扣" +lessprice+"元":"-")
                                     </div>
                                     <div class="cell thtotal">
                                         <span>@item.TotalPrice</span>
@@ -303,7 +305,7 @@
                 })
             }
             else {
-                layer.msg("保存订单失败！请刷新后重试！", { icon: 2 })
+                layer.msg("保存订单失败！"+e.Msg, { icon: 2 })
             }
         }, "json");
     }

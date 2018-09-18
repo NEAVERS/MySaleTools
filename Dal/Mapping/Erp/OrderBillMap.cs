@@ -66,7 +66,8 @@ namespace Dal.Mapping.Erp
             this.Property(t => t.GoodsNumber)
                 .HasMaxLength(100);
 
-            // Table & Column Mappings
+            this.Property(t => t.NSalePrice).HasPrecision(30, 20);
+            // Table & Column MappingsHasPrecision;
             this.ToTable("OrderBill");
             this.Property(t => t.billNumberID).HasColumnName("billNumberID");
             this.Property(t => t.ptypeid).HasColumnName("ptypeid");

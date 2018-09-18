@@ -590,6 +590,13 @@ namespace SaleTools.Controllers
             return Utils.SerializeObject(_response);
 
         }
+
+
+        public string ReBuy(Guid orderId)
+        {
+            _response.Stutas = _order.ReBuy(orderId);
+            return Utils.SerializeObject(_response);
+        }
         /// <summary>
         /// 审核取消订单
         /// </summary>
@@ -615,9 +622,7 @@ namespace SaleTools.Controllers
             bool res = false;
             try
             {
-                string baseSupplier = ConfigurationManager.AppSettings["baseSupplierId"].ToString();
-                int baseSupplierId = Utils.ParseInt(baseSupplier);
-                 res = _order.InsertErp(orderid, baseSupplierId);
+                 res = _order.InsertErp(orderid);
             }
             catch (Exception ex)
             {

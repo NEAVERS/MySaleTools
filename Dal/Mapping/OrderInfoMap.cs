@@ -59,7 +59,8 @@ namespace Dal.Mapping
             this.Property(t => t.ReceiveAddr).HasColumnName("ReceiveAddr");
             this.Property(t => t.OrderCancelTime).HasColumnName("OrderCancelTime");
             this.Property(t => t.CheckCancelTime).HasColumnName("CheckCancelTime");
-
+            this.Property(t => t.Manjian).HasColumnName("Manjian");
+            
 
         }
 

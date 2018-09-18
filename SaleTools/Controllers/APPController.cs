@@ -260,9 +260,22 @@ namespace SaleTools.Controllers
         public string ChangeCount(Guid itemId, int count)
         {
             var loginUser = GetUserInfo();
-            if (loginUser != null)
+            var orderItem = _order.GetOrderItem(itemId);
+            if (loginUser != null&& orderItem!=null)
             {
-                _response.Stutas = _order.SaveOrderItem(itemId, count); 
+
+                var goodsInfo = _goodsmanager.GetGoodInfoById(orderItem.ProductId);
+                decimal Stock = _goodsmanager.GetGoodsStock(goodsInfo.ErpId);
+                if (goodsInfo.LimitCount > 0 && count > goodsInfo.LimitCount)
+                {
+                    _response.Msg = "超出限购数量无法购买！";
+                }
+                else if (Stock < count || count < 1)
+                    _response.Msg = "超出库存无法购买！！";
+                else
+                    _response.Stutas = _order.SaveOrderItem(itemId, count);
+
+
             }
             else
             {
@@ -539,114 +552,122 @@ namespace SaleTools.Controllers
             if (loginUser != null)
             {
                 var list = _order.GetShoppingCar(loginUser.UserId);
+                var totalPrice = list.Sum(x => x.Count * x.Price);
+                if (list != null && list.Count > 0 && totalPrice > 380)
 
-                Guid managerId = GetManagerId(loginUser);
-
-                var order = new OrderInfo();
-                var saleMan = _user.GetUserByUserId(loginUser.SaleManGuid);
-                order.Id = Guid.NewGuid();
-                order.CreateTime = DateTime.Now;
-                order.CreateUserId = loginUser.UserId;
-                order.CreateUserName = loginUser.UserName;
-                order.CreateUserType = loginUser.TypeName;
-                order.CreateUserNum = loginUser.UserNum;
-                order.StoreName = loginUser.SotreName;
-                order.CreateUserTel = loginUser.Tel;
-                order.CreateUserTypeId = loginUser.TypeId;
-                order.RootUserId = loginUser.CreateUserId;
-                order.RootUserName = loginUser.CreateUser;
-                order.SaleManGuid = loginUser.SaleManGuid;
-                order.SaleManName = loginUser.SaleManName;
-                order.ReceiveAddr = loginUser.Addr;
-                order.Province = loginUser.Province;
-                order.ProvinceNum = loginUser.ProvinceNum;
-                order.City = loginUser.City;
-                order.CityNum = loginUser.CityNum;
-                order.Area = loginUser.Area;
-                order.AreaNum = loginUser.AreaNum;
-                order.Stutas = (int)Common.Entities.OrderStatus.等待商家发货;
-                order.SaleManTel = saleMan == null ? "" : saleMan.Tel;
-                order.PayType = "货到付款";
-                order.Remark = remark;
-
-                Guid Cid = new Guid();
-
-                if (Guid.TryParse(couponId, out Cid))
                 {
-                    Coupon c = _active.GetCouponById(Cid);
-                    if (c != null)
+                    Guid managerId = GetManagerId(loginUser);
+
+                    var order = new OrderInfo();
+                    var saleMan = _user.GetUserByUserId(loginUser.SaleManGuid);
+                    order.Id = Guid.NewGuid();
+                    order.CreateTime = DateTime.Now;
+                    order.CreateUserId = loginUser.UserId;
+                    order.CreateUserName = loginUser.UserName;
+                    order.CreateUserType = loginUser.TypeName;
+                    order.CreateUserNum = loginUser.UserNum;
+                    order.StoreName = loginUser.SotreName;
+                    order.CreateUserTel = loginUser.Tel;
+                    order.CreateUserTypeId = loginUser.TypeId;
+                    order.RootUserId = loginUser.CreateUserId;
+                    order.RootUserName = loginUser.CreateUser;
+                    order.SaleManGuid = loginUser.SaleManGuid;
+                    order.SaleManName = loginUser.SaleManName;
+                    order.ReceiveAddr = loginUser.Addr;
+                    order.Province = loginUser.Province;
+                    order.ProvinceNum = loginUser.ProvinceNum;
+                    order.City = loginUser.City;
+                    order.CityNum = loginUser.CityNum;
+                    order.Area = loginUser.Area;
+                    order.AreaNum = loginUser.AreaNum;
+                    order.Stutas = (int)Common.Entities.OrderStatus.等待商家发货;
+                    order.SaleManTel = saleMan == null ? "" : saleMan.Tel;
+                    order.PayType = "货到付款";
+                    order.Remark = remark;
+
+                    Guid Cid = new Guid();
+
+                    if (Guid.TryParse(couponId, out Cid))
                     {
-                        order.LessMoney += c.LessMoney;
-                        _active.SetCouponUse(Cid, order.Id);
+                        Coupon c = _active.GetCouponById(Cid);
+                        if (c != null)
+                        {
+                            order.LessMoney += c.LessMoney;
+                            _active.SetCouponUse(Cid, order.Id);
+                        }
                     }
-                }
 
-                Manjiujian mj = _active.CheckManjiujian(loginUser.UserId, managerId);
-                Manjiusong ms = _active.CheckManSong(loginUser.UserId, managerId);
-                if (mj != null)
-                {
-                    order.LessMoney = mj.LessMoeny;
+                    Manjiujian mj = _active.CheckManjiujian(loginUser.UserId, managerId);
+                    Manjiusong ms = _active.CheckManSong(loginUser.UserId, managerId);
+                    if (mj != null)
+                    {
+                        order.Manjian = mj.LessMoeny;
+                    }
+                    if (ms != null)
+                    {
+                        var model = _goodsmanager.GetGoodsWithPrice(ms.SendGoodId, loginUser.TypeId);
+                        OrderItem item = new OrderItem();
+                        item.Count = ms.SendGoodCount;
+                        item.CreateUserId = loginUser.UserId;
+                        item.Id = Guid.NewGuid();
+                        item.LessPrice = 0;
+                        item.Price = model.RetailtPrice;
+                        item.RealPrice = 0;
+                        item.ProductId = model.Id;
+                        item.ProductTittle = model.GoodsTittle;
+                        item.TotalPrice = 0;
+                        item.ProductType = model.FirstTypeName;
+                        item.ProductTypeId = model.FirstTypeId;
+                        item.ProductId = model.Id;
+                        item.BarCode = model.BarCode;
+                        item.Spec = model.Spec;
+                        item.Unit = model.Unit;
+                        item.SupplierId = model.SupplierId;
+                        item.SupplierName = model.SupplierName;
+                        item.BrandId = model.BrandId;
+                        item.Brand = model.BrandName;
+                        var res = _order.AddOrderItem(item);
+                    }
+                    var dpses = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
+                    foreach (var dps in dpses)
+                    {
+                        var model = _goodsmanager.GetGoodsWithPrice(dps.SendGoodsId, loginUser.TypeId);
+                        OrderItem item = new OrderItem();
+                        item.IsGift = true;
+                        item.Count = dps.SendCount;
+                        item.CreateUserId = loginUser.UserId;
+                        item.Id = Guid.NewGuid();
+                        item.LessPrice = 0;
+                        item.Price = model.RetailtPrice;
+                        item.RealPrice = 0;
+                        item.ProductId = model.Id;
+                        item.ProductTittle = model.GoodsTittle;
+                        item.TotalPrice = 0;
+                        item.ProductType = model.FirstTypeName;
+                        item.ProductTypeId = model.FirstTypeId;
+                        item.ProductId = model.Id;
+                        item.BarCode = model.BarCode;
+                        item.Spec = model.Spec;
+                        item.Unit = model.Unit;
+                        item.SupplierId = model.SupplierId;
+                        item.SupplierName = model.SupplierName;
+                        item.BrandId = model.BrandId;
+                        item.Brand = model.BrandName;
+                        var res = _order.AddOrderItem(item);
+                    }
+                    var ress = _order.SaveOrder(order, loginUser.UserId);
+                    if (ress)
+                    {
+
+                        var orderDetail = _order.InsertErp(order.Id);
+                    }
+                    _response.Stutas = ress;
                 }
-                if (ms != null)
+                else
                 {
-                    var model = _goodsmanager.GetGoodsWithPrice(ms.SendGoodId, loginUser.TypeId);
-                    OrderItem item = new OrderItem();
-                    item.Count = ms.SendGoodCount;
-                    item.CreateUserId = loginUser.UserId;
-                    item.Id = Guid.NewGuid();
-                    item.LessPrice = 0;
-                    item.Price = model.RetailtPrice;
-                    item.RealPrice = 0;
-                    item.ProductId = model.Id;
-                    item.ProductTittle = model.GoodsTittle;
-                    item.TotalPrice = 0;
-                    item.ProductType = model.FirstTypeName;
-                    item.ProductTypeId = model.FirstTypeId;
-                    item.ProductId = model.Id;
-                    item.BarCode = model.BarCode;
-                    item.Spec = model.Spec;
-                    item.Unit = model.Unit;
-                    item.SupplierId = model.SupplierId;
-                    item.SupplierName = model.SupplierName;
-                    item.BrandId = model.BrandId;
-                    item.Brand = model.BrandName;
-                    var res = _order.AddOrderItem(item);
+                    _response.Stutas = false;
+                    _response.Msg = "订单总金额不足380元无法下单！请继续添加商品！";
                 }
-                var dpses = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
-                foreach (var dps in dpses)
-                {
-                    var model = _goodsmanager.GetGoodsWithPrice(dps.SendGoodsId, loginUser.TypeId);
-                    OrderItem item = new OrderItem();
-                    item.IsGift = true;
-                    item.Count = dps.SendCount;
-                    item.CreateUserId = loginUser.UserId;
-                    item.Id = Guid.NewGuid();
-                    item.LessPrice = 0;
-                    item.Price = model.RetailtPrice;
-                    item.RealPrice = 0;
-                    item.ProductId = model.Id;
-                    item.ProductTittle = model.GoodsTittle;
-                    item.TotalPrice = 0;
-                    item.ProductType = model.FirstTypeName;
-                    item.ProductTypeId = model.FirstTypeId;
-                    item.ProductId = model.Id;
-                    item.BarCode = model.BarCode;
-                    item.Spec = model.Spec;
-                    item.Unit = model.Unit;
-                    item.SupplierId = model.SupplierId;
-                    item.SupplierName = model.SupplierName;
-                    item.BrandId = model.BrandId;
-                    item.Brand = model.BrandName;
-                    var res = _order.AddOrderItem(item);
-                }
-                var ress = _order.SaveOrder(order,loginUser.UserId);
-                if(ress)
-                {
-                    string baseSupplier = ConfigurationManager.AppSettings["baseSupplierId"].ToString();
-                    int baseSupplierId = Utils.ParseInt(baseSupplier);
-                    var orderDetail = _order.InsertErp(order.Id, baseSupplierId);
-                }
-                _response.Stutas = ress;
             }
             else
             {

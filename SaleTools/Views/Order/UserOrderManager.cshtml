@@ -86,8 +86,9 @@
                                     {
                                         <a onclick="CancelOrder('@item.Id')">取消订单</a>
                                     }
+                                    <a href="#"  onclick="ReBuy('@item.Id')">再次购买</a>
                                     <div class="extra">
-                                        <a href="" class="inline_block buy_again J_BuyAgain" data-order-id="1804062139511020"></a>
+                                       
                                     </div>
                                 </td>
                             </tr>
@@ -113,5 +114,16 @@
             }
         }, "json")
     }
-
+    function ReBuy(id) {
+        $.post("/Order/ReBuy", { orderId: id }, function (e) {
+            if (e.Stutas) {
+                layer.msg("操作成功！", { icon: 1 }, function () {
+                    location.href = "/Home/ShoppingCar";
+                })
+            }
+            else {
+                layer.msg(e.Msg, { icon: 2 });
+            }
+        }, "json")
+    }
 </script>
