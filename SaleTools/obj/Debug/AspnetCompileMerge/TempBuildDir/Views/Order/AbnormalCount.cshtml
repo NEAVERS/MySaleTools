@@ -1,0 +1,155 @@
+﻿
+@using Model;
+@using Common.Entities;
+@{
+    ViewBag.Title = "AbnormalCount";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var goodTypes = (List<GoodsType>)ViewBag.TypeList;
+    var suppliess = (List<Supplier>)ViewBag.SupplierList;
+    var list = (List<ErrorInfoModel>)ViewBag.List;
+}
+
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/need/laydate.css">
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+<script type="text/javascript" src="/Content/js/lib/laydate/laydate.js"></script>
+
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            异常情况统计
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="search_bar">
+                <form action="/Order/AbnormalCount" method="GET">
+                    <ul class="search_item_list">
+                        <li class="search_item">
+                            <label>下单时间:</label>
+                            <div class="item">
+                                <div class="calendar_input">
+                                    <input type="text" name="start" style="width:160px;" value="@ViewBag.Start" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss',istime:true});">
+                                </div>
+                                到
+                                <div class="calendar_input">
+                                    <input type="text" name="end" style="width:160px;" value="@ViewBag.End" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss',istime:true});">
+                                </div>
+                                <label class="highlight">(可查询31天之内的数据)</label>
+                            </div>
+                        </li>
+                        <li class="search_item">
+                            <label><input type="radio" name="Stype" value="1" @(ViewBag.Stype == 1 ? "checked='checked'" : "")>按异常类型:</label>
+                            <select name="cType">
+                                <option value="">全部</option>
+                                <option value="1000"  @(ViewBag.CType == "1000" ? "selected='selected'" : "")>缺货</option>
+                                <option value="1001"  @(ViewBag.CType == "1001" ? "selected='selected'" : "")>退货</option>
+                            </select>
+                        </li>
+                        <li class="search_item">
+                            <label><input type="radio" name="Stype" value="2"  @(ViewBag.Stype==2?"checked='checked'":"")>按商品大类:</label>
+                            <select name="goodsType">
+                                <option value="-1">全部</option>
+                                @foreach (var item in goodTypes)
+                                {
+                                    string str = "";
+                                    if (item.Id.ToString() == ViewBag.GoodsType)
+                                    {
+                                        str = "selected='selected'";
+                                    }
+                                       <option value="@item.Id" @str>@item.TypeName</option>
+
+                                }
+                            </select>
+                        </li>
+                        <li class="search_item">
+                            <label>供应商:</label>
+                            <select name="sellerId">
+                                <option value="-1">全部</option>
+                                @foreach (var item in suppliess)
+                                {
+                                    string str = "";
+                                    if (item.Id == ViewBag.Supplier)
+                                    {
+                                        str = "selected='selected'";
+                                    }
+
+                                <option value="@item.Id" @str>
+                                    @item.SupplierCompany
+                                </option>
+                                }
+                            </select>
+                        </li>
+                        <li class="search_item">
+                            <label>下载:</label>
+                            <select name="downfile">
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </li>
+                        <li class="search_item">
+                            <button type="submit" name="do" class="submit">搜索</button>
+                        </li>
+                        <li class="clearfix"></li>
+                    </ul>
+                </form>
+            </div>
+            <div class="col_main_content">
+                <table class="table table_border">
+                    @if (ViewBag.Stype == 1)
+    {
+                <thead class="bg_color">
+
+                    <tr>
+                        <th>异常类型</th>
+                        <th>异常原因</th>
+                        <th>异常数量</th>
+                        <th>异常金额</th>
+                        <th>异常详情</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in list)
+    {
+                <tr>
+                    <td>@item.ErrorType</td>
+                    <td>@item.ErrorReason</td>
+                    <td>@item.ErrorCout</td>
+                    <td>@item.ErrorTotal</td>
+                    <td></td>
+                </tr>
+}
+                </tbody>
+}
+else
+{
+                <thead class="bg_color">
+                    <tr>
+                        <th>商品类目</th>
+                        <th>商品名称</th>
+                        <th>异常类型</th>
+                        <th>异常数量</th>
+                        <th>异常金额</th>
+                        <th>异常详情</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in list)
+    {
+                    <tr>
+                        <td>@item.ProductType</td>
+                        <td>@item.ProductName</td>
+                        <td>@item.ErrorType</td>
+                        <td>@item.ErrorCout</td>
+                        <td>@item.ErrorTotal</td>
+                        <td></td>
+                    </tr>
+}
+                </tbody>
+
+}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -266,12 +266,17 @@ namespace SaleTools.Controllers
 
                 var goodsInfo = _goodsmanager.GetGoodInfoById(orderItem.ProductId);
                 decimal Stock = _goodsmanager.GetGoodsStock(goodsInfo.ErpId);
+
                 if (goodsInfo.LimitCount > 0 && count > goodsInfo.LimitCount)
                 {
                     _response.Msg = "超出限购数量无法购买！";
+                    _response.Result = orderItem.Count;
                 }
                 else if (Stock < count || count < 1)
+                {
                     _response.Msg = "超出库存无法购买！！";
+                    _response.Result = orderItem.Count;
+                }
                 else
                     _response.Stutas = _order.SaveOrderItem(itemId, count);
 

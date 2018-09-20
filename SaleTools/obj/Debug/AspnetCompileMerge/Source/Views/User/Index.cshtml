@@ -1,0 +1,250 @@
+﻿@using Model;
+@using Common.Entities;
+@{
+    ViewBag.Title = "Index";
+    var saleList = (List<UserInfo>)ViewBag.SaleManList;
+    var typeList = (List<UserType>)ViewBag.TypeList;
+
+    var Resourse = (List<string>)ViewBag.Resourse;
+
+}
+<style>
+    .active
+    {
+        display:block;
+    }
+</style>
+<div class="col_main_hd">
+    <h2>
+        小店管理
+    </h2>
+</div>
+<div class="col_main_bd">
+    @if (Resourse.Contains(ResourceStr.SuperAdmin) || Resourse.Contains(ResourceStr.StoreManager))
+    {
+        <a style="margin-left:20px;" href="/User/AddNewUser">+新增小店用户</a>
+    }
+    <div class="inner">
+
+
+        <div class="search_bar">
+            <ul class="search_item_list">
+                <li class="search_item">
+                    <label>区域::</label>
+                    <div class="item">
+                        <select id="province"></select>
+                        <select id="city"></select>
+                        <select id="area"></select>
+                    </div>
+                </li>
+                <li class="search_item">
+                    <label>业务员:</label>
+                    <div class="item">
+                        <select id="saleMan">
+                            <option value="-1">请选择</option>
+                            @foreach (var item in saleList)
+        {
+                    <option value="@item.UserId">@item.UserName</option>
+}
+                        </select>
+                    </div>
+                </li>
+                <li class="search_item">
+                    <label>用户类型：</label>
+                    <div class="item">
+                        <select id="userType" class="seller-id">
+                            <option value="0">全部</option>
+
+                            @foreach (var item in typeList)
+        {
+                    <option value="@item.TypeId">@item.TypeName </option>
+}
+                        </select>
+                    </div>
+                </li>
+                <li class="search_item">
+                    <label>是否下载:</label>
+                    <select id="isDown">
+                        <option value="False">否</option>
+                        <option value="True">是</option>
+                    </select>
+                </li>
+                <li class="search_item">
+                    <label>关键字:</label>
+                    <div class="item">
+                        <input type="text" name="keyword" id="key" style="width:160px;" value="">
+                    </div>
+                </li>
+                <li class="search_item">
+                    <input type="hidden" value="1" name="diff">
+                    <button type="submit" id="search">搜索</button>
+                </li>
+                <li class="clearfix"></li>
+            </ul>
+        </div>
+
+        <div class="col_main_content">
+
+            <table class="table table_border">
+                <thead class="bg_color">
+                    <tr>
+                        <th class="center" width="10%">小店ID</th>
+                        <th class="center" width="10%">用户名</th>
+                        <th class="center" width="10%">小店编号</th>
+                        <th class="center" width="10%">小店名称</th>
+                        <th class="center" width="10%">联系方式</th>
+                        <th class="center" width="10%">业务员</th>
+                        <th class="center" width="10%">小店地址</th>
+                        <th class="center" width="10%">客户类型</th>
+                        <th class="center" width="10%">是否锁定</th>
+                        <th class="center" width="10%">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="dataList"></tbody>
+            </table>
+            <table></table>
+            <div id="page" class="page_div"></div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/layer/layer.js"></script>
+
+<script type="text/javascript" src="/Content/js/lib/paging.js"></script>
+
+<script>
+    $(function () {
+        LoadData(1);
+        $(document).on("change", "#province", function () {
+            LoadArea($(this).val(), $("#city"))
+        });
+        $(document).on("change", "#city", function () {
+            LoadArea($(this).val(), $("#area"))
+        });
+        LoadArea("0", $("#province"));
+    })
+
+    $("#search").click(function () {
+        LoadData(1);
+    });
+    function LoadArea(num, obj) {
+        $.post("/Common/GetAreaList", { num: num }, function (res) {
+            var html = "<option value='-1'> 请选择</option>";
+            $(res).each(function () {
+                html += '<option value="' + this.Num + '">' + this.Name + '</option>';
+            });
+            obj.html(html);
+            obj.change();
+        }, "json");
+    }
+
+
+    function LoadData(index) {
+        var para = {};
+
+        para.index = index;
+        para.size = 10;
+        para.start = "";
+        para.end = "";
+        para.key = $("#key").val();;
+        para.province = $("#province").val();
+        para.city = $("#city").val();
+        para.area = $("#area").val();
+        para.stutas = 0;
+        para.saleManId = $("#saleMan").val();
+        para.userType = $("#userType").val();
+        var idDown = $("#isDown").val();
+
+        if (idDown == "True") {
+            exportUser(para);
+        }
+        else {
+            $.post("/User/GetList", para, function (data) {
+                var html = "";
+                $(data.ListData).each(function () {
+                    html += "<tr>";
+                    html += "<td class='center'>" + this.UserId + "</td>"
+
+                    html += "<td class='center'>" + this.Account + "</td>"
+                    html += "<td class='center'>" + this.UserNum + "</td>"
+                    html += "<td class='center'>" + this.SotreName + "</td>"
+
+                    html += "<td class='center'>" + this.Tel + "</td>"
+                    html += "<td class='center'>" + this.SaleManName + "</td>"
+                    html += "<td class='center'>" + this.Addr + "</td>"
+                    html += "<td class='center'>" + this.TypeName + "</td>"
+                    html += "<td class='center'>" + (this.IsLocked ? "已锁定" : "未锁定") + "</td>"
+                    html += "<td class='center'>";
+                    html += '<a class="active lock"  userId = "' + this.UserId + '" >' + (this.IsLocked ? "解除锁定" : "锁定") + '</a>'
+                    html += '<a class="active  del"  userId = "' + this.UserId + '" >删除</a>'
+                    html += '<a class="active  edit"  userId = "' + this.UserId + '" >编辑</a>'
+                    html += "</td>";
+                    html += "</tr>";
+                })
+                $("#dataList").html(html);
+                $("#page").paging({
+                    pageNo: index,
+                    totalPage: data.TotalPage,
+                    totalSize: data.TotalCount,
+                    callback: function (num) {
+                        if (index != num)
+                            LoadData(num);
+                    }
+                })
+
+            }, "json")
+        }
+    }
+
+    function exportUser(para)
+    {
+        var url = "/User/ExportUserInfo?";
+        var paraStr = "";
+        for (var Key in para) {
+            if (paraStr != "")
+                paraStr = paraStr + '&';
+            paraStr = paraStr + '' + Key + '=' + para[Key] + '';
+        }
+        location.href = url + paraStr;
+
+    }
+
+
+
+    $(document).on("click", ".lock", function () {
+        var id = $(this).attr("userid");
+        $.post("/User/ToggaleLock", { userId: id }, function (e) {
+            if (e) {
+                LoadData(1);
+            }
+            else
+                alert("操作失败！请刷新后重试！");
+        }, "json");
+    })
+
+    $(document).on("click", ".del", function () {
+        var id = $(this).attr("userid");
+
+        layer.confirm('请确认是否删除？', {
+            btn: ['取消', '确认'] //按钮
+        }, function () {
+            layer.closeAll();
+
+        }, function () {
+
+            $.post("/User/DelUser", { userId: id }, function (e) {
+                if (e) {
+                    LoadData(1);
+                }
+                else
+                    alert("操作失败！请刷新后重试！");
+            }, "json");
+        })
+    })
+    $(document).on("click", ".edit", function () {
+        var id = $(this).attr("userid");
+        location.href = "/User/EditUserInfo/" + id;
+    })
+
+
+</script>

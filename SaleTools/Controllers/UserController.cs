@@ -224,6 +224,7 @@ namespace SaleTools.Controllers
         {
             var userGuid = Utils.ParseGuid(userId);
             var user = manager.GetUserByUserAndType(userGuid, type);
+            Guid managerId = (Guid)ViewBag.ManagerId;
             string modelName = "编辑";
             if (user == null)
             {
@@ -248,8 +249,8 @@ namespace SaleTools.Controllers
             string userTypeName = ((SystemUserType)type).ToString();
             ViewBag.UserTypeName = userTypeName;
             ViewBag.UserType = type;
-
-            var list = manager.GetSysUser(type,loginUser.UserId);
+            Guid managerId = (Guid)ViewBag.ManagerId;
+            var list = manager.GetSysUser(type, managerId);
             ViewBag.List = list;
             return View();
         }

@@ -29,13 +29,13 @@ namespace SaleTools.Controllers
 
         public string SaveSendGoodsfoot(string value)
         {
-            var loginUser = (UserInfo)ViewBag.User;
-
+          
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var model = new SysConfig();
             model.UpdateTime = DateTime.Now;
             model.Type =SysConfigTypes.PageBottom.ToString();
             model.Value = value;
-            model.UpdateUser = loginUser.UserId;
+            model.UpdateUser = managerId;
             var res =  _system.SaveSysConfig(model);
             return Utils.SerializeObject(res);
         }
@@ -62,13 +62,13 @@ namespace SaleTools.Controllers
 
         public string SaveOperate(string isCanReturn, string isShowBill ,string contactTell)
         {
-            var loginUser = (UserInfo)ViewBag.User;
+            Guid managerId = (Guid)ViewBag.ManagerId;
 
             var model = new SysConfig();
             model.UpdateTime = DateTime.Now;
             model.Type = SysConfigTypes.IsCanReturn.ToString();
             model.Value = isCanReturn;
-            model.UpdateUser = loginUser.UserId;
+            model.UpdateUser = managerId;
             var res = _system.SaveSysConfig(model);
             if(res)
             {
@@ -191,8 +191,8 @@ namespace SaleTools.Controllers
         public ActionResult SaveNotice(Notice notice,List<int> userTypes)
         {
             var loginUser = (UserInfo)ViewBag.User;
-
-            notice.CreateUserId = loginUser.UserId;
+            Guid managerId = (Guid)ViewBag.ManagerId;
+            notice.CreateUserId = managerId;
             notice.CreattUserName = loginUser.UserName;
             _system.SaveNotice(notice, userTypes);
 

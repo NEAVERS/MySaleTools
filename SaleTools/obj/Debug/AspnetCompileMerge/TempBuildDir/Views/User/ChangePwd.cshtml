@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "ChangePwd";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            修改密码
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="col_main_content">
+                <table class="table table_border_td_none">
+                    <tbody>
+                        <tr>
+                            <td class="right" width="150">旧密码：</td>
+                            <td>
+                                <input type="password" class="inputtext" style="width:200px;" name="old_passwd" id="J_OldPassword">
+                                <span class="highlight"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right">新密码：</td>
+                            <td>
+                                <input type="password" class="inputtext" style="width:200px;" name="new_passwd" id="J_NewPassword">
+                                <span class="highlight"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right">确认新密码：</td>
+                            <td>
+                                <input type="password" class="inputtext" style="width:200px;" name="re_new_passwd" id="J_ReNewPassword">
+                                <span class="highlight"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td><button type="submit" class="btn btn_confirm">提交</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/layer/layer.js"></script>
+<script>
+    var _n = 1;
+    $(".btn_confirm").click(function () {
+        if (_n == 0)
+            return;
+        n = 0;
+        var old_passwd = $("#J_OldPassword").val();
+        var new_passwd = $("#J_NewPassword").val();
+        var re_new_passwd = $("#J_ReNewPassword").val();
+        if (!old_passwd || old_passwd == "") {
+            layer.alert("旧密码不能为空");
+            return;
+        }
+        if (new_passwd != re_new_passwd) {
+            layer.alert("两次密码不同 请修改");
+            return;
+        }
+        var para = {};
+        para.oldPwd = old_passwd;
+        para.newPwd = new_passwd;
+        $.post("/User/SaveNewPwd", para, function (e) {
+            _n = 1;
+            if (e) {
+                layer.msg('修改成功', {
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                    location.reload();
+                });
+            }
+            else {
+                layer.msg('修改失败！原密码错误！', {
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                    location.reload();
+                });
+            }
+        },"json")
+
+    });
+</script>

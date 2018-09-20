@@ -16,12 +16,6 @@ E:\Project\test\SaleTools\Model\obj\Debug\Model.csprojResolveAssemblyReference.c
 E:\Project\test\SaleTools\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
 E:\Project\test\SaleTools\Model\obj\Debug\Model.dll
 E:\Project\test\SaleTools\Model\obj\Debug\Model.pdb
-D:\Project\test\SaleTools\Model\bin\Debug\Model.dll
-D:\Project\test\SaleTools\Model\bin\Debug\Model.pdb
-D:\Project\test\SaleTools\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
-D:\Project\test\SaleTools\Model\obj\Debug\Model.dll
-D:\Project\test\SaleTools\Model\obj\Debug\Model.pdb
-D:\Project\test\SaleTools\Model\obj\Debug\Model.csprojAssemblyReference.cache
 H:\Project\MySaleTools\Model\bin\Debug\Model.dll
 H:\Project\MySaleTools\Model\bin\Debug\Model.pdb
 H:\Project\MySaleTools\Model\obj\Debug\Model.dll

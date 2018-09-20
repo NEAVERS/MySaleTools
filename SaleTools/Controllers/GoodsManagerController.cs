@@ -30,10 +30,11 @@ namespace SaleTools.Controllers
             if (Session["LoginUser"] == null)
                 return RedirectToAction("Index", "Login");
 
-            var loginUser = (UserInfo)Session["LoginUser"];
+            Guid managerId = (Guid)ViewBag.ManagerId;
+
             var guid = Utils.ParseGuid(id);
             var type = _manager.GetTypeById(guid);
-            var list = _manager.GetDownGoodsType(guid,loginUser.UserId);
+            var list = _manager.GetDownGoodsType(guid, managerId);
             ViewBag.GoodsTypeList = list;
             ViewBag.ParentId = type != null ? type.ParentId.ToString() : "";
             ViewBag.TypeId = guid;
@@ -46,9 +47,9 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public string GetGoodsTypeList(string id ="" )
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var guid = Utils.ParseGuid(id);
-            var list = _manager.GetDownGoodsType(guid, loginUser.UserId);
+            var list = _manager.GetDownGoodsType(guid, managerId);
             return Utils.SerializeObject(list);
         }
         /// <summary>5
@@ -60,9 +61,9 @@ namespace SaleTools.Controllers
         public string AddGoodType(Guid parent,string typeName)
         {
             var loginUser = (UserInfo)Session["LoginUser"];
-            
+            Guid managerId = (Guid)ViewBag.ManagerId;
             GoodsType type = new GoodsType();
-            type.CreateUserId = loginUser.UserId;
+            type.CreateUserId = managerId;
             type.CreateUserName = loginUser.UserName;
             var parentModel = _manager.GetTypeById(parent);
             type.Id = Guid.NewGuid();
@@ -99,9 +100,9 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public ActionResult GoodsBrand()
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            Guid managerId = (Guid)ViewBag.ManagerId;
 
-            var goodList = _manager.GetAllBrand(loginUser.UserId);
+            var goodList = _manager.GetAllBrand(managerId);
             return View(goodList);
         }
 
@@ -113,9 +114,10 @@ namespace SaleTools.Controllers
         public string AddGoodBrand(string brandName)
         {
             var loginUser = (UserInfo)Session["LoginUser"];
+            Guid managerId = (Guid)ViewBag.ManagerId;
 
             GoodsBrand brand = new GoodsBrand();
-            brand.CreateUserId = loginUser.UserId;
+            brand.CreateUserId = managerId;
             brand.CreateUserName = loginUser.UserName;
             brand.Id = Guid.NewGuid();
             brand.BrandName = brandName;
@@ -142,10 +144,10 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public ActionResult SetBrand(Guid typeId)
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            Guid managerId = (Guid)ViewBag.ManagerId;
             ViewBag.TypeId = typeId;
             var typeList = _manager.GetBrandList(typeId);
-            var brand = _manager.GetAllBrand(loginUser.UserId);
+            var brand = _manager.GetAllBrand(managerId);
             ViewBag.TypeList = typeList;
             ViewBag.Brand = brand;
             return View();
@@ -180,9 +182,9 @@ namespace SaleTools.Controllers
                     ViewBag.ShowTittle = "编辑商品信息";
                     info = _manager.GetGoodInfoById(goodId);
                 }
-                var loginUser = (UserInfo)Session["LoginUser"];
+                Guid managerId = (Guid)ViewBag.ManagerId;
                 var list = _user.GetTypeList();
-                var supplierList = _user.GetSupplierList(loginUser.UserId);
+                var supplierList = _user.GetSupplierList(managerId);
                 ViewBag.SupplierList = supplierList;
                 ViewBag.UserTypeList = list;
                 return View(info);
@@ -197,9 +199,9 @@ namespace SaleTools.Controllers
         {
             var info = _manager.GetGoodInfoById(goodId);
             var loginUser = (UserInfo)Session["LoginUser"];
-
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var list = _user.GetTypeList();
-            var supplierList = _user.GetSupplierList(loginUser.UserId);
+            var supplierList = _user.GetSupplierList(managerId);
             ViewBag.SupplierList = supplierList;
             ViewBag.UserTypeList = list;
             return View(info);
@@ -225,12 +227,13 @@ namespace SaleTools.Controllers
         public string SaveGoods(GoodInfo goods ,List<string> price)
         {
             var loginUser = (UserInfo)Session["LoginUser"];
+            Guid managerId = (Guid)ViewBag.ManagerId;
             bool res = false;
             goods.LastUpdateTime = DateTime.Now;
             if (goods.Id == Guid.Empty)
             {
                 goods.Id = Guid.NewGuid();
-                goods.CreateUserId = loginUser.UserId;
+                goods.CreateUserId = managerId;
                 goods.CreateUserName = loginUser.UserName;
                 goods.CreateTime = DateTime.Now;
             }
@@ -246,10 +249,10 @@ namespace SaleTools.Controllers
 
         public ActionResult GoodsList()
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var list = _user.GetTypeList();
 
-            var supplierList = _user.GetSupplierList(loginUser.UserId);
+            var supplierList = _user.GetSupplierList(managerId);
             ViewBag.SupplierList = supplierList;
             ViewBag.UserTypeList = list;
             return View();
@@ -324,8 +327,9 @@ namespace SaleTools.Controllers
                 var info = new GoodInfo();
                 info = _manager.GetGoodInfoById(Id);
                 var loginUser = (UserInfo)Session["LoginUser"];
+                Guid managerId = (Guid)ViewBag.ManagerId;
                 var list = _user.GetTypeList();
-                var supplierList = _user.GetSupplierList(loginUser.UserId);
+                var supplierList = _user.GetSupplierList(managerId);
                 ViewBag.SupplierList = supplierList;
                 ViewBag.UserTypeList = list;
                 info.Id = Guid.Empty;

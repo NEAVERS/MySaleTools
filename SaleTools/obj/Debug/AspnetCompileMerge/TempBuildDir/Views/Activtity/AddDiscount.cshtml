@@ -1,0 +1,194 @@
+﻿@using Model;
+@{
+    ViewBag.Title = "AddNewCoupon";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var typeList = (List<GoodsType>)ViewBag.TypeList;
+    var userTypeList = (List<UserType>)ViewBag.UserTypeList;
+}
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>新增类目折扣</h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="col_main_content">
+                <form action="/Activtity/SaveDiscount" method="POST" id="J_PublishProductForm">
+                    <table class="table table_border_td_none">
+                        <tbody>
+
+
+                            <tr id="supplier">
+                                <td class="right" width="120"><span class="highlight">*</span>一级分类ID：</td>
+                                <td>
+                                    <select name="TypeId" id="TypeId" style="width:100px;">
+                                        @foreach (var item in typeList)
+                {
+                        <option value="@item.Id"> @item.TypeName</option>
+}
+                                    </select>
+
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td class="right"><span class="highlight">*</span>活动开始时间：</td>
+                                <td><input type="text" class="inputtext" name="StartTime" style="width:180px;" value="" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});"></td>
+                            </tr>
+                            <tr>
+                                <td class="right"><span class="highlight">*</span>活动结束时间：</td>
+                                <td><input type="text" class="inputtext float" name="EndTime" style="width:180px;" value="" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});"></td>
+                            </tr>
+                            <tr>
+                                <td class="right" width="120"><span class="highlight">*</span>折扣：</td>
+                                <td>
+                                    <input type="text" class="inputtext float" name="Discount" style="width:100px;" value="">
+                                    <span class="tip">折扣</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right" width="120"><span class="highlight">*</span>区域</td>
+                                <td>
+                                    <select id="province"></select>
+                                    <select id="city"></select>
+                                    <select id="area"></select>
+                                    <a id="addarea">添加区域</a>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right" width="120"><span class="highlight">*</span></td>
+                                <td id="selectedArea"></td>
+                            </tr>
+                            <tr id="more">
+                                <td class="right"><span class="highlight">*</span>店铺类型:</td>
+                                <td>
+                                    @foreach (var item in userTypeList)
+            {
+                        <input type="checkbox" name="userType" value="@item.TypeId">@item.TypeName
+}
+                                    &nbsp; &nbsp;
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn_confirm" style="margin-left:180px;">保存</button>
+                    <input type="hidden" name="TypeName" id="TypeName" />
+                    <input type="hidden" name="SupplierName" id="SupplierName" />
+                    <input type="hidden" name="areaNums" id="areaNums" />
+                    <input type="hidden" name="SendGoodId" id="SendGoodId" />
+                    <input type="hidden" name="SendGoodName" id="SendGoodName" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/layer/layer.js"></script>
+<script>
+    var AreaList = [];
+
+    $(function () {
+        $(document).on("change", "#province", function () {
+            LoadArea($(this).val(), $("#city"))
+        });
+        $(document).on("change", "#city", function () {
+            LoadArea($(this).val(), $("#area"))
+        });
+        LoadArea("0", $("#province"))
+    })
+
+    $("#addarea").click(function () {
+        var area = $("#area").val() + "_" + $("#area").find("option:selected").text();
+        if (AreaList.indexOf(area) > -1) {
+            layer.msg("该区域已经存在！请勿重复添加！", { icon: 2 });
+            return;
+        }
+        AreaList.push(area);
+        IniArea();
+    });
+
+    function IniArea() {
+        var html = "";
+        var areaNums = "";
+        $(AreaList).each(function () {
+            var areaInfo = this.split("_");
+            html += '<a href="javascript:; " class="btn areaInfo" data-id="' + this + '">' + areaInfo[1] + '</a>';
+            areaNums += areaInfo[0] + ",";
+        })
+        $("#selectedArea").html(html);
+        $("#areaNums").val(areaNums);
+
+    }
+    Array.prototype.removeByValue = function (val) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] == val) {
+                this.splice(i, 1);
+                break;
+            }
+        }
+    }
+    $(document).on("click", ".areaInfo", function () {
+        var areaInfo = $(this).data("id");
+            layer.confirm('确认要删除该区域吗？', {
+                btn: ['确定', '取消']//按钮
+            }, function (index) {
+                layer.close(index);
+                AreaList.removeByValue(areaInfo);
+                IniArea();
+            });
+
+
+    });
+
+    
+
+    function LoadArea(num, obj) {
+        $.post("/Common/GetAreaList", { num: num }, function (res) {
+            var html = "";
+            $(res).each(function () {
+                html += '<option value="' + this.Num + '">' + this.Name + '</option>';
+            });
+            obj.html(html);
+            obj.change();
+        }, "json");
+    }
+
+
+
+    $("#addtype").change(function () {
+        var id = $(this).val();
+        if (id == 0) {
+            $("#only").show();
+            $("#more").hide();
+        }
+        else {
+            $("#only").hide();
+            $("#more").show();
+        }
+    })
+
+    
+    $("#SendGoodNum").blur(function () {
+        var num = $(this).val();
+        $.post("/Activtity/CheckGoods", { num: num }, function (e) {
+            if (e.Stutas) {
+                $("#SendGoodId").val(e.Result.Id)
+                $("#SendGoodName").val(e.Result.GoodsTittle)
+                $("#goodsTip").html(e.Result.GoodsTittle);
+            }
+            else {
+                $("#SendGoodId").val("")
+                $("#SendGoodName").val("")
+                $("#goodsTip").html("商品编号有误，请重新输入！");
+
+            }
+        }, "json");
+    });
+
+    $("#TypeId").change(function () {
+        var typeName = $(this).find("option:selected").text();
+        $("#TypeName").val(typeName);
+    })
+
+</script>

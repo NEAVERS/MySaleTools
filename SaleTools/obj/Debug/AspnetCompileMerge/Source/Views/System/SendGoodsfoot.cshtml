@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "SendGoodsfoot";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            取货单页尾设置                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/系统管理-页尾设置.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="col_main_content">
+                <h3>设置页尾信息：</h3>
+                <p>
+                    <textarea name="info" id="info" style="resize:none; width: 500px; height: 100px;">@ViewBag.PageBottom</textarea>
+                </p>
+                <input type="submit" id="save" value="保存">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/layer/layer.js"></script>
+
+<script>
+
+    var _n = 1;
+    $("#save").click(function () {
+        if (_n == 0)
+            return;
+        n = 0;
+        var value = $("#info").val();
+        if (!value || value == "") {
+            layer.alert("内容不能为空");
+            return;
+        }
+        var para = {};
+        para.value = value;
+        $.post("/System/SaveSendGoodsfoot", para, function (e) {
+            _n = 1;
+            if (e) {
+                layer.msg('修改成功', {
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                    location.reload();
+                });
+            }
+            else {
+                layer.msg('修改失败！请刷新后重试！', {
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                    location.reload();
+                });
+            }
+        }, "json")
+
+    });
+
+</script>

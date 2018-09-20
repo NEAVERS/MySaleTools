@@ -1,0 +1,202 @@
+﻿@using Model;
+@{
+    ViewBag.Title = "OrderSearch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var typeList = (List<UserType>)ViewBag.TypeList;
+    var saleList = (List<UserInfo>)ViewBag.SaleManList;
+
+}
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/need/laydate.css">
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+<script type="text/javascript" src="/Content/js/lib/laydate/laydate.js"></script>
+
+<div class="col_main_hd">
+    <h2>
+        订单查询                      
+    </h2>
+</div>
+<div class="col_main_bd">
+    <div class="inner">
+        <div class="search_bar">
+            <ul class="search_item_list">
+                <li class="search_item">
+                    <label>下单时间:</label>
+                    <div class="item">
+                        <div class="calendar_input">
+                            <input type="text" name="starttime" id="starttime" style="width:160px;" value="@(DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd 16:00:00"))" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                        </div>
+                        到
+                        <div class="calendar_input">
+                            <input type="text" name="endtime" id="endtime" style="width:160px;" value="@(DateTime.Now.ToString("yyyy-MM-dd 16:00:00"))" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                        </div>
+                    </div>
+                </li>
+                <li class="search_item">
+                    <label>订单状态:</label>
+                    <div class="item">
+                        <select name="state" id="state">
+                            <option value="0">请选择</option>
+                            <option value="1">等待商家发货</option>
+                            <option value="2">商家已发货</option>
+                            <option value="3">交易完成</option>
+                            <option value="4">订单取消中</option>
+                            <option value="5">订单取消成功</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="search_item">
+                    <label>客户类型：</label>
+                    <div class="item">
+                        <select name="customer_type" id="userType">
+                            <option value="0">全部</option>
+                            @foreach (var item in typeList)
+                            {
+                                <option value="@item.TypeId">@item.TypeName</option>
+                            }
+
+                        </select>
+                    </div>
+                </li>
+                <li class="search_item">
+                    <label>配送类型:</label>
+                    <select name="deliver_type">
+                        <option value="" selected="">全部</option>
+                        <option value="platform_deliver">平台配送</option>
+                        <option value="vendor_deliver">自主配送</option>
+                    </select>
+                </li>
+                <li class="search_item">
+                    <label>业务员：</label>
+                    <select id="saleManId">
+                        <option value="-1">不限</option>
+                        @foreach (var item in saleList)
+                        {
+                            <option value="@item.UserId">@item.UserName</option>
+                        }
+                    </select>
+                </li>
+                <li class="search_item">
+                    <label>关键字:</label>
+                    <div class="item">
+                        <input type="text" name="keyword" id="key" style="width:160px;" value="">
+                    </div>
+                </li>
+                <li class="search_item">
+                    <input type="hidden" value="1" name="diff">
+                    <button type="submit" id="search">搜索</button>
+                </li>
+                <li class="clearfix"></li>
+            </ul>
+        </div>
+        <div class="col_main_content">
+            <table class="table table_border">
+                <thead class="bg_color">
+                    <tr>
+                        <th width="130">订单编号</th>
+                        <th>订单时间</th>
+                        <th>小店编号</th>
+                        <th>小店名称</th>
+                        <th>客户类型</th>
+                        <th>区域</th>
+                        <th>标记</th>
+                        <th>订单总金额</th>
+                        <th>已付金额</th>
+                        <th>来源</th>
+                        <th>交易状态</th>
+                        <th class="center">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="dataList"></tbody>
+            </table>
+        </div>
+        <div id="page" class="page_div"></div>
+    </div>
+</div>
+<script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
+
+<script type="text/javascript" src="/Content/js/lib/paging.js"></script>
+
+<script>
+    var pageSize = 30;
+    $(function () {
+        GetData(1);
+
+    })
+    // int stutas = -1, string saleManId = "", int userType = -1, string key= ""
+    function GetData(index) {
+        var para = {};
+        para.index = index;
+        para.size = pageSize;
+        para.start = $("#starttime").val();
+        para.end = $("#endtime").val();
+        para.province = "";
+        para.city = "";
+        para.area = "";
+        para.stutas = $("#state").val();
+        para.saleManId = $("#saleManId").val();
+        para.userType = $("#userType").val();
+        para.key = $("#key").val();
+        $.post("/Order/GetOrderList", para, function (data) {
+            var html = "";
+            $(data.ListData).each(function () {
+                html += ' <tr style="color: #ff0000;">';
+                html += '<td>' + this.OrderNum + '</td >';
+                html += '<td>' + this.CreateTime + '</td >';
+                html += '<td>' + this.CreateUserNum + '</td >';
+                html += '<td>' + this.CreateUserNum + '</td >';
+                html += '<td>' + this.StoreName + '</td >';
+                html += '<td>' + this.Area + '</td >';
+                html += '<td>' + this.Remark + '</td >';
+                html += '<td>' + this.RealMoney + '</td >';
+                html += '<td><span class="highlight">' + this.PayMoney + '</span>&nbsp;&nbsp; [货到付款]</td >';
+                html += '<td>电脑端</td >';
+                html += '<td>' + getSutas(this.Stutas) + '</td >';
+                html += '<td><a href="/Order/OrderDetail?orderId=' + this.Id + '">订单详情</a></td >'
+                html += '</tr>';
+
+            });
+            $("#dataList").html(html);
+            $("#page").paging({
+                pageNo: index,
+                totalPage: data.TotalPage,
+                totalSize: data.TotalCount,
+                callback: function (num) {
+                    if (index != num)
+                        GetData(num);
+                }
+            })
+
+        }, "json");
+    }
+    $(document).on("click", "#search", function () {
+        GetData(1);
+    })
+
+    function getSutas(code) {
+        var res = "";
+        switch (code) {
+            case 1:
+                res = "等待商家发货";
+                break;
+            case 2:
+                res = "商家已发货";
+                break;
+            case 3:
+                res = "交易完成";
+                break;
+            case 4:
+                res = "订单取消中";
+                break;
+            case 5:
+                res = "订单取消成功";
+                break;
+            case 6:
+                res = "退货中";
+                break;
+            case 7:
+                res = "退货成功";
+                break;
+        }
+        return res;
+    }
+</script>

@@ -86,7 +86,7 @@ namespace SaleTools.Controllers
         {
             var loginUser = (UserInfo)ViewBag.User;
             var userList = new List<UserInfo>();
-
+            Guid managerId = (Guid)ViewBag.ManagerId;
             if (addtype == 0)
             {
                 var userNums = number.Split(',').ToList();
@@ -97,7 +97,7 @@ namespace SaleTools.Controllers
                 userList = _user.GetUserInfoByUserType(userType, loginUser.UserId);
             }
             c.CreateTime = DateTime.Now;
-            c.CreateUserId = loginUser.UserId;
+            c.CreateUserId = managerId;
             c.CreateUserName = loginUser.UserName;
 
             _active.CreateCoupon(c, userList);
@@ -119,10 +119,10 @@ namespace SaleTools.Controllers
         public ActionResult AddNewManSong()
         {
             var loginUser = (UserInfo)ViewBag.User;
-
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var typelist = _user.GetTypeList();
-            var suppliers = _user.GetSupplierList(loginUser.UserId);
-            var BrandList = _good.GetAllBrand(loginUser.UserId);
+            var suppliers = _user.GetSupplierList(managerId);
+            var BrandList = _good.GetAllBrand(managerId);
 
             ViewBag.TypeList = typelist;
             ViewBag.Supplier = suppliers;
@@ -132,12 +132,12 @@ namespace SaleTools.Controllers
 
         public ActionResult SaveManSong(Manjiusong m, List<int> userType,string areaNums)
         {
-
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var areaList = areaNums.Split(',').ToList();
             var loginUser = (UserInfo)ViewBag.User;
             m.Id = Guid.NewGuid();
             m.CreateTime = DateTime.Now;
-            m.CreateUserId = loginUser.UserId;
+            m.CreateUserId = managerId;
             string userTypes = "";
             userType.ForEach(x =>
             {
@@ -155,10 +155,10 @@ namespace SaleTools.Controllers
         public ActionResult AddNewManJian()
         {
             var loginUser = (UserInfo)ViewBag.User;
-
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var typelist = _user.GetTypeList();
-            var suppliers = _user.GetSupplierList(loginUser.UserId);
-            var BrandList = _good.GetAllBrand(loginUser.UserId);
+            var suppliers = _user.GetSupplierList(managerId);
+            var BrandList = _good.GetAllBrand(managerId);
 
             ViewBag.TypeList = typelist;
             ViewBag.Supplier = suppliers;
@@ -168,10 +168,11 @@ namespace SaleTools.Controllers
         public ActionResult SaveManJian(Manjiujian m, List<int> userType, string areaNums)
         {
             var loginUser = (UserInfo)ViewBag.User;
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var areaList = areaNums.Split(',').ToList();
             m.Id = Guid.NewGuid();
             m.CreateTime = DateTime.Now;
-            m.CreateUserId = loginUser.UserId;
+            m.CreateUserId = managerId;
             string userTypes = "";
             userType.ForEach(x =>
             {
@@ -188,8 +189,8 @@ namespace SaleTools.Controllers
         public string CheckGoods(string num)
         {
             var loginUser = (UserInfo)ViewBag.User;
-
-            var res = _good.GetGoodsByNum(num, loginUser.UserId);
+            Guid managerId = (Guid)ViewBag.ManagerId;
+            var res = _good.GetGoodsByNum(num, managerId);
             _response.Result = res;
             if (res != null)
                 _response.Stutas = true;
@@ -198,8 +199,9 @@ namespace SaleTools.Controllers
 
         public ActionResult GetManSongList(int index = 1)
         {
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var loginUser = (UserInfo)ViewBag.User;
-            var pager = _active.GetManSongPager(loginUser.UserId, index);
+            var pager = _active.GetManSongPager(managerId, index);
             ViewBag.Pager = pager;
             return View();
         }
@@ -209,7 +211,8 @@ namespace SaleTools.Controllers
         public ActionResult GetManJianList(int index = 1)
         {
             var loginUser = (UserInfo)ViewBag.User;
-            var pager = _active.GetManJianPager(loginUser.UserId, index);
+            Guid managerId = (Guid)ViewBag.ManagerId;
+            var pager = _active.GetManJianPager(managerId, index);
             ViewBag.Pager = pager;
             return View();
         }
@@ -219,10 +222,10 @@ namespace SaleTools.Controllers
         {
             var detail = _active.GetManSongDetial(activeId);
             var loginUser = (UserInfo)ViewBag.User;
-
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var typelist = _user.GetTypeList();
-            var suppliers = _user.GetSupplierList(loginUser.UserId);
-            var BrandList = _good.GetAllBrand(loginUser.UserId);
+            var suppliers = _user.GetSupplierList(managerId);
+            var BrandList = _good.GetAllBrand(managerId);
             var areas = detail.areas.Select(x => x.Num + "_" + x.Name).ToArray();
             ViewBag.AreaStr = string.Join(",",areas);
 
@@ -237,9 +240,9 @@ namespace SaleTools.Controllers
         {
             var areaList = areaNums.Split(',').ToList();
             var loginUser = (UserInfo)ViewBag.User;
-
+            Guid managerId = (Guid)ViewBag.ManagerId;
             m.CreateTime = DateTime.Now;
-            m.CreateUserId = loginUser.UserId;
+            m.CreateUserId = managerId;
             string userTypes = "";
             userType.ForEach(x =>
             {
@@ -258,10 +261,10 @@ namespace SaleTools.Controllers
         {
             var detail = _active.GetManJianDetial(activeId);
             var loginUser = (UserInfo)ViewBag.User;
-
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var typelist = _user.GetTypeList();
-            var suppliers = _user.GetSupplierList(loginUser.UserId);
-            var BrandList = _good.GetAllBrand(loginUser.UserId);
+            var suppliers = _user.GetSupplierList(managerId);
+            var BrandList = _good.GetAllBrand(managerId);
             var areas = detail.areas.Select(x => x.Num + "_" + x.Name).ToArray();
             ViewBag.AreaStr = string.Join(",", areas);
 
@@ -276,9 +279,9 @@ namespace SaleTools.Controllers
         {
             var areaList = areaNums.Split(',').ToList();
             var loginUser = (UserInfo)ViewBag.User;
-
+            Guid managerId = (Guid)ViewBag.ManagerId;
             m.CreateTime = DateTime.Now;
-            m.CreateUserId = loginUser.UserId;
+            m.CreateUserId = managerId;
             string userTypes = "";
             userType.ForEach(x =>
             {
@@ -304,8 +307,8 @@ namespace SaleTools.Controllers
         public ActionResult AddDiscount()
         {
             var loginUser = (UserInfo)ViewBag.User;
-
-            ViewBag.TypeList = _good.GetDownGoodsType(Guid.Empty, loginUser.UserId);
+            Guid managerId = (Guid)ViewBag.ManagerId;
+            ViewBag.TypeList = _good.GetDownGoodsType(Guid.Empty, managerId);
             ViewBag.UserTypeList  = _user.GetTypeList();
             return View();
         }
@@ -336,8 +339,9 @@ namespace SaleTools.Controllers
 
         public ActionResult DiscountList()
         {
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var loginUser = (UserInfo)ViewBag.User;
-            var list = _active.GetDiscountList(loginUser.UserId);
+            var list = _active.GetDiscountList(managerId);
             ViewBag.DiscountList = list;
             return View();
 
@@ -346,9 +350,10 @@ namespace SaleTools.Controllers
 
         public ActionResult EditDiscount(Guid DiscountId)
         {
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var loginUser = (UserInfo)ViewBag.User;
             var model = _active.GetDiscountDetail(DiscountId);
-            ViewBag.TypeList = _good.GetDownGoodsType(Guid.Empty, loginUser.UserId);
+            ViewBag.TypeList = _good.GetDownGoodsType(Guid.Empty, managerId);
             ViewBag.UserTypeList = _user.GetTypeList();
 
             return View(model);
@@ -375,11 +380,11 @@ namespace SaleTools.Controllers
 
         public ActionResult SaveBlackList(BlackList m, string areaNums)
         {
-
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var areaList = areaNums.Split(',').ToList();
             var loginUser = (UserInfo)ViewBag.User;
             m.CreateTime = DateTime.Now;
-            m.CreateUserId = loginUser.UserId;
+            m.CreateUserId = managerId;
             m.CreateUserName = loginUser.UserName;
 
             _active.AddBlackList(m, areaList);
@@ -390,8 +395,9 @@ namespace SaleTools.Controllers
 
         public ActionResult BlackListView()
         {
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var loginUser = (UserInfo)ViewBag.User;
-            var list = _active.GetBlackList(loginUser.UserId);
+            var list = _active.GetBlackList(managerId);
             ViewBag.BlackList = list;
             return View();
 
@@ -400,6 +406,7 @@ namespace SaleTools.Controllers
 
         public ActionResult EditBlackList(Guid Id)
         {
+           
             var loginUser = (UserInfo)ViewBag.User;
             var model = _active.GetBlackListDetail(Id);
             return View(model);
@@ -427,8 +434,9 @@ namespace SaleTools.Controllers
 
         public ActionResult DPSList(int index = 1)
         {
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var loginUser = (UserInfo)ViewBag.User;
-            var pager = _active.GetDPSPager(loginUser.UserId, index);
+            var pager = _active.GetDPSPager(managerId, index);
             ViewBag.Pager = pager;
             return View();
         }
@@ -446,15 +454,16 @@ namespace SaleTools.Controllers
 
         public ActionResult SaveDPS(DPS m, List<int> userType, string areaNums)
         {
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var loginUser = (UserInfo)ViewBag.User;
             var areaList = areaNums.Split(',').ToList();
             m.Id = Guid.NewGuid();
             m.CreateTime = DateTime.Now;
-            m.CreateUserId = loginUser.UserId;
+            m.CreateUserId = managerId;
             m.CreateUserName = loginUser.UserName;
 
-            var goodsItem = _good.GetGoodsByNum(m.GoodsNum,loginUser.UserId);
-            var sendGoodsItem = _good.GetGoodsByNum(m.SendGoodsNum, loginUser.UserId);
+            var goodsItem = _good.GetGoodsByNum(m.GoodsNum, managerId);
+            var sendGoodsItem = _good.GetGoodsByNum(m.SendGoodsNum, managerId);
             if(goodsItem!=null)
             {
                 m.GoodsId = goodsItem.Id;
@@ -486,7 +495,7 @@ namespace SaleTools.Controllers
         {
             var detail = _active.GetDPSDetial(Id);
             var loginUser = (UserInfo)ViewBag.User;
-
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var typelist = _user.GetTypeList();
 
             var areas = detail.areas.Select(x => x.Num + "_" + x.Name).ToArray();
@@ -502,12 +511,12 @@ namespace SaleTools.Controllers
         {
             var areaList = areaNums.Split(',').ToList();
             var loginUser = (UserInfo)ViewBag.User;
-
+            Guid managerId = (Guid)ViewBag.ManagerId;
             m.CreateTime = DateTime.Now;
-            m.CreateUserId = loginUser.UserId;
+            m.CreateUserId = managerId;
 
-            var goodsItem = _good.GetGoodsByNum(m.GoodsNum, loginUser.UserId);
-            var sendGoodsItem = _good.GetGoodsByNum(m.SendGoodsNum, loginUser.UserId);
+            var goodsItem = _good.GetGoodsByNum(m.GoodsNum, managerId);
+            var sendGoodsItem = _good.GetGoodsByNum(m.SendGoodsNum, managerId);
             if (goodsItem != null)
             {
                 m.GoodsId = goodsItem.Id;
@@ -538,8 +547,8 @@ namespace SaleTools.Controllers
         public ActionResult AddActiveBlacklist(int page = 1, string key= "")
         {
             var loginUser = (UserInfo)ViewBag.User;
-
-            var goodsList = _good.GetGoodsList(loginUser.UserId, -1, page, 30, "", "", "", "", "", key, "");
+            Guid managerId = (Guid)ViewBag.ManagerId;
+            var goodsList = _good.GetGoodsList(managerId, -1, page, 30, "", "", "", "", "", key, "");
             ViewBag.GoodsList = goodsList;
             ViewBag.Key = key;
             ViewBag.Page = page;
@@ -557,8 +566,8 @@ namespace SaleTools.Controllers
             }
 
             var loginUser = (UserInfo)ViewBag.User;
-
-            var res = _active.SaveBlackFoActive(list, loginUser.UserId, type);
+            Guid managerId = (Guid)ViewBag.ManagerId;
+            var res = _active.SaveBlackFoActive(list, managerId, type);
             return Utils.SerializeObject(res);
         }
 

@@ -34,9 +34,10 @@ namespace SaleTools.Controllers
         public ActionResult OrderManager()
         {
             var loginUser = (UserInfo)ViewBag.User;
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var list = _user.GetTypeList();
             ViewBag.TypeList = list;
-            var saleList = _user.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
+            var saleList = _user.GetSysUser((int)SystemUserType.业务员, managerId);
             ViewBag.SaleManList = saleList;
 
             return View();
@@ -46,9 +47,10 @@ namespace SaleTools.Controllers
         public ActionResult OrderSearch()
         {
             var loginUser = (UserInfo)ViewBag.User;
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var list = _user.GetTypeList();
             ViewBag.TypeList = list;
-            var saleList = _user.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
+            var saleList = _user.GetSysUser((int)SystemUserType.业务员, managerId);
             ViewBag.SaleManList = saleList;
 
             return View();
@@ -286,9 +288,10 @@ namespace SaleTools.Controllers
         public ActionResult OrderPayContrast()
         {
             var loginUser = (UserInfo)ViewBag.User;
-            var Sendlist = _user.GetSysUser((int)SystemUserType.送货员, loginUser.CreateUserId);
+            Guid managerId = (Guid)ViewBag.ManagerId;
+            var Sendlist = _user.GetSysUser((int)SystemUserType.送货员, managerId);
             ViewBag.SendPeople = Sendlist;
-            var SaleList = _user.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
+            var SaleList = _user.GetSysUser((int)SystemUserType.业务员, managerId);
             ViewBag.SalePeople = SaleList;
             var typeList = _user.GetTypeList();
             ViewBag.TypeList = typeList;
@@ -382,8 +385,10 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public ActionResult OrderCount(string start = "", string end = "", string province = "", string city = "", string area = "", decimal orderMoney = 0, int showType = 0, string saleManId = "", bool isDown = false)
         {
-            var loginUser = (UserInfo)ViewBag.User;
-            var SaleList = _user.GetSysUser((int)SystemUserType.业务员, loginUser.CreateUserId);
+            
+
+            Guid managerId = (Guid)ViewBag.ManagerId;
+            var SaleList = _user.GetSysUser((int)SystemUserType.业务员, managerId);
             var OrderList = new List<OrderCountByStore>();
             DateTime startTime = new DateTime();
             DateTime endTime = new DateTime();
@@ -403,12 +408,12 @@ namespace SaleTools.Controllers
             {
                 if (showType == 0||isDown)
                 {
-                    OrderList = _order.GetOrderTotal(startTime, endTime, province, city, area, loginUser.UserId, orderMoney);
+                    OrderList = _order.GetOrderTotal(startTime, endTime, province, city, area, managerId, orderMoney);
 
                 }
                 else
                 {
-                    OrderList = _order.GetOrderTotalBySaleMan(startTime, endTime, loginUser.UserId);
+                    OrderList = _order.GetOrderTotalBySaleMan(startTime, endTime, managerId);
                 }
             }
             if(isDown)
@@ -441,8 +446,8 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public ActionResult ShopCount(string start = "", string end = "", string key = "",string typeId="")
         {
-            var loginUser = (UserInfo)ViewBag.User;
-            var typeList = _good.GetDownGoodsType(Guid.Empty, loginUser.UserId);
+            Guid managerId = (Guid)ViewBag.ManagerId;
+            var typeList = _good.GetDownGoodsType(Guid.Empty, managerId);
             var list = new List<GoodsSaleMode>();
             DateTime startTime = new DateTime();
             DateTime endTime = new DateTime();
@@ -459,7 +464,7 @@ namespace SaleTools.Controllers
                 endTime = Utils.GetTime(end);
             if(!string.IsNullOrWhiteSpace(start))
             {
-                list = _order.GetGoodsSaleInfo(startTime, endTime, key, typeId, loginUser.UserId);
+                list = _order.GetGoodsSaleInfo(startTime, endTime, key, typeId, managerId);
             }
 
             ViewBag.TypeList = typeList;
@@ -474,11 +479,11 @@ namespace SaleTools.Controllers
 
         public ActionResult AbnormalCount(string start = "",string end ="",string cType ="",string goodsType = "",int supplier = -1,int Stype =1)
         {
-            var loginUser = (UserInfo)ViewBag.User;
-
+            
+            Guid managerId = (Guid)ViewBag.ManagerId;
             var list = new List<ErrorInfoModel>();
-            var typeList = _good.GetDownGoodsType(Guid.Empty, loginUser.UserId);
-            var supplierList = _user.GetSupplierList(loginUser.UserId);
+            var typeList = _good.GetDownGoodsType(Guid.Empty, managerId);
+            var supplierList = _user.GetSupplierList(managerId);
 
             DateTime startTime = new DateTime();
             DateTime endTime = new DateTime();
@@ -520,7 +525,7 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public ActionResult AbnormalNumber(string start = "",string end = "")
         {
-            var loginUser = (UserInfo)ViewBag.User;
+            Guid managerId = (Guid)ViewBag.ManagerId;
 
             DateTime startTime = new DateTime();
             DateTime endTime = new DateTime();
@@ -537,7 +542,7 @@ namespace SaleTools.Controllers
             var list = new List<ErrorDayModel>();
             if(!string.IsNullOrWhiteSpace(start))
             {
-                list = _order.GetErrDays(startTime, endTime, loginUser.UserId);
+                list = _order.GetErrDays(startTime, endTime, managerId);
             }
             ViewBag.Start = startTime;
             ViewBag.End = endTime;
@@ -549,8 +554,8 @@ namespace SaleTools.Controllers
 
         public ActionResult UserOrderManager(string start = "",string end ="")
         {
-            var loginUser = (UserInfo)ViewBag.User;
-
+           
+            UserInfo userInfo = (UserInfo)ViewBag.User;
             DateTime startTime = new DateTime();
             DateTime endTime = new DateTime();
             DateTime now = DateTime.Now;
@@ -564,7 +569,7 @@ namespace SaleTools.Controllers
             else
                 endTime = Utils.GetTime(end);
 
-            var list = _order.UserGetOrderInfos(startTime, endTime, loginUser.UserId);
+            var list = _order.UserGetOrderInfos(startTime, endTime, userInfo.UserId);
             ViewBag.List = list;
             ViewBag.Start = startTime;
             ViewBag.End = endTime;

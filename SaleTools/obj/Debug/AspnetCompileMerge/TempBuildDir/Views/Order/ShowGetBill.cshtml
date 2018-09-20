@@ -1,0 +1,81 @@
+﻿
+@using Common.Entities;
+@{
+    Layout = null;
+    var list = (List<GetProductModel>)ViewBag.List;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ShowGetBill</title>
+    <link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/pages/ucenter.css">
+
+</head>
+<body>
+    <div id="wraper">
+        <div id="main">
+            <div class="module" style="width:1100px;">
+
+                @foreach (var billInfo in list)
+                {
+                    int num = 0;
+                    decimal total = 0;
+                <h1>取货单</h1>
+                <p class="clearfix">
+                    供应商:
+                    <span class="highlight">@billInfo.SupplierInfo.SupplierCompany </span>
+                    <span style="margin-left:5px;">@billInfo.SupplierInfo.Addr</span>
+                    <span style="margin-left:5px;">@billInfo.SupplierInfo.Tel</span>
+                    <span class="rfloat">@ViewBag.Start&nbsp;至&nbsp;@ViewBag.End</span>
+                </p>
+                <table class="table table_border">
+                    <thead class="bg_color">
+                        <tr>
+                            <th>序号</th>
+                            <th>商品名称</th>
+                            <th>条形码</th>
+                            <th>规格</th>
+                            <th>单位</th>
+                            <th>单价(元)</th>
+                            <th>数量</th>
+                            <th>商品总价(元)</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var billitem in billInfo.Items)
+                        {
+                            num++;
+                            total += billitem.TotalPirce;
+                        <tr>
+                            <td>@num</td>
+                            <td>@billitem.ProductName</td>
+                            <td>@billitem.BarCode</td>
+                            <td>@billitem.Spec</td>
+                            <td>@billitem.Unit</td>
+                            <td>@billitem.Pirce</td>
+                            <td>@billitem.Count</td>
+                            <td>@billitem.TotalPirce</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        }
+
+                        <tr><td colspan="9" style="text-align:right;">@total</td></tr>
+                    </tbody>
+                </table>
+                <p class="clearfix">
+                    <span class="rfloat">
+                        客服电话：@ViewBag.Tel
+                    </span>
+                </p>
+                }
+
+            </div>
+        </div>
+    </div></body>
+</html>
