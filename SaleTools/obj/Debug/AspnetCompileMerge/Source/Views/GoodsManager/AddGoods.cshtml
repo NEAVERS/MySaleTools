@@ -81,11 +81,11 @@
                                                 请选择
                                             </option>
                                             @foreach (var item in SupplierList)
-                {
-                            <option value="@item.Id" data-num="@item.SupplierNum" @(item.Id == Model.SupplierId ? "selected='selected'" : "")>
-                                @item.SupplierCompany
-                            </option>
-}
+                                            {
+                                                <option value="@item.Id" data-num="@item.SupplierNum" @(item.Id == Model.SupplierId ? "selected='selected'" : "")>
+                                                    @item.SupplierCompany
+                                                </option>
+                                            }
                                         </select>
                                     </td>
                                 </tr>
@@ -188,9 +188,9 @@
                                                 </span>
                                             </button>
 
-                                            
-                                                
-                                            
+
+
+
 
                                             <div class="dropdown-menu">
                                                 <div class="live-filtering" data-clear="true" data-autocomplete="true" data-keys="true">
@@ -360,6 +360,15 @@
                                         <span class="highlight">
                                             （商品单位总数，比如一箱农夫山泉有24瓶，则一箱农夫山泉的单位总数为24）
                                         </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right" style="vertical-align:central">
+                                        是否整箱：
+                                    </td>
+                                    <td>
+                                        <input type="radio" class="inputtext" name="IsBoxSale" @(Model.IsBoxSale?" ":"checked='checked'") value="false" > 否
+                                        <input type="radio" class="inputtext" name="IsBoxSale"  @(Model.IsBoxSale?" checked='checked'":"")  value="true"> 是
                                     </td>
                                 </tr>
                                 <tr>
@@ -747,7 +756,8 @@
                     obj.KeyWord = $("#J_Keyword").val();
                     obj.Detail = $("#content").val();
                     obj.ErpId = $("#ErpId").val();
-                    obj.SortId = $("#SortId").val()
+                    obj.SortId = $("#SortId").val();
+                    obj.IsBoxSale = $('input:radio[name="IsBoxSale"]:checked').val();
                     $.post("/GoodsManager/SaveGoods", { goods: obj }, function (e) {
                         if (e) {
                             _n = 0;

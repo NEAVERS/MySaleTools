@@ -1,0 +1,276 @@
+﻿@using Common.Entities;
+@using Model;
+@{
+    ViewBag.Title = "ConfirmPayRecord";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int num = 0;
+}
+@model OrderDetail
+
+
+<style>
+    .product .pic {
+        display: block;
+        float: left;
+        width: 80px;
+        height: 80px;
+    }
+    .product .title {
+        margin-left: 90px;
+    }
+</style>
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            订单详情
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="col_main_content">                       
+
+                        <table class="table info_box">
+                            <tbody>
+                                <tr>
+                                    <td width="120">收货地址</td>
+                                    <td>地址</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="top order_info_title">订单信息</td>
+                                    <td class="order_info_detail">
+                                        <table class="table">
+                                            <colgroup>
+                                                <col align="left" width="40%">
+                                                <col align="left" width="40%">
+                                                <col align="left" width="30%">
+                                            </colgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <td>订单编号：@Model.Info.OrderNum </td>
+                                                    <td>
+                                                        订单状态：@(((OrderStatus)Model.Info.Stutas).ToString())
+                                                    </td>
+                                                    <td>
+                                                        配送员：@Model.Info.SendPeople                                                                        &nbsp;&nbsp;
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>下单时间：@Model.Info.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                                    <td>付款时间: @(Model.Info.PayTime.HasValue ? Model.Info.PayTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</td>
+                                                    <td>发货时间：@(Model.Info.SendTime.HasValue ? Model.Info.SendTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>业务员：@Model.Info.SaleManName @Model.Info.SaleManTel</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="top order_info_title">付款信息</td>
+                                    <td class="order_info_detail">
+                                        <table class="table">
+                                            <colgroup>
+                                                <col align="left" width="40%">
+                                                <col align="left" width="40%">
+                                                <col align="left" width="30%">
+                                            </colgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <td>支付方式：货到付款</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        订单总金额：@Model.Info.TotalMoney
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        折扣 : - @Model.Info.LessMoney
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        满就减 : - @Model.Info.Manjian
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        应付金额 : @Model.Info.RealMoney
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        实付金额 :
+                                                        @Model.Info.PayMoney
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table_border" id="J_OrderDetailListBox" style="margin-bottom:100px;">
+                            <colgroup>
+                                <col width="7%">
+                                <col width="38%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="16%">
+                                <col width="10%">
+                            </colgroup>
+                            <thead class="bg_color">
+                                <tr>
+                                    <th class="center">序号</th>
+                                    <th class="center">商品</th>
+                                    <th class="center">单价(元)</th>
+                                    <th class="center">数量</th>
+                                    <th class="center">小计(元)</th>
+                                    <th class="center">折扣(元)</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var orderItem in Model.Items)
+                                {
+                                    num++;
+                                <tr>
+                                    <td class="center">@num</td>
+                                    <td>
+                                        <div class="product">
+                                            <div class="product clearfix">
+                                                <a href="" class="pic"><img src="@orderItem.Pic" width="80" height="80"></a>
+                                                <p class="title">
+                                                    <a href="">@orderItem.ProductTittle</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="center">
+                                        <b>@orderItem.RealPrice</b>
+                                    </td>
+                                    <td class="center">@orderItem.Count</td>
+                                    <td class="center"><b>@orderItem.TotalPrice</b></td>
+                                    <td class="center"><b>@(orderItem.LessPrice*orderItem.Count)</b></td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(document).on("change", ".J_AbnormalType", function () {
+        var itemId = $(this).attr("itemId");
+        var typeId = $(this).val();
+        if (typeId != "0") {
+            $.post("/Order/LoadErrorReason", { pid: typeId }, function (data) {
+                var html = '<option value="0">请选择</option>';
+                $(data).each(function () {
+                    html += '<option value="' + this.ErrorCode + '">' + this.Info + '</option>';
+                });
+                $("#J_AbnormalReason" + itemId).html(html);
+
+            }, "json")
+        }
+    })
+
+
+    $(document).on("click", ".J_RecordAbnormal", function () {
+        var itemId = $(this).attr("itemId");
+        var type = $("#J_AbnormalType" + itemId).val();
+        var typeName = $("#J_AbnormalType" + itemId).find("option:selected").text();
+        var reasonId = $("#J_AbnormalReason" + itemId).val();
+        var reason = $("#J_AbnormalReason" + itemId).find("option:selected").text();
+        var cout = $("#J_AbnormalNum" + itemId).val();
+        var remark = $("#J_AbnormalDescription" + itemId).val();
+        if (type == "0") {
+            alert("请选择异常类型")
+            return;
+        }
+        if (reasonId == "0") {
+            alert("请选择异常原因")
+            return;
+        }
+        var para = {};
+        para.orderItemId = itemId;
+        para.count = cout;
+        para.typeCode = type;
+        para.type = typeName;
+        para.reasonCode = reasonId;
+        para.reason = reason;
+        para.mark = remark;
+
+        $.post("/Order/SetOrderItemError", para, function (e) {
+            if (e) {
+                location.reload();
+            }
+        },"json")
+    })
+    $(document).on("click", "#saveMemo", function () {
+        var remark = $("#J_ConfirmMemo").val();
+        if (!remark || remark == "") {
+            alert("请输入备注信息")
+            return;
+        }
+        var para = {};
+        para.remark = remark;
+        para.orderId = $("#J_OrderId").val();
+        $.post("/Order/SaveRemark", para, function (e) {
+            if (e) {
+                location.reload();
+            }
+        }, "json")
+
+    })
+
+    $(document).on("click", "#J_ConfirmPay", function () {
+        var remark = $("#J_ConfirmMemo").val();
+        var paymoeney = $("#J_ConfirmPayMenoy").val();
+        var send = $("#deliveryId").val();
+        if (!paymoeney || paymoeney < 0) {
+            alert("请输入正确的实收金额")
+            return;
+        }
+        if (send == "0") {
+            alert("请选择送货员")
+            return;
+
+        }
+        var para = {};
+        para.remark = remark;
+        para.paymoeney = paymoeney;
+        para.send = send;
+        para.orderId = $("#J_OrderId").val();
+        $.post("/Order/ConfirmOrderPay", para, function (e) {
+            if (e) {
+                location.reload();
+            }
+        }, "json")
+
+    })
+
+    $("#search").click(function () {
+        search();
+    })
+
+    function search() {
+        var ordernum = $("#orderId").val();
+        if (!ordernum || ordernum == "") {
+            alert("请输入订单编号");
+            return;
+        }
+        location.href = '/Order/ConfirmPayRecord?orderNum=' + ordernum;
+    }
+
+    $("#J_ReturnAllGoods").click(function () {
+
+    });
+</script>

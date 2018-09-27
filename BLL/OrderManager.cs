@@ -430,7 +430,46 @@ namespace BLL
         }
 
 
+        public MemoryStream CreateOrderInfoFile(List<OrderInfo> list)
+        {
+            System.IO.MemoryStream output = new System.IO.MemoryStream();
 
+            System.IO.StreamWriter writer = new System.IO.StreamWriter(output, System.Text.Encoding.UTF8);
+
+            writer.Write("序号,订单编号,订单时间,小店编号,客户类型,小店名称,区域,小店地址,标记,订单原始销售,订单应付,订单实际支付,业务员,支付类型,交易状态");//输出标题，逗号分割（注意最后一列不加逗号）
+
+            writer.WriteLine();
+            //输出内容
+            int num = 0;
+            foreach (var item in list)
+            {
+                num++;
+                writer.Write(num + ",");//第一列
+                writer.Write(item.OrderNum + ",");//第一列
+                writer.Write(item.CreateTime.ToString("yyyy-dd-MM HH:mm:ss") + ",");//第一列
+                writer.Write(item.CreateUserNum + ",");//第一列
+                writer.Write(item.CreateUserType + ",");//第一列
+                writer.Write(item.StoreName + ",");//第一列
+                writer.Write(item.Area + ",");//第一列
+                writer.Write(item.ReceiveAddr + ",");//第一列
+                writer.Write(item.Area + ",");//第一列
+                writer.Write(item.TotalMoney + ",");//第一列
+                writer.Write(item.RealMoney + ",");//第一列
+                writer.Write(item.PayMoney + ",");//第一列
+
+                writer.Write(item.SaleManName + ",");//第一列
+                writer.Write(item.PayType + ",");//第一列
+                writer.Write((OrderStatus)item.Stutas + ",");//第一列
+                writer.WriteLine();
+            }
+            writer.Flush();
+
+            output.Position = 0;
+
+            //return File(output, "text/comma-separated-values", "demo1.csv");
+            return output;
+
+        }
         /// <summary>
         /// 导出订单列表
         /// </summary>
@@ -1091,7 +1130,10 @@ namespace BLL
             orderIndex.redWord = false;
             orderIndex.BillOver = false;
             orderIndex.comment = string.Empty;
-            orderIndex.explain = string.Empty;
+            if (orderDetail.Info.Manjian>0)
+                orderIndex.explain = "满减："+ orderDetail.Info.Manjian;
+            else
+                orderIndex.explain = string.Empty;
             orderIndex.Checke = saleMan == null ? "000010004100004" : saleMan.BTypeId;
             orderIndex.Tax = 0;
             orderIndex.BillStatus = 0;
@@ -1141,9 +1183,47 @@ namespace BLL
                 var unit_ex = _erp.PType_Units_Exts.FirstOrDefault(c => c.PtypeID == pinfo.typeId && c.UnitsId == pinfo.SaleUnitId);
                 if (unit_ex == null)
                     continue;
+
+
+
+                if(goods.IsBoxSale)
+                {
+                    double rates = 1;
+                    int spex = Utils.ParseInt(goods.Spec);
+                    if(spex!=0)
+                    {
+                        rates = (double)unit_ex.Rate / spex;
+                    }
+                    model.qty = x.Count * spex;
+                    model.NSalePrice = Convert.ToDecimal((double)x.Price / spex);
+                    model.NDiscountPrice = Convert.ToDecimal((double)x.RealPrice / spex);
+                    model.NTaxPrice = Convert.ToDecimal((double)x.RealPrice / spex);
+                    model.NQty = x.Count * spex;
+                    model.MSalePrice = Convert.ToDecimal((double)x.Price/ rates);
+                    model.MDiscountPrice = Convert.ToDecimal((double)x.RealPrice/ rates);
+                    model.MTaxPrice = Convert.ToDecimal((double)x.RealPrice/ rates);
+                    model.CurMSalePrice = Convert.ToDecimal((double)x.RealPrice/ rates);
+                    model.CurMDiscountPrice = Convert.ToDecimal((double)x.RealPrice/ rates);
+                    model.CurMTaxPrice = Convert.ToDecimal((double)x.RealPrice/ rates);
+                    model.MQty = x.Count/ (decimal)rates;
+                }
+                else
+                {
+                    model.qty = x.Count;
+                    model.NSalePrice = Convert.ToDecimal((double)x.Price );
+                    model.NDiscountPrice = Convert.ToDecimal((double)x.RealPrice );
+                    model.NTaxPrice = Convert.ToDecimal((double)x.RealPrice);
+                    model.NQty = x.Count ;
+                    model.MSalePrice = Convert.ToDecimal((double)x.Price* (double)unit_ex.Rate.Value);
+                    model.MDiscountPrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
+                    model.MTaxPrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
+                    model.CurMSalePrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
+                    model.CurMDiscountPrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
+                    model.CurMTaxPrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
+                    model.MQty = Convert.ToDecimal(x.Count/ (double)unit_ex.Rate.Value);
+                }
                 model.ptypeid = goods.ErpId;
-                model.qty = x.Count ;
-                model.price = Convert.ToDecimal((double)x.RealPrice * (double)unit_ex.Rate.Value);
+                model.price = Convert.ToDecimal((double)x.RealPrice);
                 model.total = x.TotalPrice;
                 model.ReachQty = 0;
                 model.comment = user.TypeName + (x.LessPrice > 0 ? "优惠金额:" + x.LessPrice*x.Count : "");///在备注中添加用户类型和优惠金额
@@ -1152,8 +1232,8 @@ namespace BLL
                 model.PassQty = 0;
                 model.IsUnit2 = false;
                 model.Discount = x.Price > 0 ? Math.Round(1 - (x.LessPrice / x.Price), 2) : 1;
-                model.DiscountPrice = Convert.ToDecimal((double)x.RealPrice * (double)unit_ex.Rate.Value);
-                model.TaxPrice = Convert.ToDecimal((double)x.RealPrice * (double)unit_ex.Rate.Value);
+                model.DiscountPrice = Convert.ToDecimal((double)x.RealPrice );
+                model.TaxPrice = Convert.ToDecimal((double)x.RealPrice );
                 model.TaxTotal = x.TotalPrice + x.LessPrice * x.Count;
                 model.SaleTotal = x.TotalPrice +x.LessPrice * x.Count;
                 model.Tax = 0;
@@ -1169,28 +1249,23 @@ namespace BLL
                 model.AskBillNumberID = 0;
                 model.AskBillID = 0;
                 model.TaxMoney = 0;
-                model.NSalePrice = x.Price;
+               
                 model.NSaleTotal = x.Price * x.Count;
-                model.NDiscountPrice = x.RealPrice;
+                
                 model.NTotal = x.TotalPrice ;
-                model.NTaxPrice = x.RealPrice ;
+               
                 model.NTaxTotal = x.TotalPrice;
                 model.NTaxMoney = 0;
                 model.UnitID = pinfo.baseUnitId;
                 model.NUnitID = 0;
-                model.NQty = x.Count;
+               
                 model.UnitRate = 0;
                 model.NUnitMsg = null;
                 model.MUnitID = unit_ex.UnitsId;
-                model.MQty = x.Count / unit_ex.Rate;
+                
                 model.MUnitRate = unit_ex.Rate;
                 model.MUnitMsg = null;
-                model.MSalePrice = Convert.ToDecimal((double)x.Price * (double)unit_ex.Rate.Value);
-                model.MDiscountPrice = Convert.ToDecimal((double)x.RealPrice * (double)unit_ex.Rate.Value);
-                model.MTaxPrice = Convert.ToDecimal((double)x.RealPrice * (double)unit_ex.Rate.Value);
-                model.CurMSalePrice = x.RealPrice ;
-                model.CurMDiscountPrice = Convert.ToDecimal((double)x.RealPrice * (double)unit_ex.Rate.Value);
-                model.CurMTaxPrice = Convert.ToDecimal((double)x.RealPrice * (double)unit_ex.Rate.Value);
+               
                 model.ItemID = 0;
                 model.IsCombined = 0;
                 model.GoodsCostPrice = -1;

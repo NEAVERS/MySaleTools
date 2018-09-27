@@ -56,7 +56,7 @@ namespace SaleTools.Controllers
             return View();
         }
 
-        public string GetOrderList(int index, int size, string start="", string end ="", string province="", string city="", string area="0", int stutas = -1, string saleManId ="", int userType =-1, string key="" )
+        public string GetOrderList(int index, int size, string start="", string end ="", string province="", string city="", string area="0", int stutas = -1, string saleManId ="", int userType =-1, string key="",bool isDown = false)
         {
 
             DateTime startTime = Utils.GetTime(start, true);
@@ -69,6 +69,21 @@ namespace SaleTools.Controllers
                 managerId = loginUser.SaleManGuid;
             var pager = _order.GetOrderList(index,size,startTime,endTime,province,city,area,stutas,saleManId,userType,key,managerId, ViewBag.IsAdmin);
             return Utils.SerializeObject(pager);
+        }
+
+        public ActionResult ExportOrderInfo( string start = "", string end = "", string province = "", string city = "", string area = "0", int stutas = -1, string saleManId = "", int userType = -1, string key = "")
+        {
+            DateTime startTime = Utils.GetTime(start, true);
+            DateTime endTime = Utils.GetTime(end);
+            Guid managerId = Guid.NewGuid();
+            var loginUser = (UserInfo)ViewBag.User;
+            if (ViewBag.IsAdmin)
+                managerId = loginUser.UserId;
+            else
+                managerId = loginUser.SaleManGuid;
+            PageData<OrderInfo> pager = _order.GetOrderList(1, 10000, startTime, endTime, province, city, area, stutas, saleManId, userType, key, managerId, ViewBag.IsAdmin);
+            var result = _order.CreateOrderInfoFile(pager.ListData);
+            return File(result, "text/comma-separated-values", Guid.NewGuid().ToString("N") + ".csv");
         }
 
         public string CancelOrder(Guid orderId)

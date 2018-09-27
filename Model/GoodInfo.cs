@@ -242,6 +242,10 @@ namespace Model
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string  ErpId { get; set; }
 
+        /// <summary>
+        /// 是否整箱销售
+        /// </summary>
+        public bool IsBoxSale { get; set; }
         public GoodInfo()
         {
 
@@ -296,6 +300,7 @@ namespace Model
             this.PriceForC = 0;
             this.PriceForD = 0;
             this.PriceForLianSuo = 0;
+            this.IsBoxSale = false;
         }
 
     }

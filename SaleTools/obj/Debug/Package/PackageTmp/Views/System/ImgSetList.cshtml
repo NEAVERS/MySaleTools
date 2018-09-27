@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "ImgSetList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            首页海报设置                            
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="col_main_content">
+                <div class="search_bar">
+                    <ul class="search_item_list">
+                        <li class="search_item">
+                            <a href="/System/AddImgSet">新增首页海报</a>
+                        </li>
+                        <li class="clearfix"></li>
+                    </ul>
+                </div>
+                <table class="table table_border">
+                    <thead class="bg_color">
+                        <tr>
+                            <th class="center"></th>
+                            <th class="center">ID</th>
+                            <th class="center">标题</th>
+                            <th class="center">图片</th>
+                            <th class="center">连接地址</th>
+                            <th class="center">客户类型</th>
+                            <th class="center">海报类型</th>
+                            <th class="center">排序</th>
+                            <th class="center" width="60px">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody  id="dataList">
+                        <tr>
+                            <td class="center"><input type="checkbox" name="pass[]" value="4463" class="checkone"></td>
+                            <td class="center">4463</td>
+                            <td class="center">南孚</td>
+                            <td class="center">
+                                <img src="/upload/2017/08/22/c82ea2f32acb3fa7f6c69690356e74f5.jpg" width="150">
+                            </td>
+                            <td class="center">
+                                <a href="http://pifa.yunmayi.com/product/keywordList?q=套餐" target="_blank">海报连接</a>
+                            </td>
+                            <td class="center">
+                                默认客户&nbsp;                                                                                                                    D类客户&nbsp;
+                            </td>
+                            <td class="center">
+                                电脑端
+                            </td>
+                            <td class="center">
+                                5
+                            </td>
+                            <td class="center" width="60px">
+                                <a href="/index/edithomeposter?id=4463">编辑</a><br>
+                                <a href="javascript:;" class="J_DelPoster" data-id="4463">删除</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td colspan="10">
+                                <input type="checkbox" name="pass[]" id="checkall">  全选
+                                <span style="float: right;">
+                                    <button type="submit" style="float:right;" class="J_DeletePromo">批量删除</button>
+                                </span>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        LoadData();
+    })
+
+    function LoadData() {
+        $.post("/System/GetImgSetStr", {}, function (data) {
+            var html = "";
+            $(data).each(function () {
+                html += "<tr>";
+                html += ' <td class="center"><input type="checkbox" name="pass[]" value="' + this.ImgSetInfo.id + '" class="checkone"></td>';
+                html += '<td class="center">' + this.ImgSetInfo.Id + '</td>'
+                html += '<td class="center">' + this.ImgSetInfo.Ttile + '</td>'
+                html += ' <td class="center"><img src = "' + this.ImgSetInfo.ImgUrl + '" width = "150" ></td >';
+                html += '<td class="center"><a href = "' + this.ImgSetInfo.TurnUrl + '" target = "_blank" > 海报连接</a ></td >'
+                html += ' <td class="center">' + this.UserTypeStr + '</td >'
+                html += ' <td class="center">' + this.ImgSetInfo.ImgType + '</td >'
+                html += ' <td class="center">' + this.ImgSetInfo.SortedId + '</td >'
+                html += ' <td class="center" width="60px">';
+                html += '<a href="/System/AddImgSet?setId=' + this.ImgSetInfo.Id + '">编辑</a><br>'
+                html += '<a href="javascript:;" class="J_DelPoster" data-id="' + this.ImgSetInfo.Id + '">删除</a>'
+                html += '</td></tr >';
+            });
+
+            $("#dataList").html(html);
+
+        },"json")
+    }
+
+</script>

@@ -40,7 +40,7 @@ namespace SaleTools.Controllers
         public string LoadProduct(string firstTypeId)
         {
             var loginUser = (UserInfo)ViewBag.User;
- 
+
             var list = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10, "", firstTypeId, "", "", "","", "1");
             return Utils.SerializeObject(list);
         }
@@ -126,6 +126,8 @@ namespace SaleTools.Controllers
         public ActionResult ProductDetail(Guid Id)
         {
             var product = _manager.GetGoodInfoById(Id);
+            var loginUser = (UserInfo)ViewBag.User;
+            product.RetailtPrice = _manager.GetPriceOfUserType(product, loginUser.TypeId);
             return View(product);
         }
 

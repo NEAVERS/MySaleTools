@@ -422,6 +422,7 @@ namespace BLL
                 obj.Detail = newInfo.Detail;
                 obj.ErpId = newInfo.ErpId;
                 obj.SortId = newInfo.SortId;
+                obj.IsBoxSale = newInfo.IsBoxSale;
             }
 
             return _context.SaveChanges() > 0;
@@ -508,12 +509,14 @@ namespace BLL
 
             StreamWriter writer = new System.IO.StreamWriter(output, System.Text.Encoding.UTF8);
 
-            writer.Write("供应商名,商品条码,大类,商品id,商品父级ID,商品名称,批发价,A类销售价,B类销售价,C类销售价,D类销售价,E类销售价,成本价,商品规格信息,起批单位,单位总数,商品保质期,状态,最小起批数量,品牌,排序,关键字,限购数量,限购开始时间,限购结束时间,有无主图,客户类型,是否锁定,最小零售单位,建议零售价");//输出标题，逗号分割（注意最后一列不加逗号）
+            writer.Write("商品Guid,商品编号,供应商名,商品条码,大类,商品id,商品父级ID,商品名称,批发价,A类销售价,B类销售价,C类销售价,D类销售价,E类销售价,成本价,商品规格信息,起批单位,单位总数,商品保质期,状态,最小起批数量,品牌,排序,关键字,限购数量,限购开始时间,限购结束时间,有无主图,客户类型,是否锁定,最小零售单位,建议零售价");//输出标题，逗号分割（注意最后一列不加逗号）
 
             writer.WriteLine();
             //输出内容
             foreach (var item in list)
             {
+                writer.Write(item.Id + ",");//第一列
+                writer.Write(item.GoodsNum + ",");//第一列
                 writer.Write(item.SupplierName + ",");//第一列
                 writer.Write(item.BarCode + ",");//第一列
                 writer.Write(item.FirstTypeName + ",");//第一列

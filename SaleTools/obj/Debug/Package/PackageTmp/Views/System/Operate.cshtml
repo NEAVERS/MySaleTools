@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Operate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            系统设置                         
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="col_main_content">
+                <div>
+                    <div style="margin:10px 27.5%;">
+                        <label>是否开启申请退货功能：</label>
+                        <input type="radio" name="return" value="1"> 是
+                        <input type="radio" name="return" value="0" > 否
+                    </div>
+                    <div style="margin:10px 27.5%;">
+                        <label>是否开启账单功能：</label>
+                        <input type="radio" name="bill" value="1"> 是
+                        <input type="radio" name="bill" value="0" > 否
+                    </div>
+                    <div style="margin:10px 27.5%;">
+                        <label>客服电话：</label>
+                        <input type="text" name="service_tel" id="contactTell" value="@ViewBag.ContactTell">
+                    </div>
+                    <div style="margin:10px 27.5%; display:none;">
+                        <label>客服QQ：</label>
+                        <input type="text" name="QQ" value=""> &nbsp;&nbsp;
+                        <a target="_blank" href="http://shang.qq.com/v3/widget.html">设置推广服务</a><br>
+                        <a target="_blank" href="\statics\images/img.gif" style="color: red;margin-left: 60px;">如何设置在线QQ客服?</a>
+                    </div>
+                    <button type="buton" class="btn btn_confirm" id="J_SaveBtn" style="margin:2% 40%;">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="IsCanReturn" value="@ViewBag.IsCanReturn" />
+<input type="hidden" id="IsShowBill" value="@ViewBag.IsShowBill" />
+<script src="~/Scripts/layer/layer.js"></script>
+
+<script>
+
+    $(function () {
+        var isCanReturn = $("#IsCanReturn").val();
+        if (!isCanReturn || IsCanReturn == "")
+            isCanReturn = "0";
+        var isShowBill = $("#IsShowBill").val();
+        if (!isShowBill || isShowBill == "")
+            isShowBill = "0";
+        $(":radio[name='return'][value='" + isCanReturn + "']").prop("checked", "checked");
+        $(":radio[name='bill'][value='" + isShowBill + "']").prop("checked", "checked");
+
+    })
+    var _n = 1;
+    $("#J_SaveBtn").click(function () {
+        if (_n == 0)
+            return;
+        n = 0;
+        var para = {};
+
+        para.isCanReturn = $("input[name='return']:checked").val();
+        para.isShowBill = $("input[name='bill']:checked").val();
+        para.contactTell = $("#contactTell").val();
+        $.post("/System/SaveOperate", para, function (e) {
+            _n = 1;
+            if (e) {
+                layer.msg('修改成功', {
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                    location.reload();
+                });
+            }
+            else {
+                layer.msg('修改失败！请刷新后重试！', {
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                    location.reload();
+                });
+            }
+        }, "json")
+
+    });
+
+</script>

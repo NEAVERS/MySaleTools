@@ -245,13 +245,13 @@
                                 <li>整箱：</li>
                                 <li>品牌：<a href="http://pifa.yunmayi.com/product/keywordList?bid=1852">@Model.BrandName</a></li>
                                 <li>单位：@Model.Unit</li>
-                                <li>建议零售价：</li>
+                                <li>建议零售价：@Model.MarketPrice</li>
                                 <li>保质期:@(Model.ShelfLife)天</li>
                             </ul>
                             <p>
                                 批发价：
                                 <span class="price_num">
-                                    <b style="font-weight:normal;" id="J_price">￥19.20</b>
+                                    <b style="font-weight:normal;" id="J_price">￥@Model.RetailtPrice</b>
                                 </span>
                                 <span class="num-tit">/@Model.Unit</span>
                             </p>
