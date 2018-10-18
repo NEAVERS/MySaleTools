@@ -169,7 +169,10 @@ namespace SaleTools.Controllers
             {
                 bool res = false;
                 var goodsInfo = _goodsmanager.GetGoodInfoById(goodId);
-                decimal Stock = _goodsmanager.GetGoodsStock(goodsInfo.ErpId);
+                int boxspec = Utils.ParseInt(goodsInfo.BoxSpec);
+                if (boxspec == 0 || !goodsInfo.IsBoxSale)
+                    boxspec = 1;
+                decimal Stock = _goodsmanager.GetGoodsStock(goodsInfo.ErpId, boxspec);
                 int count = goodsInfo.MinCount;
 
 
@@ -215,7 +218,7 @@ namespace SaleTools.Controllers
                         discount = 100;
                     }
                     OrderItem item = new OrderItem();
-                    item.LessPrice = Math.Round((100 - discount) * model.RetailtPrice / 100, 2);
+                    item.LessPrice = Math.Round((100 - discount) * model.RetailtPrice / 100, 10);
 
                     item.Count = model.MinCount;
                     item.CreateUserId = loginUser.UserId;
@@ -265,8 +268,11 @@ namespace SaleTools.Controllers
             {
 
                 var goodsInfo = _goodsmanager.GetGoodInfoById(orderItem.ProductId);
-                decimal Stock = _goodsmanager.GetGoodsStock(goodsInfo.ErpId);
-
+                int boxspec = Utils.ParseInt(goodsInfo.BoxSpec);
+                if (boxspec == 0 || !goodsInfo.IsBoxSale)
+                    boxspec = 1;
+                decimal Stock = _goodsmanager.GetGoodsStock(goodsInfo.ErpId,boxspec);
+              
                 if (goodsInfo.LimitCount > 0 && count > goodsInfo.LimitCount)
                 {
                     _response.Msg = "超出限购数量无法购买！";

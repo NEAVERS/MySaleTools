@@ -138,9 +138,12 @@ namespace SaleTools.Controllers
             bool res = false;
             var loginUser = (UserInfo)ViewBag.User;
             var goodsInfo = _manager.GetGoodInfoById(goodId);
-            decimal Stock = _manager.GetGoodsStock(goodsInfo.ErpId);
+            int boxspec = Utils.ParseInt(goodsInfo.BoxSpec);
+            if(boxspec == 0 || !goodsInfo.IsBoxSale)
+                boxspec = 1;
+            decimal Stock = _manager.GetGoodsStock(goodsInfo.ErpId,boxspec);
             OrderItem basItem = new OrderItem();
-            if(!_active.CheckCanBuy(goodId, loginUser.AreaNum))
+            if (!_active.CheckCanBuy(goodId, loginUser.AreaNum))
             {
                 _response.Msg = "您无法购买该商品！";
                 return Utils.SerializeObject(_response);
@@ -182,7 +185,7 @@ namespace SaleTools.Controllers
                     discount = 100;
                 }
                 item.Id = Guid.NewGuid();
-                item.LessPrice = Math.Round((100-discount)* model.RetailtPrice/100,2);
+                item.LessPrice = Math.Round((100-discount)* model.RetailtPrice/100,10);
                 item.Price = model.RetailtPrice;
                 item.RealPrice = item.Price - item.LessPrice;
                 item.ProductId = model.Id;
@@ -236,7 +239,11 @@ namespace SaleTools.Controllers
             if (orderItem != null)
             {
                 var goodsInfo = _manager.GetGoodInfoById(orderItem.ProductId);
-                decimal Stock = _manager.GetGoodsStock(goodsInfo.ErpId);
+  
+                int boxspec = Utils.ParseInt(goodsInfo.BoxSpec);
+                if (boxspec == 0 || !goodsInfo.IsBoxSale)
+                    boxspec = 1;
+                decimal Stock = _manager.GetGoodsStock(goodsInfo.ErpId,boxspec);
                 if (goodsInfo.LimitCount > 0 && count > goodsInfo.LimitCount)
                 {
                     return Utils.SerializeObject(false);
@@ -476,6 +483,12 @@ namespace SaleTools.Controllers
         {
             var model = _system.GetNoticeById(id);
             return View(model);
+        }
+
+
+        public ActionResult HomeIndex()
+        {
+            return View();
         }
     }
 }

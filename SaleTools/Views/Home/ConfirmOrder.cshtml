@@ -101,16 +101,16 @@
                                         </div>
                                     </div>
                                     <div class="cell thprice">
-                                        <span>@item.Price</span>
+                                        <span>@item.Price.ToString("f2")</span>
                                     </div>
                                     <div class="cell thquantity">
                                         <span>@item.Count</span>
                                     </div>
                                     <div class="cell thpromotion">
-                                        @(lessprice>0?"类目折扣" +lessprice+"元":"-")
+                                        @(lessprice>0?"类目折扣" +lessprice.ToString("f2") + "元":"-")
                                     </div>
                                     <div class="cell thtotal">
-                                        <span>@item.TotalPrice</span>
+                                        <span>@item.TotalPrice.ToString("f2")</span>
                                     </div>
                                 </div>
                             }
@@ -224,7 +224,7 @@
                 <div class="summary-list">
                     <div class="summary-item">
                         <span><i>@list.Count</i>件商品，总商品金额：</span>
-                        <em>￥@(totalPrice+list.Sum(x => x.LessPrice * x.Count))</em>
+                        <em>￥@((totalPrice+list.Sum(x => x.LessPrice * x.Count)).ToString("f2"))</em>
                     </div>
                     <div class="summary-item">
                         <span>满就减：</span>
@@ -242,7 +242,7 @@
                     </div>
                     <div class="summary-item">
                         <span>类目折扣：</span>
-                        <em>-￥@(list.Sum(x => x.LessPrice*x.Count))</em>
+                        <em>-￥@(list.Sum(x => x.LessPrice*x.Count).ToString("f2"))</em>
                     </div>
                 </div>
             </div>
@@ -252,7 +252,7 @@
                     <div class="order-payment-main">
                         <div class="order-payment">
                             <span class="payment-tit">应付总额：</span>
-                            <em class="payment-price" id="realMoney">￥@totalPrice</em>
+                            <em class="payment-price" id="realMoney">￥@totalPrice.ToString("f2")</em>
                         </div>
                     </div>
                     <input type="hidden" value="@totalPrice" id="TotalPrice" />

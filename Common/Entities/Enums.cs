@@ -17,12 +17,12 @@ namespace Common.Entities
 
     public enum StoreUserType
     {
-        默认用户= 1,
+        蚂蚁连锁= 1,
         A类客户,
         B类客户,
         C类客户,
         D类客户,
-        蚂蚁连锁,
+        E类客户,
     }
 
     public enum OrderStatus

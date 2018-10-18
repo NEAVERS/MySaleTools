@@ -12,7 +12,7 @@ namespace Common
         private static void WriteLogs(string logType, string fromType, List<string> contentLineList)
         {
             DateTime now = DateTime.Now;
-            string pathName = "G://GPLog/" + logType + "/" + fromType + "/" + now.Year.ToString("D2") + "/" + now.Month.ToString("D2");
+            string pathName = "C://GPLog/" + logType + "/" + fromType + "/" + now.Year.ToString("D2") + "/" + now.Month.ToString("D2");
             string fileName = now.Day.ToString("D2") + ".txt";
             if (!Directory.Exists(pathName))//如果不存在就创建file文件夹
             {

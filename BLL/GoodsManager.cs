@@ -241,7 +241,10 @@ namespace BLL
             {
                 item.RetailtPrice = GetPriceOfUserType(item, userType);
                 string id = item.ErpId;
-                int stock = GetGoodsStock(id);
+                int boxspec = Utils.ParseInt(item.BoxSpec);
+                if (boxspec == 0||!item.IsBoxSale)
+                    boxspec = 1;
+                int stock = GetGoodsStock(id, boxspec);
                 item.Stock = stock;
 
             }
@@ -285,7 +288,10 @@ namespace BLL
             {
                 item.RetailtPrice = GetPriceOfUserType(item, userType);
                 string id = item.ErpId;
-                int stock = GetGoodsStock(id);
+                int boxspec = Utils.ParseInt(item.BoxSpec);
+                if (boxspec == 0 || !item.IsBoxSale)
+                    boxspec = 1;
+                int stock = GetGoodsStock(id,boxspec);
                 item.Stock = stock;
 
             }
@@ -577,12 +583,12 @@ namespace BLL
          
         #region ERP相关
          
-        public int GetGoodsStock(string goodsId,string KId = "00001")
+        public int GetGoodsStock(string goodsId,int boxspec, string KId = "00001")
         {
             var list = _erp.GoodsStockses.Where(x => x.PtypeId == goodsId && x.KtypeId == KId).ToList();
             var model = _erp.GoodsStockses.FirstOrDefault(x => x.PtypeId == goodsId && x.KtypeId == KId);
             if (model != null)
-                return (int)model.Qty.Value;
+                return (int)model.Qty.Value / boxspec;
             return 0;
         }
 

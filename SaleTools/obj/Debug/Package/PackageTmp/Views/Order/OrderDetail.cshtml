@@ -82,28 +82,28 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        订单总金额：@Model.Info.TotalMoney
+                                                        订单总金额：@Model.Info.TotalMoney.ToString("f2")
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        折扣 : - @Model.Info.LessMoney
+                                                        折扣 : - @Model.Info.LessMoney.ToString("f2")
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        满就减 : - @Model.Info.Manjian
+                                                        满就减 : - @Model.Info.Manjian.ToString("f2")
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        应付金额 : @Model.Info.RealMoney
+                                                        应付金额 : @Model.Info.RealMoney.ToString("f2")
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
                                                         实付金额 :
-                                                        @Model.Info.PayMoney
+                                                        @Model.Info.PayMoney.ToString("f2")
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -151,11 +151,11 @@
                                         </div>
                                     </td>
                                     <td class="center">
-                                        <b>@orderItem.RealPrice</b>
+                                        <b>@orderItem.RealPrice.ToString("f2")</b>
                                     </td>
                                     <td class="center">@orderItem.Count</td>
-                                    <td class="center"><b>@orderItem.TotalPrice</b></td>
-                                    <td class="center"><b>@(orderItem.LessPrice*orderItem.Count)</b></td>
+                                    <td class="center"><b>@orderItem.TotalPrice.ToString("f2")</b></td>
+                                    <td class="center"><b>@((orderItem.LessPrice*orderItem.Count).ToString("f2"))</b></td>
                                 </tr>
                                 }
                             </tbody>

@@ -165,7 +165,7 @@ namespace BLL
                     #region 判断是否有对应类型的优惠券可用
                     if (coupon.CouponType == (int)CouponType.通用券)
                     {
-                        decimal total = orderItems.Sum(x => x.TotalPrice);
+                        decimal total = orderItems.Sum(x => x.TotalPrice + x.LessPrice * x.Count);
                         if (coupon.Limit < total)
                         {
                             couponList.Add(coupon);
@@ -175,7 +175,7 @@ namespace BLL
 
                     if (coupon.CouponType == (int)CouponType.供应商券)
                     {
-                        decimal total = orderItems.Where(x=>x.SupplierId == coupon.SupplierId).Sum(x => x.TotalPrice);
+                        decimal total = orderItems.Where(x=>x.SupplierId == coupon.SupplierId).Sum(x => x.TotalPrice + x.LessPrice * x.Count);
                         if (coupon.Limit < total)
                         {
                             couponList.Add(coupon);
@@ -184,7 +184,7 @@ namespace BLL
                     }
                     if (coupon.CouponType == (int)CouponType.品牌券)
                     {
-                        decimal total = orderItems.Where(x => x.BrandId == coupon.BrandId).Sum(x => x.TotalPrice);
+                        decimal total = orderItems.Where(x => x.BrandId == coupon.BrandId).Sum(x => x.TotalPrice + x.LessPrice * x.Count);
                         if (coupon.Limit < total)
                         {
                             couponList.Add(coupon);
@@ -359,7 +359,7 @@ namespace BLL
             {
                 if (active.TypeId == (int)CouponType.通用券)
                 {
-                    decimal total = orderItems.Sum(x => x.TotalPrice);
+                    decimal total = orderItems.Sum(x => x.TotalPrice+x.LessPrice*x.Count);
                     if (active.LimitMoney < total)
                     {
                         canUserActive.Add(active);
@@ -368,7 +368,7 @@ namespace BLL
                 }
                 if (active.TypeId == (int)CouponType.供应商券)
                 {
-                    decimal total = orderItems.Where(x => x.SupplierId == active.SupplierId).Sum(x => x.TotalPrice);
+                    decimal total = orderItems.Where(x => x.SupplierId == active.SupplierId).Sum(x => x.TotalPrice + x.LessPrice * x.Count);
                     if (active.LimitMoney < total)
                     {
                         canUserActive.Add(active);
@@ -378,7 +378,7 @@ namespace BLL
                 }
                 if (active.TypeId == (int)CouponType.品牌券)
                 {
-                    decimal total = orderItems.Where(x => x.BrandId == active.BrandId).Sum(x => x.TotalPrice);
+                    decimal total = orderItems.Where(x => x.BrandId == active.BrandId).Sum(x => x.TotalPrice + x.LessPrice * x.Count);
                     if (active.LimitMoney < total)
                     {
                         canUserActive.Add(active);
@@ -507,7 +507,7 @@ namespace BLL
             {
                 if (active.TypeId == (int)CouponType.通用券)
                 {
-                    decimal total = orderItems.Sum(x => x.TotalPrice);
+                    decimal total = orderItems.Sum(x => x.TotalPrice + x.LessPrice * x.Count);
                     if (active.LimitMoney < total)
                     {
                         canUserActive.Add(active);
@@ -516,7 +516,7 @@ namespace BLL
                 }
                 if (active.TypeId == (int)CouponType.供应商券)
                 {
-                    decimal total = orderItems.Where(x=>x.SupplierId == active.SupplierId).Sum(x => x.TotalPrice);
+                    decimal total = orderItems.Where(x=>x.SupplierId == active.SupplierId).Sum(x=>x.TotalPrice + x.LessPrice * x.Count);
                     if (active.LimitMoney < total)
                     {
                         canUserActive.Add(active);
@@ -526,7 +526,7 @@ namespace BLL
                 }
                 if (active.TypeId == (int)CouponType.品牌券)
                 {
-                    decimal total = orderItems.Where(x => x.BrandId == active.BrandId).Sum(x => x.TotalPrice);
+                    decimal total = orderItems.Where(x => x.BrandId == active.BrandId).Sum(x=>x.TotalPrice + x.LessPrice * x.Count);
                     if (active.LimitMoney < total)
                     {
                         canUserActive.Add(active);

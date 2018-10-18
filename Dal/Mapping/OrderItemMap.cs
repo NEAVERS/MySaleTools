@@ -13,6 +13,11 @@ namespace Dal.Mapping
         public OrderItemMap()
         {
             this.HasKey(t => t.Id);
+            this.Property(t=>t.LessPrice).HasPrecision(30, 20);
+            this.Property(t => t.Price).HasPrecision(30, 20);
+            this.Property(t => t.RealPrice).HasPrecision(30, 20);
+            this.Property(t => t.TotalPrice).HasPrecision(30, 20);
+            
             this.ToTable("OrderItem");
             this.Property(t => t.Id).HasColumnName("Id");
             this.Property(t => t.OrderNum).HasColumnName("OrderNum");

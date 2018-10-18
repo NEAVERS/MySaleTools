@@ -67,7 +67,7 @@
                                 </div>
                             </div>
                             <div class="cart-cell price">
-                                <span>@item.Price</span>
+                                <span>@item.Price.ToString("f2")</span>
                             </div>
                             <div class="cart-cell quantity">
                                 <a href="javascript:;" class="q-minus">-</a>
@@ -76,7 +76,7 @@
                                 <input type="hidden" data-min="1" data-old="2" data-pid="268695">
                             </div>
                             <div class="cart-cell total">
-                                <span>@(@item.Price*item.Count)</span>
+                                <span>@((item.Price * item.Count).ToString("f2") )</span>
                             </div>
                             <div class="cart-cell opt">
                                 <p>
@@ -89,7 +89,7 @@
                 <ul class="cart-group" style="padding-top:10px;border-top:1px solid #f3f3f3;">
                     <li class="cart-event ">
                         <p class="event-normal">
-                            享受<b>@(list.Sum(x => x.LessPrice*x.Count))</b>元类目折扣优惠优惠
+                            享受<b>@(list.Sum(x => x.LessPrice*x.Count).ToString("f2"))</b>元类目折扣优惠优惠
                         </p>
                         <span class="line"></span>
                         <span class="line line2"></span>
@@ -176,7 +176,7 @@
                         <p class="main-price">
                             <span>商品总计：</span>
                             <b>
-                                ¥ @(totalPrice-(mj==null?0:mj.LessMoeny))
+                                ¥ @((totalPrice-(mj==null?0:mj.LessMoeny)).ToString("f2"))
 
                             </b>
                         </p>

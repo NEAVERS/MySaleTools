@@ -1123,7 +1123,7 @@ namespace BLL
             orderIndex.ReachDate = date;
             orderIndex.Billcode = "XD-T-" + DateTime.Now.ToString("yyyy-MM-dd") + "-" + GetCode(cout + 1);
             orderIndex.billtype = 300;
-            orderIndex.totalmoney = list.Sum(x => x.TotalPrice) - orderDetail.Info.LessMoney +list.Sum(x=>x.Count*x.LessPrice);
+            orderIndex.totalmoney = list.Sum(x => x.TotalPrice) - orderDetail.Info.LessMoney ;
             orderIndex.totalqty = list.Sum(x => x.Count);
             orderIndex.period = 1;
             orderIndex.@checked = false;
@@ -1189,7 +1189,7 @@ namespace BLL
                 if(goods.IsBoxSale)
                 {
                     double rates = 1;
-                    int spex = Utils.ParseInt(goods.Spec);
+                    int spex = Utils.ParseInt(goods.BoxSpec);
                     if(spex!=0)
                     {
                         rates = (double)unit_ex.Rate / spex;
@@ -1199,12 +1199,12 @@ namespace BLL
                     model.NDiscountPrice = Convert.ToDecimal((double)x.RealPrice / spex);
                     model.NTaxPrice = Convert.ToDecimal((double)x.RealPrice / spex);
                     model.NQty = x.Count * spex;
-                    model.MSalePrice = Convert.ToDecimal((double)x.Price/ rates);
-                    model.MDiscountPrice = Convert.ToDecimal((double)x.RealPrice/ rates);
-                    model.MTaxPrice = Convert.ToDecimal((double)x.RealPrice/ rates);
-                    model.CurMSalePrice = Convert.ToDecimal((double)x.RealPrice/ rates);
-                    model.CurMDiscountPrice = Convert.ToDecimal((double)x.RealPrice/ rates);
-                    model.CurMTaxPrice = Convert.ToDecimal((double)x.RealPrice/ rates);
+                    model.MSalePrice = Convert.ToDecimal((double)x.Price* rates);
+                    model.MDiscountPrice = Convert.ToDecimal((double)x.RealPrice* rates);
+                    model.MTaxPrice = Convert.ToDecimal((double)x.RealPrice* rates);
+                    model.CurMSalePrice = Convert.ToDecimal((double)x.Price * rates);
+                    model.CurMDiscountPrice = Convert.ToDecimal((double)x.RealPrice* rates);
+                    model.CurMTaxPrice = Convert.ToDecimal((double)x.RealPrice* rates);
                     model.MQty = x.Count/ (decimal)rates;
                 }
                 else
@@ -1217,7 +1217,7 @@ namespace BLL
                     model.MSalePrice = Convert.ToDecimal((double)x.Price* (double)unit_ex.Rate.Value);
                     model.MDiscountPrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
                     model.MTaxPrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
-                    model.CurMSalePrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
+                    model.CurMSalePrice = Convert.ToDecimal((double)x.Price * (double)unit_ex.Rate.Value);
                     model.CurMDiscountPrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
                     model.CurMTaxPrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
                     model.MQty = Convert.ToDecimal(x.Count/ (double)unit_ex.Rate.Value);
@@ -1252,7 +1252,7 @@ namespace BLL
                
                 model.NSaleTotal = x.Price * x.Count;
                 
-                model.NTotal = x.TotalPrice ;
+                model.NTotal = x.TotalPrice;
                
                 model.NTaxTotal = x.TotalPrice;
                 model.NTaxMoney = 0;
@@ -1289,6 +1289,7 @@ namespace BLL
             #endregion
             using (var scope = _erp.Database.BeginTransaction())
             {
+                LogsHelper.WriteErrorLog(billList.Count.ToString(),new Exception(), "订单管理");
                 try
                 {
                     _erp.OrderIndexes.Add(orderIndex);

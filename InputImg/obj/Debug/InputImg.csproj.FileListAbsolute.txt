@@ -4,3 +4,10 @@ H:\Project\MySaleTools\InputImg\bin\Debug\InputImg.pdb
 H:\Project\MySaleTools\InputImg\obj\Debug\InputImg.csprojResolveAssemblyReference.cache
 H:\Project\MySaleTools\InputImg\obj\Debug\InputImg.exe
 H:\Project\MySaleTools\InputImg\obj\Debug\InputImg.pdb
+D:\Project\test\SaleTools\InputImg\bin\Debug\InputImg.exe.config
+D:\Project\test\SaleTools\InputImg\bin\Debug\InputImg.exe
+D:\Project\test\SaleTools\InputImg\bin\Debug\InputImg.pdb
+D:\Project\test\SaleTools\InputImg\obj\Debug\InputImg.csprojAssemblyReference.cache
+D:\Project\test\SaleTools\InputImg\obj\Debug\InputImg.csproj.CoreCompileInputs.cache
+D:\Project\test\SaleTools\InputImg\obj\Debug\InputImg.exe
+D:\Project\test\SaleTools\InputImg\obj\Debug\InputImg.pdb
