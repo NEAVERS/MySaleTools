@@ -29,6 +29,33 @@ namespace BLL
             return _context.SaveChanges() > 0;
         }
 
+
+        public bool CheckPhone(string phone)
+        {
+            var user = _context.UserInfoes.FirstOrDefault(x => x.Tel == phone);
+            return user == null;
+
+        }
+
+        public bool CheckUsernum(string num)
+        {
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserNum == num);
+            return user == null;
+        }
+
+        public bool CheckAccount(string accout)
+        {
+            var user = _context.UserInfoes.FirstOrDefault(x => x.Account == accout);
+            return user == null;
+        }
+
+
+        public bool IsExitUser(Guid userId)
+        {
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == userId);
+            return user == null;
+        }
+
         public bool UpdateUser(UserInfo user)
         {
             var model = _context.UserInfoes.FirstOrDefault(x => x.UserId == user.UserId);

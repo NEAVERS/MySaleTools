@@ -268,13 +268,13 @@
         _n = 1;
         $.post("/User/SaveUser", para, function (e) {
             _n = 0;
-            if (e) {
+            if (e.Stutas) {
                 layer.msg("添加成功！", { icon: 1 }, function () {
                     location.href = "/User/Index";
                 })
             }
             else {
-                layer.msg("添加失败！请稍候重试！", { icon: 2 })
+                layer.msg(e.Msg, { icon: 2 })
             }
         }, "json")
     }

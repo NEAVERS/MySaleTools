@@ -1195,6 +1195,10 @@ namespace BLL
                         rates = (double)unit_ex.Rate / spex;
                     }
                     model.qty = x.Count * spex;
+                    model.price = Convert.ToDecimal((double)x.RealPrice / spex);
+                    model.DiscountPrice = Convert.ToDecimal((double)x.RealPrice / spex);
+                    model.TaxPrice = Convert.ToDecimal((double)x.RealPrice / spex);
+
                     model.NSalePrice = Convert.ToDecimal((double)x.Price / spex);
                     model.NDiscountPrice = Convert.ToDecimal((double)x.RealPrice / spex);
                     model.NTaxPrice = Convert.ToDecimal((double)x.RealPrice / spex);
@@ -1210,6 +1214,11 @@ namespace BLL
                 else
                 {
                     model.qty = x.Count;
+
+                    model.price = Convert.ToDecimal((double)x.RealPrice);
+                    model.DiscountPrice = Convert.ToDecimal((double)x.RealPrice);
+                    model.TaxPrice = Convert.ToDecimal((double)x.RealPrice);
+
                     model.NSalePrice = Convert.ToDecimal((double)x.Price );
                     model.NDiscountPrice = Convert.ToDecimal((double)x.RealPrice );
                     model.NTaxPrice = Convert.ToDecimal((double)x.RealPrice);
@@ -1223,18 +1232,15 @@ namespace BLL
                     model.MQty = Convert.ToDecimal(x.Count/ (double)unit_ex.Rate.Value);
                 }
                 model.ptypeid = goods.ErpId;
-                model.price = Convert.ToDecimal((double)x.RealPrice);
-                model.total = x.TotalPrice;
                 model.ReachQty = 0;
-                model.comment = user.TypeName + (x.LessPrice > 0 ? "优惠金额:" + x.LessPrice*x.Count : "");///在备注中添加用户类型和优惠金额
+                model.total = x.TotalPrice;
+                model.comment = user.TypeName + (x.LessPrice > 0 ? "优惠金额:" + x.LessPrice*x.Count : "")  + "订单号:"+orderDetail.Info.OrderNum;///在备注中添加用户类型和优惠金额
                 model.Checked = false;
                 model.TeamNO1 = null;
                 model.PassQty = 0;
                 model.IsUnit2 = false;
                 model.Discount = x.Price > 0 ? Math.Round(1 - (x.LessPrice / x.Price), 2) : 1;
-                model.DiscountPrice = Convert.ToDecimal((double)x.RealPrice );
-                model.TaxPrice = Convert.ToDecimal((double)x.RealPrice );
-                model.TaxTotal = x.TotalPrice + x.LessPrice * x.Count;
+                model.TaxTotal = x.TotalPrice;
                 model.SaleTotal = x.TotalPrice +x.LessPrice * x.Count;
                 model.Tax = 0;
                 model.KTypeID = "00001";
@@ -1273,6 +1279,23 @@ namespace BLL
                 model.ProduceDate = string.Empty;
                 model.ValidDate = string.Empty;
                 model.IsGift = x.IsGift ? 1 : 0;
+                if(model.IsGift ==1) ///礼品的所有价格为0
+                {
+                    model.price = 0;
+                    model.MTaxPrice = 0;
+                    model.NDiscountPrice = 0;
+                    model.NSalePrice = 0;
+                    model.NTaxPrice = 0;
+                    model.TaxPrice = 0;
+                    model.CurMSalePrice = 0;
+                    model.CurMDiscountPrice = 0;
+                    model.CurMSalePrice = 0;
+                    model.DiscountPrice = 0;
+                    model.MDiscountPrice = 0;
+                    model.MSalePrice = 0;
+                    model.MSalePrice = 0;
+                }
+
                 model.YapiID = string.Empty;
                 model.PriceSource = string.Empty;
                 model.Id = showOrder;
@@ -1289,7 +1312,6 @@ namespace BLL
             #endregion
             using (var scope = _erp.Database.BeginTransaction())
             {
-                LogsHelper.WriteErrorLog(billList.Count.ToString(),new Exception(), "订单管理");
                 try
                 {
                     _erp.OrderIndexes.Add(orderIndex);

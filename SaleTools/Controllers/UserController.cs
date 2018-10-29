@@ -14,6 +14,7 @@ namespace SaleTools.Controllers
     {
         private UserManager manager = new UserManager();
         private SystemManager _system = new SystemManager();
+        private ResponseModel _response = new ResponseModel();
         // GET: Usei
         public ActionResult Index()
         {
@@ -93,8 +94,22 @@ namespace SaleTools.Controllers
             if(!string.IsNullOrWhiteSpace(user.PassWord))
                 user.PassWord = Utils.GetMD5(user.PassWord);
             bool res = false;
-
-            if (user.UserId == Guid.Empty)
+            if(!manager.CheckPhone(user.Tel))
+            {
+                _response.Msg = "该电话已存在！请重新填写！";
+                return Utils.SerializeObject(_response);
+            }
+            if (!manager.CheckUsernum(user.UserNum))
+            {
+                _response.Msg = "该用户编号已存在！请重新填写！";
+                return Utils.SerializeObject(_response);
+            }
+            if (!manager.CheckAccount(user.Tel))
+            {
+                _response.Msg = "该账号已存在！请重新填写！";
+                return Utils.SerializeObject(_response);
+            }
+            if (manager.IsExitUser(user.UserId))
             {
                 if (user.TypeId > 0)
                 {
@@ -106,15 +121,15 @@ namespace SaleTools.Controllers
                 user.CreateUser = loginUser.UserName;
                 user.CreateUserId = loginUser.UserId;
                 user.UserId = Guid.NewGuid();
-                res = manager.UserReg(user);
+                _response.Stutas = manager.UserReg(user);
             }
             else
-                res = manager.UpdateUser(user);
-            if (res)
+                _response.Stutas = manager.UpdateUser(user);
+            if (_response.Stutas)
             {
-                res = manager.SaveUserResourse(user.UserId, Resourses);
+                _response.Stutas = manager.SaveUserResourse(user.UserId, Resourses);
             }
-            return Utils.SerializeObject(res);
+            return Utils.SerializeObject(_response);
 
         }
 

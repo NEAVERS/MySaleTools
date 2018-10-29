@@ -26,9 +26,9 @@ namespace SaleTools.Controllers
             var user = _manager.Login(account, Pwd, ip);
             if (user == null)
                 return "登陆失败";
-            ///锁定后不能进行登陆
-            //if (user.IsLocked == true)
-            //    return "该账号已被锁定！请联系管理员解除锁定后登陆";
+            //锁定后不能进行登陆
+            if (user.IsLocked == true)
+                return "该账号已被锁定！请联系管理员解除锁定后登陆";
             else
             {
                 Session["LoginUser"] = user;

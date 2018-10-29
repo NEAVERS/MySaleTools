@@ -273,13 +273,13 @@
         para.SaleManName = $("#saleMan").find("option:selected").text();
         para.UserCode = $("#UserCode").val();
         $.post("/User/SaveUser", para, function (e) {
-            if (e) {
+            if (e.Stutas) {
                 layer.msg("保存成功！", { icon: 1 }, function () {
                     location.href = "/User/Index";
                 })
             }
             else {
-                layer.msg("保存失败！请稍候重试！", { icon: 2 })
+                layer.msg(e.Msg, { icon: 2 })
             }
         }, "json")
     }

@@ -28,7 +28,7 @@ namespace SaleTools.Controllers
             pwd = Utils.GetMD5(pwd);
             var ip = Utils.GetUserHostAddress();
             var user = _user.Login(userName, pwd, ip);
-            if (user != null)
+            if (user != null&&!user.IsLocked)
             {
                 HttpCookie cookie = new HttpCookie("UserId");
                 cookie.Value = user.UserId.ToString();
