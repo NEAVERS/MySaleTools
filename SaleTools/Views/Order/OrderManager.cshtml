@@ -106,6 +106,12 @@
                 <li class="clearfix"></li>
             </ul>
         </div>
+        <div class="extra">
+            <p>
+                订单记录数: <span class="highlight" id="totalCount">-</span>,
+                订单总金额: <span class="highlight" id="totalMoney">-</span>元 ,
+            </p>
+        </div>
         <div class="col_main_content">
             <table class="table table_border">
                 <thead class="bg_color">
@@ -177,6 +183,11 @@
             var paraStr = "?1=1" + urlEncode(para);
             location.href = "/Order/ExportOrderInfo" + paraStr;
         }
+        $.post("/Order/GetOrderTotal", para, function (data) {
+            $("#totalCount").html(data.totalCount);
+            $("#totalMoney").html(data.totalMoney);
+            
+        }, "json")
 
         $.post("/Order/GetOrderList", para, function (data) {
             var html = "";

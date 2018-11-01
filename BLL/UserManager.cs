@@ -25,27 +25,35 @@ namespace BLL
         /// <returns></returns>
         public bool UserReg(UserInfo user)
         {
+            if (user.TypeId < 0)
+            {
+                user.BTypeId = GetEmployeeId(user.UserCode);
+            }
+            else
+                user.BTypeId = GetBtypeId(user.UserCode);
+
             _context.UserInfoes.Add(user);
+
             return _context.SaveChanges() > 0;
         }
 
 
-        public bool CheckPhone(string phone)
+        public bool CheckPhone(Guid userid, string phone)
         {
-            var user = _context.UserInfoes.FirstOrDefault(x => x.Tel == phone);
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId!=userid && x.Tel == phone);
             return user == null;
 
         }
 
-        public bool CheckUsernum(string num)
+        public bool CheckUsernum(Guid userid, string num)
         {
-            var user = _context.UserInfoes.FirstOrDefault(x => x.UserNum == num);
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId != userid && x.UserNum == num);
             return user == null;
         }
 
-        public bool CheckAccount(string accout)
+        public bool CheckAccount(Guid userid, string accout)
         {
-            var user = _context.UserInfoes.FirstOrDefault(x => x.Account == accout);
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId != userid && x.Account == accout);
             return user == null;
         }
 

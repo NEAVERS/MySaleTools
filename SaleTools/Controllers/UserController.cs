@@ -94,17 +94,17 @@ namespace SaleTools.Controllers
             if(!string.IsNullOrWhiteSpace(user.PassWord))
                 user.PassWord = Utils.GetMD5(user.PassWord);
             bool res = false;
-            if(!manager.CheckPhone(user.Tel))
+            if(!manager.CheckPhone(user.UserId, user.Tel))
             {
                 _response.Msg = "该电话已存在！请重新填写！";
                 return Utils.SerializeObject(_response);
             }
-            if (!manager.CheckUsernum(user.UserNum))
+            if (!manager.CheckUsernum(user.UserId, user.UserNum))
             {
                 _response.Msg = "该用户编号已存在！请重新填写！";
                 return Utils.SerializeObject(_response);
             }
-            if (!manager.CheckAccount(user.Tel))
+            if (!manager.CheckAccount(user.UserId, user.Tel))
             {
                 _response.Msg = "该账号已存在！请重新填写！";
                 return Utils.SerializeObject(_response);
