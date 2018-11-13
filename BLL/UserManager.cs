@@ -30,22 +30,22 @@ namespace BLL
         }
 
 
-        public bool CheckPhone(string phone)
+        public bool CheckPhone(Guid userId, string phone)
         {
-            var user = _context.UserInfoes.FirstOrDefault(x => x.Tel == phone);
+            var user = _context.UserInfoes.FirstOrDefault(x => x.Tel == phone&&x.UserId!=userId);
             return user == null;
 
         }
 
-        public bool CheckUsernum(string num)
+        public bool CheckUsernum(Guid userId, string num)
         {
-            var user = _context.UserInfoes.FirstOrDefault(x => x.UserNum == num);
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserNum == num && x.UserId != userId);
             return user == null;
         }
 
-        public bool CheckAccount(string accout)
+        public bool CheckAccount(Guid userId, string accout)
         {
-            var user = _context.UserInfoes.FirstOrDefault(x => x.Account == accout);
+            var user = _context.UserInfoes.FirstOrDefault(x => x.Account == accout && x.UserId != userId);
             return user == null;
         }
 

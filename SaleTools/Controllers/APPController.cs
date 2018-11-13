@@ -383,8 +383,8 @@ namespace SaleTools.Controllers
                 string tejia = ConfigurationManager.AppSettings["tejia"].ToString();
                 string xinping = ConfigurationManager.AppSettings["xinping"].ToString();
                 Guid managerId = GetManagerId(loginUser);
-                var Tejia = _goodsmanager.GetGoodsList(managerId, loginUser.TypeId, 1, 10, "", tejia, "", "", "", "","");
-                 var Xinping = _goodsmanager.GetGoodsList(managerId, loginUser.TypeId, 1, 10, "", xinping, "", "", "", "", "");
+                var Tejia = _goodsmanager.GetGoodsList(managerId, loginUser.TypeId, 1, 10, "", tejia, "", "", "", "","1");
+                 var Xinping = _goodsmanager.GetGoodsList(managerId, loginUser.TypeId, 1, 10, "", xinping, "", "", "", "", "1");
                 var obj = new
                 {
                     TejiaList = Tejia,
@@ -419,7 +419,7 @@ namespace SaleTools.Controllers
             if (loginUser != null)
             {
                 Guid managerId = GetManagerId(loginUser);
-                var goodsPager = _goodsmanager.GetGoodsList(managerId, loginUser.TypeId, index, 10, "",fstType, secType, trdType, brandId, key, "");
+                var goodsPager = _goodsmanager.GetGoodsList(managerId, loginUser.TypeId, index, 10, "",fstType, secType, trdType, brandId, key, "1");
                 _response.Result = goodsPager;
                 _response.Stutas = true;
             }

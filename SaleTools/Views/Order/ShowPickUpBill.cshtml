@@ -46,22 +46,22 @@
                     @foreach (var item in billItem.Items)
         {
             num++;
-            total += item.TotalPirce;
-            <tr>
-                <td>@num</td>
-                <td>
-                    @item.ProductName<br>
-                </td>
-                <td>@item.Spec</td>
-                <td>@item.Unit</td>
-                <td>@item.Pirce</td>
-                <td>@item.Count</td>
-                <td>@item.TotalPirce</td>
-                <td>@item.BarCode</td>
-            </tr>
+            total += item.Pirce * item.Count;
+                    <tr>
+                        <td>@num</td>
+                        <td>
+                            @item.ProductName<br>
+                        </td>
+                        <td>@item.Spec</td>
+                        <td>@item.Unit</td>
+                        <td>@item.Pirce.ToString("f2")</td>
+                        <td>@item.Count</td>
+                        <td>@((item.Pirce * item.Count).ToString("f2"))</td>
+                        <td>@item.BarCode</td>
+                    </tr>
 }
                     <tr>
-                        <td colspan="8" class="center">总价:@total</td>
+                        <td colspan="8" class="center">总价:@total.ToString("f2")</td>
                     </tr>
                 </tbody>
             </table>

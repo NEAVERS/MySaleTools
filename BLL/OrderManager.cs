@@ -338,9 +338,12 @@ namespace BLL
                 var items = new List<GetProductItem>();
                 model.SupplierInfo = _context.Suppliers.FirstOrDefault(x => x.Id == id);
                 var allitems = from c in _context.OrderItems
+                               join d in _context.OrderInfoes on c.OrderId equals d.Id
                                where !c.IsInShoppingCar
                                 && !c.IsDelete
                                 && c.SupplierId == id
+                                && d.CreateTime > start
+                                && d.CreateTime < end
                                select c;
                 var ids = from c in allitems
                           group c by c.ProductId into g
@@ -400,7 +403,12 @@ namespace BLL
                 model.Mark = "乐清1";
 
                 var allitems = from c in _context.OrderItems
+                               join d in _context.OrderInfoes on c.OrderId equals d.Id
                                where !c.IsInShoppingCar
+                                && !c.IsDelete
+                                && (SupplierId == -1 || c.SupplierId == SupplierId)
+                                && d.CreateTime > start
+                                && d.CreateTime < end
                                 && !c.IsDelete
                                 && c.OrderId == orderId
                                select c;
