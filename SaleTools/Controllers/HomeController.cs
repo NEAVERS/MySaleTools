@@ -31,8 +31,8 @@ namespace SaleTools.Controllers
             string tejia = ConfigurationManager.AppSettings["tejia"].ToString();
             string xinping = ConfigurationManager.AppSettings["xinping"].ToString();
 
-            ViewBag.Tejia = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10, "", tejia, "", "", "", "", "1");
-            ViewBag.Xinping = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10, "", xinping, "", "", "", "", "1");
+            ViewBag.Tejia = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10000, "", tejia, "", "", "", "", "1");
+            ViewBag.Xinping = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 10000, "", xinping, "", "", "", "", "1");
             ViewBag.NoticeList = list;
             return View();
         }

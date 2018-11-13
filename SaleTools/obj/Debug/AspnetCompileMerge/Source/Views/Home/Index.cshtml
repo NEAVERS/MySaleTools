@@ -757,13 +757,13 @@
                 var _input = $(this).siblings("input.J_QuantityInput");
                 var min = parseInt(_input.data("min"));
                 var max = parseInt(_input.data("max"));
-                if (max < min) {
+                if (max>0&& max < min) {
                     build("red", "商品库存不足", "Increment");
                     return false;
                 }
                 var quantity = parseInt(_input.val());
                 ++quantity;
-                quantity = quantity > max ? max : quantity;
+                quantity = max > 0 &&quantity > max ? max : quantity;
                 quantity = quantity < min ? min : quantity;
                 _input.val(quantity);
             });

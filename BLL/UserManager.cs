@@ -25,18 +25,33 @@ namespace BLL
         /// <returns></returns>
         public bool UserReg(UserInfo user)
         {
+            if (user.TypeId < 0)
+            {
+                user.BTypeId = GetEmployeeId(user.UserCode);
+            }
+            else
+                user.BTypeId = GetBtypeId(user.UserCode);
+
             _context.UserInfoes.Add(user);
+
             return _context.SaveChanges() > 0;
         }
 
 
+<<<<<<< HEAD
         public bool CheckPhone(Guid userId, string phone)
         {
             var user = _context.UserInfoes.FirstOrDefault(x => x.Tel == phone&&x.UserId!=userId);
+=======
+        public bool CheckPhone(Guid userid, string phone)
+        {
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId!=userid && x.Tel == phone);
+>>>>>>> 2cd066d7219493d0626b35501f49e991e8b04a06
             return user == null;
 
         }
 
+<<<<<<< HEAD
         public bool CheckUsernum(Guid userId, string num)
         {
             var user = _context.UserInfoes.FirstOrDefault(x => x.UserNum == num && x.UserId != userId);
@@ -46,6 +61,17 @@ namespace BLL
         public bool CheckAccount(Guid userId, string accout)
         {
             var user = _context.UserInfoes.FirstOrDefault(x => x.Account == accout && x.UserId != userId);
+=======
+        public bool CheckUsernum(Guid userid, string num)
+        {
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId != userid && x.UserNum == num);
+            return user == null;
+        }
+
+        public bool CheckAccount(Guid userid, string accout)
+        {
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId != userid && x.Account == accout);
+>>>>>>> 2cd066d7219493d0626b35501f49e991e8b04a06
             return user == null;
         }
 

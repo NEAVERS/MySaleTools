@@ -70,6 +70,27 @@ namespace SaleTools.Controllers
             var pager = _order.GetOrderList(index,size,startTime,endTime,province,city,area,stutas,saleManId,userType,key,managerId, ViewBag.IsAdmin);
             return Utils.SerializeObject(pager);
         }
+        public string GetOrderTotal(int index, int size, string start = "", string end = "", string province = "", string city = "", string area = "0", int stutas = -1, string saleManId = "", int userType = -1, string key = "", bool isDown = false)
+        {
+
+            DateTime startTime = Utils.GetTime(start, true);
+            DateTime endTime = Utils.GetTime(end);
+            Guid managerId = Guid.NewGuid();
+            var loginUser = (UserInfo)ViewBag.User;
+            if (ViewBag.IsAdmin)
+                managerId = loginUser.UserId;
+            else
+                managerId = loginUser.SaleManGuid;
+            PageData<OrderInfo> pager = _order.GetOrderList(1, 10000, startTime, endTime, province, city, area, stutas, saleManId, userType, key, managerId, ViewBag.IsAdmin);
+            var total = new
+            {
+                totalCount = pager.ListData.Count,
+                totalMoney = pager.ListData.Sum(x => x.TotalMoney)
+            };
+            return Utils.SerializeObject(total);
+        }
+
+
 
         public ActionResult ExportOrderInfo( string start = "", string end = "", string province = "", string city = "", string area = "0", int stutas = -1, string saleManId = "", int userType = -1, string key = "")
         {

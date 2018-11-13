@@ -104,8 +104,9 @@ namespace SaleTools.Controllers
                 _response.Msg = "该用户编号已存在！请重新填写！";
                 return Utils.SerializeObject(_response);
             }
+
             if (!manager.CheckAccount(user.UserId, user.Account))
-            {
+            { 
                 _response.Msg = "该账号已存在！请重新填写！";
                 return Utils.SerializeObject(_response);
             }
