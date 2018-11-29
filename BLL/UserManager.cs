@@ -38,47 +38,31 @@ namespace BLL
         }
 
 
-<<<<<<< HEAD
         public bool CheckPhone(Guid userId, string phone)
         {
-            var user = _context.UserInfoes.FirstOrDefault(x => x.Tel == phone&&x.UserId!=userId);
-=======
-        public bool CheckPhone(Guid userid, string phone)
-        {
-            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId!=userid && x.Tel == phone);
->>>>>>> 2cd066d7219493d0626b35501f49e991e8b04a06
+            var user = _context.UserInfoes.FirstOrDefault(x => x.Tel == phone&&x.UserId!=userId &&!x.IsDelete);
             return user == null;
 
         }
 
-<<<<<<< HEAD
-        public bool CheckUsernum(Guid userId, string num)
-        {
-            var user = _context.UserInfoes.FirstOrDefault(x => x.UserNum == num && x.UserId != userId);
-            return user == null;
-        }
 
-        public bool CheckAccount(Guid userId, string accout)
-        {
-            var user = _context.UserInfoes.FirstOrDefault(x => x.Account == accout && x.UserId != userId);
-=======
         public bool CheckUsernum(Guid userid, string num)
         {
-            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId != userid && x.UserNum == num);
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId != userid && x.UserNum == num && !x.IsDelete);
             return user == null;
         }
 
         public bool CheckAccount(Guid userid, string accout)
         {
-            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId != userid && x.Account == accout);
->>>>>>> 2cd066d7219493d0626b35501f49e991e8b04a06
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId != userid && x.Account == accout && !x.IsDelete);
+
             return user == null;
         }
 
 
         public bool IsExitUser(Guid userId)
         {
-            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == userId);
+            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == userId && !x.IsDelete);
             return user == null;
         }
 

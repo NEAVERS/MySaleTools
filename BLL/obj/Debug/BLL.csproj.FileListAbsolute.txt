@@ -111,4 +111,7 @@ D:\My\MySaleTools\BLL\bin\Debug\EntityFramework.SqlServer.xml
 D:\My\MySaleTools\BLL\bin\Debug\Newtonsoft.Json.xml
 D:\My\MySaleTools\BLL\obj\Debug\BLL.dll
 D:\My\MySaleTools\BLL\obj\Debug\BLL.pdb
-D:\My\MySaleTools\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\My\MySaleTools\BLL\bin\Debug\Dal.dll.config
+D:\My\MySaleTools\BLL\obj\Debug\BLL.csprojAssemblyReference.cache
+D:\My\MySaleTools\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+D:\My\MySaleTools\BLL\obj\Debug\BLL.csproj.CopyComplete

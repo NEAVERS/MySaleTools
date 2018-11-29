@@ -342,4 +342,9 @@ D:\My\MySaleTools\SaleTools\bin\zh-Hans\System.Web.Razor.resources.dll
 D:\My\MySaleTools\SaleTools\bin\zh-Hans\System.Web.WebPages.resources.dll
 D:\My\MySaleTools\SaleTools\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
 D:\My\MySaleTools\SaleTools\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
-D:\My\MySaleTools\SaleTools\obj\Debug\SaleTools.csprojResolveAssemblyReference.cache
+D:\My\MySaleTools\SaleTools\bin\Microsoft.Web.Infrastructure.dll
+D:\My\MySaleTools\SaleTools\bin\BLL.dll.config
+D:\My\MySaleTools\SaleTools\bin\Dal.dll.config
+D:\My\MySaleTools\SaleTools\obj\Debug\SaleTools.csprojAssemblyReference.cache
+D:\My\MySaleTools\SaleTools\obj\Debug\SaleTools.csproj.CoreCompileInputs.cache
+D:\My\MySaleTools\SaleTools\obj\Debug\SaleTools.csproj.CopyComplete

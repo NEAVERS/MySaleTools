@@ -275,7 +275,7 @@ namespace BLL
 
         public bool ReBuy(Guid orderId)
         {
-            var Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar&&x.Price>0).ToList();
+            var Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar&&!x.IsGift).ToList();
 
             var list = Utils.DeepCopyByJson(Items);
             list.ForEach(x => {
