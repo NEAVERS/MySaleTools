@@ -298,13 +298,14 @@
         var remark = $("#JRemarkInput").val();
         var couponId = $("#couponId").val();
         $.post("/Home/CreateOrder", { remark: remark, couponId: couponId }, function (e) {
-            _n = 0;
             if (e.Stutas) {
                 layer.msg("保存订单成功！", { icon: 1 }, function () {
+
                     location.href = "/Order/UserOrderManager";
                 })
             }
             else {
+                _n = 0;
                 layer.msg("保存订单失败！"+e.Msg, { icon: 2 })
             }
         }, "json");
