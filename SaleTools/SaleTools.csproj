@@ -375,6 +375,7 @@
     <Content Include="Views\Activtity\ShowActiveBlacklist.cshtml" />
     <Content Include="Views\Home\HomeIndex.cshtml" />
     <Content Include="Views\APP\WebLogin.cshtml" />
+    <Content Include="Views\APP\IndexPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

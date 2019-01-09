@@ -1,0 +1,35 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body>
+    <div>
+
+        <div id="components-demo">
+            <button-counter></button-counter>
+        </div>
+
+    </div>
+    <script src="~/Scripts/Vue/vue.min.js"></script>
+    <script src="~/Scripts/Vue/vue-resource.js"></script>
+
+    <script  type="text/javascript"> 
+        Vue.component('button-counter', {
+            data: function () {
+                return {
+                    count: 0
+                }
+            },
+            template: '<button v-on:click="count++"> 124124 <input type=\'text\' v-bind:value="count" /></button> '
+        })
+        new Vue({ el: '#components-demo' })
+    </script>
+</body>
+</html>

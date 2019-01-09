@@ -848,6 +848,11 @@ namespace SaleTools.Controllers
         }
 
 
+        public ActionResult IndexPage()
+        {
+            return View();
+        }
+
         #endregion
     }
 }
