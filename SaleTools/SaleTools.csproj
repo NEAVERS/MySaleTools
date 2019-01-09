@@ -243,6 +243,8 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\Vue\vue-resource.js" />
+    <Content Include="Scripts\Vue\vue.min.js" />
     <Content Include="Scripts\webuploader\Uploader.swf" />
     <Content Include="Scripts\webuploader\webuploader.css" />
     <Content Include="Scripts\webuploader\webuploader.custom.js" />
@@ -372,6 +374,7 @@
     <Content Include="Views\Activtity\AddActiveBlacklist.cshtml" />
     <Content Include="Views\Activtity\ShowActiveBlacklist.cshtml" />
     <Content Include="Views\Home\HomeIndex.cshtml" />
+    <Content Include="Views\APP\WebLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -386,7 +389,6 @@
     <Folder Include="Content\css\common\pages\home\" />
     <Folder Include="Content\css\common\pages\passport\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\APP\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Common\" />
   </ItemGroup>

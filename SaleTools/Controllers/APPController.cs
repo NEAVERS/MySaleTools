@@ -23,6 +23,7 @@ namespace SaleTools.Controllers
         private SystemManager _system = new SystemManager();
 
 
+        #region  接口
         public string Login(string userName,string pwd)
         {
             pwd = Utils.GetMD5(pwd);
@@ -834,5 +835,19 @@ namespace SaleTools.Controllers
             string result = Utils.SerializeObject(_response);
             return result;
         }
+
+        #endregion
+
+
+
+        #region  页面
+
+        public ActionResult WebLogin()
+        {
+            return View();
+        }
+
+
+        #endregion
     }
 }
