@@ -124,6 +124,16 @@
     <Content Include="Content\css\pages\ucenter.css" />
     <Content Include="Content\images\04171707.png" />
     <Content Include="Content\images\activity.jpg" />
+    <Content Include="Content\images\add.png" />
+    <Content Include="Content\images\back.png" />
+    <Content Include="Content\images\bottombtn0101.png" />
+    <Content Include="Content\images\bottombtn0102.png" />
+    <Content Include="Content\images\bottombtn0201.png" />
+    <Content Include="Content\images\bottombtn0202.png" />
+    <Content Include="Content\images\bottombtn0301.png" />
+    <Content Include="Content\images\bottombtn0302.png" />
+    <Content Include="Content\images\bottombtn0401.png" />
+    <Content Include="Content\images\bottombtn0402.png" />
     <Content Include="Content\images\buyer\buyer.png" />
     <Content Include="Content\images\buyer\buy_again.png" />
     <Content Include="Content\images\buyer\close-round %281%29.png" />
@@ -152,9 +162,12 @@
     <Content Include="Content\images\lg\170602.jpg" />
     <Content Include="Content\images\lg\170602.png" />
     <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\loading_more.gif" />
     <Content Include="Content\images\new_log.png" />
     <Content Include="Content\images\order\orderBottomBorder.png" />
     <Content Include="Content\images\RainbowSquare.gif" />
+    <Content Include="Content\images\timg.jpg" />
+    <Content Include="Content\images\timg.png" />
     <Content Include="Content\images\worning.png" />
     <Content Include="Content\js\lib\artTemplate.js" />
     <Content Include="Content\js\lib\category_selector\category_selector.css" />
@@ -218,6 +231,7 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Content\css\Notice.css" />
+    <Content Include="Content\images\Thumbs.db" />
     <None Include="Properties\PublishProfiles\test.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
