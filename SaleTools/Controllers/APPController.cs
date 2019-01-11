@@ -173,7 +173,7 @@ namespace SaleTools.Controllers
                 int boxspec = Utils.ParseInt(goodsInfo.BoxSpec);
                 if (boxspec == 0 || !goodsInfo.IsBoxSale)
                     boxspec = 1;
-                decimal Stock = _goodsmanager.GetGoodsStock(goodsInfo.ErpId, boxspec);
+                decimal Stock = 1000;//_goodsmanager.GetGoodsStock(goodsInfo.ErpId, boxspec);
                 int count = goodsInfo.MinCount;
 
 

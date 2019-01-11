@@ -291,7 +291,7 @@ namespace BLL
                 int boxspec = Utils.ParseInt(item.BoxSpec);
                 if (boxspec == 0 || !item.IsBoxSale)
                     boxspec = 1;
-                int stock = GetGoodsStock(id,boxspec);
+                int stock = 100; /*GetGoodsStock(id,boxspec);*/
                 item.Stock = stock;
 
             }

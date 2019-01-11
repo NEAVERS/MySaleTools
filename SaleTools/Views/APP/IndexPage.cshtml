@@ -8,10 +8,45 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="~/Content/css/owl.theme.css" rel="stylesheet" />
+    <link href="~/Content/css/owl.carousel.css" rel="stylesheet" />
     <style>
+        .tittle {
+            height: 40px;
+            line-height: 40px;
+            background-color: red;
+            width: 100%;
+            position: fixed;
+            z-index: 99;
+            top: 0px;
+        }
+
+            .tittle input {
+                border-radius: 5px;
+            }
+
+        .content {
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .typeTittle {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            font-size: 14px;
+            text-align: center;
+            border-bottom: 1px #f2f2f2 solid;
+            margin-top: 10px;
+        }
+
+        #tuijianList {
+            width: 100%;
+        }
+
         .goodsItem {
             width: 100%;
-            height: 100px;
+            height: 110px;
             border-bottom: 1px #f2f2f2 solid;
             margin-top: 10px;
         }
@@ -19,7 +54,7 @@
         .goodsimg {
             float: left;
             width: 30%;
-            height: 100px;
+            height: 110px;
             text-align: center;
         }
 
@@ -40,20 +75,56 @@
         .goodstittle {
             font-weight: 700;
         }
+
+        #owl-demo {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            #owl-demo .item {
+                display: block;
+            }
+
+            #owl-demo img {
+                display: block;
+                width: 100%;
+            }
     </style>
 </head>
 <body>
-    <div>
 
-        <div id="components-demo">
-            <button-counter v-for="item in sites" v-bind:todo="item"></button-counter>
-        </div>
+    <div class="tittle ">
+        <span style="color: white;margin: 0 10px;" id="ProductList">分类</span>
+        <input type="text" style="background-color:white;height: 30px;width: 250px;" placeholder="请输入关键字查询" id="key">
+        <span style="color: white;margin: 0 10px;" id="btnSearch">搜索</span>
 
     </div>
+    <div class="content" id="Index">
+        <!-- Demo -->
+        <div id="owl-demo" class="owl-carousel">
+        </div>
+        <div>
+            <div class="typeTittle">推荐商品</div>
+            <div id="tuijianList">
+                <button-counter v-for="item in tuijian" v-bind:todo="item"></button-counter>
+
+            </div>
+            <div class="typeTittle">限时特价</div>
+            <div id="tejiaList">
+                <button-counter v-for="item in tejia" v-bind:todo="item"></button-counter>
+            </div>
+        </div>
+        <div style="width:100%; height:300px;"></div>
+    </div>
+
+
     <script src="~/Scripts/Vue/vue.min.js"></script>
     <script src="~/Scripts/Vue/vue-resource.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/owl.carousel.min.js"></script>
+    <script type="text/javascript">
 
-    <script  type="text/javascript"> 
         Vue.component('button-counter', {
             props: ['todo'],
             data: function () {
@@ -61,12 +132,40 @@
                     count: 0
                 }
             },
-            template: '<div class="goodsItem" ><div class="goodsimg"><a href="#"  onclick = "OpenGoodsDetail(todo.Id)"><img v-bind:src=" todo.pic1"  style="height: 80px" alt="暂无图片"></a></div><div class="goodsInfo"><div class="goodstittle"  onclick = "OpenGoodsDetail(todo.Id )">{{todo.GoodsTittle}} </div><div class="info">规格:{{todo.Spec}} </div><div class="info">￥{{todo.RetailtPrice}}</div><div class="addBtn" goodsId =todo.Id><img src="/Content/images/add.png" height="30" width="30"/></div></div></div>'
+            template: '<div class="goodsItem" ><div class="goodsimg"><a href="#"  onclick = "OpenGoodsDetail(todo.Id)"><img v-bind:src=" todo.pic1"  style="height: 80px" alt="暂无图片"></a></div><div class="goodsInfo"><div class="goodstittle"  onclick = "OpenGoodsDetail(todo.Id )">{{todo.GoodsTittle}} </div><div class="info">规格:{{todo.Spec}} </div><div class="info">￥{{todo.RetailtPrice}}</div><div class="addBtn" v-on:click="addToShoppingCar"><img src="/Content/images/add.png" height="30" width="30"/></div></div></div>',
+            methods: {
+                addToShoppingCar: function () {
+                    this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id }, { emulateJSON: true }).then(function (res) {
+                        var res = JSON.parse(res.body);
+                        if (res.Stutas) {
+                            alert("添加成功！");
+                        }
+                        else {
+                            alert(res.Msg);
+                        }
+
+
+                    }, function (res) {
+                        console.log(res.status);
+                    });
+                }
+            }
         })
+
+        Vue.component('img-Item', {
+            data: function () {
+                return {
+                    count: 0
+                }
+            },
+            template: '<div>124124</div>',
+        })
+
         var app =  new Vue({
-            el: '#components-demo',
+            el: '#Index',
             data: {
-                sites: []
+                tuijian: [],
+                tejia: [],
             },
             methods: {
                 get: function () {
@@ -77,11 +176,33 @@
                     ).then(function (res) {
                         var res = JSON.parse(res.body)
                         if (res.Stutas) {
-                            this.sites = res.Result.XinpingList.ListData
+                            this.tuijian = res.Result.XinpingList.ListData;
+                            this.tejia = res.Result.TejiaList.ListData;
                         }
                     }, function () {
                         console.log('请求失败处理');
+                        });
+                    this.$http.post(
+                        '/APP/GetImgSet',
+                        { emulateJSON: true }
+                    ).then(function (res) {
+                        var res = JSON.parse(res.body)
+                        var List = res.Result;
+                        var innerhtml = '';
+                        var n = 1;
+                        $(List).each(function () {
+                            innerhtml += '<a class="item"><img src="' + this.ImgUrl + '" alt="" style=100%;height: 200px"></a>'
+                        })
+
+                        $("#owl-demo").html(innerhtml);
+                        $("owl-demo").width($("body").width)
+                        $('#owl-demo').owlCarousel({
+                            items: 1
+                        });
+                    }, function () {
+                        console.log('请求失败处理');
                     });
+
                 }
             }
 

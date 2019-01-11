@@ -113,6 +113,9 @@
     <Content Include="Content\css\laydate.css" />
     <Content Include="Content\css\normalize.css" />
     <Content Include="Content\css\common\pages\ucenter.css" />
+    <Content Include="Content\css\owl.carousel.css" />
+    <Content Include="Content\css\owl.theme.css" />
+    <Content Include="Content\css\owl.transitions.css" />
     <Content Include="Content\css\pages\buyer\overlay\overlay.css" />
     <Content Include="Content\css\pages\buyer\trade\buy_list.css" />
     <Content Include="Content\css\pages\cart\v2.css" />
@@ -249,6 +252,7 @@
     <Content Include="Scripts\layer\theme\default\loading-1.gif" />
     <Content Include="Scripts\layer\theme\default\loading-2.gif" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\owl.carousel.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
