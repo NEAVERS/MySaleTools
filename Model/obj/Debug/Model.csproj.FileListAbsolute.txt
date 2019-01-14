@@ -31,4 +31,3 @@ D:\My\MySaleTools\Model\bin\Debug\Model.pdb
 D:\My\MySaleTools\Model\obj\Debug\Model.dll
 D:\My\MySaleTools\Model\obj\Debug\Model.pdb
 D:\My\MySaleTools\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
-D:\My\MySaleTools\Model\obj\Debug\Model.csprojAssemblyReference.cache

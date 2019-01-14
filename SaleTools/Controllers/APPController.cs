@@ -421,6 +421,11 @@ namespace SaleTools.Controllers
             {
                 Guid managerId = GetManagerId(loginUser);
                 var goodsPager = _goodsmanager.GetGoodsList(managerId, loginUser.TypeId, index, 10, "",fstType, secType, trdType, brandId, key, "1");
+                goodsPager.ListData.ForEach(x =>
+                {
+                    if (x.GoodsTittle.Length > 12)
+                        x.GoodsTittle = x.GoodsTittle.Substring(0, 12) + "...";
+                });
                 _response.Result = goodsPager;
                 _response.Stutas = true;
             }
@@ -850,6 +855,13 @@ namespace SaleTools.Controllers
 
         public ActionResult IndexPage()
         {
+            return View();
+        }
+
+
+        public ActionResult GoodsList(string key)
+        {
+            ViewBag.Key = key;
             return View();
         }
 

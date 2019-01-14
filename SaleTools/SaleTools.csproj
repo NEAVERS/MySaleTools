@@ -394,6 +394,7 @@
     <Content Include="Views\Home\HomeIndex.cshtml" />
     <Content Include="Views\APP\WebLogin.cshtml" />
     <Content Include="Views\APP\IndexPage.cshtml" />
+    <Content Include="Views\APP\GoodsList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
