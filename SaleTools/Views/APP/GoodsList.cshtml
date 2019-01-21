@@ -174,10 +174,9 @@
     <script src="~/Scripts/Vue/vue.min.js"></script>
     <script src="~/Scripts/Vue/vue-resource.js"></script>
     <script>
-
         Vue.component('runoob', {
             props: ['todo'],
-            template: '<div class="goodsItem"><div class="goodsImg"  onclick ="OpenGoodsDetail()"><img  v-bind:src=" todo.pic1" /></div><div class="goodstittle"  onclick ="OpenGoodsDetail()" >{{todo.GoodsTittle}}</div><div class="price">￥{{todo.RetailtPrice }}/<span class="unit">{{todo.Unit }}</span></div><div class="spec">起订:{{ this.MinCount}}</div><div class="addBtn"  v-on:click="addToShoppingCar"><button >购买</button></div></div>',
+            template: '<div class="goodsItem"><div class="goodsImg"  v-on:click="turnToPage"><img  v-bind:src=" todo.pic1" /></div><div class="goodstittle"  v-on:click="turnToPage" >{{todo.GoodsTittle}}</div><div class="price">￥{{todo.RetailtPrice }}/<span class="unit">{{todo.Unit }}</span></div><div class="spec">起订:{{ this.MinCount}}</div><div class="addBtn"  v-on:click="addToShoppingCar"><button >购买</button></div></div>',
             methods: {
                 addToShoppingCar: function () {
                     this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id }, { emulateJSON: true }).then(function (res) {
@@ -191,7 +190,11 @@
                     }, function (res) {
                         console.log(res.status);
                     });
+                },
+                turnToPage: function () {
+                    location.href = "/APP/GoodsInfo/" + this.todo.Id;
                 }
+
             }
         })
 

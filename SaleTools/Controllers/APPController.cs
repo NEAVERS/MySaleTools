@@ -272,7 +272,7 @@ namespace SaleTools.Controllers
                 int boxspec = Utils.ParseInt(goodsInfo.BoxSpec);
                 if (boxspec == 0 || !goodsInfo.IsBoxSale)
                     boxspec = 1;
-                decimal Stock = _goodsmanager.GetGoodsStock(goodsInfo.ErpId,boxspec);
+                decimal Stock = 100; //_goodsmanager.GetGoodsStock(goodsInfo.ErpId,boxspec);
               
                 if (goodsInfo.LimitCount > 0 && count > goodsInfo.LimitCount)
                 {
@@ -865,6 +865,29 @@ namespace SaleTools.Controllers
             return View();
         }
 
+        public ActionResult GoodsInfo(Guid id)
+        {
+            ViewBag.GoodsId = id;
+            GoodInfo model = _goodsmanager.GetGoodInfoById(id);
+            return View(model);
+        }
+
+        public ActionResult ShoppingCar()
+        {
+            var loginUser = GetUserInfo();
+            var list = _order.GetShoppingCar(loginUser.UserId);
+            var dps = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
+            dps.Add(new DPS()
+            {
+                GoodsName = "测试单品送",
+                Count = 10,
+                SendGoodsName = "测试赠送商品",
+                SendCount = 1,
+            });
+
+            ViewBag.Dps = dps;
+            return View();
+        }
         #endregion
     }
 }

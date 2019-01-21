@@ -19,6 +19,7 @@
             position: fixed;
             z-index: 99;
             top: 0px;
+            margin-left: -8px;
         }
 
             .tittle input {
@@ -118,7 +119,6 @@
         <div style="width:100%; height:300px;"></div>
     </div>
 
-
     <script src="~/Scripts/Vue/vue.min.js"></script>
     <script src="~/Scripts/Vue/vue-resource.js"></script>
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
@@ -132,7 +132,7 @@
                     count: 0
                 }
             },
-            template: '<div class="goodsItem" ><div class="goodsimg"><a href="#"  onclick = "OpenGoodsDetail(todo.Id)"><img v-bind:src=" todo.pic1"  style="height: 80px" alt="暂无图片"></a></div><div class="goodsInfo"><div class="goodstittle"  onclick = "OpenGoodsDetail(todo.Id )">{{todo.GoodsTittle}} </div><div class="info">规格:{{todo.Spec}} </div><div class="info">￥{{todo.RetailtPrice}}</div><div class="addBtn" v-on:click="addToShoppingCar"><img src="/Content/images/add.png" height="30" width="30"/></div></div></div>',
+            template: '<div class="goodsItem" ><div class="goodsimg" v-on:click="turnToPage"><a href="#"  v-on:click="turnToPage"><img v-bind:src=" todo.pic1"  style="height: 80px" alt="暂无图片"></a></div><div class="goodsInfo"><div class="goodstittle"  v-on:click="turnToPage">{{todo.GoodsTittle}} </div><div class="info">规格:{{todo.Spec}} </div><div class="info">￥{{todo.RetailtPrice}}</div><div class="addBtn" v-on:click="addToShoppingCar"><img src="/Content/images/add.png" height="30" width="30"/></div></div></div>',
             methods: {
                 addToShoppingCar: function () {
                     this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id }, { emulateJSON: true }).then(function (res) {
@@ -143,11 +143,12 @@
                         else {
                             alert(res.Msg);
                         }
-
-
                     }, function (res) {
                         console.log(res.status);
                     });
+                },
+                turnToPage: function () {
+                    location.href = "/APP/GoodsInfo/" + this.todo.Id;
                 }
             }
         })
