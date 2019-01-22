@@ -1,0 +1,228 @@
+﻿
+@using Model;
+
+@{
+    Layout = null;
+    List<DPS> dpsList = (List<DPS>)ViewBag.Dps;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ConfirmOrder</title>
+
+    <style>
+        .tittle {
+            height: 40px;
+            line-height: 40px;
+            background-color: #f2f2f2;
+            width: 100%;
+            position: fixed;
+            z-index: 99;
+            bottom: 0px;
+        }
+
+        #goodList {
+            width: 100%;
+        }
+
+        .goodsItem {
+            width: 100%;
+            height: 100px;
+            border-bottom: 1px #f2f2f2 solid;
+            margin-top: 10px;
+        }
+
+        .goodsimg {
+            float: left;
+            width: 30%;
+            height: 100px;
+            text-align: center;
+        }
+
+        .goodsInfo {
+            float: left;
+            width: 70%;
+            height: 100px;
+            text-align: left;
+            line-height: 20px;
+        }
+
+        .goodstittle {
+            font-weight: 700;
+        }
+
+        .price {
+            color: red;
+        }
+
+        .btns button {
+            background-color: #f2f2f2;
+            padding: 5px 10px;
+            width: 50px;
+        }
+
+        .info {
+            width: 80%;
+        }
+
+        .return {
+            position: absolute;
+            left: 10px;
+            top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="App">
+        <div class="tittle" style="top: 0px;text-align: center;"><div class="return"><img src="../image/back.png" height="32" width="32" /></div>订单确认</div>
+        <div class="content" style="margin-top: 50px;">
+            <div style="height: 72px;width: 90%;text-align: center;;background-color: #f1f8ff;margin:0 auto;border-radius: 5px;padding-top: 10px">
+                <div style="margin-left: 30px;text-align: left;font-size: 10px;line-height: 24px;" id="Info">@ViewBag.info</div>
+                <div style="margin-left: 30px;text-align: left;font-size: 10px;line-height: 24px;" id="addr">@ViewBag.addr</div>
+            </div>
+            <div>
+                <div id="goodList">
+                    <goodsinfo v-for="item in orderItems" v-bind:todo="item"></goodsinfo>
+
+                    <div class="goodsItem">
+                        <div class="goodsimg">
+                            <a><img src="" style="height: 80px" alt=""></a>
+                        </div>
+                        <div class="goodsInfo">
+                            <div class="goodstittle">棒棒糖</div>
+                            <div class="info"> 规格:10g*80支/板*6</div>
+                            <div class="info"> <span class="price" style="float: left">57.60元</span><span class="price" style="float: right">x10</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 30px;line-height: 30px;margin-left: 20px;">备注：</div>
+            <div style="margin-left: 30px;height: 30px;line-height: 30px;width: 70%"><input type="text" id="remark" style="height: 30px;line-height: 30px;width: 100%;" placeholder="请输入特殊运货要求" v-model = "remark"></div>
+            <div style="width: 100%;height: 48px; margin-top: 10px;">
+                <div style="height: 48px;width: 90%;text-align: center;;background-color: #f1f8ff;margin:0 auto;border-radius: 5px;">
+                    <div style="margin-left: 10px;text-align: left;font-size: 10px;line-height: 24px;">享受<span style="color: red" id="discount">0.00</span>类目折扣优惠</div>
+                    <div style="margin-right: 10px;text-align: right;font-size: 10px;line-height: 24px;"><span style="color: red">类目折扣</span></div>
+                </div>
+            </div>
+            <div style="width: 100%;height: 48px; margin-top: 10px; display: none;" id="manjian" v-show="isShowManJian">
+                <div style="height: 48px;width: 90%;text-align: center;;background-color: #f1f8ff;margin:0 auto;border-radius: 5px;">
+                    <div style="margin-left: 10px;text-align: left;font-size: 10px;line-height: 24px;">活动商品已满<span style="color: red" id="LimitMoney">{{manjian.LimitMoney}}元</span>，您已享受减<span style="color: red" id="LessMoeny">{{manjian.LessMoeny}}元</span>优惠</div>
+                    <div style="margin-right: 10px;text-align: right;font-size: 10px;line-height: 24px;"><span style="color: red">满就减</span></div>
+                </div>
+            </div>
+            <div style="width: 100%;height: 48px; margin-top: 10px; display: none;" id="manjiusong" v-show="isShowManSong">
+                <div style="height: 48px;width: 90%;text-align: center;;background-color: #f1f8ff;margin:0 auto;border-radius: 5px;">
+                    <div style="margin-left: 10px;text-align: left;font-size: 10px;line-height: 24px;">活动商品已满<span style="color: red" id="msLimitMoney">{{mansong.LimitMoney}}元</span>，您已享受赠送<span style="color: red" id="sendgoods">{{mansong.SendGoodName}}X{{mansong.SendGoodCount}}</span>优惠</div>
+                    <div style="margin-right: 10px;text-align: right;font-size: 10px;line-height: 24px;"><span style="color: red">满就送</span></div>
+                </div>
+            </div>
+
+            @foreach (var item in dpsList)
+            {
+
+
+
+                <div style="width: 100%;height: 48px; margin-top: 10px;">
+                <div style="height: 48px;width: 90%;text-align: center;;background-color: #f1f8ff;margin:0 auto;border-radius: 5px;">
+                    <div style="margin-left: 10px;text-align: left;font-size: 10px;line-height: 24px;">@(item.GoodsName) X<span style="color: red">@(item.Count)</span>，您已享受赠送<span style="color: red">@(item.SendGoodsName)X@(item.SendCount)</span>优惠</div>
+                <div style="margin-right: 10px;text-align: right;font-size: 10px;line-height: 24px;"><span style="color: red">单品送</span></div></div></div>
+            }
+
+        </div>
+        <div class="tittle ">
+            <div style="width: 50%;text-align: left;padding-left: 20px;border-top: 1px solid #f2f2f2;float: left;">实付：<span style="color: red" id="totalPrice">{{totalPrice}}5元</span></div>
+            <div id="jiesuan" style="width: 40%;background-color: red;color: white;font-weight: 700;float: right;text-align: center;" v-on:click="CreateOrder">生成订单</div>
+        </div>
+    </div>
+
+
+    <script src="~/Scripts/Vue/vue.min.js"></script>
+    <script src="~/Scripts/Vue/vue-resource.js"></script>
+    <script>
+        Vue.component('goodsinfo', {
+            props: ['todo'],
+            data: function () {
+                return {
+                    count: this.todo.Count,
+                }
+            },
+            template: '<div class="goodsItem"><div class= "goodsimg" ><a><img v-bind:src="todo.Pic"  style="height: 80px" alt=""></a></div><div class="goodsInfo"><div class="goodstittle">{{todo.ProductTittle}}</div><div class="info"> 规格::{{todo.Spec}}</div><div class="info"> <span class="price" style="float: left">{{todo.Price}}元</span><span class="price" style="float: right">x{{todo.Count}}</span></div></div></div>',
+        })
+
+
+        var app = new Vue({
+            el: "#App",
+            data:
+            {
+                orderItems: [],
+                manjian: { LimitMoney: 0, LessMoeny: 0 },
+                dpsList: [],
+                mansong: { LimitMoney: 0, SendGoodName: '-', SendGoodCount: 0 },
+                isShowDis: true,
+                isShowManJian: false,
+                isShowManSong: false,
+                totalPrice: 0,
+                discount: 0,
+                remark:""
+            },
+            methods: {
+                LoadInfo: function () {
+                    this.$http.post(
+                        '/APP/LoadShoopingCarCount',
+                        { emulateJSON: true }
+                    ).then(function (res) {
+                        var _totalPrice = 0;
+                        var _discount = 0;
+                        var res = JSON.parse(res.body)
+                        if (res.Stutas) {
+                            this.orderItems = res.Result.list;
+                            this.dpsList = res.Result.dps;
+                            for (var i = 0; i < this.orderItems.length; i++) {
+                                _totalPrice += this.orderItems[i].TotalPrice;
+                                _discount += this.orderItems[i].LessPrice * this.orderItems[i].Count;
+                            }
+                            if (res.Result.manjian) {
+                                this.manjian = res.Result.manjian;
+
+                                this.isShowManJian = true;
+                                _totalPrice = _totalPrice - this.manjian.LessMoeny;
+                            }
+                            if (res.Result.mansong) {
+                                this.isShowManSong = true;
+                                this.mansong = res.Result.mansong;
+                            }
+                            this.discount = _discount;
+                            this.totalPrice = _totalPrice;
+                        }
+                    }, function () {
+                        console.log('请求失败处理');
+                    });
+                },
+
+                CreateOrder: function () {
+                    if (confirm("确认要提交该订单吗？")) {
+                        this.$http.post('/APP/CreateOrder', { remark: this.remark}, { emulateJSON: true }).then(function (res) {
+                            var res = JSON.parse(res.body);
+                            if (res.Stutas) {
+                                location.reload();
+                            }
+                            else {
+                                alert(res.Msg);
+                            }
+                        }, function (res) {
+                            console.log(res.status);
+                        });
+                    }
+                }
+
+            }
+        })
+        app.LoadInfo();
+
+    </script>
+</body>
+</html>

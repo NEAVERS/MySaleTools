@@ -40,6 +40,15 @@ namespace SaleTools.Controllers
             return Utils.SerializeObject(_response);
         }
 
+        public string LogOut()
+        {
+            HttpCookie hc = Request.Cookies["UserId"];
+            hc.Expires = DateTime.Now.AddDays(-1);
+            Response.AppendCookie(hc);
+            _response.Stutas = true;
+            return Utils.SerializeObject(_response);
+        }
+
         /// <summary>
         /// 获取Cookie 中的
         /// </summary>
@@ -887,6 +896,31 @@ namespace SaleTools.Controllers
 
             ViewBag.Dps = dps;
             return View();
+        }
+
+        public ActionResult ConfirmOrder()
+        {
+            var loginUser = GetUserInfo();
+            var list = _order.GetShoppingCar(loginUser.UserId);
+            var dps = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
+            dps.Add(new DPS()
+            {
+                GoodsName = "测试单品送",
+                Count = 10,
+                SendGoodsName = "测试赠送商品",
+                SendCount = 1,
+            });
+            ViewBag.Dps = dps;
+
+            ViewBag.info = loginUser.ReceiveName + "   " + loginUser.Tel;
+            ViewBag.addr = loginUser.Province + " " + loginUser.City + " " + loginUser.Area + " " + loginUser.Addr;
+            return View();
+        }
+
+        public ActionResult UserInfo()
+        {
+            var loginUser = GetUserInfo();
+            return View(loginUser);
         }
         #endregion
     }

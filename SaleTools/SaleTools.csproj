@@ -397,6 +397,8 @@
     <Content Include="Views\APP\GoodsList.cshtml" />
     <Content Include="Views\APP\GoodsInfo.cshtml" />
     <Content Include="Views\APP\ShoppingCar.cshtml" />
+    <Content Include="Views\APP\ConfirmOrder.cshtml" />
+    <Content Include="Views\APP\UserInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
