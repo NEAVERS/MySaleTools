@@ -84,7 +84,7 @@
                         },
                         { emulateJSON: true }
                     ).then(function (res) {
-                        var res = JSON.stringify(res.body)
+                        var res = JSON.parse(res.body)
                         if (res.Stutas) {
                             setCookie("userName", userName, 15);
                             setCookie("pwd", password, 15);

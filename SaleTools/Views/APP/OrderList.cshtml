@@ -124,7 +124,7 @@
             <div   v-bind:class="['stutasItem' ,ordertype== 3 ? 'active' : '']" @@click="changeType(3)">已收货</div>
         </div>
         <div id="content">
-
+            <orderItem v-for="item in orderList" v-bind:todo="item"></orderItem>
 
         </div>
     </div>
@@ -132,6 +132,31 @@
     <script src="~/Scripts/Vue/vue-resource.js"></script>
 
     <script>
+
+
+        Vue.component('orderItem', {
+            props: ['todo'],
+            template: '<div class="orderItem"><div class="orderNum" >订单编号：{{ todo.OrderNum}}</div><div class="orderInfo" ><div class="goodsImg"><img  v-bind:src="todo.OrderImg"  alt="暂无图片"></div><div class="infos"><div class="row"><div class="leftInfo"><span  style="font-weight: 700">{{todo.GoodsTittle}}</span>等{{todo.Count }}样商品</div><div class="rightInfo">￥{{todo.TotalPrice}}</div></div><div class="row"><div class="leftInfo">{{todo.CreateTime }}</div><div class="rightInfo">{{todo.StutasName}}</div></div><div class="row"></div></div></div><div class="buttons"><button class="onceMore" ">再来一单</button></div></div>',
+            methods: {
+                addToShoppingCar: function () {
+                    this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id }, { emulateJSON: true }).then(function (res) {
+                        var res = JSON.parse(res.body);
+                        if (res.Stutas) {
+                            alert("添加成功！");
+                        }
+                        else {
+                            alert(res.Msg);
+                        }
+                    }, function (res) {
+                        console.log(res.status);
+                    });
+                },
+                turnToPage: function () {
+                    location.href = "/APP/GoodsInfo/" + this.todo.Id;
+                }
+            }
+        })
+
         var app = new Vue({
             el: "#App",
             data:
