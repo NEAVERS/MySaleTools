@@ -4,7 +4,7 @@
     Layout = null;
 }
 
-<!DOCTYPE html>
+
 
 <html>
 <head>
@@ -137,7 +137,7 @@
         </div>
         <div class="tittle ">
             <div style="width: 50%;text-align: left;padding-left: 20px;border-top: 1px solid #f2f2f2;float: left; background-color: white;">实付：<span style="color: red" id="totalPrice">{{totalPrice}}</span></div>
-            <div id="jiesuan" style="width: 40%;background-color: red;color: white;font-weight: 700;float: right;text-align: center;">结算</div>
+            <div id="jiesuan" style="width: 40%;background-color: red;color: white;font-weight: 700;float: right;text-align: center;" @@click="ConfirmOrder">结算</div>
         </div>
     </div>
 
@@ -245,7 +245,9 @@
                         console.log('请求失败处理');
                     });
                 },
-
+                ConfirmOrder: function () {
+                    location.href = "/APP/ConfirmOrder"
+                }
             }
         })
         app.LoadInfo();

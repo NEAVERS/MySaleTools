@@ -88,6 +88,7 @@
                         if (res.Stutas) {
                             setCookie("userName", userName, 15);
                             setCookie("pwd", password, 15);
+                            location.href = "/APP/IndexPage";
                         }
                     }, function () {
                         console.log('请求失败处理');

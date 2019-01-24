@@ -1,0 +1,189 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>OrderList</title>
+    <style>
+        .tittle {
+            height: 40px;
+            line-height: 40px;
+            background-color: #f2f2f2;
+            width: 100%;
+            position: fixed;
+            z-index: 99;
+            bottom: 0px;
+            top: 0px;
+            text-align: center;
+            margin-left: -8px;
+        }
+
+        .stutasItem {
+            margin: 0px;
+            padding: 0px;
+            float: left;
+            width: 33%;
+            border-bottom: 1px #f2f2f2 solid;
+        }
+
+        .active {
+            margin: 0px;
+            padding: 0px;
+            float: left;
+            width: 33%;
+            border-bottom: 1px #f2f2f2 solid;
+            border-bottom: 1px red solid !important;
+        }
+
+        #content {
+            width: 100%;
+            background-color: #f2f2f2;
+            top: 40px;
+            margin-top: 40px;
+        }
+
+        .orderItem {
+            background-color: white;
+            margin-bottom: 20px;
+        }
+
+        .orderNum {
+            font-size: 12px;
+            height: 30px;
+            line-height: 30px;
+            padding-left: 10px;
+            border-bottom: 1px #f2f2f2 solid;
+        }
+
+        .orderInfo {
+            width: 100%;
+            height: 60px;
+            border-bottom: 1px #f2f2f2 solid;
+        }
+
+        .goodsImg {
+            height: 60px;
+            width: 16.67%;
+            padding-left: 3.33%;
+            float: left;
+        }
+
+            .goodsImg img {
+                float: left;
+                height: 50px;
+                max-width: 90%;
+            }
+
+        .infos {
+            font-size: 12px;
+            height: 30px;
+            line-height: 30px;
+            padding-left: 10px;
+            width: 75%;
+            float: left;
+        }
+
+        .leftInfo {
+            float: left;
+            
+        }
+
+        .rightInfo {
+            float: right;
+            
+            margin-right: 10px;
+        }
+
+        .buttons {
+            height: 40px;
+            width: 100%;
+            line-height: 40px;
+            text-align: right;
+            border-bottom: 1px #f2f2f2 solid;
+        }
+
+            .buttons button {
+                margin-right: 20px;
+                height: 30px;
+                width: 80px;
+                border: 1px #cccccc solid;
+                border-radius: 3px;
+            }
+    </style>
+</head>
+<body>
+    <div id="App">
+        <div class="tittle" >
+            <div   v-bind:class="['stutasItem' ,ordertype==-1 ? 'active' : '']" stutas="-1" @@click="changeType(-1)">全部</div>
+            <div   v-bind:class="['stutasItem',ordertype== 1 ? 'active' : '']" @@click="changeType(1)">待收货</div>
+            <div   v-bind:class="['stutasItem' ,ordertype== 3 ? 'active' : '']" @@click="changeType(3)">已收货</div>
+        </div>
+        <div id="content">
+
+
+        </div>
+    </div>
+    <script src="~/Scripts/Vue/vue.min.js"></script>
+    <script src="~/Scripts/Vue/vue-resource.js"></script>
+
+    <script>
+        var app = new Vue({
+            el: "#App",
+            data:
+            {
+                orderList: [],
+                pageIndex: 1,
+                ordertype: -1
+            },
+            methods: {
+                getOrderList: function () {
+                    this.$http.post(
+                        '/APP/GetBuyList',
+                        { index: this.pageIndex, stutas: this.ordertype },
+                        { emulateJSON: true }
+                    ).then(function (res) {
+                        var res = JSON.parse(res.body)
+                        if (res.Stutas) {
+                            if (this.pageIndex > 1) {
+                                this.orderList = this.orderList.concat(res.Result.ListData);
+                            }
+                            else
+                                this.orderList = res.Result.ListData;
+                        }
+                    }, function () {
+                        console.log('请求失败处理');
+                    });
+                },
+                loadMore: function () {
+                    this.pageIndex++;
+                    this.getOrderList();
+                },
+                search: function () {
+                    this.pageIndex = 1;
+                    this.getOrderList();
+                },
+                changeType: function (type) {
+                    this.ordertype = type;
+                    this.pageIndex = 1;
+                    this.getOrderList();
+                }
+
+            },
+            watch: {
+                Key: function (val) {
+                    this.Key = val;
+                },
+            }
+        })
+        app.getOrderList();
+
+    </script>
+
+
+</body>
+</html>

@@ -93,32 +93,33 @@
             }
     </style>
 </head>
-<body>
+<body >
 
-    <div class="tittle ">
-        <span style="color: white;margin: 0 10px;" id="ProductList">分类</span>
-        <input type="text" style="background-color:white;height: 30px;width: 250px;" placeholder="请输入关键字查询" id="key">
-        <span style="color: white;margin: 0 10px;" id="btnSearch">搜索</span>
+    <div id="Index">
+        <div class="tittle ">
+            <span style="color: white;margin: 0 10px;" id="ProductList">分类</span>
+            <input type="text" style="background-color:white;height: 30px;width: 250px;" placeholder="请输入关键字查询" id="key" v-model="key">
+            <span style="color: white;margin: 0 10px;" id="btnSearch" v-on:click="searchGoods">搜索</span>
 
-    </div>
-    <div class="content" id="Index">
-        <!-- Demo -->
-        <div id="owl-demo" class="owl-carousel">
         </div>
-        <div>
-            <div class="typeTittle">推荐商品</div>
-            <div id="tuijianList">
-                <button-counter v-for="item in tuijian" v-bind:todo="item"></button-counter>
+        <div class="content">
+            <!-- Demo -->
+            <div id="owl-demo" class="owl-carousel">
+            </div>
+            <div>
+                <div class="typeTittle">推荐商品</div>
+                <div id="tuijianList">
+                    <button-counter v-for="item in tuijian" v-bind:todo="item"></button-counter>
 
+                </div>
+                <div class="typeTittle">限时特价</div>
+                <div id="tejiaList">
+                    <button-counter v-for="item in tejia" v-bind:todo="item"></button-counter>
+                </div>
             </div>
-            <div class="typeTittle">限时特价</div>
-            <div id="tejiaList">
-                <button-counter v-for="item in tejia" v-bind:todo="item"></button-counter>
-            </div>
+            <div style="width:100%; height:300px;"></div>
         </div>
-        <div style="width:100%; height:300px;"></div>
     </div>
-
     <script src="~/Scripts/Vue/vue.min.js"></script>
     <script src="~/Scripts/Vue/vue-resource.js"></script>
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
@@ -160,6 +161,7 @@
             data: {
                 tuijian: [],
                 tejia: [],
+                key:"",
             },
             methods: {
                 get: function () {
@@ -196,8 +198,12 @@
                     }, function () {
                         console.log('请求失败处理');
                     });
-
+                },
+                searchGoods: function () {
+                    
+                    location.href = "/APP/GoodsList?key=" + this.key;
                 }
+
             }
 
         })

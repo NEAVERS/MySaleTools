@@ -922,6 +922,12 @@ namespace SaleTools.Controllers
             var loginUser = GetUserInfo();
             return View(loginUser);
         }
+
+
+        public ActionResult OrderList()
+        {
+            return View();
+        }
         #endregion
     }
 }
