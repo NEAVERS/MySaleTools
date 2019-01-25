@@ -20,7 +20,7 @@
             bottom: 0px;
             top: 0px;
             text-align: center;
-            margin-left: -8px;
+            left: 0px;
         }
 
         .stutasItem {
@@ -124,7 +124,7 @@
             <div   v-bind:class="['stutasItem' ,ordertype== 3 ? 'active' : '']" @@click="changeType(3)">已收货</div>
         </div>
         <div id="content">
-            <orderItem v-for="item in orderList" v-bind:todo="item"></orderItem>
+            <runoob v-for="item in orderList" v-bind:todo="item"></runoob>
 
         </div>
     </div>
@@ -134,26 +134,45 @@
     <script>
 
 
-        Vue.component('orderItem', {
+        Vue.component('runoob', {
             props: ['todo'],
-            template: '<div class="orderItem"><div class="orderNum" >订单编号：{{ todo.OrderNum}}</div><div class="orderInfo" ><div class="goodsImg"><img  v-bind:src="todo.OrderImg"  alt="暂无图片"></div><div class="infos"><div class="row"><div class="leftInfo"><span  style="font-weight: 700">{{todo.GoodsTittle}}</span>等{{todo.Count }}样商品</div><div class="rightInfo">￥{{todo.TotalPrice}}</div></div><div class="row"><div class="leftInfo">{{todo.CreateTime }}</div><div class="rightInfo">{{todo.StutasName}}</div></div><div class="row"></div></div></div><div class="buttons"><button class="onceMore" ">再来一单</button></div></div>',
+            template: '<div class="orderItem"><div class="orderNum" @@click="turnToPage" >订单编号：{{ todo.OrderNum}}</div><div class="orderInfo" @@click="turnToPage" ><div class="goodsImg"><img  v-bind:src="todo.OrderImg"  alt="暂无图片"></div><div class="infos"><div class="row"><div class="leftInfo"><span  style="font-weight: 700">{{todo.GoodsTittle}}</span>等{{todo.Count }}样商品</div><div class="rightInfo">￥{{todo.TotalPrice}}</div></div><div class="row"><div class="leftInfo">{{todo.CreateTime }}</div><div class="rightInfo">{{todo.StutasName}}</div></div><div class="row"></div></div></div><div class="buttons"> <button class="cancelOrder" v-if="todo.Stutas==1"  @@click="cancelOrder">取消订单</button><button class="onceMore" @@click="reBuy">再来一单</button></div></div>',
             methods: {
-                addToShoppingCar: function () {
-                    this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id }, { emulateJSON: true }).then(function (res) {
-                        var res = JSON.parse(res.body);
-                        if (res.Stutas) {
-                            alert("添加成功！");
-                        }
-                        else {
-                            alert(res.Msg);
-                        }
-                    }, function (res) {
-                        console.log(res.status);
-                    });
+                reBuy: function () {
+                    if (confirm("确认再来一单吗？")) {
+                        this.$http.post('/APP/GetOneMoreOrder', { orderId: this.todo.OrderId }, { emulateJSON: true }).then(function (res) {
+                            var res = JSON.parse(res.body);
+                            if (res.Stutas) {
+                                alert("添加成功！请到购物车查看！");
+                            }
+                            else {
+                                alert(res.Msg);
+                            }
+                        }, function (res) {
+                            console.log(res.status);
+                        });
+                    }
+                },
+                cancelOrder: function () {
+                    if (confirm("确认取消该订单吗？")) {
+                        this.$http.post('/APP/CancelOrder', { orderId: this.todo.OrderId }, { emulateJSON: true }).then(function (res) {
+                            var res = JSON.parse(res.body);
+                            if (res.Stutas) {
+                                alert("申请取消订单成功！管理员审核中！");
+                                location.reload();
+                            }
+                            else {
+                                alert(res.Msg);
+                            }
+                        }, function (res) {
+                            console.log(res.status);
+                        });
+                    }
                 },
                 turnToPage: function () {
-                    location.href = "/APP/GoodsInfo/" + this.todo.Id;
+                    location.href = "/APP/OrderInfo?orderId=" + this.todo.OrderId;
                 }
+
             }
         })
 
@@ -175,10 +194,10 @@
                         var res = JSON.parse(res.body)
                         if (res.Stutas) {
                             if (this.pageIndex > 1) {
-                                this.orderList = this.orderList.concat(res.Result.ListData);
+                                this.orderList = this.orderList.concat(res.Result);
                             }
                             else
-                                this.orderList = res.Result.ListData;
+                                this.orderList = res.Result;
                         }
                     }, function () {
                         console.log('请求失败处理');

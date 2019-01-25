@@ -400,6 +400,7 @@
     <Content Include="Views\APP\ConfirmOrder.cshtml" />
     <Content Include="Views\APP\UserInfo.cshtml" />
     <Content Include="Views\APP\OrderList.cshtml" />
+    <Content Include="Views\APP\OrderInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

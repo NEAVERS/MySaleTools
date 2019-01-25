@@ -928,6 +928,22 @@ namespace SaleTools.Controllers
         {
             return View();
         }
+
+        public ActionResult OrderInfo(Guid orderId)
+        {
+            var loginUser = GetUserInfo();
+            if (loginUser != null)
+            {
+                var model = _order.GetOrderDetail(orderId);
+                return View(model);
+
+            }
+            else
+            {
+                return View("WebLogin");
+            }
+
+        }
         #endregion
     }
 }

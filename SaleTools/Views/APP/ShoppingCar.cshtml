@@ -247,6 +247,23 @@
                 },
                 ConfirmOrder: function () {
                     location.href = "/APP/ConfirmOrder"
+                },
+                clearShoppingCar: function () {
+                    if (confirm("确认清空购物车吗？")) {
+                        this.$http.post('/APP/ClearShoppingCar', {  }, { emulateJSON: true }).then(function (res) {
+                            var res = JSON.parse(res.body);
+                            if (res.Stutas) {
+                                alert("清空购物车成功！");
+                                location.reload();
+                            }
+                            else {
+                                alert(res.Msg);
+                            }
+                        }, function (res) {
+                            console.log(res.status);
+                        });
+
+                    }
                 }
             }
         })
