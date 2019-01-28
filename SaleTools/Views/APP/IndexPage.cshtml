@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link href="~/Content/css/owl.theme.css" rel="stylesheet" />
     <link href="~/Content/css/owl.carousel.css" rel="stylesheet" />
+    <link href="~/Content/css/nav.css" rel="stylesheet" />
     <style>
         .tittle {
             height: 40px;
@@ -93,11 +94,11 @@
             }
     </style>
 </head>
-<body >
+<body>
 
     <div id="Index">
         <div class="tittle ">
-            <span style="color: white;margin: 0 10px;" id="ProductList">分类</span>
+            <span style="color: white;margin: 0 10px;" id="ProductList" v-on:click="searchGoods">分类</span>
             <input type="text" style="background-color:white;height: 30px;width: 250px;" placeholder="请输入关键字查询" id="key" v-model="key">
             <span style="color: white;margin: 0 10px;" id="btnSearch" v-on:click="searchGoods">搜索</span>
 
@@ -117,7 +118,15 @@
                     <button-counter v-for="item in tejia" v-bind:todo="item"></button-counter>
                 </div>
             </div>
-            <div style="width:100%; height:300px;"></div>
+            <div style="width:100%; height:70px;"></div>
+        </div>
+        <div class="nav">
+            <ul>
+                <li @@click="location.href='/APP/IndexPage'" class="activNav"> 首  页</li>
+                <li @@click="location.href='/APP/ShoppingCar'">购物车</li>
+                <li @@click="location.href='/APP/OrderList'"> 订  单</li>
+                <li @@click="location.href='/APP/UserInfo'"> 我  的</li>
+            </ul>
         </div>
     </div>
     <script src="~/Scripts/Vue/vue.min.js"></script>
@@ -200,7 +209,7 @@
                     });
                 },
                 searchGoods: function () {
-                    
+
                     location.href = "/APP/GoodsList?key=" + this.key;
                 }
 

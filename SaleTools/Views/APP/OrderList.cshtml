@@ -9,6 +9,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>OrderList</title>
+    <link href="~/Content/css/nav.css" rel="stylesheet" />
     <style>
         .tittle {
             height: 40px;
@@ -90,12 +91,10 @@
 
         .leftInfo {
             float: left;
-            
         }
 
         .rightInfo {
             float: right;
-            
             margin-right: 10px;
         }
 
@@ -118,15 +117,25 @@
 </head>
 <body>
     <div id="App">
-        <div class="tittle" >
-            <div   v-bind:class="['stutasItem' ,ordertype==-1 ? 'active' : '']" stutas="-1" @@click="changeType(-1)">全部</div>
-            <div   v-bind:class="['stutasItem',ordertype== 1 ? 'active' : '']" @@click="changeType(1)">待收货</div>
-            <div   v-bind:class="['stutasItem' ,ordertype== 3 ? 'active' : '']" @@click="changeType(3)">已收货</div>
+        <div class="tittle">
+            <div v-bind:class="['stutasItem' ,ordertype==-1 ? 'active' : '']" stutas="-1" @@click="changeType(-1)">全部</div>
+            <div v-bind:class="['stutasItem',ordertype== 1 ? 'active' : '']" @@click="changeType(1)">待收货</div>
+            <div v-bind:class="['stutasItem' ,ordertype== 3 ? 'active' : '']" @@click="changeType(3)">已收货</div>
         </div>
         <div id="content">
             <runoob v-for="item in orderList" v-bind:todo="item"></runoob>
+            <div style="width:100%; height:70px;"></div>
 
         </div>
+        <div class="nav">
+            <ul>
+                <li @@click="location.href='/APP/IndexPage'"> 首  页</li>
+                <li @@click="location.href='/APP/ShoppingCar'" >购物车</li>
+                <li @@click="location.href='/APP/OrderList'" class="activNav"> 订  单</li>
+                <li @@click="location.href='/APP/UserInfo'"> 我  的</li>
+            </ul>
+        </div>
+
     </div>
     <script src="~/Scripts/Vue/vue.min.js"></script>
     <script src="~/Scripts/Vue/vue-resource.js"></script>

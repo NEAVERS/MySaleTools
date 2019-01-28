@@ -182,7 +182,7 @@ namespace SaleTools.Controllers
                 int boxspec = Utils.ParseInt(goodsInfo.BoxSpec);
                 if (boxspec == 0 || !goodsInfo.IsBoxSale)
                     boxspec = 1;
-                decimal Stock = 1000;//_goodsmanager.GetGoodsStock(goodsInfo.ErpId, boxspec);
+                decimal Stock = _goodsmanager.GetGoodsStock(goodsInfo.ErpId, boxspec);
                 int count = goodsInfo.MinCount;
 
 
@@ -281,7 +281,7 @@ namespace SaleTools.Controllers
                 int boxspec = Utils.ParseInt(goodsInfo.BoxSpec);
                 if (boxspec == 0 || !goodsInfo.IsBoxSale)
                     boxspec = 1;
-                decimal Stock = 100; //_goodsmanager.GetGoodsStock(goodsInfo.ErpId,boxspec);
+                decimal Stock = _goodsmanager.GetGoodsStock(goodsInfo.ErpId,boxspec);
               
                 if (goodsInfo.LimitCount > 0 && count > goodsInfo.LimitCount)
                 {
@@ -864,69 +864,137 @@ namespace SaleTools.Controllers
 
         public ActionResult IndexPage()
         {
-            return View();
+            var loginUser = GetUserInfo();
+            if (loginUser != null)
+            {
+                return View();
+            }
+            else
+            {
+                _response.Stutas = false;
+                _response.Msg = "请先登录";
+                string result = Utils.SerializeObject(_response);
+                return RedirectToAction("WebLogin");
+            }
         }
 
 
-        public ActionResult GoodsList(string key)
+        public ActionResult GoodsList(string key,string parentId="")
         {
-            ViewBag.Key = key;
-            return View();
+            var loginUser = GetUserInfo();
+            if (loginUser != null)
+            {
+                Guid typeId = Utils.ParseGuid(parentId);
+                var list = _goodsmanager.GetDownGoodsType(typeId, loginUser.CreateUserId);
+                ViewBag.TypeList = list;
+                ViewBag.Key = key;
+                return View();
+            }
+            else
+            {
+                _response.Stutas = false;
+                _response.Msg = "请先登录";
+                string result = Utils.SerializeObject(_response);
+                return RedirectToAction("WebLogin");
+            }
+
         }
 
         public ActionResult GoodsInfo(Guid id)
         {
-            ViewBag.GoodsId = id;
-            GoodInfo model = _goodsmanager.GetGoodInfoById(id);
-            return View(model);
+            var loginUser = GetUserInfo();
+            if (loginUser != null)
+            {
+                ViewBag.GoodsId = id;
+                GoodInfo model = _goodsmanager.GetGoodInfoById(id);
+
+                return View(model);
+            }
+            else
+            {
+                _response.Stutas = false;
+                _response.Msg = "请先登录";
+                string result = Utils.SerializeObject(_response);
+                return RedirectToAction("WebLogin");
+            }
+
         }
 
         public ActionResult ShoppingCar()
         {
             var loginUser = GetUserInfo();
-            var list = _order.GetShoppingCar(loginUser.UserId);
-            var dps = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
-            dps.Add(new DPS()
+            if (loginUser != null)
             {
-                GoodsName = "测试单品送",
-                Count = 10,
-                SendGoodsName = "测试赠送商品",
-                SendCount = 1,
-            });
+                var list = _order.GetShoppingCar(loginUser.UserId);
+                var dps = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
 
-            ViewBag.Dps = dps;
-            return View();
+                ViewBag.Dps = dps;
+                return View();
+            }
+            else
+            {
+                _response.Stutas = false;
+                _response.Msg = "请先登录";
+                string result = Utils.SerializeObject(_response);
+                return RedirectToAction("WebLogin");
+            }
         }
 
         public ActionResult ConfirmOrder()
         {
             var loginUser = GetUserInfo();
-            var list = _order.GetShoppingCar(loginUser.UserId);
-            var dps = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
-            dps.Add(new DPS()
+            if (loginUser != null)
             {
-                GoodsName = "测试单品送",
-                Count = 10,
-                SendGoodsName = "测试赠送商品",
-                SendCount = 1,
-            });
-            ViewBag.Dps = dps;
+                var list = _order.GetShoppingCar(loginUser.UserId);
+                var dps = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
+                ViewBag.Dps = dps;
 
-            ViewBag.info = loginUser.ReceiveName + "   " + loginUser.Tel;
-            ViewBag.addr = loginUser.Province + " " + loginUser.City + " " + loginUser.Area + " " + loginUser.Addr;
-            return View();
+                ViewBag.info = loginUser.ReceiveName + "   " + loginUser.Tel;
+                ViewBag.addr = loginUser.Province + " " + loginUser.City + " " + loginUser.Area + " " + loginUser.Addr;
+                return View();
+            }
+            else
+            {
+                _response.Stutas = false;
+                _response.Msg = "请先登录";
+                string result = Utils.SerializeObject(_response);
+                return RedirectToAction("WebLogin");
+            }
         }
 
         public ActionResult UserInfo()
         {
             var loginUser = GetUserInfo();
-            return View(loginUser);
+            if (loginUser != null)
+            {
+                return View(loginUser);
+            }
+            else
+            {
+                _response.Stutas = false;
+                _response.Msg = "请先登录";
+                string result = Utils.SerializeObject(_response);
+                return RedirectToAction("WebLogin");
+            }
+
         }
 
 
         public ActionResult OrderList()
         {
-            return View();
+            var loginUser = GetUserInfo();
+            if (loginUser != null)
+            {
+                return View();
+            }
+            else
+            {
+                _response.Stutas = false;
+                _response.Msg = "请先登录";
+                string result = Utils.SerializeObject(_response);
+                return RedirectToAction("WebLogin");
+            }
+
         }
 
         public ActionResult OrderInfo(Guid orderId)
@@ -936,13 +1004,14 @@ namespace SaleTools.Controllers
             {
                 var model = _order.GetOrderDetail(orderId);
                 return View(model);
-
             }
             else
             {
-                return View("WebLogin");
+                _response.Stutas = false;
+                _response.Msg = "请先登录";
+                string result = Utils.SerializeObject(_response);
+                return RedirectToAction("WebLogin");
             }
-
         }
         #endregion
     }

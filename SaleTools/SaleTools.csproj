@@ -107,10 +107,12 @@
     <Content Include="Content\css\common\footer\global.css" />
     <Content Include="Content\css\common\header\global.css" />
     <Content Include="Content\css\common\pages\ucenter.css" />
+    <Content Include="Content\css\dropload.css" />
     <Content Include="Content\css\footer\global.css" />
     <Content Include="Content\css\header\global.css" />
     <Content Include="Content\css\Index.css" />
     <Content Include="Content\css\laydate.css" />
+    <Content Include="Content\css\nav.css" />
     <Content Include="Content\css\normalize.css" />
     <Content Include="Content\css\common\pages\ucenter.css" />
     <Content Include="Content\css\owl.carousel.css" />
@@ -215,6 +217,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\dropload.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -280,6 +283,7 @@
     <Content Include="Scripts\webuploader\webuploader.nolog.min.js" />
     <Content Include="Scripts\webuploader\webuploader.withoutimage.js" />
     <Content Include="Scripts\webuploader\webuploader.withoutimage.min.js" />
+    <Content Include="Scripts\zepto.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

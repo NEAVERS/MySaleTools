@@ -86,8 +86,6 @@
                     ).then(function (res) {
                         var res = JSON.parse(res.body)
                         if (res.Stutas) {
-                            setCookie("userName", userName, 15);
-                            setCookie("pwd", password, 15);
                             location.href = "/APP/IndexPage";
                         }
                     }, function () {
@@ -110,8 +108,6 @@
                 },
             },
             created: function () {
-                var id = this.getCookie("UserId");
-                alert(id);
             }
     });
     

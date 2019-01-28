@@ -1,0 +1,29 @@
+﻿.nav {
+    position: fixed;
+    z-index: 99;
+    bottom: 0px;
+    margin-left: -8px;
+    width: 100%;
+    background-color: ghostwhite;
+    height: 50px;
+}
+
+    .nav ul {
+        height: 100%;
+        width: 100%;
+        padding: 0px;
+        margin-top: 0px;
+    }
+
+        .nav ul li {
+            float: left;
+            width: 25%;
+            text-align: center;
+            line-height: 50px;
+            list-style: none;
+        }
+
+.activNav {
+    background-color: #cccccc;
+    color: orangered;
+}

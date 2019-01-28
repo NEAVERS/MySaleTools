@@ -9,6 +9,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>UserInfo</title>
+    <link href="~/Content/css/nav.css" rel="stylesheet" />
     <style>
         .tittle {
             height: 40px;
@@ -97,6 +98,18 @@
             float: right;
             margin-right: 20px;
         }
+        .logOut {
+            border-radius: 3px;
+            border: 1px solid red;
+            background-color: red;
+            color: white;
+            width: 80%;
+            height: 40px;
+            font-size: 16px;
+            line-height: 40px;
+            margin-left: 10%;
+            margin-top: 60px;
+        }
     </style>
 </head>
 <body>
@@ -110,7 +123,16 @@
             <div class="infoRow"><div class="leftLabel">收货地址：</div><div class="info" id="Addr">@Model.Addr</div></div>
             <div class="infoRow"><div class="leftLabel">客户类型：</div><div class="info" id="TypeName">@Model.TypeName</div></div>
         </div>
-        <button v-on:click="logOut">退出登录</button>
+        <button v-on:click="logOut" class="logOut">退出登录</button>
+        <div class="nav">
+            <ul>
+                <li @@click="location.href='/APP/IndexPage'" > 首  页</li>
+                <li @@click="location.href='/APP/ShoppingCar'">购物车</li>
+                <li @@click="location.href='/APP/OrderList'"> 订  单</li>
+                <li @@click="location.href='/APP/UserInfo'" class="activNav"> 我  的</li>
+            </ul>
+        </div>
+
     </div>
     <script src="~/Scripts/Vue/vue.min.js"></script>
     <script src="~/Scripts/Vue/vue-resource.js"></script>
