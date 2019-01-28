@@ -1,0 +1,63 @@
+﻿@using Model;
+@{
+    ViewBag.Title = "SetHomePageType";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var list = (List<GoodsType>)ViewBag.List;
+}
+
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            首页类目设置                                <button type="submit" style="float: right;margin-right: 15px;background: #c40000;border: none;"><a href="http://183.131.13.228:8080/agent/系统管理-首页类目设置.htm" target="_blank" style="color: #ffffff;font-weight: bold;font-size: 13px;">帮助</a></button>
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="col_main_content">
+                    <table class="table table_border">
+                        <thead class="bg_color">
+                            <tr>
+                                <th class="center">名称</th>
+                                <th class="center">排序</th>
+                                <th class="center">显示</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var type in list)
+                            {
+                            <tr>
+                                <td class="center">@type.TypeName</td>
+                                <td class="center">
+                                    <input type="number" class="inputtext" typeId ="@type.Id" style="width:50px;" name="settings[0][sort_id]" value="@type.SortId">
+                                </td>
+                                <td class="center">
+                                    <input type="checkbox"  class="isfirstPage"  value="1002" typeId ="@type.Id"  @(type.IsShowFirstPage?"checked='checked'":"")>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(".inputtext").blur(function () {
+        var para = {};
+        para.typeId = $(this).attr("typeId");
+        para.sortId = $(this).val();
+        $.post("/System/SetSortId", para, function (e) {
+            location.reload();
+        },"json")
+    })
+    $(".isfirstPage").click(function () {
+        var para = {};
+        para.typeId = $(this).attr("typeId");
+        para.isF = $(this).prop("checked");
+        $.post("/System/SetIsFirst", para, function (e) {
+            location.reload();
+        }, "json")
+    })
+</script>

@@ -8,14 +8,16 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no">
     <style>
-        #App
-        {
-            width:100%;
-            font-size:12px;
-            
+        #App {
+            width: 100%;
+            font-size: 12px;
         }
+
         .tittle {
             height: 40px;
             line-height: 40px;
@@ -27,9 +29,9 @@
             left: 0px;
         }
 
-        .tittle input {
-            border-radius: 5px;
-        }
+            .tittle input {
+                border-radius: 5px;
+            }
 
         .content {
             width: 100%;
@@ -144,6 +146,7 @@
             top: 90%;
             right: 20px;
         }
+
         .fade-enter-active, .fade-leave-active {
             transition: opacity 1s
         }
@@ -151,6 +154,7 @@
         .fade-enter, .fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
             opacity: 0
         }
+
         .loadMore {
             border-radius: 3px;
             border: 1px solid red;
@@ -188,8 +192,8 @@
             </div>
 
         </div>
-        <div class="shoppingcar">
-            <button style="padding:0px;" id="returnToShoppingCar" @@click="turnToShoppingCar"><img src="~/Content/images/timg.png" height="40" width="40" /></button>
+        <div class="shoppingcar"  @@click="turnToShoppingCar">
+            <img src="~/Content/images/timg.png" height="40" width="40" />
         </div>
         <button class="loadMore" v-on:click="loadMore">加载更多</button>
     </div>

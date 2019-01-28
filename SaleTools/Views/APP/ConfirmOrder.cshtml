@@ -11,8 +11,11 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>ConfirmOrder</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>确认订单</title>
 
     <style>
         .tittle {
@@ -23,6 +26,7 @@
             position: fixed;
             z-index: 99;
             bottom: 0px;
+            left: 0px;
         }
 
         #goodList {
@@ -78,7 +82,7 @@
 </head>
 <body>
     <div id="App">
-        <div class="tittle" style="top: 0px;text-align: center;"><div class="return"><img src="../image/back.png" height="32" width="32" /></div>订单确认</div>
+        <div class="tittle" style="top: 0px;text-align: center;"><div class="return" @@click="location.href='/APP/ShoppingCar'"><img src="~/Content/images/back.png" height="32" width="32" /></div>订单确认</div>
         <div class="content" style="margin-top: 50px;">
             <div style="height: 72px;width: 90%;text-align: center;;background-color: #f1f8ff;margin:0 auto;border-radius: 5px;padding-top: 10px">
                 <div style="margin-left: 30px;text-align: left;font-size: 10px;line-height: 24px;" id="Info">@ViewBag.info</div>
@@ -124,7 +128,7 @@
 
         </div>
         <div class="tittle ">
-            <div style="width: 50%;text-align: left;padding-left: 20px;border-top: 1px solid #f2f2f2;float: left;">实付：<span style="color: red" id="totalPrice">{{totalPrice}}5元</span></div>
+            <div style="width: 50%;text-align: left;padding-left: 20px;border-top: 1px solid #f2f2f2;float: left;">实付：<span style="color: red" id="totalPrice">{{totalPrice}}元</span></div>
             <div id="jiesuan" style="width: 40%;background-color: red;color: white;font-weight: 700;float: right;text-align: center;" v-on:click="CreateOrder">生成订单</div>
         </div>
     </div>
@@ -198,7 +202,7 @@
                         this.$http.post('/APP/CreateOrder', { remark: this.remark}, { emulateJSON: true }).then(function (res) {
                             var res = JSON.parse(res.body);
                             if (res.Stutas) {
-                                location.reload();
+                                location.href = "/APP/OrderList";
                             }
                             else {
                                 alert(res.Msg);
@@ -207,7 +211,8 @@
                             console.log(res.status);
                         });
                     }
-                }
+                },
+                
 
             }
         })

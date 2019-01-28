@@ -1,0 +1,218 @@
+﻿
+@using Model;
+@{
+    ViewBag.Title = "AddNewUser";
+    var typeList = (List<UserType>)ViewBag.TypeList;
+    var allResourse = (List<string>)ViewBag.AllResourse;
+    var userResourse = (List<string>)ViewBag.UserResourse;
+}
+@model UserInfo
+<style>
+    .right
+    {
+        width:20%;
+    }
+</style>
+<div class="col_main_hd">
+    <h2>
+       @ViewBag.ModelName
+    </h2>
+</div>
+<div class="col_main_bd">
+    <div class="inner">
+        <div class="col_main_content">
+
+            <table class="table table_border_td_none">
+                <tbody>
+                    <tr>
+                        <td class="right">
+                            用户名：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="userName" id="userName" value="@Model.UserName">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            用户编号：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="userNum" id="userNum" value="@Model.UserNum">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="right">
+                            账号：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="account" id="account" value="@Model.Account">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            erpId：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="UserCode" id="UserCode" value="@Model.UserCode">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            联系电话：
+                        </td>
+                        <td>
+                            <input type="text" class="inputtext" style="width:150px;" name="tel" id="tel" value="@Model.Tel">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="right">
+                            密码：
+                        </td>
+                        <td>
+                            <input type="password" class="inputtext" style="width:150px;" name="pws" id="pws" value="@Model.PassWord">
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="right">
+                            重复密码：
+                        </td>
+                        <td>
+                            <input type="password" class="inputtext" style="width:150px;" name="pws2" id="pws2" value="@Model.PassWord">
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="right">权限组：</td>
+                        <td>
+                            @foreach (string str in allResourse)
+                            {
+                                var _str = "";
+                                if (userResourse.Contains(str))
+                                {
+                                    _str = "checked='checked'";
+                                }
+                                <label style="display: inline-block;width: 18%;">
+                                    <input style=" position: relative;top: 2px;" type="checkbox" name="resourses" @_str value="@str">
+                                    @str &nbsp;&nbsp;
+                                </label>
+                            }
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="right">
+                            区域：
+                        </td>
+                        <td>
+                            <select id="province"></select>
+                            <select id="city"></select>
+                            <select id="area"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button id="btn_add">保存</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden"  id="userId" value="@Model.UserId"/>
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/layer/layer.js"></script>
+<input type="hidden" value="@ViewBag.UserType" id="UserType" />
+<input type="hidden" value="@ViewBag.UserTypeName" id="UserTypeName" />
+<script>
+
+    $(function () {
+        $(document).on("change", "#province", function () {
+            LoadArea($(this).val(), $("#city"))
+        });
+        $(document).on("change", "#city", function () {
+            LoadArea($(this).val(), $("#area"))
+        });
+        LoadArea("0", $("#province"))
+    })
+
+
+
+
+
+    function LoadArea(num, obj) {
+        $.post("/Common/GetAreaList", { num: num }, function (res) {
+            var html = "";
+            $(res).each(function () {
+                html += '<option value="' + this.Num + '">' + this.Name + '</option>';
+            });
+            obj.html(html);
+            obj.change();
+        }, "json");
+    }
+
+    $("#btn_add").click(function () {
+        AddNewUser();
+    });
+    function AddNewUser() {
+        var userName = $("#userName").val();
+        var userNum = $("#userNum").val();
+        var account = $("#account").val();
+        var pwd = $("#pws").val();
+        var typeId = $("#UserType").val();
+        var typeName = $("#UserTypeName").val();
+
+
+        if (pwd != $("#pws2").val()) {
+            alert("两次密码不一致！");
+            return;
+        }
+        if (userName == "" || userNum == "" || account == "") {
+            alert("用户名、账号、用户编号不能为空！");
+            return;
+        }
+        var resourses = [];
+        var para = {};
+        para.UserName = userName;
+        para.UserNum = userNum;
+        para.Account = account;
+        para.Tel = $("#tel").val();
+        para.PassWord = pwd;
+        para.TypeId = typeId;
+        para.TypeName = typeName;
+        para.UserCode = $("#UserCode").val();
+        para.ProvinceNum = $("#province").val();
+        para.Province = $("#province").find("option:selected").text();
+        para.CityNum = $("#city").val();
+        para.City = $("#city").find("option:selected").text();
+        para.AreaNum = $("#area").val();
+        para.Area = $("#area").find("option:selected").text();
+        para.UserId = $("#userId").val();
+        $("input:checkbox[name='resourses']:checked").each(function () {
+            resourses.push($(this).val());
+        });
+        $.post("/User/SaveSysUser", { user: para, Resourses: resourses }, function (e) {
+            if (e) {
+                layer.msg("保存成功", { icon: 1 }, function () {
+                    location.href = "/User/SysAccount?type=" + typeId;
+                })
+            }
+            else {
+                layer.msg("保存失败，请刷新后重试", { icon: 2 }, function () {
+                    location.reload();
+                })
+            }
+        }, "json")
+    }
+</script>

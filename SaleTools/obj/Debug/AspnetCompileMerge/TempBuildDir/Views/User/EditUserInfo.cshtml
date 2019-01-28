@@ -279,7 +279,10 @@
                 })
             }
             else {
-                layer.msg(e.Msg, { icon: 2 })
+                if (e.Msg == "")
+                    layer.msg("未提交任何更改！", { icon: 2 })
+                else
+                    layer.msg(e.Msg, { icon: 2 })
             }
         }, "json")
     }

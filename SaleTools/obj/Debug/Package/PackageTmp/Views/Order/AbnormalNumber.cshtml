@@ -1,0 +1,79 @@
+﻿@using Common.Entities;
+@{
+    ViewBag.Title = "AbnormalNumber";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var list = (List<ErrorDayModel>)ViewBag.List;
+}
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>异常天数统计</h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="search_bar">
+                <form action="/Order/AbnormalNumber" method="GET">
+                    <ul class="search_item_list" id="search_item">
+                        <li class="search_item">
+                            <label>下单时间:</label>
+                            <div class="item">
+                                <div class="calendar_input">
+                                    <input id="start" type="text" name="start" style="width:130px;" value="@ViewBag.Start" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                </div>
+                                到
+                                <div class="calendar_input">
+                                    <input id="end" type="text" name="end" style="width:130px;" value="@ViewBag.End" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                </div>
+                                <label class="highlight">(可查询31天之内的数据)</label>
+                            </div>
+                        </li>
+                        <li class="search_item">
+                            <button type="submit" id="submit">查询</button>
+                        </li>
+                        <li class="search_item">
+                            <button type="button" id="abnormalExport">导出</button>
+                        </li>
+                        <li class="clearfix"></li>
+                    </ul>
+                </form>
+            </div>
+            <div class="col_main_content">
+                <table class="table table_border">
+                    <thead class="bg_color">
+                        <tr>
+                            <th class="center">序号</th>
+                            <th class="center">供应商名称</th>
+                            <th class="center">商品ID</th>
+                            <th class="center">商品标题</th>
+                            <th class="center">商品规格信息</th>
+                            <th class="center">商品单位</th>
+                            <th class="center">异常数量</th>
+                            <th class="center">异常天数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (list != null && list.Count > 0)
+                                    {
+                                        int num = 0;
+                                        foreach (var item in list)
+                                        {
+                                            num++;
+                    <tr>
+                        <td class="center">@num</td>
+                        <td class="center">@item.Suplier</td>
+                        <td class="center">@item.ProductId</td>
+                        <td class="center">@item.ProductName</td>
+                        <td class="center">@item.Spec</td>
+                        <td class="center">@item.Unit</td>
+                        <td class="center">@item.ErrorCount</td>
+                        <td class="center">@item.ErrorDays</td>
+                    </tr>
+
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

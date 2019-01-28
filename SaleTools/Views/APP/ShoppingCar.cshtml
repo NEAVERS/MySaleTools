@@ -8,8 +8,11 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>ShoppingCar</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>购物车</title>
     <link href="~/Content/css/nav.css" rel="stylesheet" />
     <style>
         .tittle {
@@ -42,7 +45,7 @@
         .goodsInfo {
             float: left;
             width: 70%;
-            height: 100px;
+            height: 105px;
             text-align: center;
             line-height: 20px;
         }
@@ -179,7 +182,6 @@
                     this.$http.post('/APP/ChangeCount', { itemId: this.todo.Id, count: this.todo.Count }, { emulateJSON: true }).then(function (res) {
                         var res = JSON.parse(res.body);
                         if (res.Stutas) {
-                            alert("修改成功！");
                             location.reload();
                         }
                         else {

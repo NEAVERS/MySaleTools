@@ -1,0 +1,754 @@
+﻿
+@using Common.Entities;
+@{
+    ViewBag.Title = "Index";
+    var Resourse = (List<string>)ViewBag.Resourse;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>个人中心</title>
+    <!-- global css -->
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/pages/ucenter.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/base.css">
+    @*<link rel="stylesheet" type="text/css" href="/Content/css/bootstrap.min.css">*@
+    @*<link rel="stylesheet" type="text/css" href="/Content/css/pages/ucenter.css">*@
+    <link rel="stylesheet" type="text/css" href="/Content/css/pages/buyer/overlay/overlay.css">
+    <link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/need/laydate.css">
+    <link type="text/css" rel="stylesheet" href="~/Content/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+    <script type="text/javascript" src="/Content/js/lib/laydate/laydate.js"></script>
+    <style>
+        /*供应商选择css*/ body, button, input, label, select, td, textarea {
+            font-family: 'Microsoft Yahei',Arial,'lucida grande',tahoma,verdana,arial,sans-serif;
+            font-size: 12px;
+        }
+
+        .table {
+            margin-top: 10px;
+        }
+
+            .table td {
+                padding: 6px;
+            }
+
+        .table_border_td_none td {
+            border: none !important;
+        }
+
+        .input-group input {
+            box-sizing: border-box;
+        }
+
+        .selectpicker {
+            width: 27.4%;
+            float: left;
+        }
+
+        #brand_id .btn {
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            touch-action: manipulation;
+            cursor: pointer;
+            background-image: none;
+            white-space: nowrap;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            font-size: 16px;
+            background: none;
+        }
+
+        .selectpicker .clear {
+            top: 3px;
+        }
+
+        .topbar {
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #dddddd;
+            line-height: 29px;
+            height: 29px;
+        }
+
+            .topbar .lfloat span {
+                float: left;
+            }
+
+        a {
+            color: #333;
+            text-decoration: none;
+        }
+
+            a:hover {
+                color: #e62d2d;
+            }
+
+        .h1, .h2, .h3, h1, h2, h3 {
+            margin: 0;
+        }
+
+        .btn.focus, .btn:focus,
+        .btn:hover {
+            color: #ffffff;
+            text-decoration: none;
+            background-color: #e62d2d;
+        }
+
+        label {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 5px;
+            font-weight: normal;
+        }
+
+        .selectpicker .dropdown-toggle {
+            position: relative;
+            text-align: left;
+            border-radius: 0;
+            margin: 0;
+            padding-top: 3px;
+            height: 32px;
+            width: 216px;
+        }
+
+        .activeSort {
+            border: 1px solid #c40000;
+            color: white;
+            background: #c40000;
+            cursor: pointer;
+        }
+
+        .change:hover {
+            border: 1px solid #c40000;
+            color: #c40000;
+            cursor: pointer;
+        }
+
+        .dot-top, .dot-bottom {
+            float: right;
+            clear: both;
+            margin-bottom: 4px;
+            font-size: 0;
+            line-height: 0;
+            border-width: 6px;
+            border-color: #8f8b8c;
+            border-style: dashed;
+            border-bottom-style: solid;
+            border-left-color: transparent;
+            border-right-color: transparent;
+        }
+        /* 向下的箭头 */
+
+        .dot-bottom {
+            border-bottom-width: 0;
+        }
+        /* 向上的箭头 */
+
+        .dot-top {
+            border-top-width: 0;
+        }
+
+        .color {
+            border-color: #fff;
+            border-left-color: transparent;
+            border-right-color: transparent;
+        }
+
+        input[type=file] {
+            display: inline-block !important;
+        }
+
+        #seller_id {
+            width: 200px;
+        }
+
+        .item_li {
+            vertical-align: inherit;
+        }
+
+        #seller_id button {
+            background: transparent;
+            border: 1px solid #dddddd;
+        }
+
+        .selectpicker .clear {
+            top: -8px;
+        }
+
+        #seller_id button .text {
+            color: black;
+        }
+
+        #seller_id button .caret {
+            border-top: 4px dashed black;
+        }
+
+        .search_bar .search_item button, .search_bar form button.toNewCheckPick {
+            height: 27px;
+            line-height: 26px;
+            border: none;
+            padding: 0 20px;
+            background: #c40000;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        .dropdown-toggle span.text {
+            float: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 154px;
+        }
+
+        .box {
+            width: 955px;
+            height: 80px;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+    </style>
+    <link type="text/css" rel="stylesheet" href="/Content/js/lib/category_selector/category_selector.css">
+
+</head>
+
+<body>
+    <!-- 全局顶部导航 -->
+    <script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
+    <script>
+        (function ($) {
+            $.fn.snow = function (options) {
+                var $flake = $('<div id="flake" />').css({
+                    'position': 'absolute',
+                    'top': '-50px',
+                    'z-index': '99999999'
+                }).html('&#10052;'),
+                    documentHeight = $(document).height(),
+                    documentWidth = $(document).width(),
+                    defaults = {
+                        minSize: 10,
+                        maxSize: 20,
+                        newOn: 2000,
+                        flakeColor: "red"
+                    },
+                    options = $.extend({}, defaults, options);
+                var interval = setInterval(function () {
+                    documentHeight = $(document).height();
+                    var startPositionLeft = Math.random() * documentWidth - 100,
+                        startOpacity = 0.5 + Math.random(),
+                        sizeFlake = options.minSize + Math.random() * options.maxSize,
+                        endPositionTop = documentHeight - options.maxSize,
+                        endPositionLeft = startPositionLeft - 100 + Math.random() * 200,
+                        durationFall = documentHeight * 10 + Math.random() * 5000;
+                    $flake.clone().appendTo('body').css({
+                        left: startPositionLeft,
+                        opacity: startOpacity,
+                        'font-size': sizeFlake,
+                        color: options.flakeColor
+                    }).animate({
+                        top: endPositionTop,
+                        left: endPositionLeft,
+                        opacity: 0.2
+                    },
+                        durationFall, 'linear',
+                        function () {
+                            $(this).remove()
+                        });
+                },
+                    options.newOn);
+            };
+        })(jQuery);
+        //    $.fn.snow({ minSize: 5, maxSize: 50, newOn: 2000, flakeColor: 'gray' });
+
+
+
+        //鼠标跟随 留言信息窗口
+        $('.remark').mousemove(function (e) {
+            $(this).children('.content').show();
+            $(this).children('.content').show().css({
+                "top": e.pageY + 20,
+                "left": e.pageX + 20
+            })
+        });
+        //滑出隐藏
+        $('.remark').mouseout(function () {
+            $(this).children('.content').hide();
+        });
+        $(window).resize(function () {
+            /* Act on the event */
+            if (document.documentElement.clientWidth < 1200) {
+                $('#topbar').width(1200);
+            } else {
+                $('#topbar').width('100%');
+            }
+
+        });
+        //加载效果
+        var paces = {
+            pace: $('#topbar .pace'),
+            timer: "",
+            w: 0,
+            start: function () {
+                var _this = this;
+                _this.w = 0;
+                if (_this.timer) {
+                    _this.w = 0;
+                    _this.pace.width(_this.w + "%");
+                    clearInterval(_this.timer);
+                } else {
+                    _this.timer = setInterval(function () {
+                        ++_this.w;
+                        _this.pace.width(_this.w + "%");
+                        if (_this.w >= 55) {
+                            clearInterval(_this.timer);
+                        }
+                    }, 0)
+                }
+
+
+            },
+            end: function () {
+                var _this = this;
+                _this.w = parseInt(_this.pace[0].style.width);
+                clearInterval(_this.timer);
+                _this.timer = setInterval(function () {
+                    ++_this.w;
+                    _this.pace.width(_this.w + "%");
+                    if (_this.w >= 100) {
+                        clearInterval(_this.timer);
+                        var setTimer = setTimeout(function () {
+                            _this.w = 0;
+                            _this.pace.width(_this.w);
+                            clearInterval(_this.timer);
+                        }, 1000);
+                        clearTimeout(clearTimeout);
+                        return false
+                    }
+                }, 10)
+            }
+        };
+
+        /*弹框 popup*/
+        function build(status, comment, id, num) {
+            if (!$(".globalPopContainer").length > 0) {
+                $(document.body).append('<div class="globalPopContainer"></div>');
+            }
+            if (!num) {
+                num = '';
+            }
+            if (status == "red") {
+                var html = "<div class='popup rpopup' id='popup_" + id + "'>";
+                html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+                html += "<div class='progress rprogress'></div>";
+            } else {
+                var html = "<div class='popup gpopup' id='popup_" + id + "'>";
+                html += "<span>" + comment + "<i style='color:white;font-size:25px;'>" + num + "</i></span>";
+                html += "<div class='progress gprogress'></div>";
+            }
+            html += "<span class='closePop'>x</span>";
+            html += "</div>";
+            $(".globalPopContainer").prepend(html); // 追加新元素
+            $("#popup_" + id).find('.progress').width($("#popup_" + id).outerWidth())
+            Popup(id, $("#popup_" + id).outerWidth());
+        }
+
+        function Popup(id, popWidth) {
+            $("#popup_" + id).find(".progress").animate({
+                width: 0 + 'px'
+            }, 3000, function () {
+                $("#popup_" + id).animate({
+                    right: -popWidth + 'px'
+                }, function () {
+                    $(this).remove();
+                })
+            });
+            $("#popup_" + id).mouseout(function () {
+                $(this).stop(true, false);
+                $(this).find(".progress").stop(true, false);
+                $(this).find(".progress").animate({
+                    width: 0 + 'px'
+                }, function () {
+                    $(this).parent().animate({
+                        right: -popWidth + 'px'
+                    }, function () {
+                        $(this).remove();
+                    })
+                })
+            });
+            $("#popup_" + id).mouseover(function () {
+                var proWidth = $(this).outerWidth()
+                $(this).stop(true, false);
+                $(this).find(".progress").stop(true, false);
+                $(this).animate({
+                    right: 0 + 'px'
+                }, function () {
+                    $(this).find(".progress").animate({
+                        width: proWidth + 'px'
+                    });
+                });
+            });
+            $("#popup_" + id).find(".closePop").on('click', function (event) {
+                $(this).parent().unbind("mouseover");
+                $(this).parent().unbind("mouseout");
+                $(this).siblings('.progress').animate({
+                    width: 0 + 'px'
+                }, function () {
+                    $(this).parent().animate({
+                        right: -popWidth + 'px'
+                    }, function () {
+                        $(this).remove();
+                    })
+                })
+            })
+        }
+    </script>
+    <div id="wraper">
+        <div class="topbar" id="topbar" style="width: 100%;    margin: 0 auto;">
+            <div class="pace"></div>
+            <div class="module clearfix">
+                <div class="lfloat">
+                    <a href="/Home/Index" target="_blank"><span class="main_title">首页  </span></a>
+                    <span class="hello">您好，</span>
+                    <span class="username">@ViewBag.UserName</span>
+                    <span>，欢迎来到销宝贝 </span>
+                </div>
+                <div class="rfloat">
+                    <ul class="clearfix">
+                        <li><a href="/Home/Index">批发首页</a></li>
+                        <li><a href="/Home/HomeIndex">会员中心</a></li>
+                        <li><a href="/Home/ShoppingCar">购物车</a></li>
+                        <li><a href="/Login/LogOut">退出</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="main">
+            <div class="module">
+                <div class="ucenter">
+                    <div class="col_side">
+                        <!-- 侧边导航 -->
+                        <div class="menu_box">
+                            <dl class="menu">
+                                <dt class="menu_title">交易管理</dt>
+                                <dd class="menu_item">
+                                    @if (Resourse.Contains(ResourceStr.ShowMyOrder))
+            {
+                        <a href="/Order/UserOrderManager">已买到的商品</a>
+}
+
+                                    @if (Resourse.Contains(ResourceStr.SearchOrder) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+                        <a href="/Order/OrderSearch">订单查询</a>
+}
+                                    @if (Resourse.Contains(ResourceStr.BillManger) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+
+                        <a href="/Order/OrderManager">订单管理</a>}
+                                    @if (Resourse.Contains(ResourceStr.ExportOrder) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+
+                        <a href="/Order/CreateFile">订单导出</a>
+}
+                                    @if (Resourse.Contains(ResourceStr.PickupManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+            {
+
+                        <a href="/Order/GetBill">取货单查询</a>
+                        <a href="/Order/PickUpBill">拣货单查询</a>
+}
+                                </dd>
+                            </dl>
+                            @if (Resourse.Contains(ResourceStr.GoodsManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+    {
+
+                        <dl class="menu">
+                            <dt class="menu_title">商品管理</dt>
+                            <dd class="menu_item">
+                                <a href="/GoodsManager/GoodsList">商品列表</a>
+                                <a href="/GoodsManager/AddGoods">新增商品</a>
+                                <a href="/GoodsManager/GoodsBrand">品牌管理</a>
+                                <a href="/GoodsManager/GoodsTypeList">商品类型</a>
+                            </dd>
+                        </dl>
+}                                    @if(Resourse.Contains(ResourceStr.ShowAccountInfo)||Resourse.Contains(ResourceStr.SendPeopleManager) || Resourse.Contains(ResourceStr.SaleManManager) || Resourse.Contains(ResourceStr.ChangePwd) || Resourse.Contains(ResourceStr.SuperAdmin))
+    {
+                        <dl class="menu">
+                            <dt class="menu_title">账号管理</dt>
+                            <dd class="menu_item">
+                                @if (Resourse.Contains(ResourceStr.ChangePwd) || Resourse.Contains(ResourceStr.SuperAdmin))
+    {
+
+                            <a href="/User/ChangePwd">修改密码</a>
+}                                @if (Resourse.Contains(ResourceStr.ShowAccountInfo))
+    {
+
+                            <a href="/User/MyInfo">个人信息</a>
+}
+
+                            @if (Resourse.Contains(ResourceStr.SaleManManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
+
+                            <a href="/User/SysAccount?type=-2">业务员管理</a>
+}
+                            @if (Resourse.Contains(ResourceStr.SendPeopleManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
+
+                            <a href="/User/SysAccount?type=-3">送货员管理</a>
+}
+                            </dd>
+                        </dl>
+}                                @if (Resourse.Contains(ResourceStr.SupplierManager) || Resourse.Contains(ResourceStr.StoreList) || Resourse.Contains(ResourceStr.StoreManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
+                        <dl class="menu">
+                            <dt class="menu_title">会员管理</dt>
+                            <dd class="menu_item">
+                                @if (Resourse.Contains(ResourceStr.StoreList) || Resourse.Contains(ResourceStr.StoreManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+        {
+
+                        <a href="/User/Index">小店管理</a>
+}
+                                @if (Resourse.Contains(ResourceStr.SupplierManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+        {
+
+
+                        <a href="/User/ShowSupplierList">供应商管理</a>
+}
+
+                            </dd>
+                        </dl>
+}
+                        @if (Resourse.Contains(ResourceStr.SystemManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
+
+
+                        <dl class="menu">
+                            <dt class="menu_title">系统管理</dt>
+                            <dd class="menu_item">
+                                <a href="/System/NoticeList">公告管理</a>
+                                <a href="/System/SetHomePageType">首页类目管理</a>
+                                <a href="/System/ImgSetList">首页海报</a>
+                                <a href="/System/SendGoodsfoot">页尾设置</a>
+                                <a href="/System/Operate">系统设置</a>
+                            </dd>
+                        </dl>
+}
+                        @if (Resourse.Contains(ResourceStr.AccountingAdmin) || Resourse.Contains(ResourceStr.Accounting) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
+
+
+                        <dl class="menu">
+
+                            <dt class="menu_title">财务管理</dt>
+                            <dd class="menu_item">
+                                <a href="/Order/ConfirmPayRecord">订单收款登记</a>
+                                @if (Resourse.Contains(ResourceStr.AccountingAdmin) || Resourse.Contains(ResourceStr.ReceiveAndWait) || Resourse.Contains(ResourceStr.SuperAdmin))
+        {
+
+                        <a href="/Order/OrderPayContrast">应收未收对比</a>
+}
+                                <a href="/Order/AbnormalOrder">收款异常查询</a>
+
+                            </dd>
+                        </dl>
+}
+                        @if (Resourse.Contains(ResourceStr.Statistics) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
+                        <dl class="menu">
+                            <dt class="menu_title"> 数据统计</dt>
+                            <dd class="menu_item">
+                                <a href="/Order/OrderCount">订单综合统计</a>
+                                <a href="/Order/ShopCount">商品销售统计</a>
+                                <a href="/Order/AbnormalNumber">异常天数统计</a>
+                                <a href="/Order/AbnormalCount">异常情况统计</a>
+                            </dd>
+                        </dl>
+}
+                        @if (Resourse.Contains(ResourceStr.ActiveManager) || Resourse.Contains(ResourceStr.SuperAdmin))
+{
+
+                        <dl class="menu">
+                            <dt class="menu_title"> 活动管理</dt>
+                            <dd class="menu_item">
+                                <a href="/Activtity/DiscountList">类目折扣</a>
+                                <a href="/Activtity/GetManSongList">满就送</a>
+                                <a href="/Activtity/DPSList">单品送</a>
+                                <a href="/Activtity/GetManJianList">满减</a>
+                                <a href="/Activtity/ShowCoupon">优惠券</a>
+                                <a href="/Activtity/BlackListView">黑名单列表</a>
+                                <a href="/Activtity/ShowActiveBlacklist">非活动商品</a>
+
+                            </dd>
+                        </dl>
+}
+
+                        @if (Resourse.Contains(ResourceStr.ShowMyCoupon))
+{
+
+                        <dl class="menu">
+                            <dt class="menu_title"> 优惠券管理</dt>
+                            <dd class="menu_item">
+                                <a href="/Activtity/ShowMyCoupon">我的优惠券</a>
+
+                            </dd>
+                        </dl>
+}
+
+                        </div>
+                    </div>
+                    <div class="col_main">
+                        @RenderBody()
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- global js -->
+    <script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+        var DOMAIN = {
+            "main": "pifa.yunmayi.com",
+            "passport": "passport.pifa.yunmayi.com",
+            "buyer": "buyer.pifa.yunmayi.com",
+            "seller": "seller.pifa.yunmayi.com",
+            "ajax": "ajax.pifa.yunmayi.com",
+            "agent": "agent.pifa.yunmayi.com"
+        };
+    </script>
+    <script type="text/javascript" src="/Content/js/lib/help.js"></script>
+    <script>
+
+        (function ($, window, document, undefined) {
+            //定义分页类
+            function Paging(element, options) {
+                this.element = element;
+                //传入形参
+                this.options = {
+                    pageNo: options.pageNo || 1,
+                    totalPage: options.totalPage,
+                    totalSize: options.totalSize,
+                    callback: options.callback
+                };
+                //根据形参初始化分页html和css代码
+                this.init();
+            }
+            //对Paging的实例对象添加公共的属性和方法
+            Paging.prototype = {
+                constructor: Paging,
+                init: function () {
+                    this.creatHtml();
+                    this.bindEvent();
+                },
+                creatHtml: function () {
+                    var me = this;
+                    var content = "";
+                    var current = me.options.pageNo;
+                    var total = me.options.totalPage;
+                    var totalNum = me.options.totalSize;
+                    content += "<a id=\"firstPage\">首页</a><a id='prePage'>上一页</a>";
+                    //总页数大于6时候
+                    if (total > 6) {
+                        //当前页数小于5时显示省略号
+                        if (current < 5) {
+                            for (var i = 1; i < 6; i++) {
+                                if (current == i) {
+                                    content += "<a class='current'>" + i + "</a>";
+                                } else {
+                                    content += "<a>" + i + "</a>";
+                                }
+                            }
+                            content += ". . .";
+                            content += "<a>" + total + "</a>";
+                        } else {
+                            //判断页码在末尾的时候
+                            if (current < total - 3) {
+                                for (var i = current - 2; i < current + 3; i++) {
+                                    if (current == i) {
+                                        content += "<a class='current'>" + i + "</a>";
+                                    } else {
+                                        content += "<a>" + i + "</a>";
+                                    }
+                                }
+                                content += ". . .";
+                                content += "<a>" + total + "</a>";
+                                //页码在中间部分时候
+                            } else {
+                                content += "<a>1</a>";
+                                content += ". . .";
+                                for (var i = total - 4; i < total + 1; i++) {
+                                    if (current == i) {
+                                        content += "<a class='current'>" + i + "</a>";
+                                    } else {
+                                        content += "<a>" + i + "</a>";
+                                    }
+                                }
+                            }
+                        }
+                        //页面总数小于6的时候
+                    } else {
+                        for (var i = 1; i < total + 1; i++) {
+                            if (current == i) {
+                                content += "<a class='current'>" + i + "</a>";
+                            } else {
+                                content += "<a>" + i + "</a>";
+                            }
+                        }
+                    }
+                    content += "<a id='nextPage'>下一页</a>";
+                    content += "<a id=\"lastPage\">尾页</a>";
+                    content += "<span class='totalPages'> 共<span>" + total + "</span>页 </span>";
+                    content += "<span class='totalSize'> 共<span>" + totalNum + "</span>条记录 </span>";
+                    me.element.html(content);
+                },
+                //添加页面操作事件
+                bindEvent: function () {
+                    var me = this;
+                    me.element.off('click', 'a');
+                    me.element.on('click', 'a', function () {
+                        var num = $(this).html();
+                        var id = $(this).attr("id");
+                        if (id == "prePage") {
+                            if (me.options.pageNo == 1) {
+                                me.options.pageNo = 1;
+                            } else {
+                                me.options.pageNo = +me.options.pageNo - 1;
+                            }
+                        } else if (id == "nextPage") {
+                            if (me.options.pageNo == me.options.totalPage) {
+                                me.options.pageNo = me.options.totalPage
+                            } else {
+                                me.options.pageNo = +me.options.pageNo + 1;
+                            }
+
+                        } else if (id == "firstPage") {
+                            me.options.pageNo = 1;
+                        } else if (id == "lastPage") {
+                            me.options.pageNo = me.options.totalPage;
+                        } else {
+                            me.options.pageNo = +num;
+                        }
+                        me.creatHtml();
+                        if (me.options.callback) {
+                            me.options.callback(me.options.pageNo);
+                        }
+                    });
+                }
+            };
+            //通过jQuery对象初始化分页对象
+            $.fn.paging = function (options) {
+                return new Paging($(this), options);
+            }
+        })(jQuery, window, document);
+    </script>
+</body>
+
+</html>
