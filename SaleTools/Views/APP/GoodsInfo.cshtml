@@ -131,9 +131,10 @@
             }
         </div>
         <div class="content">
-            <div class="goodstittle" >@Model.GoodsTittle</div>
+            <div class="goodstittle">@Model.GoodsTittle</div>
             <div><span class="price">@Model.BasePrice</span>/<span class="unit">@Model.Unit</span></div>
             <div class="spec">@Model.Spec</div>
+            <div class="count"><button v-on:click="mus">-</button><input  type="number" style="width:40px;text-align:center" v-model="count"/><button v-on:click="add">+</button></div>
             <div class="remark">
                 <textarea cols="4" placeholder="商品规格备注" style="width: 93%;height: 80px;border: 1px solid"></textarea>
             </div>
@@ -149,11 +150,17 @@
             el: "#app",
             data:
             {
-                goodsId:"@ViewBag.GoodsId"
+                goodsId: "@ViewBag.GoodsId",
+                count:1,
             },
             methods: {
                 addToShoppingCar: function () {
-                    this.$http.post('/APP/AddToShoppingCar', { goodId: this.goodsId }, { emulateJSON: true }).then(function (res) {
+                    if (this.count < 1) {
+                        alert("请输入正确的数量！");
+                        return;
+                    }
+
+                    this.$http.post('/APP/AddToShoppingCar', { goodId: this.goodsId, count: this.count }, { emulateJSON: true }).then(function (res) {
                         var res = JSON.parse(res.body);
                         if (res.Stutas) {
                             alert("添加成功！");
@@ -164,7 +171,16 @@
                     }, function (res) {
                         console.log(res.status);
                     });
+                },
+                add: function () {
+                    this.count++;
+                },
+                mus: function () {
+                    this.count--;
+                    if (this.count < 1)
+                        this.count = 1;
                 }
+
             }
         })
 

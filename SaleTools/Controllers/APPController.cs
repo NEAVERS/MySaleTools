@@ -172,7 +172,7 @@ namespace SaleTools.Controllers
         /// <param name="goodId"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string AddToShoppingCar(Guid goodId)
+        public string AddToShoppingCar(Guid goodId,int count)
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
@@ -183,8 +183,6 @@ namespace SaleTools.Controllers
                 if (boxspec == 0 || !goodsInfo.IsBoxSale)
                     boxspec = 1;
                 decimal Stock = _goodsmanager.GetGoodsStock(goodsInfo.ErpId, boxspec);
-                int count = goodsInfo.MinCount;
-
 
                 if (!_active.CheckCanBuy(goodId, loginUser.AreaNum))
                 {
@@ -230,7 +228,7 @@ namespace SaleTools.Controllers
                     OrderItem item = new OrderItem();
                     item.LessPrice = Math.Round((100 - discount) * model.RetailtPrice / 100, 10);
 
-                    item.Count = model.MinCount;
+                    item.Count = count;
                     item.CreateUserId = loginUser.UserId;
                     item.Id = Guid.NewGuid();
                     item.Price = model.RetailtPrice;

@@ -89,7 +89,7 @@
                 <ul class="cart-group" style="padding-top:10px;border-top:1px solid #f3f3f3;">
                     <li class="cart-event ">
                         <p class="event-normal">
-                            享受<b>@(list.Sum(x => x.LessPrice*x.Count).ToString("f2"))</b>元类目折扣优惠优惠
+                            享受<b>@(list.Sum(x => x.LessPrice * x.Count).ToString("f2"))</b>元类目折扣优惠优惠
                         </p>
                         <span class="line"></span>
                         <span class="line line2"></span>
@@ -176,7 +176,7 @@
                         <p class="main-price">
                             <span>商品总计：</span>
                             <b>
-                                ¥ @((totalPrice-(mj==null?0:mj.LessMoeny)).ToString("f2"))
+                                ¥ @((totalPrice - (mj == null ? 0 : mj.LessMoeny)).ToString("f2"))
 
                             </b>
                         </p>
@@ -195,7 +195,7 @@
 <script src="~/Scripts/layer/layer.js"></script>
 <script>
     var List;
-
+    onload();
     $(document).on("click", ".delete-cart-item", function () {
         var id = $(this).data("cid");
         var list = [];
@@ -304,9 +304,10 @@
             layer.msg("请输入正确的商品数量", { icon: 2 }, function () {
                 location.reload();
             });
-        }  
+        }
         $.post("/Home/ChangeCount", { itemId: id, count: count }, function (e) {
             if (e) {
+                onbeforeunload();
                 location.reload();
             }
             else {
@@ -315,5 +316,29 @@
         }, "json")
 
     }
+    function onbeforeunload() {
+        var scrollPos;
+        if (typeof window.pageYOffset != 'undefined') {
+            scrollPos = window.pageYOffset;
+        }
+        else if (typeof document.compatMode != 'undefined' &&
+            document.compatMode != 'BackCompat') {
+            scrollPos = document.documentElement.scrollTop;
+        }
+        else if (typeof document.body != 'undefined') {
+            scrollPos = document.body.scrollTop;
+        }
+        document.cookie = "scrollTop=" + scrollPos; //存储滚动条位置到cookies中
+    }
+    function onload() {
+        if (document.cookie.match(/scrollTop=([^;]+)(;|$)/) != null) {
+            var arr = document.cookie.match(/scrollTop=([^;]+)(;|$)/); //cookies中不为空，则读取滚动条位置
+            document.documentElement.scrollTop = parseInt(arr[1]);
+            document.body.scrollTop = parseInt(arr[1]);
+        }
+    }
 
-</script> 
+</script>
+
+<script>
+</script>

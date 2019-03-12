@@ -72,13 +72,26 @@
         }
 
         .addBtn {
-            float: right;
-            margin-right: 20px;
+            float: left;
+            margin-left: 20px;
             margin-bottom: 5px;
         }
 
         .goodstittle {
             font-weight: 700;
+        }
+
+        .inputCount
+        {
+            width:80px;
+            float:left;
+            margin-left:30%;
+        }
+        .inputCount input
+        {
+            width:80px;
+            margin-top:5px;
+            text-align:center;
         }
 
         #owl-demo {
@@ -87,14 +100,14 @@
             margin-right: auto;
         }
 
-            #owl-demo .item {
-                display: block;
-            }
+        #owl-demo .item {
+            display: block;
+        }
 
-            #owl-demo img {
-                display: block;
-                width: 100%;
-            }
+        #owl-demo img {
+            display: block;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -145,10 +158,10 @@
                     count: 0
                 }
             },
-            template: '<div class="goodsItem" ><div class="goodsimg" v-on:click="turnToPage"> <img v-bind:src=" todo.pic1" v-on:click="turnToPage"  style="height: 80px" alt="暂无图片"></div><div class="goodsInfo"><div class="goodstittle"  v-on:click="turnToPage">{{todo.GoodsTittle}} </div><div class="info">规格:{{todo.Spec}} </div><div class="info">￥{{todo.RetailtPrice}}</div><div class="addBtn" v-on:click="addToShoppingCar"><img src="/Content/images/add.png" height="30" width="30"/></div></div></div>',
+            template: '<div class="goodsItem" ><div class="goodsimg" v-on:click="turnToPage"> <img v-bind:src=" todo.pic1" v-on:click="turnToPage"  style="height: 80px" alt="暂无图片"></div><div class="goodsInfo"><div class="goodstittle"  v-on:click="turnToPage">{{todo.GoodsTittle}} </div><div class="info">规格:{{todo.Spec}} </div><div class="info">￥{{todo.RetailtPrice}}</div><div class="info inputCount"><input type="number"  v-model="todo.count" /></div><div class="addBtn" v-on:click="addToShoppingCar"><img src="/Content/images/add.png" height="30" width="30"/></div></div></div>',
             methods: {
                 addToShoppingCar: function () {
-                    this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id }, { emulateJSON: true }).then(function (res) {
+                    this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id, count: this.todo.count }, { emulateJSON: true }).then(function (res) {
                         var res = JSON.parse(res.body);
                         if (res.Stutas) {
                             alert("添加成功！");
@@ -184,6 +197,12 @@
                     ).then(function (res) {
                         var res = JSON.parse(res.body)
                         if (res.Stutas) {
+                            $(res.Result.XinpingList.ListData).each(function () {
+                                this.count = 1;
+                            });
+                            $(res.Result.TejiaList.ListData).each(function () {
+                                this.count = 1;
+                            });
                             this.tuijian = res.Result.XinpingList.ListData;
                             this.tejia = res.Result.TejiaList.ListData;
                         }

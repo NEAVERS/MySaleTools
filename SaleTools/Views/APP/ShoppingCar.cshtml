@@ -22,6 +22,7 @@
             position: fixed;
             z-index: 99;
             bottom: 50px;
+            background-color: white;
         }
 
         #goodList {
@@ -182,7 +183,7 @@
                     this.$http.post('/APP/ChangeCount', { itemId: this.todo.Id, count: this.todo.Count }, { emulateJSON: true }).then(function (res) {
                         var res = JSON.parse(res.body);
                         if (res.Stutas) {
-                            location.reload();
+                            app.reload();
                         }
                         else {
                             alert(res.Msg);
@@ -198,7 +199,7 @@
                         this.$http.post('/APP/DeleteItems', { itemId: this.todo.Id }, { emulateJSON: true }).then(function (res) {
                             var res = JSON.parse(res.body);
                             if (res.Stutas) {
-                                location.reload();
+                                app.LoadInfo();
                             }
                             else {
                                 alert(res.Msg);
@@ -254,11 +255,43 @@
                                 this.mansong = res.Result.mansong;
                             }
                             this.discount = _discount;
-                            this.totalPrice = _totalPrice;
+                            this.totalPrice = _totalPrice.toFixed(2);
                         }
                     }, function () {
                         console.log('请求失败处理');
                     });
+                },
+                reload: function () {
+                    this.$http.post(
+                        '/APP/LoadShoopingCarCount',
+                        { emulateJSON: true }
+                    ).then(function (res) {
+                        var _totalPrice = 0;
+                        var _discount = 0;
+                        var res = JSON.parse(res.body)
+                        if (res.Stutas) {
+                            this.dpsList = res.Result.dps;
+                            for (var i = 0; i < res.Result.list.length; i++) {
+                                _totalPrice += res.Result.list[i].TotalPrice;
+                                _discount += res.Result.list[i].LessPrice * res.Result.list[i].Count;
+                            }
+                            if (res.Result.manjian) {
+                                this.manjian = res.Result.manjian;
+
+                                this.isShowManJian = true;
+                                _totalPrice = _totalPrice - this.manjian.LessMoeny;
+                            }
+                            if (res.Result.mansong) {
+                                this.isShowManSong = true;
+                                this.mansong = res.Result.mansong;
+                            }
+                            this.discount = _discount;
+                            this.totalPrice = _totalPrice.toFixed(2);
+                        }
+                    }, function () {
+                        console.log('请求失败处理');
+                    });
+
                 },
                 ConfirmOrder: function () {
                     location.href = "/APP/ConfirmOrder"
