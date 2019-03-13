@@ -167,6 +167,21 @@
             margin-left: 10%;
             margin-top: 10px;
         }
+        .spec span{
+            float:left;
+            width:40px;
+            text-align:center;
+            line-height:20px;
+            font-weight:700;
+            color:black;
+            background-color:#f2f2f2;
+            margin-top:1px;
+        }
+        .spec input {
+            float: left;
+            width:60px;
+            text-align:center
+        }
     </style>
 </head>
 <body>
@@ -204,11 +219,16 @@
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script>
         Vue.component('runoob', {
+            data: function () {
+                return {
+                    count:1
+                }
+            },
             props: ['todo'],
-            template: '<div class="goodsItem"><div class="goodsImg"  v-on:click="turnToPage"><img  v-bind:src=" todo.pic1" /></div><div class="goodstittle"  v-on:click="turnToPage" >{{todo.GoodsTittle}}</div><div class="price">￥{{todo.RetailtPrice }}/<span class="unit">{{todo.Unit }}</span></div><div class="spec">起订:{{ this.MinCount}}</div><div class="addBtn"  v-on:click="addToShoppingCar"><button >购买</button></div></div>',
+            template: '<div class="goodsItem"><div class="goodsImg"  v-on:click="turnToPage"><img  v-bind:src=" todo.pic1" /></div><div class="goodstittle"  v-on:click="turnToPage" >{{todo.GoodsTittle}}</div><div class="price">￥{{todo.RetailtPrice }}/<span class="unit">{{todo.Unit }}</span></div><div class="spec"><span v-on:click="mus">-</span><input type= "number" v-model="count"/><span v-on:click="add">+</span></div><div class="addBtn"  v-on:click="addToShoppingCar"><button >购买</button></div></div>',
             methods: {
                 addToShoppingCar: function () {
-                    this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id ,count:1}, { emulateJSON: true }).then(function (res) {
+                    this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id, count: this.count  }, { emulateJSON: true }).then(function (res) {
                         var res = JSON.parse(res.body);
                         if (res.Stutas) {
                             alert("添加成功！");
@@ -219,6 +239,14 @@
                     }, function (res) {
                         console.log(res.status);
                     });
+                },
+                add: function () {
+                    this.count++;
+                },
+                mus: function () {
+                    this.count--;
+                    if (this.count < 1)
+                        this.count = 1;
                 },
                 turnToPage: function () {
                     location.href = "/APP/GoodsInfo/" + this.todo.Id;
