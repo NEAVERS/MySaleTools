@@ -172,10 +172,12 @@
 <body>
     <div id="App">
         <div class="tittle ">
-            <span style="color: white;margin: 0 10px;" id="return" v-on:click="returnPage">返回</span>
-            <input type="text" style="background-color:white;height: 30px;width: 220px;" v-model="Key" value="@ViewBag.Key" placeholder="请输入关键字查询" id="keyword">
-            <span style="color: white;margin: 0 10px;" id="btnSearch" v-on:click="search">搜索</span>
-            <span style="color: white;" id="ProductList" v-on:click="show = !show">分类</span>
+            <form action="/APP/GoodsList" method="get">
+                <span style="color: white;margin: 0 10px;" id="return" v-on:click="returnPage">返回</span>
+                <input type="search" style="background-color:white;height: 30px;width: 220px;" v-model="Key" value="@ViewBag.Key" name="key" placeholder="请输入关键字查询" id="keyword">
+                <span style="color: white;margin: 0 10px;" id="btnSearch" v-on:click="search">搜索</span>
+                <span style="color: white;" id="ProductList" v-on:click="show = !show">分类</span>
+            </form>
         </div>
         <transition name="fade">
             <div class="typeList" v-show="show">
@@ -231,7 +233,7 @@
             {
                 goodsList: [],
                 typeList: [],
-                Key: "",
+                Key: "@ViewBag.Key",
                 fstType: "",
                 pageIndex: 1,
                 show: false,
