@@ -172,13 +172,16 @@ namespace SaleTools.Controllers
         /// <param name="goodId"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public string AddToShoppingCar(Guid goodId,int count)
+        public string AddToShoppingCar(Guid goodId,int count = -1)
         {
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
-                bool res = false;
                 var goodsInfo = _goodsmanager.GetGoodInfoById(goodId);
+
+                if (count == -1)
+                    count = goodsInfo.MinCount; 
+                bool res = false;
                 int boxspec = Utils.ParseInt(goodsInfo.BoxSpec);
                 if (boxspec == 0 || !goodsInfo.IsBoxSale)
                     boxspec = 1;
