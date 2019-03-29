@@ -246,14 +246,20 @@ namespace SaleTools.Controllers
                 decimal Stock = _manager.GetGoodsStock(goodsInfo.ErpId,boxspec);
                 if (goodsInfo.LimitCount > 0 && count > goodsInfo.LimitCount)
                 {
-                    return Utils.SerializeObject(false);
+                    _response.Msg = string.Format( "该商品限购{0}！", goodsInfo.LimitCount);
+                    return Utils.SerializeObject(_response);
                 }
-                if (Stock<count||count<1)
-                    return Utils.SerializeObject(false);
-                var res = _order.SaveOrderItem(itemId, count);
-                return Utils.SerializeObject(res);
+                if (Stock < count || count < 1)
+                {
+                    _response.Msg = string.Format("库存不足！", goodsInfo.LimitCount);
+                    return Utils.SerializeObject(_response);
+                }
+                 _response.Stutas = _order.SaveOrderItem(itemId, count);
+
+                return Utils.SerializeObject(_response);
             }
-            return Utils.SerializeObject(false);
+            _response.Msg = "该商品已从订单中删除！";
+            return Utils.SerializeObject(_response);
         }
 
         public string DeleteItems(List<Guid> itemIds)

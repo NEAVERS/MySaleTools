@@ -306,12 +306,12 @@
             });
         }
         $.post("/Home/ChangeCount", { itemId: id, count: count }, function (e) {
-            if (e) {
+            if (e.Stutas) {
                 onbeforeunload();
                 location.reload();
             }
             else {
-                layer.msg("操作失败！请刷新后重试！", { icon: 2 });
+                layer.msg(e.Msg, { icon: 2 });
             }
         }, "json")
 
