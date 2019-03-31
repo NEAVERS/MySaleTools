@@ -161,7 +161,8 @@
                 isShowManSong: false,
                 totalPrice: 0,
                 discount: 0,
-                remark:""
+                remark: "",
+                n: 0
             },
             methods: {
                 LoadInfo: function () {
@@ -199,8 +200,13 @@
 
                 CreateOrder: function () {
                     if (confirm("确认要提交该订单吗？")) {
+                        if (this.n == 1)
+                            return;
+                        this.n = 1;
+
                         this.$http.post('/APP/CreateOrder', { remark: this.remark}, { emulateJSON: true }).then(function (res) {
                             var res = JSON.parse(res.body);
+                            this.n = 0;
                             if (res.Stutas) {
                                 location.href = "/APP/OrderList";
                             }

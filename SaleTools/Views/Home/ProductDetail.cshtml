@@ -21,8 +21,15 @@
             </div>
         </div>
         <div class="searchbar lfloat">
-            <input type="text" name="q" class="search_input" id="C_GlobalSearchInput" autocomplete="off" value="@ViewBag.Key" data-placeholder="支持商品关键字、品牌、条码扫描搜索" >
-            <button type="button" class="search_btn" id="search_btn">搜索</button>
+            <form action="/Home/Product" method="get">
+                @*<input type="text" name="key"  value="@ViewBag.Key" placeholder="支持商品关键字、品牌、条码搜索">
+                <button type="submit">搜&nbsp;索</button>*@
+
+                <input type="text" name="key"  class="search_input" id="C_GlobalSearchInput" autocomplete="off" value="@ViewBag.Key" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+                <button type="submit" class="search_btn" id="search_btn">搜索</button>
+
+            </form>
+
         </div>
         <div class="toolbar lfloat">
             <a href="/Home/ShoppingCar" class="shopCart">

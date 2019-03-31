@@ -31,7 +31,10 @@ namespace SaleTools.Controllers
                 return "该账号已被锁定！请联系管理员解除锁定后登陆";
             else
             {
-                Session["LoginUser"] = user;
+                HttpCookie cookie = new HttpCookie("UserId");
+                cookie.Value = user.UserId.ToString();
+                cookie.Expires = DateTime.Now.AddDays(7);
+                Response.Cookies.Add(cookie);
                 return "登陆成功";
             }
 
@@ -53,7 +56,9 @@ namespace SaleTools.Controllers
 
         public ActionResult LogOut()
         {
-            Session["LoginUser"] = null;
+            HttpCookie hc = Request.Cookies["UserId"];
+            hc.Expires = DateTime.Now.AddDays(-1);
+            Response.AppendCookie(hc);
             return View("Index");
         }
 

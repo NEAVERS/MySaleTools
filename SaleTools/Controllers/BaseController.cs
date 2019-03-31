@@ -24,13 +24,25 @@ namespace SaleTools.Controllers
         /// </summary>
         private void InitPath(ActionExecutingContext filterContext)
         {
-            if (Session["LoginUser"] == null)
-                filterContext.Result = new RedirectResult("/Login/Index", false);
-
-            var user = (UserInfo)Session["LoginUser"];
-            if(user==null)
+            if (Request.Cookies["UserId"] == null)
             {
                 filterContext.Result = new RedirectResult("/Login/Index", false);
+                return;
+            }
+            
+            Guid id = new Guid();
+            if (!Guid.TryParse(Request.Cookies["UserId"].Value, out id))
+            {
+                id = Guid.Empty;
+                filterContext.Result = new RedirectResult("/Login/Index", false);
+                return;
+            }
+
+            var user = _user.GetUserByUserId(id);
+            if (user==null)
+            {
+                filterContext.Result = new RedirectResult("/Login/Index", false);
+                return;
             }
             //TODO   传的Id要根据用户的类型（管理员传自己的用户Id 普通用户传创建人Id）
             if (user != null)
