@@ -27,8 +27,7 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public ActionResult GoodsTypeList(string id = "")
         {
-            if (Session["LoginUser"] == null)
-                return RedirectToAction("Index", "Login");
+
 
             Guid managerId = (Guid)ViewBag.ManagerId;
 
@@ -60,7 +59,7 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public string AddGoodType(Guid parent,string typeName)
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser =  (UserInfo)ViewBag.User;;
             Guid managerId = (Guid)ViewBag.ManagerId;
             GoodsType type = new GoodsType();
             type.CreateUserId = managerId;
@@ -113,7 +112,7 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public string AddGoodBrand(string brandName)
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser =  (UserInfo)ViewBag.User;;
             Guid managerId = (Guid)ViewBag.ManagerId;
 
             GoodsBrand brand = new GoodsBrand();
@@ -198,7 +197,7 @@ namespace SaleTools.Controllers
         public ActionResult ShowGoodsInfo(Guid goodId)
         {
             var info = _manager.GetGoodInfoById(goodId);
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser =  (UserInfo)ViewBag.User;;
             Guid managerId = (Guid)ViewBag.ManagerId;
             var list = _user.GetTypeList();
             var supplierList = _user.GetSupplierList(managerId);
@@ -226,7 +225,7 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public string SaveGoods(GoodInfo goods ,List<string> price)
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser =  (UserInfo)ViewBag.User;;
             Guid managerId = (Guid)ViewBag.ManagerId;
             bool res = false;
             goods.LastUpdateTime = DateTime.Now;
@@ -282,7 +281,7 @@ namespace SaleTools.Controllers
         /// <returns></returns>
         public string GetGoodsList(int index,int size,string SupplierId = "",string fstTypeId = "",string secTypeId="",string thdTypeId = "",string keyWord="",string IsUpShelves="",string sort= "",string order = "Asc")
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser =  (UserInfo)ViewBag.User;;
             var page = _manager.GetGoodsListByManager(ViewBag.ManagerId, loginUser.TypeId, index, size, SupplierId, fstTypeId, secTypeId, thdTypeId, "",keyWord.Trim(), IsUpShelves,sort,order);
             return Utils.SerializeObject(page);
         }
@@ -290,7 +289,7 @@ namespace SaleTools.Controllers
 
         public ActionResult ExportGoodInfo(string SupplierId = "", string fstTypeId = "", string secTypeId = "", string thdTypeId = "", string keyWord = "")
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser =  (UserInfo)ViewBag.User;;
             PageData<GoodInfo> page = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 100000, SupplierId, fstTypeId, secTypeId, thdTypeId, "", keyWord, "");
             var output = _manager.ExportGoodInfo(page.ListData);
             return File(output, "text/comma-separated-values", Guid.NewGuid().ToString("N")+".csv");
@@ -326,7 +325,7 @@ namespace SaleTools.Controllers
               
                 var info = new GoodInfo();
                 info = _manager.GetGoodInfoById(Id);
-                var loginUser = (UserInfo)Session["LoginUser"];
+                var loginUser =  (UserInfo)ViewBag.User;;
                 Guid managerId = (Guid)ViewBag.ManagerId;
                 var list = _user.GetTypeList();
                 var supplierList = _user.GetSupplierList(managerId);

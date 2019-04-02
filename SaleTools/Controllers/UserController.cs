@@ -90,7 +90,7 @@ namespace SaleTools.Controllers
         public string SaveUser(UserInfo user)
         {
             List<string> Resourses = new List<string>();
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser =  (UserInfo)ViewBag.User;;
             if(!string.IsNullOrWhiteSpace(user.PassWord))
                 user.PassWord = Utils.GetMD5(user.PassWord);
             bool res = false;
@@ -136,7 +136,7 @@ namespace SaleTools.Controllers
 
         public string SaveSysUser(UserInfo user,List<string> Resourses)
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser =  (UserInfo)ViewBag.User;;
             if(!string.IsNullOrWhiteSpace(user.PassWord))
                 user.PassWord = Utils.GetMD5(user.PassWord);
             bool res =  false;
@@ -169,9 +169,8 @@ namespace SaleTools.Controllers
 
         public ActionResult ShowSupplierList()
         {
-            if(Session["LoginUser"] == null)
-                return RedirectToAction("Index", "Login");
-            var loginUser = (UserInfo)Session["LoginUser"];
+
+            var loginUser =  (UserInfo)ViewBag.User;;
             var list = manager.GetSupplierList(loginUser.UserId);
             return View(list);
         }
@@ -191,9 +190,8 @@ namespace SaleTools.Controllers
 
         public ActionResult AddOrUpdateSupplier(Supplier model)
         {
-            if (Session["LoginUser"] == null)
-                return RedirectToAction("Index", "Login");
-            var loginUser = (UserInfo)Session["LoginUser"];
+
+            var loginUser =  (UserInfo)ViewBag.User;;
 
             if (model.Id == 0)
             {

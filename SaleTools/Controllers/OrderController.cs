@@ -172,7 +172,7 @@ namespace SaleTools.Controllers
 
         public ActionResult GetBill()
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser =  (UserInfo)ViewBag.User;;
             Guid mangerId = loginUser.CreateUserId;
             if (ViewBag.IsAdmin)
                 mangerId = loginUser.UserId;
@@ -204,7 +204,7 @@ namespace SaleTools.Controllers
 
         public ActionResult PickUpBill()
         {
-            var loginUser = (UserInfo)Session["LoginUser"];
+            var loginUser =  (UserInfo)ViewBag.User;;
             Guid mangerId = loginUser.CreateUserId;
             if (ViewBag.IsAdmin)
                 mangerId = loginUser.UserId;
