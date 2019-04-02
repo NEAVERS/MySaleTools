@@ -212,7 +212,6 @@
         <div class="shoppingcar"  @@click="turnToShoppingCar">
             <img src="~/Content/images/timg.png" height="40" width="40" />
         </div>
-        <button class="loadMore" v-on:click="loadMore">加载更多</button>
     </div>
     <script src="~/Scripts/Vue/vue.min.js"></script>
     <script src="~/Scripts/Vue/vue-resource.js"></script>
@@ -265,6 +264,7 @@
                 fstType: "",
                 pageIndex: 1,
                 show: false,
+                isLoading: false
             },
             methods: {
                 getGoodsList: function () {
@@ -281,11 +281,13 @@
                             else
                                 this.goodsList = res.Result.ListData;
                         }
+                        isLoading = false;
                     }, function () {
                         console.log('请求失败处理');
                     });
                 },
                 loadMore: function () {
+                    isLoading = true;
                     this.pageIndex++;
                     this.getGoodsList();
                 },
@@ -302,6 +304,11 @@
                 },
                 returnPage: function () {
                     location.href = "/APP/IndexPage";
+                },
+                handleScroll: function () {
+                    if (getScrollBottomHeight() <= 50 & !this.isLoading) {
+                        this.loadMore();
+                    }
                 }
 
             },
@@ -317,6 +324,42 @@
             $(this).addClass("activeType");
             app.setType($(this).attr("typeId"));
         })
+
+
+        window.onload = function () {
+            window.addEventListener('scroll', app.handleScroll);
+        }
+
+        //滚动条到底部的距离
+        function getScrollBottomHeight() {
+            return getPageHeight() - getScrollTop() - getWindowHeight();
+
+        }
+        //页面高度
+        function getPageHeight() {
+            return document.querySelector("html").scrollHeight
+        }
+        //滚动条顶 高度
+        function getScrollTop() {
+            var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+            if (document.body) {
+                bodyScrollTop = document.body.scrollTop;
+            }
+            if (document.documentElement) {
+                documentScrollTop = document.documentElement.scrollTop;
+            }
+            scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+            return scrollTop;
+        }
+        function getWindowHeight() {
+            var windowHeight = 0;
+            if (document.compatMode == "CSS1Compat") {
+                windowHeight = document.documentElement.clientHeight;
+            } else {
+                windowHeight = document.body.clientHeight;
+            }
+            return windowHeight;
+        }
     </script>
 
 </body>
