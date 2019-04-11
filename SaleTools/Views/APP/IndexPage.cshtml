@@ -160,7 +160,7 @@
                     count: 0
                 }
             },
-            template: '<div class="goodsItem" ><div class="goodsimg" v-on:click="turnToPage"> <img v-bind:src=" todo.pic1" v-on:click="turnToPage"  style="height: 80px" alt="暂无图片"></div><div class="goodsInfo"><div class="goodstittle"  v-on:click="turnToPage">{{todo.GoodsTittle}} </div><div class="info">规格:{{todo.Spec}} </div><div class="info">￥{{todo.RetailtPrice}}</div><div class="info inputCount"><input type="number"  v-model="todo.count" /></div><div class="addBtn" v-on:click="addToShoppingCar"><img src="/Content/images/add.png" height="30" width="30"/></div></div></div>',
+            template: '<div class="goodsItem" ><div class="goodsimg" v-on:click="turnToPage"> <img v-bind:src=" todo.pic1" v-on:click="turnToPage"  style="height: 80px" alt="暂无图片"></div><div class="goodsInfo"><div class="goodstittle"  v-on:click="turnToPage">{{todo.GoodsTittle}} </div><div class="info">规格:{{todo.Spec}} </div><div class="info">￥{{todo.RetailtPrice}}</div><div class="info inputCount"><input type="number"  v-model="todo.count" /></div><div class="addBtn" v-on:click="addToShoppingCar" v-if="todo.Stock>0"><img src="/Content/images/add.png" height="30" width="30"/></div><div class="addBtn" v-on:click="addToShoppingCar" v-else>售罄</div></div></div>',
             methods: {
                 addToShoppingCar: function () {
                     this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id, count: this.todo.count }, { emulateJSON: true }).then(function (res) {
