@@ -220,11 +220,11 @@
         Vue.component('runoob', {
             data: function () {
                 return {
-                    count:1
+                    count: 1
                 }
             },
             props: ['todo'],
-            template: '<div class="goodsItem"><div class="goodsImg"  v-on:click="turnToPage"><img  v-bind:src=" todo.pic1" /></div><div class="goodstittle"  v-on:click="turnToPage" >{{todo.GoodsTittle}}</div><div class="price">￥{{todo.RetailtPrice }}/<span class="unit">{{todo.Unit }}</span></div><div class="spec"><span v-on:click="mus">-</span><input type= "number" v-model="count"/><span v-on:click="add">+</span></div><div class="addBtn"  v-on:click="addToShoppingCar"><button >购买</button></div></div>',
+            template: '<div class="goodsItem"><div class="goodsImg"  v-on:click="turnToPage"><img  v-bind:src=" todo.pic1" /></div><div class="goodstittle"  v-on:click="turnToPage" >{{todo.GoodsTittle}}</div><div class="price">￥{{todo.RetailtPrice }}/<span class="unit">{{todo.Unit }}</span></div><div class="spec"><span v-on:click="mus">-</span><input type= "number" v-model="count"/><span v-on:click="add">+</span></div><div class="addBtn"  v-on:click="addToShoppingCar" v-if="todo.Stock > 0"><button >购买</button></div><div class="addBtn"  v-on:click="addToShoppingCar" v-else><button >售罄</button></div></div>',
             methods: {
                 addToShoppingCar: function () {
                     this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id, count: this.count  }, { emulateJSON: true }).then(function (res) {
