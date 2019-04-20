@@ -211,7 +211,7 @@ namespace SaleTools.Controllers
         public string LoadShoopingCarCount()
         {
             var loginUser = (UserInfo)ViewBag.User;
-            var list = _order.GetShoppingCar(loginUser.UserId);
+            var list = _order.GetShoppingCar(loginUser);
             return Utils.SerializeObject(list.Count);
         }
 
@@ -221,9 +221,9 @@ namespace SaleTools.Controllers
         public ActionResult ShoppingCar()
         {
             var loginUser = (UserInfo)ViewBag.User;
-            var list = _order.GetShoppingCar(loginUser.UserId);
-            var mj = _active.CheckManjiujian(loginUser.UserId, ViewBag.ManagerId);
-            var ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
+            var list = _order.GetShoppingCar(loginUser);
+            var mj = _active.CheckManjiujian(loginUser, ViewBag.ManagerId);
+            var ms = _active.CheckManSong(loginUser, ViewBag.ManagerId);
             var dpses = _active.CheckDPS(list,loginUser.TypeId,loginUser.AreaNum);
             ViewBag.Mj = mj;
             ViewBag.Ms = ms;
@@ -281,9 +281,9 @@ namespace SaleTools.Controllers
         public ActionResult ConfirmOrder()
         {
             var loginUser = (UserInfo)ViewBag.User;
-            var list = _order.GetShoppingCar(loginUser.UserId);
-            var mj = _active.CheckManjiujian(loginUser.UserId, ViewBag.ManagerId);
-            Manjiusong ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
+            var list = _order.GetShoppingCar(loginUser);
+            var mj = _active.CheckManjiujian(loginUser, ViewBag.ManagerId);
+            Manjiusong ms = _active.CheckManSong(loginUser, ViewBag.ManagerId);
             var couponList = _active.FindCanUseCoupon(loginUser.UserId);
             var dpses = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
             dpses.ForEach(x =>
@@ -312,7 +312,7 @@ namespace SaleTools.Controllers
         public string CreateOrder(string remark = "", string couponId = "")
         {
             var loginUser = (UserInfo)ViewBag.User;
-            var list = _order.GetShoppingCar(loginUser.UserId);
+            var list = _order.GetShoppingCar(loginUser);
             var totalPrice = list.Sum(x => x.Count * x.Price);
             if (list != null && list.Count > 0&& totalPrice>380)
             {
@@ -355,8 +355,8 @@ namespace SaleTools.Controllers
                     }
                 }
 
-                Manjiujian mj = _active.CheckManjiujian(loginUser.UserId, ViewBag.ManagerId);
-                Manjiusong ms = _active.CheckManSong(loginUser.UserId, ViewBag.ManagerId);
+                Manjiujian mj = _active.CheckManjiujian(loginUser, ViewBag.ManagerId);
+                Manjiusong ms = _active.CheckManSong(loginUser, ViewBag.ManagerId);
                 if (mj != null)
                 {
                     order.Manjian = mj.LessMoeny;
@@ -416,7 +416,7 @@ namespace SaleTools.Controllers
                     item.Pic = model.pic1;
                     var res = _order.AddOrderItem(item);
                 }
-                _response.Stutas = _order.SaveOrder(order,loginUser.UserId);
+                _response.Stutas = _order.SaveOrder(order,loginUser);
                 //保存订单成功后 保存销售订单到erp 系统中
                 if (_response.Stutas)
                 {

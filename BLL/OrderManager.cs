@@ -21,19 +21,35 @@ namespace BLL
 
         private ResponseModel _response = new ResponseModel();
 
+        private GoodsManager _good = new GoodsManager();
+
+        private ActiveManager _active = new ActiveManager();
         /// <summary>
         /// 获取购物车中的商品
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public List<OrderItem> GetShoppingCar(Guid userId)
+        public List<OrderItem> GetShoppingCar(UserInfo user)
         {
+            Guid userId = user.UserId;
+            string areaNum = user.AreaNum;
+            int userType = user.TypeId;
             var q = from c in _context.OrderItems
                     where c.IsInShoppingCar
                     && !c.IsDelete
                     && c.IsEffective
                     && c.CreateUserId == userId
                     select c;
+            var list = q.ToList();
+            list.ForEach(x =>
+            {
+                x.Price = _good.GetPriceOfUserType(x.Id, userType);
+                decimal discount = _active.CheckDiscountDetail(x.ProductTypeId, areaNum , userType.ToString());
+                x.LessPrice = Math.Round((100 - discount) * x.Price / 100, 10);
+                x.RealPrice = x.Price - x.LessPrice;
+                x.TotalPrice = x.RealPrice * x.Count;
+
+            });
             return q.ToList();
         }
 
@@ -62,14 +78,9 @@ namespace BLL
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        public bool SaveOrder(OrderInfo order,Guid userId)
+        public bool SaveOrder(OrderInfo order,UserInfo user)
         {
-            var list = from c in _context.OrderItems
-                       where c.IsInShoppingCar
-                       && !c.IsDelete
-                       && c.IsEffective
-                       &&c.CreateUserId == userId
-                       select c;
+            var list = GetShoppingCar(user);
             decimal totalPrice = 0;
             decimal lessMoney = 0;
             foreach (var item in list)
