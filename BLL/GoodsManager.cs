@@ -580,7 +580,12 @@ namespace BLL
         }
 
 
-         
+        public List<GoodInfo>  GetAllGoods()
+        {
+            var list = _context.GoodInfoes.Where(x => x.IsDelete == false);
+            return list.ToList();
+        }
+
         #region ERP相关
          
         public int GetGoodsStock(string goodsId,int boxspec, string KId = "00001")

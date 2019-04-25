@@ -26,7 +26,7 @@
                                     <select name="TypeId" id="TypeId" style="width:100px;">
                                         @foreach (var item in typeList)
                                         {
-                                            <option value="@item.Id" @(item.Id==Model.Info.Id?"selected='selected'":"")> @item.TypeName</option>
+                                            <option value="@item.Id" @(item.Id==Model.Info.TypeId?"selected='selected'":"")> @item.TypeName</option>
                                         }
                                     </select>
 

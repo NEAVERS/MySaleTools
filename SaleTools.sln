@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InputImg", "InputImg\InputImg.csproj", "{1B0C4E63-25BD-4088-A22D-C2316AD2E179}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutPutImg", "OutPutImg\OutPutImg.csproj", "{CD227EA6-C2B1-4288-9A3C-202FA9572A78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{1B0C4E63-25BD-4088-A22D-C2316AD2E179}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B0C4E63-25BD-4088-A22D-C2316AD2E179}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B0C4E63-25BD-4088-A22D-C2316AD2E179}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD227EA6-C2B1-4288-9A3C-202FA9572A78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD227EA6-C2B1-4288-9A3C-202FA9572A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD227EA6-C2B1-4288-9A3C-202FA9572A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD227EA6-C2B1-4288-9A3C-202FA9572A78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
