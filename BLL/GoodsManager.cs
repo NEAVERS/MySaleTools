@@ -495,6 +495,41 @@ namespace BLL
             return price;
         }
 
+        public decimal GetPriceOfUserType(Guid goodsId, int typeId)
+        {
+            decimal price = 0;
+            GoodInfo x = GetGoodInfoById(goodsId);
+            if (x == null)
+            {
+                return price;
+            }
+            switch (typeId)
+            {
+                case 1:
+                    price = x.BasePrice;
+                    break;
+                case 2:
+                    price = x.PriceForA;
+                    break;
+                case 3:
+                    price = x.PriceForB;
+                    break;
+                case 4:
+                    price = x.PriceForC;
+                    break;
+                case 5:
+                    price = x.PriceForD;
+                    break;
+                case 6:
+                    price = x.PriceForLianSuo;
+                    break;
+            }
+            if (price == 0)
+                price = x.BasePrice;
+
+            return price;
+        }
+
 
         public GoodInfo GetGoodsWithPrice(Guid goodsId,int typeId)
         {

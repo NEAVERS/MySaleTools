@@ -14,7 +14,8 @@ namespace BLL
     {
         private SaleToolsContext _context = new SaleToolsContext();
         private ResponseModel _response = new ResponseModel();
-
+        private GoodInfoManager _good = new GoodInfoManager();
+        private OrderManager _order = new OrderManager();
         /// <summary>
         /// 按照用户编号 创建优惠卷
         /// </summary>
@@ -325,14 +326,13 @@ namespace BLL
     /// <param name="userId"></param>
     /// <param name="managerId"></param>
     /// <returns></returns>
-    public Manjiujian CheckManjiujian(Guid userId,Guid managerId)
+    public Manjiujian CheckManjiujian(UserInfo _user,Guid managerId)
         {
             var couponList = new List<Coupon>();
-            var orderItems = _context.OrderItems.Where(x => x.CreateUserId == userId && x.IsInShoppingCar && !x.IsDelete).ToList();
+            var orderItems = _order.GetShoppingCar(_user);
             if (orderItems == null || orderItems.Count() < 1)
                 return null;
 
-            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == userId);
             var blackList = GetBlackForActiveByType(managerId, (int)ActiveType.满就减);
             orderItems = orderItems.Where(x => !blackList.Exists(c => c.GoodsId == x.ProductId)).ToList();///不计算在黑名单中的商品
 
@@ -349,7 +349,7 @@ namespace BLL
             foreach (var item in manjianList)
             {
                 List<string> areas = GetActiveArea(item.Id);
-                if (areas.Contains(user.AreaNum) && item.UserTypes.Contains(user.TypeId.ToString()))
+                if (areas.Contains(_user.AreaNum) && item.UserTypes.Contains(_user.TypeId.ToString()))
                     resManjian.Add(item);
             }
 
@@ -472,14 +472,13 @@ namespace BLL
         /// <param name="userId"></param>
         /// <param name="managerId"></param>
         /// <returns></returns>
-        public Manjiusong CheckManSong(Guid userId, Guid managerId)
+        public Manjiusong CheckManSong( UserInfo _user, Guid managerId)
         {
             var couponList = new List<Coupon>();
-            var orderItems = _context.OrderItems.Where(x => x.CreateUserId == userId && x.IsInShoppingCar && !x.IsDelete).ToList();
+            var orderItems = _order.GetShoppingCar(_user);
 
 
-            var user = _context.UserInfoes.FirstOrDefault(x => x.UserId == userId);
-            var blackList = GetBlackForActiveByType(user.CreateUserId, (int)ActiveType.满就送);
+            var blackList = GetBlackForActiveByType(_user.CreateUserId, (int)ActiveType.满就送);
             orderItems = orderItems.Where(x => !blackList.Exists(c => c.GoodsId == x.ProductId)).ToList();///不计算在黑名单中的商品
 
             if (orderItems == null || orderItems.Count() < 1)
@@ -497,7 +496,7 @@ namespace BLL
             foreach (var item in manjianList)
             {
                 List<string> areas = GetActiveArea(item.Id);
-                if (areas.Contains(user.AreaNum)&&item.UserTypes.Contains(user.TypeId.ToString()))
+                if (areas.Contains(_user.AreaNum)&&item.UserTypes.Contains(_user.TypeId.ToString()))
                     resMansong.Add(item);
             }
             if (resMansong == null || resMansong.Count < 1)

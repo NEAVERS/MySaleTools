@@ -137,10 +137,10 @@ namespace SaleTools.Controllers
             if (loginUser != null)
             {
                 var managerId = GetManagerId(loginUser);
-                var list = _order.GetShoppingCar(loginUser.UserId);
-                var manjian = _active.CheckManjiujian(loginUser.UserId, managerId);
+                var list = _order.GetShoppingCar(loginUser);
+                var manjian = _active.CheckManjiujian(loginUser, managerId);
                 var dps = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
-                var mansong = _active.CheckManSong(loginUser.UserId, managerId);
+                var mansong = _active.CheckManSong(loginUser, managerId);
                 dps.ForEach(x =>
                 {
                     var model = _goodsmanager.GetGoodInfoById(x.SendGoodsId);
@@ -459,7 +459,7 @@ namespace SaleTools.Controllers
             if (loginUser != null)
             {
                 Guid managerId = GetManagerId(loginUser);
-                var mj = _active.CheckManjiujian(loginUser.UserId, managerId);
+                var mj = _active.CheckManjiujian(loginUser, managerId);
                 _response.Result = mj;
                 _response.Stutas = true;
             }
@@ -482,7 +482,7 @@ namespace SaleTools.Controllers
             if (loginUser != null)
             {
                 Guid managerId = GetManagerId(loginUser);
-                var ms = _active.CheckManSong(loginUser.UserId, managerId);
+                var ms = _active.CheckManSong(loginUser, managerId);
                 _response.Result = ms;
                 _response.Stutas = true;
             }
@@ -578,7 +578,7 @@ namespace SaleTools.Controllers
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
-                var list = _order.GetShoppingCar(loginUser.UserId);
+                var list = _order.GetShoppingCar(loginUser);
                 var totalPrice = list.Sum(x => x.Count * x.Price);
                 if (list != null && list.Count > 0 && totalPrice > 380)
 
@@ -624,8 +624,8 @@ namespace SaleTools.Controllers
                         }
                     }
 
-                    Manjiujian mj = _active.CheckManjiujian(loginUser.UserId, managerId);
-                    Manjiusong ms = _active.CheckManSong(loginUser.UserId, managerId);
+                    Manjiujian mj = _active.CheckManjiujian(loginUser, managerId);
+                    Manjiusong ms = _active.CheckManSong(loginUser, managerId);
                     if (mj != null)
                     {
                         order.Manjian = mj.LessMoeny;
@@ -682,7 +682,7 @@ namespace SaleTools.Controllers
                         item.Brand = model.BrandName;
                         var res = _order.AddOrderItem(item);
                     }
-                    var ress = _order.SaveOrder(order, loginUser.UserId);
+                    var ress = _order.SaveOrder(order, loginUser);
                     if (ress)
                     {
 
@@ -926,7 +926,7 @@ namespace SaleTools.Controllers
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
-                var list = _order.GetShoppingCar(loginUser.UserId);
+                var list = _order.GetShoppingCar(loginUser);
                 var dps = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
 
                 ViewBag.Dps = dps;
@@ -946,7 +946,7 @@ namespace SaleTools.Controllers
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
-                var list = _order.GetShoppingCar(loginUser.UserId);
+                var list = _order.GetShoppingCar(loginUser);
                 var dps = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
                 ViewBag.Dps = dps;
 
