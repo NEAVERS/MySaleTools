@@ -126,9 +126,9 @@ namespace SaleTools.Controllers
             }
             else
                 _response.Stutas = manager.UpdateUser(user);
-            if (_response.Stutas)
+            if (_response.Stutas&& Resourses.Count>0)
             {
-                _response.Stutas = manager.SaveUserResourse(user.UserId, Resourses);
+                manager.SaveUserResourse(user.UserId, Resourses);
             }
             return Utils.SerializeObject(_response);
 

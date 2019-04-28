@@ -14,8 +14,7 @@ namespace BLL
     {
         private SaleToolsContext _context = new SaleToolsContext();
         private ResponseModel _response = new ResponseModel();
-        private GoodInfoManager _good = new GoodInfoManager();
-        private OrderManager _order = new OrderManager();
+        private GoodsManager _good = new GoodsManager();
         /// <summary>
         /// 按照用户编号 创建优惠卷
         /// </summary>
@@ -317,19 +316,42 @@ namespace BLL
             return _context.Coupons.FirstOrDefault(x => x.Id == couponId && !x.IsUsed);
         }
 
+        public List<OrderItem> GetShoppingCar(UserInfo user)
+        {
+            Guid userId = user.UserId;
+            string areaNum = user.AreaNum;
+            int userType = user.TypeId;
+            var q = from c in _context.OrderItems
+                    where c.IsInShoppingCar
+                    && !c.IsDelete
+                    && c.IsEffective
+                    && c.CreateUserId == userId
+                    select c;
+            var list = q.ToList();
+            list.ForEach(x =>
+            {
+                x.Price = _good.GetPriceOfUserType(x.ProductId, userType);
+                decimal discount = CheckDiscountDetail(x.ProductTypeId, areaNum, userType.ToString());
+                x.LessPrice = Math.Round((100 - discount) * x.Price / 100, 10);
+                x.RealPrice = x.Price - x.LessPrice;
+                x.TotalPrice = x.RealPrice * x.Count;
 
-        
+            });
+            return q.ToList();
+        }
 
-    /// <summary>
-    /// 检查是否有可用的满减活动
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <param name="managerId"></param>
-    /// <returns></returns>
-    public Manjiujian CheckManjiujian(UserInfo _user,Guid managerId)
+
+
+        /// <summary>
+        /// 检查是否有可用的满减活动
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="managerId"></param>
+        /// <returns></returns>
+        public Manjiujian CheckManjiujian(UserInfo _user,Guid managerId)
         {
             var couponList = new List<Coupon>();
-            var orderItems = _order.GetShoppingCar(_user);
+            var orderItems = GetShoppingCar(_user);
             if (orderItems == null || orderItems.Count() < 1)
                 return null;
 
@@ -475,7 +497,7 @@ namespace BLL
         public Manjiusong CheckManSong( UserInfo _user, Guid managerId)
         {
             var couponList = new List<Coupon>();
-            var orderItems = _order.GetShoppingCar(_user);
+            var orderItems = GetShoppingCar(_user);
 
 
             var blackList = GetBlackForActiveByType(_user.CreateUserId, (int)ActiveType.满就送);
