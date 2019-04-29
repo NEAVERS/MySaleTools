@@ -26,6 +26,10 @@
     <link rel="stylesheet" type="text/css" href="/Content/css/pages/home/index/index.css?05051358">
     <link rel="stylesheet" type="text/css" href="/Content/css/pages/home/index/overlay.css?04260915">
     <style>
+        .saleOut
+        {
+            background-color:gray!important;
+        }
     </style>
 </head>
 
@@ -674,7 +678,7 @@
                         html += ' <a href="javascript:;" class="decrement J_Decrement">-</a>';
                         html += '<input type="text" value="' + this.MinCount + '" data-min="' + this.MinCount + '" data-max="986" class="quantity_input J_QuantityInput">';
                         html += '<a href="javascript:;" class="increment J_Increment">+</a></div>'
-                        html += '<a href="#" class="J_AddCartBtn add_cart_btn" data-id="' + this.Id + '" data-start="0" data-end="0" data-num="0">' + (this.Stock > 0 ?"进货":"售罄") + '</a>';
+                        html += '<a href="#" class="J_AddCartBtn add_cart_btn  ' + (this.Stock > 0 ? "" : "saleOut") +'" data-id="' + this.Id + '" data-start="0" data-end="0" data-num="0">' + (this.Stock > 0 ?"进货":"售罄") + '</a>';
                         html += '</div></div ></li >';
                     });
                     ul.append(html);
