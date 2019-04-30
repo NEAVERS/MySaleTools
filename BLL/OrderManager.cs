@@ -43,12 +43,14 @@ namespace BLL
             var list = q.ToList();
             list.ForEach(x =>
             {
-                x.Price = _good.GetPriceOfUserType(x.ProductId, userType);
-                decimal discount = _active.CheckDiscountDetail(x.ProductTypeId, areaNum , userType.ToString());
-                x.LessPrice = Math.Round((100 - discount) * x.Price / 100, 10);
-                x.RealPrice = x.Price - x.LessPrice;
-                x.TotalPrice = x.RealPrice * x.Count;
-
+                if (!x.IsGift)
+                {
+                    x.Price = _good.GetPriceOfUserType(x.ProductId, userType);
+                    decimal discount = _active.CheckDiscountDetail(x.ProductTypeId, areaNum, userType.ToString());
+                    x.LessPrice = Math.Round((100 - discount) * x.Price / 100, 10);
+                    x.RealPrice = x.Price - x.LessPrice;
+                    x.TotalPrice = x.RealPrice * x.Count;
+                }
             });
             return q.ToList();
         }
