@@ -517,7 +517,7 @@ namespace BLL
 
             System.IO.StreamWriter writer = new System.IO.StreamWriter(output, System.Text.Encoding.UTF8);
 
-            writer.Write("订单号,总订单号,商品条形码,商品父级id,商品id,商品类目,商品,商品品牌,规格,单位,总金额,订货人,客户类型,电话,订货服务站,地区,卖家,订单状态,订购日期,单价,成本价,实收金额,下单数量,异常数量,编号,标记,支付类型,小店名称,业务员,送货员,分拣员,订单完成日期,订单备注,供应商编号,加盟商");//输出标题，逗号分割（注意最后一列不加逗号）
+            writer.Write("订单号,总订单号,商品条形码,商品父级id,商品id,商品类目,商品,商品品牌,规格,单位,总金额,订货人,客户类型,电话,订货服务站,地区,卖家,订单状态,订购日期,单价,成本价,实际价格,实收金额,下单数量,异常数量,编号,标记,支付类型,小店名称,业务员,送货员,分拣员,订单完成日期,订单备注,供应商编号,加盟商");//输出标题，逗号分割（注意最后一列不加逗号）
 
             writer.WriteLine();
             //输出内容
@@ -545,8 +545,9 @@ namespace BLL
                 writer.Write(item.item.Price + ",");//第一列
                 writer.Write(item.item.Price + ",");//第一列
                 writer.Write(item.item.RealPrice + ",");//第一列
+                writer.Write((item.item.RealPrice*(item.item.Count - item.item.ErrorCount)) + ",");//第一列
                 writer.Write(item.item.Count + ",");//第一列
-                writer.Write("0" + ",");//第一列
+                writer.Write(item.item.ErrorCount + ",");//第一列
                 writer.Write(item.user.UserNum + ",");//第一列
                 writer.Write("0" + ",");//第一列
                 writer.Write(item.info.PayType + ",");//第一列

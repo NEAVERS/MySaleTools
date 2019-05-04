@@ -94,24 +94,24 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            订单总金额：@Model.Info.TotalMoney
+                                            订单总金额：@(Math.Round( Model.Info.TotalMoney,2))
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td>
-                                            满就减 : - @Model.Info.LessMoney
+                                            满就减 : - @(Math.Round(Model.Info.LessMoney, 2))
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            应付金额 : @Model.Info.RealMoney
+                                            应付金额 : @(Math.Round(Model.Info.RealMoney, 2)) 
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             实付金额 :
-                                            @Model.Info.PayMoney
+                                            @(Math.Round(Model.Info.PayMoney, 2)) 
                                         </td>
                                     </tr>
                                 </tbody>
@@ -156,11 +156,11 @@
                             </div>
                         </td>
                         <td class="center">
-                            <del>@orderItem.Price</del><br>
-                            <b>@orderItem.RealPrice</b>
+                            <del>@(Math.Round(orderItem.Price, 2))  </del><br>
+                                                                           <b> @(Math.Round(orderItem.RealPrice, 2)) </b>
                         </td>
                         <td class="center">@orderItem.Count</td>
-                        <td class="center"><b>@orderItem.TotalPrice</b></td>
+                        <td class="center"><b> @(Math.Round(orderItem.TotalPrice, 2))</b></td>
                         @if (orderItem.IsError)
                             {
                                <td class="center J_AbnormalShowBox">异常</td>
