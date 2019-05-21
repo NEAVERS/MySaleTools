@@ -340,6 +340,7 @@ namespace BLL
                     && d.CreateTime > start
                     && d.CreateTime < end
                     && (SupplierId == -1 || c.SupplierId == SupplierId)
+                    && d.Stutas != (int)OrderStatus.订单取消成功
                     group c by c.SupplierId into g
                     select g.Key;
 
@@ -357,6 +358,7 @@ namespace BLL
                                 && c.SupplierId == id
                                 && d.CreateTime > start
                                 && d.CreateTime < end
+                                && d.Stutas != (int)OrderStatus.订单取消成功
                                select c;
                 var ids = from c in allitems
                           group c by c.ProductId into g
@@ -401,6 +403,7 @@ namespace BLL
                     && d.CreateTime > start
                     && d.CreateTime < end
                     && (SupplierId == -1 || c.SupplierId == SupplierId)
+                    && d.Stutas != (int)OrderStatus.订单取消成功
                     group c by c.OrderId into g
                     select g.Key;
             var orderIds = q.ToList();
@@ -1116,6 +1119,26 @@ namespace BLL
             return _response;
         }
 
+
+        public bool CancelError(Guid  itemId)
+        {
+            var model = _context.OrderItems.FirstOrDefault(x => x.Id == itemId);
+            if (model != null)
+            {
+                model.ErrorTypeCode = string.Empty;
+                model.ErrorType = string.Empty;
+                model.ErrorReasonCode = string.Empty;
+                model.ErrorReason = string.Empty;
+                model.ErrorMark = string.Empty;
+                model.ErrorCount = 0;
+                model.IsError = false;
+                var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == model.OrderId);
+                order.IsError = true;
+            }
+
+            return _context.SaveChanges() > 0;
+
+        }
         #region 订单生成后倒入销售订单到erp
 
         private string GetCode(int count)

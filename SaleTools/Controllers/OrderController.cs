@@ -650,7 +650,19 @@ namespace SaleTools.Controllers
             return Utils.SerializeObject(res);
         }
 
-        
+        public string CancelError(Guid itmeId)
+        {
+            var res = _order.CancelError(itmeId);
+            if (res)
+                _response.Stutas = true;
+            else
+                _response.Msg = "取消异常失败！";
+            return Utils.SerializeObject(res);
+
+        }
+
+
+
         public ActionResult OrderDetail(Guid orderId )
         {
             var model = _order.GetOrderDetail(orderId);

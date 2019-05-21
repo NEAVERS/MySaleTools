@@ -312,7 +312,7 @@
         }, "json")
     }
     $("#search_btn").click(function () {
-        LoadProduct(1);
+        location.href = "/Home/Product?key=" + $("#C_GlobalSearchInput").val();
     });
     $(function () {
         loacCarCount(); 
