@@ -167,26 +167,35 @@
             data: function () {
                 return {
                     count: this.todo.Count,
+                    isPost : false,
                 }
             },
             template: '<div class="goodsItem"><div class="goodsimg"><a><img  v-bind:src="todo.Pic"    style="height: 80px" alt="暂无图片"></a></div><div class="goodsInfo"><div class="goodstittle">{{todo.ProductTittle}}</div><div class="info"><span class="price">{{ todo.Price }}元</span> 规格:{{todo.Spec}}</div><div class="btns"><button class="JianCount" v-on:click="minus">-</button><input v-on:change="changeCount" type="number" class="count" v-model=" todo.Count "><button class="JiaCount"  v-on:click="add">+</button> <button class="delBtn" v-on:click="deleteItem">删除</button></div></div></div>',
             methods: {
                 add: function () {
+                    if (this.isPost)
+                        return;
+                    this.isPost = true;
                     this.todo.Count++;
                     this.changeCount();
                 },
                 minus: function () {
+                    if (this.isPost)
+                        return;
+                    this.isPost = true;
+
                     this.todo.Count--;
                     this.changeCount();
                 },
                 changeCount: function () {
                     this.$http.post('/APP/ChangeCount', { itemId: this.todo.Id, count: this.todo.Count }, { emulateJSON: true }).then(function (res) {
                         var res = JSON.parse(res.body);
+                        this.isPost = false;
                         if (res.Stutas) {
                             app.reload();
                         }
                         else {
-                            alert(res.Msg);
+                            alert("修改失败！请重试！");
                             this.todo.Count = res.Result  ;
 
                         }
@@ -202,7 +211,7 @@
                                 app.LoadInfo();
                             }
                             else {
-                                alert(res.Msg);
+                                alert("删除失败！请重试！");
                             }
                         }, function (res) {
                             console.log(res.status);
