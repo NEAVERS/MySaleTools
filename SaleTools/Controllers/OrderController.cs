@@ -82,10 +82,18 @@ namespace SaleTools.Controllers
             else
                 managerId = loginUser.SaleManGuid;
             PageData<OrderInfo> pager = _order.GetOrderList(1, 10000, startTime, endTime, province, city, area, stutas, saleManId, userType, key, managerId, ViewBag.IsAdmin);
+            List<Guid> userIds = new List<Guid>();
+            foreach (var item in pager.ListData)
+            {
+                if (!userIds.Contains(item.CreateUserId))
+                    userIds.Add(item.CreateUserId);
+            }
             var total = new
             {
                 totalCount = pager.ListData.Count,
-                totalMoney = pager.ListData.Sum(x => x.TotalMoney)
+                totalMoney = pager.ListData.Sum(x => x.TotalMoney),
+                totalStore = userIds.Count
+
             };
             return Utils.SerializeObject(total);
         }

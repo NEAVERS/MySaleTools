@@ -110,6 +110,7 @@
             <p>
                 订单记录数: <span class="highlight" id="totalCount">-</span>,
                 订单总金额: <span class="highlight" id="totalMoney">-</span>元 ,
+                下单小店数: <span class="highlight" id="totalStore">-</span> ,
             </p>
         </div>
         <div class="col_main_content">
@@ -186,6 +187,7 @@
         $.post("/Order/GetOrderTotal", para, function (data) {
             $("#totalCount").html(data.totalCount);
             $("#totalMoney").html(data.totalMoney);
+            $("#totalStore").html(data.totalStore);
             
         }, "json")
 

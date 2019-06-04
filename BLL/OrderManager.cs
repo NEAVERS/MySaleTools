@@ -440,7 +440,7 @@ namespace BLL
                     gItem.Count = allitems.Where(x => x.ProductId == itemId).Sum(x => x.Count);
                     gItem.ProductName = goodsInfo.GoodsTittle;
                     gItem.BarCode = goodsInfo.BarCode;
-                    gItem.Pirce = item.Price;
+                    gItem.Pirce = goodsInfo.CostPrice;
                     gItem.Spec = goodsInfo.Spec;
                     gItem.Unit = goodsInfo.Unit;
                     gItem.TotalPirce = item.Price;
