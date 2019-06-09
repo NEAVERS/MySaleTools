@@ -141,7 +141,6 @@ namespace BLL
 
             List<string> errorNum = new List<string>();
             var tempModel = Utils.DeepCopyByReflect(model);
-            tempModel.Id = Guid.NewGuid();
 
             tempModel.EffectTime = model.EffectTime;
             _context.CouponActivities.Add(tempModel);

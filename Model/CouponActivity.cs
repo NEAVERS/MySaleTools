@@ -38,7 +38,7 @@ namespace Model
 
         public int EffectTime { get; set; }
 
-        public double SendMoney { get; set; }
+        public decimal SendMoney { get; set; }
         /// <summary>
         /// 使用满足条件
         /// </summary>
@@ -135,6 +135,7 @@ namespace Model
             this.UserNum = string.Empty;
             this.UseTime = null;
             this.UserOrderId = null;
+            this.SendMoney = 0;
         }
 
     }
