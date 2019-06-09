@@ -396,7 +396,7 @@
                     totalPage: e.TotalPage,
                     totalSize: e.TotalCount,
                     callback: function (num) {
-                        if (pageIndex != num)
+                        if (index != num)
                             LoadList(num);
                     }
                 })
@@ -448,33 +448,41 @@
 
     function DeleteGoods(goodsList) {
         layer.confirm('请确认是否删除？', {
-            btn: ['取消', '确认'] //按钮
+            btn: ['确认','取消' ] //按钮
         }, function () {
             layer.closeAll();
-        }, function () {
-
             $.post("/GoodsManager/DeleteGoods", { goodsIds: goodsList }, function (e) {
                 if (e) {
                     LoadList(1);
                 }
             }, "json");
+
+        }, function () {
+            layer.closeAll();
+
         });
 
     }
 
 
     function ToggleShelves(goodsList, isShelves) {
-        layer.confirm('请确认下架该商品？', {
-            btn: ['取消', '确认'] //按钮
+        var strShelves = "请确认上架该商品？";
+        if (!isShelves) {
+            strShelves = "请确认下架该商品？"
+        }
+
+        layer.confirm(strShelves, {
+            btn: ['确认', '取消'] //按钮
         }, function () {
             layer.closeAll();
-        }, function () {
-
             $.post("/GoodsManager/ToggleShelves", { goodsIds: goodsList, isShelves: isShelves }, function (e) {
                 if (e) {
                     LoadList(1);
                 }
             }, "json");
+        }, function () {
+            layer.closeAll();
+
         });
     }
 
@@ -538,19 +546,21 @@
 
     function DealWithCounts(msg, inter, goodsList ,isShelves) {
         layer.confirm('请确认' + msg + '选中的商品？', {
-            btn: ['取消', '确认'] //按钮
+            btn: ['确认', '取消'] //按钮
         }, function () {
             layer.closeAll();
-        }, function () {
-
             $.post("/GoodsManager/" + inter, { goodsIds: goodsList, isShelves: isShelves }, function (e) {
                 if (e) {
                     layer.msg(msg + "成功！", { icon: 1 }, function () {
                         LoadList(index);
                     })
-                    
+
                 }
             }, "json");
+
+        }, function () {
+            layer.closeAll();
+
         });
     }
     $(".J_midSoldNum").on("change", function () {

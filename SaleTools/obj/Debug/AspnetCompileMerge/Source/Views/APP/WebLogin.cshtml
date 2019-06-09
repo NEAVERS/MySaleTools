@@ -3,7 +3,14 @@
     ViewBag.Title = "Login";
     Layout = null;
 }
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no">
+<link rel="apple-touch-icon-precomposed" sizes="57x57" href="~/Content/images/icon/57.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/Content/images/icon/72.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/Content/images/icon/114.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/Content/images/icon/144.png">
 <style>
     .empty {
         text-align: center;
@@ -32,7 +39,7 @@
         margin-left: 20px;
         padding: 5px;
         height: 35px;
-        line-height:35px;
+        line-height: 35px;
         color: #333333;
         outline: none;
         width: 90%;
@@ -67,48 +74,68 @@
 </div>
 
 <script type="text/javascript">
-        var vm = new Vue({
-            el: '#loginInfo',
-            data: {
-                userName: "",
-                password:""
-            },
-            methods: {
-                get: function () {
-                    //发送get请求
-                    this.$http.post(
-                        '/APP/Login',
-                        {
-                                userName: userName,
-                                pwd: password
-                        },
-                        { emulateJSON: true }
-                    ).then(function (res) {
-                        var res = JSON.parse(res.body)
-                        if (res.Stutas) {
-                            location.href = "/APP/IndexPage";
-                        }
-                    }, function () {
-                        console.log('请求失败处理');
-                    });
-                },
-                getCookie(name) {
-                    var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-                    if (arr = document.cookie.match(reg)) {
-                         return (arr[2]);
-                    } else {
-                        return "";
+    var vm = new Vue({
+        el: '#loginInfo',
+        data: {
+            userName: "",
+            password: ""
+        },
+        methods: {
+            get: function () {
+                //发送get请求
+                this.$http.post(
+                    '/APP/Login',
+                    {
+                        userName: userName,
+                        pwd: password
+                    },
+                    { emulateJSON: true }
+                ).then(function (res) {
+                    var res = JSON.parse(res.body)
+                    if (res.Stutas) {
+                        location.href = "/APP/IndexPage";
                     }
-                },
-                //设置cookie   name为cookie的名字，value是值，expiredays为过期时间（天数）
-                setCookie(name, value, expiredays) {
-                    var exdate = new Date();
-                    exdate.setDate(exdate.getDate() + expiredays);
-                    document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
-                },
+                }, function () {
+                    console.log('请求失败处理');
+                });
             },
-            created: function () {
-            }
+            getCookie(name) {
+                var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+                if (arr = document.cookie.match(reg)) {
+                    return (arr[2]);
+                } else {
+                    return "";
+                }
+            },
+            //设置cookie   name为cookie的名字，value是值，expiredays为过期时间（天数）
+            setCookie(name, value, expiredays) {
+                var exdate = new Date();
+                exdate.setDate(exdate.getDate() + expiredays);
+                document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
+            },
+        },
+        created: function () {
+            var id = this.getCookie("UserId");
+            if (id != "")
+                location.href = "/APP/IndexPage"
+        }
     });
-    
+
+</script>
+<script type="text/javascript">
+    //iOS Web APP中点击链接跳转到Safari 浏览器新标签页的问题 devework.com
+    //stanislav.it/how-to-prevent-ios-standalone-mode-web-apps-from-opening-links-in-safari
+    if (("standalone" in window.navigator) && window.navigator.standalone) {
+        var noddy, remotes = false;
+        document.addEventListener('click', function (event) {
+            noddy = event.target;
+            while (noddy.nodeName !== "A" && noddy.nodeName !== "HTML") {
+                noddy = noddy.parentNode;
+            }
+            if ('href' in noddy && noddy.href.indexOf('http') !== -1 && (noddy.href.indexOf(document.location.host) !== -1 || remotes)) {
+                event.preventDefault();
+                document.location.href = noddy.href;
+            }
+        }, false);
+    }
 </script>

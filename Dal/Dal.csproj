@@ -53,6 +53,7 @@
     <Compile Include="Mapping\BlackListMap.cs" />
     <Compile Include="Mapping\AreaMap.cs" />
     <Compile Include="Mapping\BrandOfGoodsTypeMap.cs" />
+    <Compile Include="Mapping\CouponActivityMap.cs" />
     <Compile Include="Mapping\CouponMap.cs" />
     <Compile Include="Mapping\DiscountInfoMap.cs" />
     <Compile Include="Mapping\DPSMap.cs" />

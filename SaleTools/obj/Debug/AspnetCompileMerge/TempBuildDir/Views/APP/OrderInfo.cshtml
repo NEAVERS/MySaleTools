@@ -7,8 +7,11 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>OrderInfo</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>订单信息</title>
     <style>
         .tittle {
             height: 40px;
@@ -101,7 +104,7 @@
     </style>
 </head>
 <body>
-    <div class="tittle" style="text-align: center;"><div class="return"><a href="/APP/OrderList"><img src="~/Content/images/back.png" height="32" width="32" /></a></div>订单详情</div>
+    <div class="tittle" style="text-align: center;"><div class="return" onclick="location.href = '/APP/OrderList'"><img src="~/Content/images/back.png" height="32" width="32" /></div>订单详情</div>
     <div class="orderInfo">
         <div class="infoRow"><div class="leftLabel">订单编号：</div><div class="info" id="orderNum">@Model.Info.OrderNum</div></div>
         <div class="infoRow"><div class="leftLabel">买&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;家：</div><div class="info" id="userName">@Model.User.UserName</div></div>

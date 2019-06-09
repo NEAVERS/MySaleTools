@@ -32,7 +32,7 @@ namespace SaleTools.Controllers
         /// <param name="stutas"></param>
         /// <param name="storeNum"></param>
         /// <returns></returns>
-        public ActionResult ShowCoupon(int index =1,string start = "",string end = "",int stutas = -1,string storeNum="")
+        public ActionResult ShowCoupon(int index = 1, string start = "", string end = "", int stutas = -1, string storeNum = "")
         {
             var loginUser = (UserInfo)ViewBag.User;
             DateTime startTime = new DateTime();
@@ -71,7 +71,7 @@ namespace SaleTools.Controllers
             ViewBag.TypeList = typelist;
             ViewBag.Supplier = suppliers;
             ViewBag.BrandList = BrandList;
-            return View(); 
+            return View();
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace SaleTools.Controllers
         /// <param name="userType"></param>
         /// <param name="addtype"></param>
         /// <returns></returns>
-        public ActionResult SaveCoupon(Coupon c,string number, List<int> userType,int addtype)
+        public ActionResult SaveCoupon(Coupon c, string number, List<int> userType, int addtype)
         {
             var loginUser = (UserInfo)ViewBag.User;
             var userList = new List<UserInfo>();
@@ -110,7 +110,7 @@ namespace SaleTools.Controllers
         /// <param name="id"></param>
         /// <param name="endTime"></param>
         /// <returns></returns>
-        public string UpdateCouponEndTime(Guid id,DateTime endTime)
+        public string UpdateCouponEndTime(Guid id, DateTime endTime)
         {
             var res = _active.UpdateCouponEndTime(id, endTime);
             return Utils.SerializeObject(res);
@@ -130,7 +130,7 @@ namespace SaleTools.Controllers
             return View();
         }
 
-        public ActionResult SaveManSong(Manjiusong m, List<int> userType,string areaNums)
+        public ActionResult SaveManSong(Manjiusong m, List<int> userType, string areaNums)
         {
             Guid managerId = (Guid)ViewBag.ManagerId;
             var areaList = areaNums.Split(',').ToList();
@@ -227,7 +227,7 @@ namespace SaleTools.Controllers
             var suppliers = _user.GetSupplierList(managerId);
             var BrandList = _good.GetAllBrand(managerId);
             var areas = detail.areas.Select(x => x.Num + "_" + x.Name).ToArray();
-            ViewBag.AreaStr = string.Join(",",areas);
+            ViewBag.AreaStr = string.Join(",", areas);
 
             ViewBag.TypeList = typelist;
             ViewBag.Supplier = suppliers;
@@ -309,7 +309,7 @@ namespace SaleTools.Controllers
             var loginUser = (UserInfo)ViewBag.User;
             Guid managerId = (Guid)ViewBag.ManagerId;
             ViewBag.TypeList = _good.GetDownGoodsType(Guid.Empty, managerId);
-            ViewBag.UserTypeList  = _user.GetTypeList();
+            ViewBag.UserTypeList = _user.GetTypeList();
             return View();
         }
 
@@ -329,7 +329,7 @@ namespace SaleTools.Controllers
                 userTypes += ",";
             });
             m.UserTypes = userTypes;
-            
+
             _active.AddDiscountInfo(m, areaList);
             Response.Redirect("DiscountList");
 
@@ -406,7 +406,7 @@ namespace SaleTools.Controllers
 
         public ActionResult EditBlackList(Guid Id)
         {
-           
+
             var loginUser = (UserInfo)ViewBag.User;
             var model = _active.GetBlackListDetail(Id);
             return View(model);
@@ -464,7 +464,7 @@ namespace SaleTools.Controllers
 
             var goodsItem = _good.GetGoodsByNum(m.GoodsNum, managerId);
             var sendGoodsItem = _good.GetGoodsByNum(m.SendGoodsNum, managerId);
-            if(goodsItem!=null)
+            if (goodsItem != null)
             {
                 m.GoodsId = goodsItem.Id;
                 m.GoodsName = goodsItem.GoodsTittle;
@@ -544,7 +544,7 @@ namespace SaleTools.Controllers
 
         #region  新增活动黑名单
 
-        public ActionResult AddActiveBlacklist(int page = 1, string key= "")
+        public ActionResult AddActiveBlacklist(int page = 1, string key = "")
         {
             var loginUser = (UserInfo)ViewBag.User;
             Guid managerId = (Guid)ViewBag.ManagerId;
@@ -555,11 +555,11 @@ namespace SaleTools.Controllers
             return View();
         }
 
-        public string SaveActiveBlacklist(string goodsIds,int type)
+        public string SaveActiveBlacklist(string goodsIds, int type)
         {
             var strs = goodsIds.Split('|');
             List<Guid> list = new List<Guid>();
-            foreach(var str in strs)
+            foreach (var str in strs)
             {
                 if (!string.IsNullOrWhiteSpace(str))
                     list.Add(Utils.ParseGuid(str));
@@ -571,7 +571,7 @@ namespace SaleTools.Controllers
             return Utils.SerializeObject(res);
         }
 
-        public ActionResult ShowActiveBlacklist(int index =1,int type = 0,string key = "")
+        public ActionResult ShowActiveBlacklist(int index = 1, int type = 0, string key = "")
         {
             var pager = _active.GetBlackForActiveByPage(index, type, key);
 
@@ -586,6 +586,54 @@ namespace SaleTools.Controllers
             _response = _active.DeleteBlackForActive(ids);
             return Utils.SerializeObject(_response);
         }
+
+        #endregion
+
+
+
+        #region 优惠券活动
+
+        public ActionResult ShowCouponActivites(int index = 1 )
+        {
+
+            Guid managerId = (Guid)ViewBag.ManagerId;
+            var loginUser = (UserInfo)ViewBag.User;
+            var pager = _active.GetCouponActivityPager(managerId, index);
+            ViewBag.Pager = pager;
+            return View();
+        }
+
+        public ActionResult CreateCouponActivity()
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+
+            var typelist = _user.GetTypeList();
+            var suppliers = _user.GetSupplierList(loginUser.UserId);
+            var BrandList = _good.GetAllBrand(loginUser.UserId);
+
+            ViewBag.TypeList = typelist;
+            ViewBag.Supplier = suppliers;
+            ViewBag.BrandList = BrandList;
+            return View();
+        }
+
+
+        public ActionResult SaveCouponActivity(CouponActivity c, string areaNums)
+        {
+            var loginUser = (UserInfo)ViewBag.User;
+            var areaList = areaNums.Split(',').ToList();
+
+            var userList = new List<UserInfo>();
+            Guid managerId = (Guid)ViewBag.ManagerId;
+            c.CreateTime = DateTime.Now;
+            c.CreateUserId = managerId;
+            c.CreateUserName = loginUser.UserName;
+
+            _active.CreateCouponActivity(c, areaList);
+            Response.Redirect("ShowCoupon");
+            return View();
+        }
+
 
         #endregion
     }

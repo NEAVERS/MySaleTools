@@ -409,6 +409,8 @@
     <Content Include="Views\APP\UserInfo.cshtml" />
     <Content Include="Views\APP\OrderList.cshtml" />
     <Content Include="Views\APP\OrderInfo.cshtml" />
+    <Content Include="Views\Activtity\ShowCouponActivites.cshtml" />
+    <Content Include="Views\Activtity\CreateCouponActivity.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

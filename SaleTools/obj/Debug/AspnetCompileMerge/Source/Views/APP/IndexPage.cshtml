@@ -7,7 +7,10 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no">
     <link href="~/Content/css/owl.theme.css" rel="stylesheet" />
     <link href="~/Content/css/owl.carousel.css" rel="stylesheet" />
     <link href="~/Content/css/nav.css" rel="stylesheet" />
@@ -69,13 +72,26 @@
         }
 
         .addBtn {
-            float: right;
-            margin-right: 20px;
+            float: left;
+            margin-left: 20px;
             margin-bottom: 5px;
         }
 
         .goodstittle {
             font-weight: 700;
+        }
+
+        .inputCount
+        {
+            width:80px;
+            float:left;
+            margin-left:30%;
+        }
+        .inputCount input
+        {
+            width:80px;
+            margin-top:5px;
+            text-align:center;
         }
 
         #owl-demo {
@@ -84,23 +100,25 @@
             margin-right: auto;
         }
 
-            #owl-demo .item {
-                display: block;
-            }
+        #owl-demo .item {
+            display: block;
+        }
 
-            #owl-demo img {
-                display: block;
-                width: 100%;
-            }
+        #owl-demo img {
+            display: block;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
 
     <div id="Index">
         <div class="tittle ">
-            <span style="color: white;margin: 0 10px;" id="ProductList" v-on:click="searchGoods">分类</span>
-            <input type="text" style="background-color:white;height: 30px;width: 250px;" placeholder="请输入关键字查询" id="key" v-model="key">
-            <span style="color: white;margin: 0 10px;" id="btnSearch" v-on:click="searchGoods">搜索</span>
+            <form action="/APP/GoodsList" method="get">
+                <span style="color: white;margin: 0 10px;" id="ProductList" v-on:click="searchGoods">分类</span>
+                <input type="search" style="background-color:white;height: 30px;width: 250px;" placeholder="请输入关键字查询" id="key" name="key" v-model="key">
+                <span style="color: white;margin: 0 10px;" id="btnSearch" v-on:click="searchGoods">搜索</span>
+            </form>
 
         </div>
         <div class="content">
@@ -142,10 +160,10 @@
                     count: 0
                 }
             },
-            template: '<div class="goodsItem" ><div class="goodsimg" v-on:click="turnToPage"><a href="#"  v-on:click="turnToPage"><img v-bind:src=" todo.pic1"  style="height: 80px" alt="暂无图片"></a></div><div class="goodsInfo"><div class="goodstittle"  v-on:click="turnToPage">{{todo.GoodsTittle}} </div><div class="info">规格:{{todo.Spec}} </div><div class="info">￥{{todo.RetailtPrice}}</div><div class="addBtn" v-on:click="addToShoppingCar"><img src="/Content/images/add.png" height="30" width="30"/></div></div></div>',
+            template: '<div class="goodsItem" ><div class="goodsimg" v-on:click="turnToPage"> <img v-bind:src=" todo.pic1" v-on:click="turnToPage"  style="height: 80px" alt="暂无图片"></div><div class="goodsInfo"><div class="goodstittle"  v-on:click="turnToPage">{{todo.GoodsTittle}} </div><div class="info">规格:{{todo.Spec}} </div><div class="info">￥{{todo.RetailtPrice}}</div><div class="info inputCount"><input type="number"  v-model="todo.count" /></div><div class="addBtn" v-on:click="addToShoppingCar" v-if="todo.Stock>0"><img src="/Content/images/add.png" height="30" width="30"/></div><div class="addBtn" v-on:click="addToShoppingCar" style="background-color:gray!important" v-else>售罄</div></div></div>',
             methods: {
                 addToShoppingCar: function () {
-                    this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id }, { emulateJSON: true }).then(function (res) {
+                    this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id, count: this.todo.count }, { emulateJSON: true }).then(function (res) {
                         var res = JSON.parse(res.body);
                         if (res.Stutas) {
                             alert("添加成功！");
@@ -181,6 +199,12 @@
                     ).then(function (res) {
                         var res = JSON.parse(res.body)
                         if (res.Stutas) {
+                            $(res.Result.XinpingList.ListData).each(function () {
+                                this.count = 1;
+                            });
+                            $(res.Result.TejiaList.ListData).each(function () {
+                                this.count = 1;
+                            });
                             this.tuijian = res.Result.XinpingList.ListData;
                             this.tejia = res.Result.TejiaList.ListData;
                         }

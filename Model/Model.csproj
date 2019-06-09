@@ -47,6 +47,7 @@
     <Compile Include="BlackList.cs" />
     <Compile Include="BrandOfGoodsType.cs" />
     <Compile Include="Coupon.cs" />
+    <Compile Include="CouponActivity.cs" />
     <Compile Include="DiscountInfo.cs" />
     <Compile Include="DPS.cs" />
     <Compile Include="Erp\btype.cs" />

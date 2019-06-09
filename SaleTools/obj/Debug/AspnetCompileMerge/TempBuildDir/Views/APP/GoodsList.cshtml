@@ -8,14 +8,16 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no">
     <style>
-        #App
-        {
-            width:100%;
-            font-size:12px;
-            
+        #App {
+            width: 100%;
+            font-size: 12px;
         }
+
         .tittle {
             height: 40px;
             line-height: 40px;
@@ -27,9 +29,9 @@
             left: 0px;
         }
 
-        .tittle input {
-            border-radius: 5px;
-        }
+            .tittle input {
+                border-radius: 5px;
+            }
 
         .content {
             width: 100%;
@@ -144,6 +146,7 @@
             top: 90%;
             right: 20px;
         }
+
         .fade-enter-active, .fade-leave-active {
             transition: opacity 1s
         }
@@ -151,6 +154,7 @@
         .fade-enter, .fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
             opacity: 0
         }
+
         .loadMore {
             border-radius: 3px;
             border: 1px solid red;
@@ -163,15 +167,32 @@
             margin-left: 10%;
             margin-top: 10px;
         }
+        .spec span{
+            float:left;
+            width:40px;
+            text-align:center;
+            line-height:20px;
+            font-weight:700;
+            color:black;
+            background-color:#f2f2f2;
+            margin-top:1px;
+        }
+        .spec input {
+            float: left;
+            width:60px;
+            text-align:center
+        }
     </style>
 </head>
 <body>
     <div id="App">
         <div class="tittle ">
-            <span style="color: white;margin: 0 10px;" id="return" v-on:click="returnPage">返回</span>
-            <input type="text" style="background-color:white;height: 30px;width: 220px;" v-model="Key" value="@ViewBag.Key" placeholder="请输入关键字查询" id="keyword">
-            <span style="color: white;margin: 0 10px;" id="btnSearch" v-on:click="search">搜索</span>
-            <span style="color: white;" id="ProductList" v-on:click="show = !show">分类</span>
+            <form action="/APP/GoodsList" method="get">
+                <span style="color: white;margin: 0 10px;" id="return" v-on:click="returnPage">返回</span>
+                <input type="search" style="background-color:white;height: 30px;width: 220px;" v-model="Key" value="@ViewBag.Key" name="key" placeholder="请输入关键字查询" id="keyword">
+                <span style="color: white;margin: 0 10px;" id="btnSearch" v-on:click="search">搜索</span>
+                <span style="color: white;" id="ProductList" v-on:click="show = !show">分类</span>
+            </form>
         </div>
         <transition name="fade">
             <div class="typeList" v-show="show">
@@ -188,21 +209,25 @@
             </div>
 
         </div>
-        <div class="shoppingcar">
-            <button style="padding:0px;" id="returnToShoppingCar" @@click="turnToShoppingCar"><img src="~/Content/images/timg.png" height="40" width="40" /></button>
+        <div class="shoppingcar"  @@click="turnToShoppingCar">
+            <img src="~/Content/images/timg.png" height="40" width="40" />
         </div>
-        <button class="loadMore" v-on:click="loadMore">加载更多</button>
     </div>
     <script src="~/Scripts/Vue/vue.min.js"></script>
     <script src="~/Scripts/Vue/vue-resource.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script>
         Vue.component('runoob', {
+            data: function () {
+                return {S
+                    count: 1
+                }
+            },
             props: ['todo'],
-            template: '<div class="goodsItem"><div class="goodsImg"  v-on:click="turnToPage"><img  v-bind:src=" todo.pic1" /></div><div class="goodstittle"  v-on:click="turnToPage" >{{todo.GoodsTittle}}</div><div class="price">￥{{todo.RetailtPrice }}/<span class="unit">{{todo.Unit }}</span></div><div class="spec">起订:{{ this.MinCount}}</div><div class="addBtn"  v-on:click="addToShoppingCar"><button >购买</button></div></div>',
+            template: '<div class="goodsItem"><div class="goodsImg"  v-on:click="turnToPage"><img  v-bind:src=" todo.pic1" /></div><div class="goodstittle"  v-on:click="turnToPage" >{{todo.GoodsTittle}}</div><div class="price">￥{{todo.RetailtPrice }}/<span class="unit">{{todo.Unit }}</span></div><div class="spec"><span v-on:click="mus">-</span><input type= "number" v-model="count"/><span v-on:click="add">+</span></div><div class="addBtn"  v-on:click="addToShoppingCar" v-if="todo.Stock > 0"><button >购买</button></div><div class="addBtn"  v-on:click="addToShoppingCar" style="background-color:gray!important" v-else><button >售罄</button></div></div>',
             methods: {
                 addToShoppingCar: function () {
-                    this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id }, { emulateJSON: true }).then(function (res) {
+                    this.$http.post('/APP/AddToShoppingCar', { goodId: this.todo.Id, count: this.count  }, { emulateJSON: true }).then(function (res) {
                         var res = JSON.parse(res.body);
                         if (res.Stutas) {
                             alert("添加成功！");
@@ -213,6 +238,14 @@
                     }, function (res) {
                         console.log(res.status);
                     });
+                },
+                add: function () {
+                    this.count++;
+                },
+                mus: function () {
+                    this.count--;
+                    if (this.count < 1)
+                        this.count = 1;
                 },
                 turnToPage: function () {
                     location.href = "/APP/GoodsInfo/" + this.todo.Id;
@@ -227,10 +260,11 @@
             {
                 goodsList: [],
                 typeList: [],
-                Key: "",
+                Key: "@ViewBag.Key",
                 fstType: "",
                 pageIndex: 1,
                 show: false,
+                isLoading: false
             },
             methods: {
                 getGoodsList: function () {
@@ -247,11 +281,13 @@
                             else
                                 this.goodsList = res.Result.ListData;
                         }
+                        isLoading = false;
                     }, function () {
                         console.log('请求失败处理');
                     });
                 },
                 loadMore: function () {
+                    isLoading = true;
                     this.pageIndex++;
                     this.getGoodsList();
                 },
@@ -268,6 +304,11 @@
                 },
                 returnPage: function () {
                     location.href = "/APP/IndexPage";
+                },
+                handleScroll: function () {
+                    if (getScrollBottomHeight() <= 50 & !this.isLoading) {
+                        this.loadMore();
+                    }
                 }
 
             },
@@ -283,6 +324,42 @@
             $(this).addClass("activeType");
             app.setType($(this).attr("typeId"));
         })
+
+
+        window.onload = function () {
+            window.addEventListener('scroll', app.handleScroll);
+        }
+
+        //滚动条到底部的距离
+        function getScrollBottomHeight() {
+            return getPageHeight() - getScrollTop() - getWindowHeight();
+
+        }
+        //页面高度
+        function getPageHeight() {
+            return document.querySelector("html").scrollHeight
+        }
+        //滚动条顶 高度
+        function getScrollTop() {
+            var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+            if (document.body) {
+                bodyScrollTop = document.body.scrollTop;
+            }
+            if (document.documentElement) {
+                documentScrollTop = document.documentElement.scrollTop;
+            }
+            scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+            return scrollTop;
+        }
+        function getWindowHeight() {
+            var windowHeight = 0;
+            if (document.compatMode == "CSS1Compat") {
+                windowHeight = document.documentElement.clientHeight;
+            } else {
+                windowHeight = document.body.clientHeight;
+            }
+            return windowHeight;
+        }
     </script>
 
 </body>

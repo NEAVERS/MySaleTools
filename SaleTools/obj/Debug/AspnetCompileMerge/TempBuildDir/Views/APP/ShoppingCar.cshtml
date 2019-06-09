@@ -8,8 +8,11 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>ShoppingCar</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>购物车</title>
     <link href="~/Content/css/nav.css" rel="stylesheet" />
     <style>
         .tittle {
@@ -19,6 +22,7 @@
             position: fixed;
             z-index: 99;
             bottom: 50px;
+            background-color: white;
         }
 
         #goodList {
@@ -42,7 +46,7 @@
         .goodsInfo {
             float: left;
             width: 70%;
-            height: 100px;
+            height: 105px;
             text-align: center;
             line-height: 20px;
         }
@@ -163,28 +167,36 @@
             data: function () {
                 return {
                     count: this.todo.Count,
+                    isPost : false,
                 }
             },
             template: '<div class="goodsItem"><div class="goodsimg"><a><img  v-bind:src="todo.Pic"    style="height: 80px" alt="暂无图片"></a></div><div class="goodsInfo"><div class="goodstittle">{{todo.ProductTittle}}</div><div class="info"><span class="price">{{ todo.Price }}元</span> 规格:{{todo.Spec}}</div><div class="btns"><button class="JianCount" v-on:click="minus">-</button><input v-on:change="changeCount" type="number" class="count" v-model=" todo.Count "><button class="JiaCount"  v-on:click="add">+</button> <button class="delBtn" v-on:click="deleteItem">删除</button></div></div></div>',
             methods: {
                 add: function () {
+                    if (this.isPost)
+                        return;
+                    this.isPost = true;
                     this.todo.Count++;
                     this.changeCount();
                 },
                 minus: function () {
+                    if (this.isPost)
+                        return;
+                    this.isPost = true;
+
                     this.todo.Count--;
                     this.changeCount();
                 },
                 changeCount: function () {
                     this.$http.post('/APP/ChangeCount', { itemId: this.todo.Id, count: this.todo.Count }, { emulateJSON: true }).then(function (res) {
                         var res = JSON.parse(res.body);
+                        this.isPost = false;
                         if (res.Stutas) {
-                            alert("修改成功！");
-                            location.reload();
+                            app.reload();
                         }
                         else {
-                            alert(res.Msg);
-                            this.todo.Count = this.count  ;
+                            alert("修改失败！请重试！");
+                            this.todo.Count = res.Result  ;
 
                         }
                     }, function (res) {
@@ -196,10 +208,10 @@
                         this.$http.post('/APP/DeleteItems', { itemId: this.todo.Id }, { emulateJSON: true }).then(function (res) {
                             var res = JSON.parse(res.body);
                             if (res.Stutas) {
-                                location.reload();
+                                app.LoadInfo();
                             }
                             else {
-                                alert(res.Msg);
+                                alert("删除失败！请重试！");
                             }
                         }, function (res) {
                             console.log(res.status);
@@ -252,11 +264,43 @@
                                 this.mansong = res.Result.mansong;
                             }
                             this.discount = _discount;
-                            this.totalPrice = _totalPrice;
+                            this.totalPrice = _totalPrice.toFixed(2);
                         }
                     }, function () {
                         console.log('请求失败处理');
                     });
+                },
+                reload: function () {
+                    this.$http.post(
+                        '/APP/LoadShoopingCarCount',
+                        { emulateJSON: true }
+                    ).then(function (res) {
+                        var _totalPrice = 0;
+                        var _discount = 0;
+                        var res = JSON.parse(res.body)
+                        if (res.Stutas) {
+                            this.dpsList = res.Result.dps;
+                            for (var i = 0; i < res.Result.list.length; i++) {
+                                _totalPrice += res.Result.list[i].TotalPrice;
+                                _discount += res.Result.list[i].LessPrice * res.Result.list[i].Count;
+                            }
+                            if (res.Result.manjian) {
+                                this.manjian = res.Result.manjian;
+
+                                this.isShowManJian = true;
+                                _totalPrice = _totalPrice - this.manjian.LessMoeny;
+                            }
+                            if (res.Result.mansong) {
+                                this.isShowManSong = true;
+                                this.mansong = res.Result.mansong;
+                            }
+                            this.discount = _discount;
+                            this.totalPrice = _totalPrice.toFixed(2);
+                        }
+                    }, function () {
+                        console.log('请求失败处理');
+                    });
+
                 },
                 ConfirmOrder: function () {
                     location.href = "/APP/ConfirmOrder"

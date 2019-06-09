@@ -119,6 +119,39 @@ namespace BLL
                 q = q.Where(x => x.IsUsed == isUsed);
             return q.ToList();
         }
+        public ResponseModel CreateCouponActivity(CouponActivity model, List<string> areNum)
+        {
+
+            List<ManToArea> list = new List<ManToArea>();
+            var areaHis = _context.ManToAreas.Where(x => x.ActiveId == model.Id);
+            areNum.ForEach(x =>
+            {
+                var area = _context.Areas.FirstOrDefault(c => c.Num == x);
+                if (area != null)
+                {
+
+                    var newArea = new ManToArea();
+                    newArea.ActiveId = model.Id;
+                    newArea.ActiveName = model.Remark;
+                    newArea.AreaNum = area.Num;
+                    newArea.AreaName = area.Name;
+                    list.Add(newArea);
+                }
+            });
+
+            List<string> errorNum = new List<string>();
+            var tempModel = Utils.DeepCopyByReflect(model);
+            tempModel.Id = Guid.NewGuid();
+
+            tempModel.EffectTime = model.EffectTime;
+            _context.CouponActivities.Add(tempModel);
+            _context.ManToAreas.RemoveRange(areaHis);
+            _context.ManToAreas.AddRange(list);
+
+            _response.Stutas = _context.SaveChanges() > 0;
+            _response.Result = errorNum;
+            return _response;
+        }
 
 
         public ResponseModel SetCouponUse(Guid couponId,Guid orderId)
@@ -1218,6 +1251,31 @@ namespace BLL
         {
             var list = GetBlackForActiveByType(userid, (int)ActiveType.类目折扣);
             return list.Any(x => x.GoodsId == goodsId);
+        }
+
+        #endregion
+
+
+
+
+        #region
+        public PageData<CouponActivity> GetCouponActivityPager(Guid userid, int index)
+        {
+            var q = from c in _context.CouponActivities
+                    where c.CreateUserId == userid
+                    select c;
+            var pager = new PageData<CouponActivity>();
+            pager.PageIndex = index;
+            pager.PageSize = 30;
+            pager.TotalCount = q.Count();
+            pager.ListData = q.OrderByDescending(x => x.CreateTime).Skip((index - 1) * 30).Take(30).ToList();
+            foreach (var item in pager.ListData)
+            {
+                var areas = GetActiveArea(item.Id);
+                var areaList = GetCanUserArea(areas);
+                item.SupplierName = string.Join(",", areaList.Select(x => x.Name));
+            }
+            return pager;
         }
 
         #endregion

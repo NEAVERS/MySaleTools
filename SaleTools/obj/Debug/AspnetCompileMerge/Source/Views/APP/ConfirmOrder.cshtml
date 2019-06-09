@@ -11,8 +11,11 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>ConfirmOrder</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>确认订单</title>
 
     <style>
         .tittle {
@@ -23,7 +26,7 @@
             position: fixed;
             z-index: 99;
             bottom: 0px;
-            left:0px;
+            left: 0px;
         }
 
         #goodList {
@@ -158,7 +161,8 @@
                 isShowManSong: false,
                 totalPrice: 0,
                 discount: 0,
-                remark:""
+                remark: "",
+                n: 0
             },
             methods: {
                 LoadInfo: function () {
@@ -196,8 +200,13 @@
 
                 CreateOrder: function () {
                     if (confirm("确认要提交该订单吗？")) {
+                        if (this.n == 1)
+                            return;
+                        this.n = 1;
+
                         this.$http.post('/APP/CreateOrder', { remark: this.remark}, { emulateJSON: true }).then(function (res) {
                             var res = JSON.parse(res.body);
+                            this.n = 0;
                             if (res.Stutas) {
                                 location.href = "/APP/OrderList";
                             }
