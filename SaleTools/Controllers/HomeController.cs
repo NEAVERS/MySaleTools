@@ -357,11 +357,12 @@ namespace SaleTools.Controllers
 
                 Manjiujian mj = _active.CheckManjiujian(loginUser, ViewBag.ManagerId);
                 Manjiusong ms = _active.CheckManSong(loginUser, ViewBag.ManagerId);
+                CouponActivity ca = _active.CheckCouponActivity(loginUser, ViewBag.ManagerId);
                 if (mj != null)
                 {
                     order.Manjian = mj.LessMoeny;
                 }
-                if (ms != null)
+                if ((ms != null&&ca ==null)||(ms != null && ca != null &&ms.LimitMoney >ca.SendMoney))
                 {
                     var model = _manager.GetGoodsWithPrice(ms.SendGoodId, loginUser.TypeId);
                     OrderItem item = new OrderItem();
@@ -387,6 +388,32 @@ namespace SaleTools.Controllers
                     item.Brand = model.BrandName;
                     item.Pic = model.pic1;
                     var res = _order.AddOrderItem(item);
+                }
+                if ((ms == null && ca != null) || (ms != null && ca != null && ms.LimitMoney <= ca.SendMoney))
+                {
+                    Coupon coupon = new Coupon();
+                    coupon.BrandId = ca.BrandId;
+                    coupon.BrandName = ca.BrandName;
+                    coupon.CouponType = ca.CouponType;
+                    coupon.CreateTime = DateTime.Now;
+                    coupon.CreateUserId = ca.CreateUserId;
+                    coupon.CreateUserName = ca.CreateUserName;
+                    coupon.EffectTime = ca.EffectTime;
+                    coupon.EndTime = DateTime.Now.AddDays(coupon.EffectTime);
+                    coupon.Id = Guid.NewGuid();
+                    coupon.IsUsed = false;
+                    coupon.LessMoney = ca.LessMoney;
+                    coupon.Limit = ca.Limit;
+                    coupon.Remark = ca.Remark;
+                    coupon.StartTime = ca.StartTime;
+                    coupon.StoreId = loginUser.UserId;
+                    coupon.StoreNum = loginUser.UserNum;
+                    coupon.SupplierId = ca.SupplierId;
+                    coupon.SupplierName = ca.SupplierName;
+                    List<UserInfo> userList = new List<UserInfo>();
+                    userList.Add(loginUser);
+                    _active.CreateCoupon(coupon, userList);
+
                 }
                 var dpses = _active.CheckDPS(list, loginUser.TypeId, loginUser.AreaNum);
                 foreach (var dps in dpses)

@@ -746,7 +746,7 @@
                 var _input = $(this).siblings("input.J_QuantityInput");
                 var min = parseInt(_input.data("min"));
                 var max = parseInt(_input.data("max"));
-                if (max < min) {
+                if (max > 0 && max < min) {
                     build("red", "商品库存不足", "Decrement");
                     return false;
                 }
@@ -761,7 +761,7 @@
                 var _input = $(this).siblings("input.J_QuantityInput");
                 var min = parseInt(_input.data("min"));
                 var max = parseInt(_input.data("max"));
-                if (max>0&& max < min) {
+                if (max > 0 && max < min) {
                     build("red", "商品库存不足", "Increment");
                     return false;
                 }

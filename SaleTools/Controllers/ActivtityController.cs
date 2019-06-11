@@ -630,7 +630,7 @@ namespace SaleTools.Controllers
             c.CreateUserName = loginUser.UserName;
 
             _active.CreateCouponActivity(c, areaList);
-            Response.Redirect("ShowCoupon");
+            Response.Redirect("ShowCouponActivites");
             return View();
         }
 
