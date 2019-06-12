@@ -106,6 +106,16 @@
                                 </td>
                             </tr>
 
+                            <tr id="more">
+                                <td class="right"><span class="highlight">*</span>店铺类型:</td>
+                                <td>
+                                    @foreach (var item in typeList)
+                                    {
+                                        <input type="checkbox" name="userType" value="@item.TypeId">@item.TypeName
+                                    }
+                                    &nbsp; &nbsp;
+                                </td>
+                            </tr>
 
 
                             <tr>

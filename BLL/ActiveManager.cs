@@ -612,6 +612,7 @@ namespace BLL
                     && c.EndTime > DateTime.Now
                     && c.CreateUserId == managerId
                     &&c.SendMoney < totalPrice
+                    &&c.UserTypes.Contains(_user.TypeId.ToString())
                     select c;
             var tempList = q.ToList();
 
@@ -624,7 +625,7 @@ namespace BLL
             }
             if (activities == null || activities.Count < 1)
                 return null;
-            var activity = activities.OrderBy(x => x.SendMoney).FirstOrDefault();
+            var activity = activities.OrderByDescending(x => x.SendMoney).FirstOrDefault();
             return activity;
         }
         /// <summary>

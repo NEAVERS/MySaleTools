@@ -618,7 +618,7 @@ namespace SaleTools.Controllers
         }
 
 
-        public ActionResult SaveCouponActivity(CouponActivity c, string areaNums)
+        public ActionResult SaveCouponActivity(CouponActivity c, List<int> userType, string areaNums)
         {
             var loginUser = (UserInfo)ViewBag.User;
             var areaList = areaNums.Split(',').ToList();
@@ -628,7 +628,13 @@ namespace SaleTools.Controllers
             c.CreateTime = DateTime.Now;
             c.CreateUserId = managerId;
             c.CreateUserName = loginUser.UserName;
-
+            string userTypes = "";
+            userType.ForEach(x =>
+            {
+                userTypes += x;
+                userTypes += ",";
+            });
+            c.UserTypes = userTypes;
             _active.CreateCouponActivity(c, areaList);
             Response.Redirect("ShowCouponActivites");
             return View();

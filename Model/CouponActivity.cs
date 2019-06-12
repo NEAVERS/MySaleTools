@@ -112,6 +112,7 @@ namespace Model
 
         public Guid? UserOrderId { get; set; }
 
+        public string UserTypes { get; set; }
         public CouponActivity()
         {
             this.Id = Guid.NewGuid();

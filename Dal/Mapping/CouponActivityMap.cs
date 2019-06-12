@@ -47,6 +47,7 @@ namespace Dal.Mapping
             this.Property(t => t.EffectTime).HasColumnName("EffectTime");
 
             this.Property(t => t.SendMoney).HasColumnName("SendMoney");
+            this.Property(t => t.UserTypes).HasColumnName("UserTypes");
 
         }
 

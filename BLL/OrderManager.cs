@@ -93,8 +93,8 @@ namespace BLL
                 totalPrice += item.TotalPrice;
                 lessMoney += (item.Count * item.LessPrice);
             }
-            order.RealMoney = totalPrice - order.Manjian;////折扣后的总金额 减去满减为实际价格
-            order.LessMoney = lessMoney; ///满减价格加上折扣的优惠金额 为总的优惠金额
+            order.RealMoney = totalPrice - order.Manjian- order.LessMoney;////折扣后的总金额 减去满减为实际价格
+            order.LessMoney += lessMoney; ///满减价格加上折扣的优惠金额 为总的优惠金额
             order.TotalMoney = totalPrice + lessMoney;
             
             order.Stutas = (int)OrderStatus.等待商家发货;
