@@ -110,15 +110,16 @@ namespace SaleTools.Controllers
                 _response.Msg = "该账号已存在！请重新填写！";
                 return Utils.SerializeObject(_response);
             }
+            if (user.TypeId > 0)
+            {
+                Resourses.Add(ResourceStr.ShowMyOrder);
+                Resourses.Add(ResourceStr.ChangePwd);
+                Resourses.Add(ResourceStr.ShowMyCoupon);
+                Resourses.Add(ResourceStr.ShowAccountInfo);
+            }
+
             if (manager.IsExitUser(user.UserId))
             {
-                if (user.TypeId > 0)
-                {
-                    Resourses.Add(ResourceStr.ShowMyOrder);
-                    Resourses.Add(ResourceStr.ChangePwd);
-                    Resourses.Add(ResourceStr.ShowMyCoupon);
-                    Resourses.Add(ResourceStr.ShowAccountInfo);
-                }
                 user.CreateUser = loginUser.UserName;
                 user.CreateUserId = loginUser.UserId;
                 user.UserId = Guid.NewGuid();

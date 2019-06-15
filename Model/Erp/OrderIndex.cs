@@ -58,5 +58,9 @@ namespace Model.Erp
         public Nullable<decimal> ntotalinmoney { get; set; }
         public Nullable<System.DateTime> checkTime { get; set; }
         public Nullable<decimal> Discount { get; set; }
+
+        public string DeliveryAddress { get; set; }
+
+
     }
 }

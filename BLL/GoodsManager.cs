@@ -306,7 +306,18 @@ namespace BLL
         /// <returns></returns>
         public GoodInfo GetGoodInfoById(Guid id)
         {
-            return _context.GoodInfoes.FirstOrDefault(x => x.Id == id);
+            var item = _context.GoodInfoes.FirstOrDefault(x => x.Id == id);
+            if (item != null)
+            {
+                int boxspec = Utils.ParseInt(item.BoxSpec);
+                if (boxspec == 0 || !item.IsBoxSale)
+                    boxspec = 1;
+
+                int stock = GetGoodsStock(item.ErpId, boxspec);
+                item.Stock = stock;
+            }
+
+            return item;
         }
 
         /// <summary>
