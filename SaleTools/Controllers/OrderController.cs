@@ -689,7 +689,7 @@ namespace SaleTools.Controllers
             {
                 LogsHelper.WriteErrorLog(ex, "导入Erp");
             }
-            return res.ToString();
+            return Utils.SerializeObject(res);
         }
     }
 }

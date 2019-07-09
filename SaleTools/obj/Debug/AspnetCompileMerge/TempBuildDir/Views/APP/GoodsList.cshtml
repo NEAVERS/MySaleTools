@@ -196,10 +196,19 @@
         </div>
         <transition name="fade">
             <div class="typeList" v-show="show">
-                <div class="typeItem activeType" typeId="">全部</div>
+                @if (ViewBag.Parent!="")
+                {
+                    <div class="typeItem " typeId="">全部</div>
+
+                }
+                else
+                {
+                    <div class="typeItem activeType" typeId="">全部</div>
+
+                }
                 @foreach (var item in TypeList)
                 {
-                    <div class="typeItem" typeId="@item.Id">@item.TypeName</div>
+                    <div class="typeItem @(ViewBag.Parent==item.Id.ToString()?"activeType":"")" typeId="@item.Id">@item.TypeName</div>
                 }
             </div>
         </transition>
@@ -318,7 +327,9 @@
                 }
             }
         })
+        app.setType("@ViewBag.Parent");
         app.getGoodsList();
+
         $(".typeItem").click(function () {
             $(".typeItem").removeClass("activeType");
             $(this).addClass("activeType");

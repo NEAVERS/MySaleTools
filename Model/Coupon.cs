@@ -115,6 +115,11 @@ namespace Model
 
         public Guid? UserOrderId { get; set; }
 
+
+        /// <summary>
+        /// 优惠券活动ID
+        /// </summary>
+        public Guid ActivityID { get; set; }
         public Coupon()
         {
             this.Id = Guid.NewGuid();
@@ -139,6 +144,7 @@ namespace Model
             this.UserNum = string.Empty;
             this.UseTime = null;
             this.UserOrderId = null;
+            this.ActivityID = Guid.Empty;
         }
 
     }

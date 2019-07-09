@@ -598,8 +598,6 @@ namespace BLL
         public CouponActivity CheckCouponActivity(UserInfo _user, Guid managerId)
         {
             var orderItems = GetShoppingCar(_user);
-
-
             var blackList = GetBlackForActiveByType(_user.CreateUserId, (int)ActiveType.生成优惠劵);
             orderItems = orderItems.Where(x => !blackList.Exists(c => c.GoodsId == x.ProductId)).ToList();///不计算在黑名单中的商品
 
@@ -657,7 +655,6 @@ namespace BLL
             page.ListData = q.OrderByDescending(x => x.CreateTime).Skip((index - 1) * 30).Take(30).ToList();
             return page;
         }
-
         /// <summary>
         /// 获取满送活动详情
         /// </summary>
@@ -1307,6 +1304,17 @@ namespace BLL
                 var areas = GetActiveArea(item.Id);
                 var areaList = GetCanUserArea(areas);
                 item.SupplierName = string.Join(",", areaList.Select(x => x.Name));
+                var couponList = from c in _context.Coupons
+                                 where c.ActivityID == item.Id
+                                 select c;
+                item.StoreNum = "";
+                item.Remark = "";
+                if (couponList!=null&& couponList.Count()>0)
+                {
+                    item.StoreNum = couponList.Count().ToString();
+                    item.Remark = couponList.Sum(x => x.LessMoney).ToString("0.00");
+                }
+
             }
             return pager;
         }

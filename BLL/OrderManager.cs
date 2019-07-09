@@ -1175,11 +1175,12 @@ namespace BLL
             orderIndex.redWord = false;
             orderIndex.BillOver = false;
             orderIndex.comment = string.Empty;
-            orderIndex.DeliveryAddress = orderDetail.Info.ReceiveAddr +"电话:" +orderDetail.Info.CreateUserTel;
-            if (orderDetail.Info.Manjian>0)
-                orderIndex.explain = "满减："+ orderDetail.Info.Manjian;
+            if (orderDetail.Info.Manjian > 0)
+                orderIndex.explain = "满减：" + orderDetail.Info.Manjian;
             else
                 orderIndex.explain = string.Empty;
+            if (orderDetail.Info.LessMoney > 0)
+                orderIndex.explain = "|优惠券：" + orderDetail.Info.LessMoney;
             orderIndex.Checke = saleMan == null ? "000010004100004" : saleMan.BTypeId;
             orderIndex.Tax = 0;
             orderIndex.BillStatus = 0;

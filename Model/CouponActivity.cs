@@ -113,6 +113,9 @@ namespace Model
         public Guid? UserOrderId { get; set; }
 
         public string UserTypes { get; set; }
+        /// <summary>
+        /// 满送优惠券活动ID
+        /// </summary>
         public CouponActivity()
         {
             this.Id = Guid.NewGuid();

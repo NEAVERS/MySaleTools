@@ -223,7 +223,7 @@
                         <td colspan="7" style="font-size:18px;font-weight:bold;">
                             <div style="text-align:right;margin-bottom:20px;">
                                 订单应收总金额：@(Math.Round(Model.Info.RealMoney, 2)) &nbsp;&nbsp;&nbsp;&nbsp;
-                                订单实收总金额：<input type="text" class="inputtext" id="J_ConfirmPayMenoy" style="width:100px;font-size:18px;" value="@(Math.Round(RealTotal, 2))">&nbsp;&nbsp;&nbsp;&nbsp;
+                                订单实收总金额：<input type="text" class="inputtext" id="J_ConfirmPayMenoy" style="width:100px;font-size:18px;" value="@(Math.Round(Model.Info.PayMoney, 2)) ">&nbsp;&nbsp;&nbsp;&nbsp;
                                 金额变动提醒：<span id="changeClock">@Model.Info.PayMoney</span>&nbsp;&nbsp;&nbsp;&nbsp;
                                 支付方式：@Model.Info.PayType<br><br>
                                 备注：<input type="text" class="inputtext" id="J_ConfirmMemo" style="width:200px;font-size:18px;" value="@Model.Info.AdminRemark">
@@ -391,6 +391,13 @@
     }
 
     $("#J_ReturnAllGoods").click(function () {
+        var para = {};
+        para.orderId = $("#J_OrderId").val();
+        $.post("/Order/SetAllItemError", para, function (e) {
+            if (e) {
+                location.reload();
+            }
+        }, "json")
 
     });
 </script>

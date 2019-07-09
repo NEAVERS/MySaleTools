@@ -1,6 +1,8 @@
-﻿
+﻿@using Model;
 @{
     Layout = null;
+    List<GoodsType> TypeList = (List<GoodsType>)ViewBag.TypeList;
+
 }
 
 <!DOCTYPE html>
@@ -81,18 +83,18 @@
             font-weight: 700;
         }
 
-        .inputCount
-        {
-            width:80px;
-            float:left;
-            margin-left:30%;
+        .inputCount {
+            width: 80px;
+            float: left;
+            margin-left: 30%;
         }
-        .inputCount input
-        {
-            width:80px;
-            margin-top:5px;
-            text-align:center;
-        }
+
+            .inputCount input {
+                width: 80px;
+                margin-top: 5px;
+                text-align: center;
+            }
+
         .addBtn span {
             float: left;
             width: 40px;
@@ -103,19 +105,39 @@
             background-color: #f2f2f2;
             margin-top: 1px;
         }
+
         #owl-demo {
             width: 100%;
             margin-left: auto;
             margin-right: auto;
         }
 
-        #owl-demo .item {
-            display: block;
+            #owl-demo .item {
+                display: block;
+            }
+
+            #owl-demo img {
+                display: block;
+                width: 100%;
+            }
+        .typeList {
+            position: fixed;
+            width: 100px;
+            background-color: #f2f2f2;
+            left: 0px;
+            top: 40px;
+            z-index: 100;
         }
 
-        #owl-demo img {
-            display: block;
+        .typeItem {
+            height: 30px;
+            line-height: 30px;
             width: 100%;
+            text-align: center;
+        }
+
+        .activeType {
+            border-right: solid 2px red;
         }
     </style>
 </head>
@@ -124,12 +146,21 @@
     <div id="Index">
         <div class="tittle ">
             <form action="/APP/GoodsList" method="get">
-                <span style="color: white;margin: 0 10px;" id="ProductList" v-on:click="searchGoods">分类</span>
+                <span style="color: white;margin: 0 10px;" id="ProductList" v-on:click="show = !show">分类</span>
                 <input type="search" style="background-color:white;height: 30px;width: 250px;" placeholder="请输入关键字查询" id="key" name="key" v-model="key">
                 <span style="color: white;margin: 0 10px;" id="btnSearch" v-on:click="searchGoods">搜索</span>
             </form>
-
         </div>
+        <transition name="fade">
+            <div class="typeList" v-show="show">
+                <div class="typeItem activeType" typeId="">全部</div>
+                @foreach (var item in TypeList)
+                {
+                    <div class="typeItem" typeId="@item.Id">@item.TypeName</div>
+                }
+            </div>
+        </transition>
+
         <div class="content">
             <!-- Demo -->
             <div id="owl-demo" class="owl-carousel">
@@ -197,7 +228,8 @@
             data: {
                 tuijian: [],
                 tejia: [],
-                key:"",
+                key: "",
+                show: false,
             },
             methods: {
                 get: function () {
@@ -250,6 +282,13 @@
 
         })
         app.get();
+
+        $(".typeItem").click(function () {
+            $(".typeItem").removeClass("activeType");
+            $(this).addClass("activeType");
+            location.href = "/APP/GoodsList?parentId="+ $(this).attr("typeId");
+        })
+
     </script>
 </body>
 </html>

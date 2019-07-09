@@ -10,34 +10,34 @@
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>06/15/2019 18:33:01</publishTime>
+      <publishTime>07/09/2019 21:11:50</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>06/15/2019 18:33:00</publishTime>
+      <publishTime>07/09/2019 21:11:49</publishTime>
     </File>
     <File Include="bin/BLL.dll">
-      <publishTime>06/15/2019 18:25:46</publishTime>
+      <publishTime>07/09/2019 21:10:02</publishTime>
     </File>
     <File Include="bin/BLL.dll.config">
       <publishTime>10/30/2018 10:08:28</publishTime>
     </File>
     <File Include="bin/BLL.pdb">
-      <publishTime>06/15/2019 18:25:46</publishTime>
+      <publishTime>07/09/2019 21:10:02</publishTime>
     </File>
     <File Include="bin/Common.dll">
-      <publishTime>06/15/2019 18:02:20</publishTime>
+      <publishTime>07/09/2019 21:09:59</publishTime>
     </File>
     <File Include="bin/Common.pdb">
-      <publishTime>06/15/2019 18:02:20</publishTime>
+      <publishTime>07/09/2019 21:09:59</publishTime>
     </File>
     <File Include="bin/Dal.dll">
-      <publishTime>06/15/2019 18:02:18</publishTime>
+      <publishTime>07/09/2019 21:09:58</publishTime>
     </File>
     <File Include="bin/Dal.dll.config">
       <publishTime>10/30/2018 10:08:28</publishTime>
     </File>
     <File Include="bin/Dal.pdb">
-      <publishTime>06/15/2019 18:02:18</publishTime>
+      <publishTime>07/09/2019 21:09:58</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>10/30/2018 10:08:34</publishTime>
@@ -49,19 +49,19 @@
       <publishTime>10/30/2018 10:08:34</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>06/15/2019 18:02:13</publishTime>
+      <publishTime>07/09/2019 21:09:56</publishTime>
     </File>
     <File Include="bin/Model.pdb">
-      <publishTime>06/15/2019 18:02:13</publishTime>
+      <publishTime>07/09/2019 21:09:56</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>10/30/2018 10:08:34</publishTime>
     </File>
     <File Include="bin/SaleTools.dll">
-      <publishTime>06/15/2019 18:25:55</publishTime>
+      <publishTime>07/09/2019 21:10:10</publishTime>
     </File>
     <File Include="bin/SaleTools.pdb">
-      <publishTime>06/15/2019 18:25:55</publishTime>
+      <publishTime>07/09/2019 21:10:10</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>10/30/2018 10:08:34</publishTime>
@@ -490,7 +490,7 @@
       <publishTime>10/30/2018 10:08:30</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>06/15/2019 18:32:38</publishTime>
+      <publishTime>07/09/2019 21:11:35</publishTime>
     </File>
     <File Include="Scripts/bootstrap.bundle.js">
       <publishTime>10/30/2018 10:08:31</publishTime>
@@ -772,7 +772,7 @@
       <publishTime>10/30/2018 10:08:31</publishTime>
     </File>
     <File Include="Views/Activtity/ShowCouponActivites.cshtml">
-      <publishTime>06/12/2019 22:45:54</publishTime>
+      <publishTime>07/09/2019 20:15:16</publishTime>
     </File>
     <File Include="Views/Activtity/ShowMyCoupon.cshtml">
       <publishTime>10/30/2018 10:08:31</publishTime>
@@ -781,13 +781,13 @@
       <publishTime>04/01/2019 09:51:12</publishTime>
     </File>
     <File Include="Views/APP/GoodsInfo.cshtml">
-      <publishTime>04/29/2019 15:50:34</publishTime>
+      <publishTime>06/22/2019 11:08:17</publishTime>
     </File>
     <File Include="Views/APP/GoodsList.cshtml">
-      <publishTime>06/11/2019 23:05:25</publishTime>
+      <publishTime>07/09/2019 21:05:47</publishTime>
     </File>
     <File Include="Views/APP/IndexPage.cshtml">
-      <publishTime>06/15/2019 18:30:56</publishTime>
+      <publishTime>07/09/2019 20:52:08</publishTime>
     </File>
     <File Include="Views/APP/OrderInfo.cshtml">
       <publishTime>01/31/2019 12:07:06</publishTime>
@@ -832,7 +832,7 @@
       <publishTime>10/30/2018 10:08:31</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>06/11/2019 23:30:22</publishTime>
+      <publishTime>06/26/2019 15:02:50</publishTime>
     </File>
     <File Include="Views/Home/Notice.cshtml">
       <publishTime>10/30/2018 10:08:31</publishTime>
@@ -841,7 +841,7 @@
       <publishTime>10/30/2018 10:08:31</publishTime>
     </File>
     <File Include="Views/Home/Product.cshtml">
-      <publishTime>06/11/2019 23:29:43</publishTime>
+      <publishTime>06/26/2019 15:02:50</publishTime>
     </File>
     <File Include="Views/Home/ProductDetail.cshtml">
       <publishTime>04/11/2019 15:28:50</publishTime>
@@ -868,7 +868,7 @@
       <publishTime>10/30/2018 10:08:31</publishTime>
     </File>
     <File Include="Views/Order/ConfirmPayRecord.cshtml">
-      <publishTime>05/16/2019 16:39:50</publishTime>
+      <publishTime>07/09/2019 20:27:10</publishTime>
     </File>
     <File Include="Views/Order/CreateFile.cshtml">
       <publishTime>10/30/2018 10:08:31</publishTime>
@@ -883,10 +883,10 @@
       <publishTime>10/30/2018 10:08:31</publishTime>
     </File>
     <File Include="Views/Order/OrderDetail.cshtml">
-      <publishTime>05/14/2019 10:34:12</publishTime>
+      <publishTime>07/09/2019 20:15:16</publishTime>
     </File>
     <File Include="Views/Order/OrderManager.cshtml">
-      <publishTime>06/04/2019 16:25:02</publishTime>
+      <publishTime>06/17/2019 09:59:00</publishTime>
     </File>
     <File Include="Views/Order/OrderPayContrast.cshtml">
       <publishTime>10/30/2018 10:08:31</publishTime>
@@ -976,7 +976,7 @@
       <publishTime>10/30/2018 10:08:31</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/15/2019 18:32:28</publishTime>
+      <publishTime>07/09/2019 21:11:25</publishTime>
     </File>
   </ItemGroup>
 </Project>

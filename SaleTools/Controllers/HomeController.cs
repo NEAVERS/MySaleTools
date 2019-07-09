@@ -158,6 +158,7 @@ namespace SaleTools.Controllers
                 _response.Msg = "该商品限购" + goodsInfo.LimitCount;
                 return Utils.SerializeObject(_response);
             }
+
             if (_order.IsExitInCar(goodId,loginUser.UserId, out basItem))
             {
                 count += basItem.Count;
@@ -170,11 +171,22 @@ namespace SaleTools.Controllers
                     _response.Msg = "该商品限购"+ goodsInfo.LimitCount;
                     return Utils.SerializeObject(_response);
                 }
+                else if(goodsInfo.MinCount > count)
+                {
+                    _response.Msg = "该商品最少购买" + goodsInfo.MinCount;
+                    return Utils.SerializeObject(_response);
+                }
                 else
                     _response.Stutas = _order.SaveOrderItem(basItem.Id, count);
             }
             else
             {
+                if (goodsInfo.MinCount > count)
+                {
+                    _response.Msg = "该商品最少购买" + goodsInfo.MinCount;
+                    return Utils.SerializeObject(_response);
+                }
+
                 var model = _manager.GetGoodsWithPrice(goodId, loginUser.TypeId);
                 OrderItem item = new OrderItem();
                 item.Count = count;
@@ -254,7 +266,12 @@ namespace SaleTools.Controllers
                     _response.Msg = string.Format("库存不足！", goodsInfo.LimitCount);
                     return Utils.SerializeObject(_response);
                 }
-                 _response.Stutas = _order.SaveOrderItem(itemId, count);
+                if ( count < goodsInfo.MinCount)
+                {
+                    _response.Msg = string.Format("数量不能小于最小起批数！", goodsInfo.LimitCount);
+                    return Utils.SerializeObject(_response);
+                }
+                _response.Stutas = _order.SaveOrderItem(itemId, count);
 
                 return Utils.SerializeObject(_response);
             }
@@ -410,6 +427,7 @@ namespace SaleTools.Controllers
                     coupon.StoreNum = loginUser.UserNum;
                     coupon.SupplierId = ca.SupplierId;
                     coupon.SupplierName = ca.SupplierName;
+                    coupon.ActivityID = ca.Id;
                     List<UserInfo> userList = new List<UserInfo>();
                     userList.Add(loginUser);
                     _active.CreateCoupon(coupon, userList);

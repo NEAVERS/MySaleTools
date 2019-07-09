@@ -216,12 +216,22 @@ namespace SaleTools.Controllers
                         _response.Msg = "该商品限购" + goodsInfo.LimitCount;
                         return Utils.SerializeObject(_response);
                     }
+                    if (count < goodsInfo.MinCount)
+                    {
+                        _response.Msg = string.Format("数量不能小于最小起批数！", goodsInfo.LimitCount);
+                        return Utils.SerializeObject(_response);
+                    }
 
                     else
                         res = _order.SaveOrderItem(basItem.Id, count);
                 }
                 else
                 {
+                    if (count < goodsInfo.MinCount)
+                    {
+                        _response.Msg = string.Format("数量不能小于最小起批数！", goodsInfo.LimitCount);
+                        return Utils.SerializeObject(_response);
+                    }
                     var model = _goodsmanager.GetGoodsWithPrice(goodId, loginUser.TypeId);
                     decimal discount = _active.CheckDiscountDetail(model.FirstTypeId, loginUser.AreaNum, loginUser.TypeId.ToString());
                     if (_active.CheckInBlack(loginUser.CreateUserId, model.Id))
@@ -294,6 +304,14 @@ namespace SaleTools.Controllers
                     _response.Msg = "超出库存无法购买！！";
                     _response.Result = orderItem.Count;
                 }
+                if (count < goodsInfo.MinCount)
+                {
+                    _response.Msg = string.Format("数量不能小于最小起批数！", goodsInfo.LimitCount);
+                    _response.Result = orderItem.Count;
+
+                    return Utils.SerializeObject(_response);
+                }
+
                 else
                     _response.Stutas = _order.SaveOrderItem(itemId, count);
 
@@ -868,6 +886,10 @@ namespace SaleTools.Controllers
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
+                Guid typeId = Utils.ParseGuid("");
+                var list = _goodsmanager.GetDownGoodsType(typeId, loginUser.CreateUserId);
+                ViewBag.TypeList = list;
+
                 return View();
             }
             else
@@ -885,10 +907,11 @@ namespace SaleTools.Controllers
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
-                Guid typeId = Utils.ParseGuid(parentId);
+                Guid typeId = Utils.ParseGuid("");
                 var list = _goodsmanager.GetDownGoodsType(typeId, loginUser.CreateUserId);
                 ViewBag.TypeList = list;
                 ViewBag.Key = key;
+                ViewBag.Parent = parentId;
                 return View();
             }
             else

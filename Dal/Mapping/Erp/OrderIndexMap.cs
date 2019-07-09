@@ -155,10 +155,6 @@ namespace Dal.Mapping.Erp
             this.Property(t => t.ntotalinmoney).HasColumnName("ntotalinmoney");
             this.Property(t => t.checkTime).HasColumnName("checkTime");
             this.Property(t => t.Discount).HasColumnName("Discount");
-            this.Property(t => t.DeliveryAddress).HasColumnName("DeliveryAddress");
-
-
-            
         }
     }
 }

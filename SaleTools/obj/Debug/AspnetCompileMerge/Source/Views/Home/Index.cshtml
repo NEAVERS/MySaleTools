@@ -782,13 +782,14 @@
                 _this.val(quantity);
             });
             $(document).on("click", ".J_AddCartBtn", function (event) {
-                $('.add_cart_btn').removeClass("J_AddCartBtn");
                 var _this = $(this);
                 var _input = _this.prev(".item_quantity").children(".J_QuantityInput");
+                var min = parseInt(_input.data("min"));
+
                 var quantity = _input.val();
                 var limit_start_time = _this.data("start");
                 var limit_end_time = _this.data("end");
-                var limit_buy_num = _this.data("num");
+                var limit_buy_num = _this.data("min");
                 var curentTime = Date.parse(new Date()) / 1000;
                 var productId = _this.data("id");
                 if (limit_start_time > 0 && limit_end_time > 0) {
@@ -804,6 +805,10 @@
                         build("red", "该商品限购", productId, limit_buy_num);
                         return false;
                     }
+                }
+                if (quantity < min) {
+                    build("red", "该商品数量不得低于最低起售数量", productId, min);
+                    return false;
                 }
                 $.ajax({
                     "type": "POST",

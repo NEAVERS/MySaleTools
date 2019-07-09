@@ -48,7 +48,6 @@ namespace Dal.Mapping
 
             this.Property(t => t.SendMoney).HasColumnName("SendMoney");
             this.Property(t => t.UserTypes).HasColumnName("UserTypes");
-
         }
 
     }

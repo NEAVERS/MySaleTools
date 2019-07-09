@@ -33,7 +33,11 @@
                             <th class="center" width="80">赠送条件</th>
                             <th class="center" width="80">使用满足条件</th>
                             <th class="center" width="60">赠送金额</th>
+
                             <th class="center" width="80">有效期</th>
+                            <th class="center" width="60">已送优惠券数</th>
+                            <th class="center" width="80">已送总金额</th>
+
                             <th class="center" width="130">操作</th>
                         </tr>
                     </thead>
@@ -69,9 +73,9 @@
                                 <td>@item.Limit.ToString(".00")</td>
                                 <td>@item.LessMoney.ToString(".00")</td>
                                 <td>@item.EffectTime</td>
-                                <td>
-
-                                </td>
+                                <td>@item.StoreNum</td>
+                                <td>@item.Remark</td>
+                                <td></td>
                             </tr>
 
                             }

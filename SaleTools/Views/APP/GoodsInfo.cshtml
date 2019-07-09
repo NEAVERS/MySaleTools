@@ -83,6 +83,8 @@
             #owl-demo img {
                 display: block;
                 width: 100%;
+                display: inline-block;
+                vertical-align: middle;
             }
 
         #jiesuan {
@@ -111,23 +113,23 @@
         <div id="owl-demo" class="owl-carousel">
             @if (!string.IsNullOrWhiteSpace(Model.pic1))
             {
-                <a class="item"><img src="@Model.pic1" alt="" style="width: 100%;height: 200px"></a>
+                <a class="item"><img src="@Model.pic1" alt=""  /></a>
             }
             @if (!string.IsNullOrWhiteSpace(Model.pic2))
             {
-                <a class="item"><img src="@Model.pic2" alt="" style="width: 100%;height: 200px"></a>
+                <a class="item"><img src="@Model.pic2" alt=""   /></a>
             }
             @if (!string.IsNullOrWhiteSpace(Model.pic3))
             {
-                <a class="item"><img src="@Model.pic3" alt="" style="width: 100%;height: 200px"></a>
+                <a class="item"><img src="@Model.pic3" alt=""  /></a>
             }
             @if (!string.IsNullOrWhiteSpace(Model.pic4))
             {
-                <a class="item"><img src="@Model.pic4" alt="" style="width: 100%;height: 200px"></a>
+                <a class="item"><img src="@Model.pic4" alt=""   /></a>
             }
             @if (!string.IsNullOrWhiteSpace(Model.pic5))
             {
-                <a class="item"><img src="@Model.pic5" alt="" style="width: 100%;height: 200px"></a>
+                <a class="item"><img src="@Model.pic5" alt="" ></a>
             }
         </div>
         <div class="content">
@@ -139,7 +141,7 @@
                 <textarea cols="4" placeholder="商品规格备注" style="width: 93%;height: 80px;border: 1px solid"></textarea>
             </div>
         </div>
-        @if (@Model.Stock > 0)
+        @if (Model.Stock > 0)
         {
             <button id="jiesuan" v-on:click="addToShoppingCar">添加到购物车</button>
         }
@@ -198,6 +200,33 @@
             });
         }
         loadImg();
+
+        function AutoResizeImage(maxWidth, maxHeight, objImg) {
+            var img = new Image();
+            img.src = objImg.src;
+            var hRatio;
+            var wRatio;
+            var Ratio = 1;
+            var w = img.width;
+            var h = img.height;
+            wRatio = maxWidth / w;
+            hRatio = maxHeight / h;
+            if (maxWidth == 0 && maxHeight == 0) {
+                Ratio = 1;
+            } else if (maxWidth == 0) {//
+                if (hRatio < 1) Ratio = hRatio;
+            } else if (maxHeight == 0) {
+                if (wRatio < 1) Ratio = wRatio;
+            } else if (wRatio < 1 || hRatio < 1) {
+                Ratio = (wRatio <= hRatio ? wRatio : hRatio);
+            }
+            if (Ratio < 1) {
+                w = w * Ratio;
+                h = h * Ratio;
+            }
+            objImg.height = h;
+            objImg.width = w;
+        }
     </script>
 </body>
 </html>

@@ -209,8 +209,11 @@
                 html += '<td>' + getSutas(this.Stutas) + '</td >';
                 html += '<td>';
                 html += '<a class="alink" href="/Order/OrderDetail?orderId=' + this.Id + '">订单详情</a>'
-                if (this.Stutas == 1)
+                if (this.Stutas == 1) {
                     html += '<a class="del alink" href="#" data-pick="0" data-state="1" data-id="' + this.Id + '">取消订单</a>'
+                    html += '<a class="alink"  href="javascript:void(0)" data-pick="0" data-state="1" onclick="CheckAgree(\'' + this.Id + '\')">重新导入ERP</a>'
+
+                }
                 if (this.Stutas == 4)
                     html += '<a class="alink"  href="javascript:void(0)" data-pick="0" data-state="1" onclick="CheckAgree(\'' + this.Id + '\')">审核订单</a>'
                 if (this.Stutas == 5)
@@ -316,6 +319,27 @@
             SaveCheck(OrderId, false);
 
         });
+    }
+    function InsertErp(OrderId) {
+        layer.confirm('是否通过申请？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            inPutErp(OrderId, true);
+        });
+    }
+
+    function inPutErp(orderId, isAgree) {
+        var para = {};
+        para.orderid = orderId;
+
+        $.post("/Order/InsertErp", para, function (e) {
+            if (e) {
+                layer.msg("操作成功！", { icon: 1 }, function () {
+                })
+            }
+            else
+                layer.msg(e.Msg, { icon: 2 });
+        }, "json");
     }
 
     function SaveCheck(orderId, isAgree) {
