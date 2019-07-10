@@ -50,6 +50,7 @@ namespace BLL
                     x.LessPrice = Math.Round((100 - discount) * x.Price / 100, 10);
                     x.RealPrice = x.Price - x.LessPrice;
                     x.TotalPrice = x.RealPrice * x.Count;
+                    x.ProductTittle = _good.GetGoodInfoById(x.ProductId).GoodsTittle;
                 }
             });
             return q.ToList();
@@ -670,7 +671,8 @@ namespace BLL
         {
             var list = _context.OrderItems.Where(x => x.OrderId == orderId);
             var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
-            order.Stutas = (int)OrderStatus.退货中;
+            order.Stutas = (int)OrderStatus.退货成功;
+            order.IsPay = true;
             order.IsError = true;
             foreach (var model in list)
             {
@@ -681,7 +683,6 @@ namespace BLL
                 model.ErrorMark = "";
                 model.ErrorCount = model.Count;
                 model.IsError = true;
-                order.IsError = true;
             }
             return _context.SaveChanges() > 0;
         }
@@ -1178,9 +1179,12 @@ namespace BLL
             if (orderDetail.Info.Manjian > 0)
                 orderIndex.explain = "满减：" + orderDetail.Info.Manjian;
             else
-                orderIndex.explain = string.Empty;
-            if (orderDetail.Info.LessMoney > 0)
-                orderIndex.explain = "|优惠券：" + orderDetail.Info.LessMoney;
+                orderIndex.explain = "";
+            Coupon coupon = _context.Coupons.FirstOrDefault(x => x.UserOrderId == orderId);
+            if (coupon != null)
+            {
+                orderIndex.explain += "|优惠券：" + coupon.LessMoney;
+            }
             orderIndex.Checke = saleMan == null ? "000010004100004" : saleMan.BTypeId;
             orderIndex.Tax = 0;
             orderIndex.BillStatus = 0;
