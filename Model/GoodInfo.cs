@@ -246,6 +246,28 @@ namespace Model
         /// 是否整箱销售
         /// </summary>
         public bool IsBoxSale { get; set; }
+
+        /// <summary>
+        /// A类客户名字
+        /// </summary>
+        public string TitleForA { get; set; }
+        /// <summary>
+        /// B类客户名字
+        /// </summary>
+        public string TitleForB { get; set; }
+        /// <summary>
+        /// C类客户名字
+        /// </summary>
+        public string TitleForC { get; set; }
+        /// <summary>
+        /// D类客户名字
+        /// </summary>
+        public string TittleForD { get; set; }
+        /// <summary>
+        /// 连锁类客户名字
+        /// </summary>
+        public string TittleForLianSuo { get; set; }
+       
         public GoodInfo()
         {
 

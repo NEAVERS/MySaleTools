@@ -273,6 +273,15 @@
                                         A类客户可看
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td class="right">
+                                        A类客户商品名：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="TitleForA" value="@Model.TitleForA">
+                                        A类客户可看
+                                    </td>
+                                </tr>
 
                                 <tr>
                                     <td class="right">
@@ -285,6 +294,16 @@
                                 </tr>
                                 <tr>
                                     <td class="right">
+                                        B类客户商品名：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="TitleForB" value="@Model.TitleForB">
+                                        B类客户可看
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="right">
                                         C类客户销售价：
                                     </td>
                                     <td>
@@ -292,6 +311,16 @@
                                         C类客户可看
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td class="right">
+                                        C类客户商品名：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="TitleForC" value="@Model.TitleForC">
+                                        C类客户可看
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <td class="right">
                                         D类客户销售价：
@@ -303,10 +332,30 @@
                                 </tr>
                                 <tr>
                                     <td class="right">
+                                        D类客户商品名：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="TittleForD" value="@Model.TittleForD">
+                                        D类客户可看
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="right">
                                         蚂蚁连锁销售价：
                                     </td>
                                     <td>
                                         <input type="number" class="inputtext prices" style="width:80px;" name="sell_price_a" id="PriceForLianSuo" value="@Model.PriceForLianSuo">
+                                        蚂蚁连锁客户可看
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="right">
+                                        蚂蚁连锁商品名：
+                                    </td>
+                                    <td>
+                                        <input type="text" class="inputtext prices" style="width:80px;" name="sell_price_a" id="TittleForLianSuo" value="@Model.TittleForLianSuo">
                                         蚂蚁连锁客户可看
                                     </td>
                                 </tr>
@@ -367,8 +416,8 @@
                                         是否整箱：
                                     </td>
                                     <td>
-                                        <input type="radio" class="inputtext" name="IsBoxSale" @(Model.IsBoxSale?" ":"checked='checked'") value="false" > 否
-                                        <input type="radio" class="inputtext" name="IsBoxSale"  @(Model.IsBoxSale?" checked='checked'":"")  value="true"> 是
+                                        <input type="radio" class="inputtext" name="IsBoxSale" @(Model.IsBoxSale ? " " : "checked='checked'") value="false"> 否
+                                        <input type="radio" class="inputtext" name="IsBoxSale" @(Model.IsBoxSale ? " checked='checked'" : "") value="true"> 是
                                     </td>
                                 </tr>
                                 <tr>
@@ -740,6 +789,14 @@
                     obj.PriceForB = $("#PriceForB").val();
                     obj.PriceForC = $("#PriceForC").val();
                     obj.PriceForD = $("#PriceForD").val();
+
+
+                    obj.TittleForLianSuo = $("#TittleForLianSuo").val();
+                    obj.TitleForA = $("#TitleForA").val();
+                    obj.TitleForB = $("#TitleForB").val();
+                    obj.TitleForC = $("#TitleForC").val();
+                    obj.TittleForD = $("#TittleForD").val();
+
                     obj.BoxSpec = $("#J_UnitTotal").val();
                     obj.Spec = $("#J_Spec").val();
                     obj.Unit = $("#J_Unit").val();

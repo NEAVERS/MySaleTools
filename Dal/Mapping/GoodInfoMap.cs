@@ -69,7 +69,11 @@ namespace Dal.Mapping
 
             this.Property(t => t.IsBoxSale).HasColumnName("IsBoxSale");
 
-            
+            this.Property(t => t.TitleForA).HasColumnName("TitleForA");
+            this.Property(t => t.TitleForB).HasColumnName("TitleForB");
+            this.Property(t => t.TitleForC).HasColumnName("TitleForC");
+            this.Property(t => t.TittleForD).HasColumnName("TittleForD");
+            this.Property(t => t.TittleForLianSuo).HasColumnName("TittleForLianSuo");
         }
     }
 }

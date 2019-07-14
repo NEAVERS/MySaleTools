@@ -113,10 +113,10 @@ namespace SaleTools.Controllers
 
         }
 
-        public string LoadProductList(int page,int size, string fst = "", string sec = "", string trd = "", string brandId = "",string key="")
+        public string LoadProductList(int page, int size, string fst = "", string sec = "", string trd = "", string brandId = "", string key = "", string orderBy = "")
         {
             var loginUser = (UserInfo)ViewBag.User;
-            var list = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, page,size, "", fst, sec, trd, brandId, key, "1");
+            var list = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, page,size, "", fst, sec, trd, brandId, key, "1",orderBy);
             return Utils.SerializeObject(list);
         }
 
@@ -127,7 +127,9 @@ namespace SaleTools.Controllers
         {
             var product = _manager.GetGoodInfoById(Id);
             var loginUser = (UserInfo)ViewBag.User;
-            product.RetailtPrice = _manager.GetPriceOfUserType(product, loginUser.TypeId);
+            string tittle = "";
+            product.RetailtPrice = _manager.GetPriceOfUserType(product, loginUser.TypeId,out tittle);
+            product.GoodsTittle = tittle;
             return View(product);
         }
 

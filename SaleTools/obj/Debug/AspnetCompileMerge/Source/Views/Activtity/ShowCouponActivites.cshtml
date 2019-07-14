@@ -45,7 +45,7 @@
                         @if (pager.TotalCount == 0)
                         {
                             <tr>
-                                <td colspan="8"><h3>暂无活动信息</h3></td>
+                                <td colspan="10"><h3>暂无活动信息</h3></td>
                             </tr>
                         }
                         else
@@ -75,7 +75,9 @@
                                 <td>@item.EffectTime</td>
                                 <td>@item.StoreNum</td>
                                 <td>@item.Remark</td>
-                                <td></td>
+                                <td>
+                                    <button onclick="del('@item.Id')">删除</button>
+                                </td>
                             </tr>
 
                             }
@@ -98,5 +100,11 @@
                 location.href = "/Activtity/ShowCouponActivites?index=" + num;
         }
     })
-
+    function del(id) {
+        $.post("/Activtity/DelCouponActivity",{ id: id }, function (r) {
+            if (r) {
+                location.reload();
+            }
+        },"json")
+    }
 </script>

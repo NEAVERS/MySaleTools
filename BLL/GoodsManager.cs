@@ -239,7 +239,9 @@ namespace BLL
 
             foreach (var item in list)
             {
-                item.RetailtPrice = GetPriceOfUserType(item, userType);
+                string tittle = "";
+                item.RetailtPrice = GetPriceOfUserType(item, userType,out tittle);
+                item.GoodsTittle = tittle;
                 string id = item.ErpId;
                 int boxspec = Utils.ParseInt(item.BoxSpec);
                 if (boxspec == 0||!item.IsBoxSale)
@@ -253,7 +255,7 @@ namespace BLL
         }
 
 
-        public PageData<GoodInfo> GetGoodsList(Guid CreaetUserId, int userType, int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId, string brandId, string keyWord, string IsUpShelves)
+        public PageData<GoodInfo> GetGoodsList(Guid CreaetUserId, int userType, int index, int size, string SupplierId, string fstTypeId, string secTypeId, string thdTypeId, string brandId, string keyWord, string IsUpShelves, string orderBy = "")
         {
             PageData<GoodInfo> page = new PageData<GoodInfo>();
             page.PageIndex = index;
@@ -279,14 +281,24 @@ namespace BLL
             }
             page.TotalCount = q.Count();
 
+            if(orderBy==""|| orderBy == "0")
+                q = q.OrderByDescending(x => x.SortId).ThenBy(x => x.CreateTime);
+            else
+            {
+                if (orderBy == "1")
+                    q = q.OrderByDescending(x => x.BasePrice);
+                else
+                    q = q.OrderBy(x => x.BasePrice);
 
-            q = q.OrderByDescending(x => x.SortId).ThenBy(x => x.CreateTime);
-            
+            }
+
             var list = q.Skip((index - 1) * size).Take(size).ToList();
 
             foreach (var item in list)
             {
-                item.RetailtPrice = GetPriceOfUserType(item, userType);
+                string tittle = "";
+                item.RetailtPrice = GetPriceOfUserType(item, userType,out tittle);
+                item.GoodsTittle = tittle;
                 string id = item.ErpId;
                 int boxspec = Utils.ParseInt(item.BoxSpec);
                 if (boxspec == 0 || !item.IsBoxSale)
@@ -429,6 +441,12 @@ namespace BLL
                 obj.PriceForC = newInfo.PriceForC;
                 obj.PriceForD = newInfo.PriceForD;
                 obj.PriceForLianSuo = newInfo.PriceForLianSuo;
+                obj.TitleForA = newInfo.TitleForA;
+                obj.TitleForB = newInfo.TitleForB;
+                obj.TitleForC = newInfo.TitleForC;
+                obj.TittleForD = newInfo.TittleForD;
+                obj.TittleForLianSuo = newInfo.TittleForLianSuo;
+
                 obj.pic1 = newInfo.pic1;
                 obj.pic2 = newInfo.pic2;
                 obj.pic3 = newInfo.pic3;
@@ -475,9 +493,10 @@ namespace BLL
         /// <param name="x"></param>
         /// <param name="typeId"></param>
         /// <returns></returns>
-        public decimal GetPriceOfUserType(GoodInfo x, int typeId)
+        public decimal GetPriceOfUserType(GoodInfo x, int typeId,out string name)
         {
             decimal price = 0;
+            name = x.GoodsTittle;
             switch (typeId)
             {
                 case 1:
@@ -485,18 +504,29 @@ namespace BLL
                     break;
                 case 2:
                     price = x.PriceForA;
+                    if (!string.IsNullOrWhiteSpace(x.TitleForA))
+                        name = x.TitleForA;
                     break;
                 case 3:
                     price = x.PriceForB;
+                    if (!string.IsNullOrWhiteSpace(x.TitleForB))
+                        name = x.TitleForB;
                     break;
                 case 4:
                     price = x.PriceForC;
+                    if (!string.IsNullOrWhiteSpace(x.TitleForC))
+                        name = x.TitleForC;
                     break;
                 case 5:
                     price = x.PriceForD;
+                    if (!string.IsNullOrWhiteSpace(x.TittleForD))
+                        name = x.TittleForD;
+
                     break;
                 case 6:
                     price = x.PriceForLianSuo;
+                    if (!string.IsNullOrWhiteSpace(x.TittleForLianSuo))
+                        name = x.TittleForLianSuo;
                     break;
             }
             if (price == 0)
@@ -545,7 +575,9 @@ namespace BLL
         {
             GoodInfo model = new GoodInfo();
             model = GetGoodInfoById(goodsId);
-            model.RetailtPrice = GetPriceOfUserType(model, typeId);
+            string tittle = "";
+            model.RetailtPrice = GetPriceOfUserType(model, typeId,out tittle);
+            model.GoodsTittle = tittle;
             return model;
         }
 

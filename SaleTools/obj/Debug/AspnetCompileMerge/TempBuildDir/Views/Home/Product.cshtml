@@ -2,7 +2,7 @@
 @using Model;
 @using Common.Entities;
 @{
-    ViewBag.Title = "Product";
+    ViewBag.Title = "商品列表";
     var TypeList = (List<GoodsType>)ViewBag.TypeList;
     var BrandList = (List<GoodsBrand>)ViewBag.BrandList;
     Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -229,7 +229,6 @@
             <div class="product_all" id="productStyle2">
                 <div class="title">
                     <h3 id="moren_sort" data-index="id" class="btnClicked">默认</h3>
-                    <h3 id="soldNum_sort" style="" data-index="sold">销量</h3>
                     <h3 id="price_sort" data-index="price_down">
                         价格
                         <ul>
@@ -237,8 +236,7 @@
                             <li>
                                 <h3 style="margin-left:1px;" id="price_sort_up" data-index="price_up">价格从低到高</h3>
                             </li>
-                        </ul>
-                    </h3>
+                        </ul>                    </h3>
                     <div class="shop_num">共<span id="totalProductNumTip">107</span>个商品</div>
                 </div>
                 <ul class="pro_content" id="productList">
@@ -266,6 +264,7 @@
 
 <script>
     var pageIndex = 1;
+    var orderBy = "";
     //int page,int size, string fst = "", string sec = "", string trd = "", string brandId = ""
     LoadProduct(1);
     function LoadProduct(index) {
@@ -277,6 +276,7 @@
         para.trd = $("#TrdType").val();
         para.brandId = $("#brandId").val();
         para.key = $("#C_GlobalSearchInput").val()
+        para.orderBy = orderBy;
         var html = "";
         $.post("/Home/LoadProductList", para, function (e) {
 
@@ -314,6 +314,17 @@
     $("#search_btn").click(function () {
         location.href = "/Home/Product?key=" + $("#C_GlobalSearchInput").val();
     });
+
+    $("#price_sort_down").click(function () {
+        orderBy = "1";
+        LoadProduct(pageIndex);
+    });
+    $("#price_sort_up").click(function () {
+        orderBy = "2";
+        LoadProduct(pageIndex);
+
+    });
+
     $(function () {
         loacCarCount(); 
         $(document).on("click", ".J_Decrement", function () {

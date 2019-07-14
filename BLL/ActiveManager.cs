@@ -1293,6 +1293,7 @@ namespace BLL
         {
             var q = from c in _context.CouponActivities
                     where c.CreateUserId == userid
+                          && !c.IsDelete
                     select c;
             var pager = new PageData<CouponActivity>();
             pager.PageIndex = index;
@@ -1314,9 +1315,16 @@ namespace BLL
                     item.StoreNum = couponList.Count().ToString();
                     item.Remark = couponList.Sum(x => x.LessMoney).ToString("0.00");
                 }
-
             }
             return pager;
+        }
+
+        public bool DelCouponActivity(Guid id)
+        {
+            var model = _context.CouponActivities.FirstOrDefault(x => x.Id == id);
+            if (model != null)
+                model.IsDelete = true;
+            return _context.SaveChanges() > 0;
         }
 
         #endregion

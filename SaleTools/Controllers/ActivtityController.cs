@@ -603,6 +603,11 @@ namespace SaleTools.Controllers
             return View();
         }
 
+        public string DelCouponActivity(Guid id)
+        {
+            var result = _active.DelCouponActivity(id);
+            return Utils.SerializeObject(result);
+        }
         public ActionResult CreateCouponActivity()
         {
             var loginUser = (UserInfo)ViewBag.User;
