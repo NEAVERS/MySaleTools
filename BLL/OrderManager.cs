@@ -81,7 +81,7 @@ namespace BLL
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        public bool SaveOrder(OrderInfo order,UserInfo user)
+        public bool SaveOrder(OrderInfo order, UserInfo user)
         {
             var list = GetShoppingCar(user);
             decimal totalPrice = 0;
@@ -94,10 +94,10 @@ namespace BLL
                 totalPrice += item.TotalPrice;
                 lessMoney += (item.Count * item.LessPrice);
             }
-            order.RealMoney = totalPrice - order.Manjian- order.LessMoney;////折扣后的总金额 减去满减为实际价格
+            order.RealMoney = totalPrice - order.Manjian - order.LessMoney;////折扣后的总金额 减去满减为实际价格
             order.LessMoney += lessMoney; ///满减价格加上折扣的优惠金额 为总的优惠金额
             order.TotalMoney = totalPrice + lessMoney;
-            
+
             order.Stutas = (int)OrderStatus.等待商家发货;
             _context.OrderInfoes.Add(order);
             return _context.SaveChanges() > 0;
@@ -193,7 +193,7 @@ namespace BLL
         /// <returns></returns>
         public bool RecoverOrder(Guid orderId)
         {
-            var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId&&x.Stutas ==(int)OrderStatus.订单取消成功);
+            var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId && x.Stutas == (int)OrderStatus.订单取消成功);
             if (order != null)
             {
                 order.Stutas = (int)OrderStatus.等待商家发货;
@@ -289,7 +289,7 @@ namespace BLL
 
         public bool ReBuy(Guid orderId)
         {
-            var Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar&&!x.IsGift).ToList();
+            var Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar && !x.IsGift).ToList();
 
             var list = Utils.DeepCopyByJson(Items);
             list.ForEach(x => {
@@ -501,14 +501,14 @@ namespace BLL
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public MemoryStream CreateOrderFile(DateTime start, DateTime end,string key)
+        public MemoryStream CreateOrderFile(DateTime start, DateTime end, string key)
         {
             var q = from c in _context.OrderInfoes
                     join d in _context.OrderItems on c.Id equals d.OrderId
                     join u in _context.UserInfoes on c.CreateUserId equals u.UserId
                     join g in _context.GoodInfoes on d.ProductId equals g.Id
                     where c.CreateTime > start && c.CreateTime < end
-                    &&(c.OrderNum.Contains(key) || c.StoreName.Contains(key) || c.CreateUserNum.Contains(key))
+                    && (c.OrderNum.Contains(key) || c.StoreName.Contains(key) || c.CreateUserNum.Contains(key))
                     select new
                     {
                         info = c,
@@ -549,7 +549,7 @@ namespace BLL
                 writer.Write(item.item.Price + ",");//第一列
                 writer.Write(item.item.Price + ",");//第一列
                 writer.Write(item.item.RealPrice + ",");//第一列
-                writer.Write((item.item.RealPrice*(item.item.Count - item.item.ErrorCount)) + ",");//第一列
+                writer.Write((item.item.RealPrice * (item.item.Count - item.item.ErrorCount)) + ",");//第一列
                 writer.Write(item.item.Count + ",");//第一列
                 writer.Write(item.item.ErrorCount + ",");//第一列
                 writer.Write(item.user.UserNum + ",");//第一列
@@ -583,29 +583,29 @@ namespace BLL
 
             System.IO.StreamWriter writer = new System.IO.StreamWriter(output, System.Text.Encoding.UTF8);
 
-                writer.Write("序号,小店编号,小店名称,小店地址,客户类型,业务员,订单总数,订单总金额,应付总金额,实收总金额,联系方式,区域");//输出标题，逗号分割（注意最后一列不加逗号）
+            writer.Write("序号,小店编号,小店名称,小店地址,客户类型,业务员,订单总数,订单总金额,应付总金额,实收总金额,联系方式,区域");//输出标题，逗号分割（注意最后一列不加逗号）
 
-                writer.WriteLine();
+            writer.WriteLine();
             //输出内容
             int num = 0;
-                foreach (var item in list)
-                {
+            foreach (var item in list)
+            {
                 num++;
-                    writer.Write(num + ",");//第一列
-                    writer.Write(item.StoreNum + ",");//第一列
-                    writer.Write(item.StoreName + ",");//第一列
-                    writer.Write(item.Addr+ ",");//第一列
-                    writer.Write(item.UserType + ",");//第一列
-                    writer.Write(item.SaleMan + ",");//第一列
-                    writer.Write(item.OrderCount + ",");//第一列
-                    writer.Write(item.TotalMoeny + ",");//第一列
-                    writer.Write(item.TotalPayMoney + ",");//第一列
-                    writer.Write(item.TotalRealMoney + ",");//第一列
-                    writer.Write(item.Tel + ",");//第一列
-                    writer.Write(item.Areas + ",");//第一列
+                writer.Write(num + ",");//第一列
+                writer.Write(item.StoreNum + ",");//第一列
+                writer.Write(item.StoreName + ",");//第一列
+                writer.Write(item.Addr + ",");//第一列
+                writer.Write(item.UserType + ",");//第一列
+                writer.Write(item.SaleMan + ",");//第一列
+                writer.Write(item.OrderCount + ",");//第一列
+                writer.Write(item.TotalMoeny + ",");//第一列
+                writer.Write(item.TotalPayMoney + ",");//第一列
+                writer.Write(item.TotalRealMoney + ",");//第一列
+                writer.Write(item.Tel + ",");//第一列
+                writer.Write(item.Areas + ",");//第一列
 
-                    writer.WriteLine();
-                }
+                writer.WriteLine();
+            }
             writer.Flush();
 
             output.Position = 0;
@@ -855,13 +855,13 @@ namespace BLL
             return list;
         }
 
-        
+
 
 
 
         public List<OrderCountByStore> GetOrderTotalBySaleMan(DateTime start, DateTime end, Guid userId)
         {
-           
+
             var uerTypelist = Utils.GetUserTypes().Select(x => x.TypeId).ToList();
             var user = from c in _context.UserInfoes
                        where !c.IsDelete
@@ -1074,7 +1074,7 @@ namespace BLL
 
         public ResponseModel UserCancelOrder(Guid orderId)
         {
-            
+
             var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
             if (order != null)
             {
@@ -1082,9 +1082,9 @@ namespace BLL
                 var yesterday = DateTime.Now.AddDays(-1);
                 DateTime start = new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, 16, 0, 0);
                 DateTime end = new DateTime(now.Year, now.Month, now.Day, 16, 0, 0);
-      
 
-                if (order.CreateTime > end||(order.CreateTime > start && order.CreateTime < end) || (order.CreateTime < start && order.CreateTime > start.AddDays(-1) && order.CreateTime < end))
+
+                if (order.CreateTime > end || (order.CreateTime > start && order.CreateTime < end) || (order.CreateTime < start && order.CreateTime > start.AddDays(-1) && order.CreateTime < end))
                 {
                     order.Stutas = (int)OrderStatus.订单取消中;
                     order.OrderCancelTime = DateTime.Now;
@@ -1096,14 +1096,14 @@ namespace BLL
             }
             else
                 _response.Msg = "该订单不存在！";
-            
+
             return _response;
         }
 
-        public ResponseModel CheckCancel(Guid orderId,bool isAgree)
+        public ResponseModel CheckCancel(Guid orderId, bool isAgree)
         {
 
-            var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId&&x.Stutas==(int)OrderStatus.订单取消中);
+            var order = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId && x.Stutas == (int)OrderStatus.订单取消中);
 
             if (order != null)
             {
@@ -1112,7 +1112,7 @@ namespace BLL
                 else
                     order.Stutas = (int)OrderStatus.等待商家发货;
                 order.CheckCancelTime = DateTime.Now;
-                _response.Stutas =  _context.SaveChanges() > 0;
+                _response.Stutas = _context.SaveChanges() > 0;
                 _response.Msg = "操作失败，请重试";
             }
             else
@@ -1121,7 +1121,7 @@ namespace BLL
         }
 
 
-        public bool CancelError(Guid  itemId)
+        public bool CancelError(Guid itemId)
         {
             var model = _context.OrderItems.FirstOrDefault(x => x.Id == itemId);
             if (model != null)
@@ -1154,6 +1154,7 @@ namespace BLL
 
         public bool InsertErp(Guid orderId)
         {
+            LogsHelper.WriteLog("开始导入ERP!订单ID:" + orderId,"导入erp");
             var orderDetail = GetOrderDetail(orderId);
             var list = orderDetail.Items;
             var date = DateTime.Now.Date;
@@ -1162,222 +1163,232 @@ namespace BLL
             var saleMan = _context.UserInfoes.FirstOrDefault(x => x.UserId == user.SaleManGuid);
             OrderIndex orderIndex = new OrderIndex();
             #region 初始化
-            orderIndex.btypeid = string.IsNullOrWhiteSpace(user.BTypeId) ? "0000100001" : user.BTypeId;///该用户是否有对应的到erp的userId 如果没有就赋默认值"";
-            orderIndex.etypeid = saleMan==null? "000010004100004":saleMan.BTypeId;
-            orderIndex.ktypeid = "00001";
-            orderIndex.BillDate = date;
-            orderIndex.ReachDate = date;
-            orderIndex.Billcode = "XD-T-" + DateTime.Now.ToString("yyyy-MM-dd") + "-" + GetCode(cout + 1);
-            orderIndex.billtype = 300;
-            orderIndex.totalmoney = list.Sum(x => x.TotalPrice) - orderDetail.Info.LessMoney ;
-            orderIndex.totalqty = list.Sum(x => x.Count);
-            orderIndex.period = 1;
-            orderIndex.@checked = false;
-            orderIndex.redWord = false;
-            orderIndex.BillOver = false;
-            orderIndex.comment = string.Empty;
-            if (orderDetail.Info.Manjian > 0)
-                orderIndex.explain = "满减：" + orderDetail.Info.Manjian;
-            else
-                orderIndex.explain = "";
-            Coupon coupon = _context.Coupons.FirstOrDefault(x => x.UserOrderId == orderId);
-            if (coupon != null)
+            try
             {
-                orderIndex.explain += "|优惠券：" + coupon.LessMoney;
-            }
-            orderIndex.Checke = saleMan == null ? "000010004100004" : saleMan.BTypeId;
-            orderIndex.Tax = 0;
-            orderIndex.BillStatus = 0;
-            orderIndex.etypeid2 = string.Empty;
-            orderIndex.WayMode = string.Empty;
-            orderIndex.WayBillCode = string.Empty;
-            orderIndex.GoodsNumber = string.Empty;
-            orderIndex.PackWay = string.Empty;
-            orderIndex.TEL = string.Empty;
-            orderIndex.IfAudit = 1;
-            orderIndex.DtypeId = "00003";
-            orderIndex.IsFinished = null;
-            orderIndex.CanAlert = "1";
-            orderIndex.DelayType = "0";
-            orderIndex.DelayValue = "0";
-            orderIndex.OrderState = "0";
-            orderIndex.Stypeid = "00001";
-            orderIndex.FromBillNumberID = null;
-            orderIndex.CustomerTotal = 0;
-            orderIndex.IsIni = false;
-            orderIndex.Ntotalmoney = list.Sum(x => x.TotalPrice);
-            orderIndex.CID = 1;
-            orderIndex.Rate = 1;
-            orderIndex.billproperty = -1;
-            orderIndex.PrePriceNum = 1;
-            orderIndex.IsYapi = false;
-            orderIndex.YapiOrderID = string.Empty;
-            orderIndex.NCustomerTotal = 0;
-            orderIndex.DealBTypeID = string.IsNullOrWhiteSpace(user.BTypeId) ? "0000100001" : user.BTypeId;
-            orderIndex.atypeID = "0";
-            orderIndex.totalinmoney = 0;
-            orderIndex.ntotalinmoney = 0;
-            orderIndex.checkTime = DateTime.Now;
-            orderIndex.Discount = 1;
-            int showOrder = 1;
-            var billList = new List<OrderBill>();
-            foreach (var x in orderDetail.Items)
-            {
-                var model = new OrderBill();
-
-                var goods = _context.GoodInfoes.FirstOrDefault(c => c.Id == x.ProductId);
-                if (goods == null || string.IsNullOrWhiteSpace(goods.GoodsNum))
-                    continue;
-                var pinfo = _erp.ptypes.FirstOrDefault(c => c.typeId == goods.ErpId);
-                if (pinfo == null)
-                    continue;
-                var unit_ex = _erp.PType_Units_Exts.FirstOrDefault(c => c.PtypeID == pinfo.typeId && c.UnitsId == pinfo.SaleUnitId);
-                if (unit_ex == null)
-                    continue;
-
-
-
-                if(goods.IsBoxSale)
-                {
-                    double rates = 1;
-                    int spex = Utils.ParseInt(goods.BoxSpec);
-                    if(spex!=0)
-                    {
-                        rates = (double)unit_ex.Rate / spex;
-                    }
-                    model.qty = x.Count * spex;
-                    model.price = Convert.ToDecimal((double)x.RealPrice / spex);
-                    model.DiscountPrice = Convert.ToDecimal((double)x.RealPrice / spex);
-                    model.TaxPrice = Convert.ToDecimal((double)x.RealPrice / spex);
-
-                    model.NSalePrice = Convert.ToDecimal((double)x.Price / spex);
-                    model.NDiscountPrice = Convert.ToDecimal((double)x.RealPrice / spex);
-                    model.NTaxPrice = Convert.ToDecimal((double)x.RealPrice / spex);
-                    model.NQty = x.Count * spex;
-                    model.MSalePrice = Convert.ToDecimal((double)x.Price* rates);
-                    model.MDiscountPrice = Convert.ToDecimal((double)x.RealPrice* rates);
-                    model.MTaxPrice = Convert.ToDecimal((double)x.RealPrice* rates);
-                    model.CurMSalePrice = Convert.ToDecimal((double)x.Price * rates);
-                    model.CurMDiscountPrice = Convert.ToDecimal((double)x.RealPrice* rates);
-                    model.CurMTaxPrice = Convert.ToDecimal((double)x.RealPrice* rates);
-                    model.MQty = x.Count/ (decimal)rates;
-                }
+                orderIndex.btypeid = string.IsNullOrWhiteSpace(user.BTypeId) ? "0000100001" : user.BTypeId;///该用户是否有对应的到erp的userId 如果没有就赋默认值"";
+                orderIndex.etypeid = saleMan == null ? "000010004100004" : saleMan.BTypeId;
+                orderIndex.ktypeid = "00001";
+                orderIndex.BillDate = date;
+                orderIndex.ReachDate = date;
+                orderIndex.Billcode = "XD-T-" + DateTime.Now.ToString("yyyy-MM-dd") + "-" + GetCode(cout + 1);
+                orderIndex.billtype = 300;
+                orderIndex.totalmoney = list.Sum(x => x.TotalPrice) - orderDetail.Info.LessMoney;
+                orderIndex.totalqty = list.Sum(x => x.Count);
+                orderIndex.period = 1;
+                orderIndex.@checked = false;
+                orderIndex.redWord = false;
+                orderIndex.BillOver = false;
+                orderIndex.comment = string.Empty;
+                if (orderDetail.Info.Manjian > 0)
+                    orderIndex.explain = "满减：" + orderDetail.Info.Manjian;
                 else
+                    orderIndex.explain = "";
+                Coupon coupon = _context.Coupons.FirstOrDefault(x => x.UserOrderId == orderId);
+                if (coupon != null)
                 {
-                    model.qty = x.Count;
-
-                    model.price = Convert.ToDecimal((double)x.RealPrice);
-                    model.DiscountPrice = Convert.ToDecimal((double)x.RealPrice);
-                    model.TaxPrice = Convert.ToDecimal((double)x.RealPrice);
-
-                    model.NSalePrice = Convert.ToDecimal((double)x.Price );
-                    model.NDiscountPrice = Convert.ToDecimal((double)x.RealPrice );
-                    model.NTaxPrice = Convert.ToDecimal((double)x.RealPrice);
-                    model.NQty = x.Count ;
-                    model.MSalePrice = Convert.ToDecimal((double)x.Price* (double)unit_ex.Rate.Value);
-                    model.MDiscountPrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
-                    model.MTaxPrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
-                    model.CurMSalePrice = Convert.ToDecimal((double)x.Price * (double)unit_ex.Rate.Value);
-                    model.CurMDiscountPrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
-                    model.CurMTaxPrice = Convert.ToDecimal((double)x.RealPrice* (double)unit_ex.Rate.Value);
-                    model.MQty = Convert.ToDecimal(x.Count/ (double)unit_ex.Rate.Value);
+                    orderIndex.explain += "|优惠券：" + coupon.LessMoney;
                 }
-                model.ptypeid = goods.ErpId;
-                model.ReachQty = 0;
-                model.total = x.TotalPrice;
-                model.comment = user.TypeName + (x.LessPrice > 0 ? "优惠金额:" + x.LessPrice*x.Count : "")  + "订单号:"+orderDetail.Info.OrderNum;///在备注中添加用户类型和优惠金额
-                model.Checked = false;
-                model.TeamNO1 = null;
-                model.PassQty = 0;
-                model.IsUnit2 = false;
-                model.Discount = x.Price > 0 ? Math.Round(1 - (x.LessPrice / x.Price), 2) : 1;
-                model.TaxTotal = x.TotalPrice;
-                model.SaleTotal = x.TotalPrice +x.LessPrice * x.Count;
-                model.Tax = 0;
-                model.KTypeID = "00001";
-                model.Stypeid = "00001";
-                model.FromBillNumberID = 0;
-                model.entrycode = goods.BarCode;
-                model.FromBillID = 0;
-                model.ReachTotal = 0;
-                model.ReachTaxTotal = 0;
-                model.RequestBillNumberID = 0;
-                model.RequestBillID = 0;
-                model.AskBillNumberID = 0;
-                model.AskBillID = 0;
-                model.TaxMoney = 0;
-               
-                model.NSaleTotal = x.Price * x.Count;
-                
-                model.NTotal = x.TotalPrice;
-               
-                model.NTaxTotal = x.TotalPrice;
-                model.NTaxMoney = 0;
-                model.UnitID = pinfo.baseUnitId;
-                model.NUnitID = 0;
-               
-                model.UnitRate = 0;
-                model.NUnitMsg = null;
-                model.MUnitID = unit_ex.UnitsId;
-                
-                model.MUnitRate = unit_ex.Rate;
-                model.MUnitMsg = null;
-               
-                model.ItemID = 0;
-                model.IsCombined = 0;
-                model.GoodsCostPrice = -1;
-                model.GoodsOrder = -1;
-                model.ProduceDate = string.Empty;
-                model.ValidDate = string.Empty;
-                model.IsGift = x.IsGift ? 1 : 0;
-                if(model.IsGift ==1) ///礼品的所有价格为0
+                orderIndex.Checke = saleMan == null ? "000010004100004" : saleMan.BTypeId;
+                orderIndex.Tax = 0;
+                orderIndex.BillStatus = 0;
+                orderIndex.etypeid2 = string.Empty;
+                orderIndex.WayMode = string.Empty;
+                orderIndex.WayBillCode = string.Empty;
+                orderIndex.GoodsNumber = string.Empty;
+                orderIndex.PackWay = string.Empty;
+                orderIndex.TEL = string.Empty;
+                orderIndex.IfAudit = 1;
+                orderIndex.DtypeId = "00003";
+                orderIndex.IsFinished = null;
+                orderIndex.CanAlert = "1";
+                orderIndex.DelayType = "0";
+                orderIndex.DelayValue = "0";
+                orderIndex.OrderState = "0";
+                orderIndex.Stypeid = "00001";
+                orderIndex.FromBillNumberID = null;
+                orderIndex.CustomerTotal = 0;
+                orderIndex.IsIni = false;
+                orderIndex.Ntotalmoney = list.Sum(x => x.TotalPrice);
+                orderIndex.CID = 1;
+                orderIndex.Rate = 1;
+                orderIndex.billproperty = -1;
+                orderIndex.PrePriceNum = 1;
+                orderIndex.IsYapi = false;
+                orderIndex.YapiOrderID = string.Empty;
+                orderIndex.NCustomerTotal = 0;
+                orderIndex.DealBTypeID = string.IsNullOrWhiteSpace(user.BTypeId) ? "0000100001" : user.BTypeId;
+                orderIndex.atypeID = "0";
+                orderIndex.totalinmoney = 0;
+                orderIndex.ntotalinmoney = 0;
+                orderIndex.checkTime = DateTime.Now;
+                orderIndex.Discount = 1;
+                int showOrder = 1;
+                var billList = new List<OrderBill>();
+                foreach (var x in orderDetail.Items)
                 {
-                    model.price = 0;
-                    model.MTaxPrice = 0;
-                    model.NDiscountPrice = 0;
-                    model.NSalePrice = 0;
-                    model.NTaxPrice = 0;
-                    model.TaxPrice = 0;
-                    model.CurMSalePrice = 0;
-                    model.CurMDiscountPrice = 0;
-                    model.CurMSalePrice = 0;
-                    model.DiscountPrice = 0;
-                    model.MDiscountPrice = 0;
-                    model.MSalePrice = 0;
-                    model.MSalePrice = 0;
-                }
+                    var model = new OrderBill();
 
-                model.YapiID = string.Empty;
-                model.PriceSource = string.Empty;
-                model.Id = showOrder;
-                model.PromoType = 0;
-                model.ShowOrder = showOrder;
-                model.WaitQty = 0;
-                model.BillOver = false;
-                model.GoodsNumber = string.Empty;
-                model.CargoID = 0;
-                model.stopreason = string.Empty;
-                showOrder++;
-                billList.Add(model);
-            };
-            #endregion
-            using (var scope = _erp.Database.BeginTransaction())
+                    var goods = _context.GoodInfoes.FirstOrDefault(c => c.Id == x.ProductId);
+                    if (goods == null || string.IsNullOrWhiteSpace(goods.GoodsNum))
+                        continue;
+                    var pinfo = _erp.ptypes.FirstOrDefault(c => c.typeId == goods.ErpId);
+                    if (pinfo == null)
+                        continue;
+                    var unit_ex = _erp.PType_Units_Exts.FirstOrDefault(c => c.PtypeID == pinfo.typeId && c.UnitsId == pinfo.SaleUnitId);
+                    if (unit_ex == null)
+                        continue;
+
+
+
+                    if (goods.IsBoxSale)
+                    {
+                        double rates = 1;
+                        int spex = Utils.ParseInt(goods.BoxSpec);
+                        if (spex != 0)
+                        {
+                            rates = (double)unit_ex.Rate / spex;
+                        }
+                        model.qty = x.Count * spex;
+                        model.price = Convert.ToDecimal((double)x.RealPrice / spex);
+                        model.DiscountPrice = Convert.ToDecimal((double)x.RealPrice / spex);
+                        model.TaxPrice = Convert.ToDecimal((double)x.RealPrice / spex);
+
+                        model.NSalePrice = Convert.ToDecimal((double)x.Price / spex);
+                        model.NDiscountPrice = Convert.ToDecimal((double)x.RealPrice / spex);
+                        model.NTaxPrice = Convert.ToDecimal((double)x.RealPrice / spex);
+                        model.NQty = x.Count * spex;
+                        model.MSalePrice = Convert.ToDecimal((double)x.Price * rates);
+                        model.MDiscountPrice = Convert.ToDecimal((double)x.RealPrice * rates);
+                        model.MTaxPrice = Convert.ToDecimal((double)x.RealPrice * rates);
+                        model.CurMSalePrice = Convert.ToDecimal((double)x.Price * rates);
+                        model.CurMDiscountPrice = Convert.ToDecimal((double)x.RealPrice * rates);
+                        model.CurMTaxPrice = Convert.ToDecimal((double)x.RealPrice * rates);
+                        model.MQty = x.Count / (decimal)rates;
+                    }
+                    else
+                    {
+                        model.qty = x.Count;
+
+                        model.price = Convert.ToDecimal((double)x.RealPrice);
+                        model.DiscountPrice = Convert.ToDecimal((double)x.RealPrice);
+                        model.TaxPrice = Convert.ToDecimal((double)x.RealPrice);
+
+                        model.NSalePrice = Convert.ToDecimal((double)x.Price);
+                        model.NDiscountPrice = Convert.ToDecimal((double)x.RealPrice);
+                        model.NTaxPrice = Convert.ToDecimal((double)x.RealPrice);
+                        model.NQty = x.Count;
+                        model.MSalePrice = Convert.ToDecimal((double)x.Price * (double)unit_ex.Rate.Value);
+                        model.MDiscountPrice = Convert.ToDecimal((double)x.RealPrice * (double)unit_ex.Rate.Value);
+                        model.MTaxPrice = Convert.ToDecimal((double)x.RealPrice * (double)unit_ex.Rate.Value);
+                        model.CurMSalePrice = Convert.ToDecimal((double)x.Price * (double)unit_ex.Rate.Value);
+                        model.CurMDiscountPrice = Convert.ToDecimal((double)x.RealPrice * (double)unit_ex.Rate.Value);
+                        model.CurMTaxPrice = Convert.ToDecimal((double)x.RealPrice * (double)unit_ex.Rate.Value);
+                        model.MQty = Convert.ToDecimal(x.Count / (double)unit_ex.Rate.Value);
+                    }
+                    model.ptypeid = goods.ErpId;
+                    model.ReachQty = 0;
+                    model.total = x.TotalPrice;
+                    model.comment = user.TypeName + (x.LessPrice > 0 ? "优惠金额:" + x.LessPrice * x.Count : "") + "订单号:" + orderDetail.Info.OrderNum;///在备注中添加用户类型和优惠金额
+                    model.Checked = false;
+                    model.TeamNO1 = null;
+                    model.PassQty = 0;
+                    model.IsUnit2 = false;
+                    model.Discount = x.Price > 0 ? Math.Round(1 - (x.LessPrice / x.Price), 2) : 1;
+                    model.TaxTotal = x.TotalPrice;
+                    model.SaleTotal = x.TotalPrice + x.LessPrice * x.Count;
+                    model.Tax = 0;
+                    model.KTypeID = "00001";
+                    model.Stypeid = "00001";
+                    model.FromBillNumberID = 0;
+                    model.entrycode = goods.BarCode;
+                    model.FromBillID = 0;
+                    model.ReachTotal = 0;
+                    model.ReachTaxTotal = 0;
+                    model.RequestBillNumberID = 0;
+                    model.RequestBillID = 0;
+                    model.AskBillNumberID = 0;
+                    model.AskBillID = 0;
+                    model.TaxMoney = 0;
+
+                    model.NSaleTotal = x.Price * x.Count;
+
+                    model.NTotal = x.TotalPrice;
+
+                    model.NTaxTotal = x.TotalPrice;
+                    model.NTaxMoney = 0;
+                    model.UnitID = pinfo.baseUnitId;
+                    model.NUnitID = 0;
+
+                    model.UnitRate = 0;
+                    model.NUnitMsg = null;
+                    model.MUnitID = unit_ex.UnitsId;
+
+                    model.MUnitRate = unit_ex.Rate;
+                    model.MUnitMsg = null;
+
+                    model.ItemID = 0;
+                    model.IsCombined = 0;
+                    model.GoodsCostPrice = -1;
+                    model.GoodsOrder = -1;
+                    model.ProduceDate = string.Empty;
+                    model.ValidDate = string.Empty;
+                    model.IsGift = x.IsGift ? 1 : 0;
+                    if (model.IsGift == 1) ///礼品的所有价格为0
+                    {
+                        model.price = 0;
+                        model.MTaxPrice = 0;
+                        model.NDiscountPrice = 0;
+                        model.NSalePrice = 0;
+                        model.NTaxPrice = 0;
+                        model.TaxPrice = 0;
+                        model.CurMSalePrice = 0;
+                        model.CurMDiscountPrice = 0;
+                        model.CurMSalePrice = 0;
+                        model.DiscountPrice = 0;
+                        model.MDiscountPrice = 0;
+                        model.MSalePrice = 0;
+                        model.MSalePrice = 0;
+                    }
+
+                    model.YapiID = string.Empty;
+                    model.PriceSource = string.Empty;
+                    model.Id = showOrder;
+                    model.PromoType = 0;
+                    model.ShowOrder = showOrder;
+                    model.WaitQty = 0;
+                    model.BillOver = false;
+                    model.GoodsNumber = string.Empty;
+                    model.CargoID = 0;
+                    model.stopreason = string.Empty;
+                    showOrder++;
+                    billList.Add(model);
+                };
+                #endregion
+                using (var scope = _erp.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        _erp.OrderIndexes.Add(orderIndex);
+                        _erp.SaveChanges();
+                        billList.ForEach(x => x.billNumberID = orderIndex.billNumberId);
+                        _erp.OrderBills.AddRange(billList);
+                        _erp.SaveChanges();
+                        scope.Commit();//正常完成就可以提交
+                        LogsHelper.WriteLog("导入ERP成功,订单号:"+ orderIndex.billNumberId, "订单管理");
+
+                    }
+                    catch (Exception ex)
+                    {
+                        LogsHelper.WriteErrorLog("导入ERP失败", ex, "订单管理");
+                        scope.Rollback();//发生异常就回滚
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
             {
-                try
-                {
-                    _erp.OrderIndexes.Add(orderIndex);
-                    _erp.SaveChanges();
-                    billList.ForEach(x => x.billNumberID = orderIndex.billNumberId);
-                    _erp.OrderBills.AddRange(billList);
-                    _erp.SaveChanges();
-                    scope.Commit();//正常完成就可以提交
-                }
-                catch (Exception ex)
-                {
-                    LogsHelper.WriteErrorLog("导入ERP失败",ex, "订单管理");
-                    scope.Rollback();//发生异常就回滚
-                    return false;
-                }
+                LogsHelper.WriteErrorLog("导入ERP失败", ex, "订单管理");
+                return false;
             }
             return true;
         }

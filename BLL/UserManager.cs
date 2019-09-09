@@ -227,6 +227,7 @@ namespace BLL
                     || c.UserNum.Contains(key)
                     || c.SotreName.Contains(key)
                     || c.Tel.Contains(key)
+                    || c.Addr.Contains(key)
                     select c;
             
             q = q.Where(x => x.CreateTime > start && x.CreateTime < end);

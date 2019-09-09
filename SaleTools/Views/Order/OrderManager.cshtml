@@ -194,7 +194,10 @@
         $.post("/Order/GetOrderList", para, function (data) {
             var html = "";
             $(data.ListData).each(function () {
-                html += ' <tr style="color: #ff0000;">';
+                if (this.Stutas == 5)
+                    html += ' <tr style="color: #ff0000;">';
+                else
+                    html += ' <tr>';
                 html += '<td>' + this.OrderNum + '</td >';
                 html += '<td>' + this.CreateTime + '</td >';
                 html += '<td>' + this.CreateUserNum + '</td >';
@@ -211,7 +214,7 @@
                 html += '<a class="alink" href="/Order/OrderDetail?orderId=' + this.Id + '">订单详情</a>'
                 if (this.Stutas == 1) {
                     html += '<a class="del alink" href="#" data-pick="0" data-state="1" data-id="' + this.Id + '">取消订单</a>'
-                    html += '<a class="alink"  href="javascript:void(0)" data-pick="0" data-state="1" onclick="CheckAgree(\'' + this.Id + '\')">重新导入ERP</a>'
+                    html += '<a class="alink"  href="javascript:void(0)" data-pick="0" data-state="1" onclick="InsertErp(\'' + this.Id + '\')">重新导入ERP</a>'
 
                 }
                 if (this.Stutas == 4)
