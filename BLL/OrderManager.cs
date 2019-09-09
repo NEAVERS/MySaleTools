@@ -1178,7 +1178,7 @@ namespace BLL
                 orderIndex.@checked = false;
                 orderIndex.redWord = false;
                 orderIndex.BillOver = false;
-                orderIndex.comment = string.Empty;
+                orderIndex.comment = orderDetail.Info.OrderNum;
                 if (orderDetail.Info.Manjian > 0)
                     orderIndex.explain = "满减：" + orderDetail.Info.Manjian;
                 else
