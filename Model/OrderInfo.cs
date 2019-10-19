@@ -200,6 +200,9 @@ namespace Model
         public DateTime? CheckCancelTime { get; set; }
 
         public decimal Manjian { get; set; }
+
+        public bool IsExport { get; set; }
+
         public OrderInfo()
         {
             this.Id = Guid.NewGuid();
@@ -232,6 +235,7 @@ namespace Model
             this.OrderCancelTime = null;
             this.CheckCancelTime = null;
             this.Manjian = 0;
+            this.IsExport = false;
         }
     }
 }

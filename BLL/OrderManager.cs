@@ -1375,7 +1375,7 @@ namespace BLL
                         _erp.SaveChanges();
                         scope.Commit();//正常完成就可以提交
                         LogsHelper.WriteLog("导入ERP成功,订单号:"+ orderIndex.billNumberId, "订单管理");
-
+                        UpdateExport(orderId);
                     }
                     catch (Exception ex)
                     {
@@ -1393,7 +1393,16 @@ namespace BLL
             return true;
         }
 
+        public bool UpdateExport(Guid orderId)
+        {
+            var model = _context.OrderInfoes.FirstOrDefault(x => x.Id == orderId);
+            if (model != null)
+            {
+                model.IsExport = true;
+            }
+            return _context.SaveChanges() > 0;
 
+        }
 
         #endregion
     }
