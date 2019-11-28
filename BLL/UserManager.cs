@@ -258,7 +258,7 @@ namespace BLL
             MemoryStream output = new System.IO.MemoryStream();
             StreamWriter writer = new System.IO.StreamWriter(output, System.Text.Encoding.UTF8);
 
-            writer.Write("小店编号,小店区域,小店名称,小店地址,用户名,联系方式,创建时间,业务员,小店平米数,客户类型,单位ID");//输出标题，逗号分割（注意最后一列不加逗号）
+            writer.Write("小店编号,小店区域,小店名称,小店地址,用户名,联系方式,创建时间,业务员,小店平米数,客户类型,单位ID,是否锁定");//输出标题，逗号分割（注意最后一列不加逗号）
 
             writer.WriteLine();
             //输出内容
@@ -275,6 +275,7 @@ namespace BLL
                 writer.Write(item.StoreArea + ",");//第一列
                 writer.Write(item.TypeName + ",");//第一列
                 writer.Write(item.UserCode + ",");//第一列
+                writer.Write((item.IsLocked ? "锁定" : "未锁定") + ",");//第一列
 
                 writer.WriteLine();
             }
