@@ -23,6 +23,12 @@ namespace Common.Entities
         C类客户,
         D类客户,
         E类客户,
+        F类客户,
+        G类客户,
+        H类客户,
+        I类客户,
+        J类客户,
+
     }
 
     public enum OrderStatus

@@ -65,6 +65,14 @@ namespace Dal.Mapping
             this.Property(t => t.PriceForB).HasColumnName("PriceForB");
             this.Property(t => t.PriceForC).HasColumnName("PriceForC");
             this.Property(t => t.PriceForD).HasColumnName("PriceForD");
+            this.Property(t => t.PriceForE).HasColumnName("PriceForE");
+            this.Property(t => t.PriceForF).HasColumnName("PriceForF");
+            this.Property(t => t.PriceForG).HasColumnName("PriceForG");
+            this.Property(t => t.PriceForH).HasColumnName("PriceForH");
+            this.Property(t => t.PriceForI).HasColumnName("PriceForI");
+
+            this.Property(t => t.PriceForD).HasColumnName("PriceForD");
+
             this.Property(t => t.PriceForLianSuo).HasColumnName("PriceForLianSuo");
 
             this.Property(t => t.IsBoxSale).HasColumnName("IsBoxSale");
@@ -73,6 +81,12 @@ namespace Dal.Mapping
             this.Property(t => t.TitleForB).HasColumnName("TitleForB");
             this.Property(t => t.TitleForC).HasColumnName("TitleForC");
             this.Property(t => t.TittleForD).HasColumnName("TittleForD");
+
+            this.Property(t => t.TitleForE).HasColumnName("TitleForE");
+            this.Property(t => t.TitleForF).HasColumnName("TitleForF");
+            this.Property(t => t.TitleForG).HasColumnName("TitleForG");
+            this.Property(t => t.TitleForH).HasColumnName("TitleForH");
+            this.Property(t => t.TitleForI).HasColumnName("TitleForI");
             this.Property(t => t.TittleForLianSuo).HasColumnName("TittleForLianSuo");
         }
     }

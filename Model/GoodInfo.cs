@@ -267,7 +267,24 @@ namespace Model
         /// 连锁类客户名字
         /// </summary>
         public string TittleForLianSuo { get; set; }
-       
+
+
+        public decimal PriceForE { get; set; }
+        public string TitleForE { get; set; }
+
+
+        public decimal PriceForF { get; set; }
+        public string TitleForF { get; set; }
+
+        public decimal PriceForG { get; set; }
+        public string TitleForG  { get; set; }
+
+        public decimal PriceForH { get; set; }
+        public string TitleForH { get; set; }
+
+        public decimal PriceForI { get; set; }
+        public string TitleForI { get; set; }
+
         public GoodInfo()
         {
 
@@ -322,6 +339,11 @@ namespace Model
             this.PriceForC = 0;
             this.PriceForD = 0;
             this.PriceForLianSuo = 0;
+            this.PriceForE = 0;
+            this.PriceForF = 0;
+            this.PriceForG = 0;
+            this.PriceForH = 0;
+            this.PriceForI = 0;
             this.IsBoxSale = false;
         }
 

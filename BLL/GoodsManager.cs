@@ -440,11 +440,21 @@ namespace BLL
                 obj.PriceForB = newInfo.PriceForB;
                 obj.PriceForC = newInfo.PriceForC;
                 obj.PriceForD = newInfo.PriceForD;
+                obj.PriceForE = newInfo.PriceForE;
+                obj.PriceForF = newInfo.PriceForF;
+                obj.PriceForG = newInfo.PriceForG;
+                obj.PriceForH = newInfo.PriceForH;
+                obj.PriceForI = newInfo.PriceForI;
                 obj.PriceForLianSuo = newInfo.PriceForLianSuo;
                 obj.TitleForA = newInfo.TitleForA;
                 obj.TitleForB = newInfo.TitleForB;
                 obj.TitleForC = newInfo.TitleForC;
                 obj.TittleForD = newInfo.TittleForD;
+                obj.TitleForE = newInfo.TitleForE;
+                obj.TitleForF = newInfo.TitleForF;
+                obj.TitleForG = newInfo.TitleForG;
+                obj.TitleForH = newInfo.TitleForH;
+                obj.TitleForI = newInfo.TitleForI;
                 obj.TittleForLianSuo = newInfo.TittleForLianSuo;
 
                 obj.pic1 = newInfo.pic1;
@@ -527,6 +537,31 @@ namespace BLL
                     price = x.PriceForLianSuo;
                     if (!string.IsNullOrWhiteSpace(x.TittleForLianSuo))
                         name = x.TittleForLianSuo;
+                    break;
+                case 7:
+                    price = x.PriceForE;
+                    if (!string.IsNullOrWhiteSpace(x.TitleForE))
+                        name = x.TitleForE;
+                    break;
+                case 8:
+                    price = x.PriceForF;
+                    if (!string.IsNullOrWhiteSpace(x.TitleForF))
+                        name = x.TitleForF;
+                    break;
+                case 9:
+                    price = x.PriceForG;
+                    if (!string.IsNullOrWhiteSpace(x.TitleForG))
+                        name = x.TitleForG;
+                    break;
+                case 10:
+                    price = x.PriceForH;
+                    if (!string.IsNullOrWhiteSpace(x.TitleForH))
+                        name = x.TitleForH;
+                    break;
+                case 11:
+                    price = x.PriceForI;
+                    if (!string.IsNullOrWhiteSpace(x.TitleForI))
+                        name = x.TitleForI;
                     break;
             }
             if (price == 0)
