@@ -128,6 +128,8 @@
                         <th>已付金额</th>
                         <th>来源</th>
                         <th>交易状态</th>
+                        <th>是否同步</th>
+
                         <th class="center">操作</th>
                     </tr>
                 </thead>
@@ -194,7 +196,10 @@
         $.post("/Order/GetOrderList", para, function (data) {
             var html = "";
             $(data.ListData).each(function () {
-                html += ' <tr style="color: #ff0000;">';
+                if (this.Stutas == 5)
+                    html += ' <tr style="color: #ff0000;">';
+                else
+                    html += ' <tr>';
                 html += '<td>' + this.OrderNum + '</td >';
                 html += '<td>' + this.CreateTime + '</td >';
                 html += '<td>' + this.CreateUserNum + '</td >';
@@ -207,11 +212,13 @@
                 html += '<td><span class="highlight">' + this.PayMoney + '</span>&nbsp;&nbsp; [货到付款]</td >';
                 html += '<td>电脑端</td >';
                 html += '<td>' + getSutas(this.Stutas) + '</td >';
+                html += '<td ' + (this.IsExport ? "" : "style='color: red;'" )+'>' + (this.IsExport?"已导入":"未导入") + '</td >';
+
                 html += '<td>';
                 html += '<a class="alink" href="/Order/OrderDetail?orderId=' + this.Id + '">订单详情</a>'
                 if (this.Stutas == 1) {
                     html += '<a class="del alink" href="#" data-pick="0" data-state="1" data-id="' + this.Id + '">取消订单</a>'
-                    html += '<a class="alink"  href="javascript:void(0)" data-pick="0" data-state="1" onclick="CheckAgree(\'' + this.Id + '\')">重新导入ERP</a>'
+                    html += '<a class="alink"  href="javascript:void(0)" data-pick="0" data-state="1" onclick="InsertErp(\'' + this.Id + '\')">重新导入ERP</a>'
 
                 }
                 if (this.Stutas == 4)
