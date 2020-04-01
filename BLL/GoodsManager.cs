@@ -291,8 +291,9 @@ namespace BLL
                     q = q.OrderBy(x => x.BasePrice);
 
             }
+           
+            var list = q.ToList();
 
-            var list = q.Skip((index - 1) * size).Take(size).ToList();
 
             foreach (var item in list)
             {
@@ -307,6 +308,10 @@ namespace BLL
                 item.Stock = stock;
 
             }
+            list.RemoveAll(x => x.RetailtPrice == -1);
+            var templist = list.Skip((index - 1) * size).Take(size).ToList();
+
+
             page.ListData = list;
             return page;
         }
