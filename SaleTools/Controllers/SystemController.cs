@@ -129,6 +129,12 @@ namespace SaleTools.Controllers
 
             return Utils.SerializeObject(res);
         }
+        public string DeleteImgSet(Guid id)
+        {
+            var res = _system.DeleteImgSet(id);
+            return Utils.SerializeObject(res);
+        }
+
 
 
         public ActionResult SetHomePageType()

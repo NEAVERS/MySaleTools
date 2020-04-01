@@ -117,6 +117,15 @@ namespace BLL
             var model = _context.ImgSets.FirstOrDefault(x => x.Id == setId);
             return model;
         }
+
+        public bool DeleteImgSet(Guid id)
+        {
+            var model = _context.ImgSets.FirstOrDefault(x => x.Id == id);
+            if (model != null)
+                _context.ImgSets.Remove(model);
+            return _context.SaveChanges() > 0;
+        }
+
         /// <summary>
         /// 获取所有公告
         /// </summary>

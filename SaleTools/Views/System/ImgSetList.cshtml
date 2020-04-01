@@ -8,7 +8,7 @@
 <div class="col_main">
     <div class="col_main_hd">
         <h2>
-            首页海报设置                            
+            首页海报设置
         </h2>
     </div>
     <div class="col_main_bd">
@@ -36,7 +36,7 @@
                             <th class="center" width="60px">操作</th>
                         </tr>
                     </thead>
-                    <tbody  id="dataList">
+                    <tbody id="dataList">
                         <tr>
                             <td class="center"><input type="checkbox" name="pass[]" value="4463" class="checkone"></td>
                             <td class="center">4463</td>
@@ -78,6 +78,7 @@
         </div>
     </div>
 </div>
+<script src="~/Scripts/layer/layer.js"></script>
 
 <script>
     $(function () {
@@ -99,13 +100,34 @@
                 html += ' <td class="center">' + this.ImgSetInfo.SortedId + '</td >'
                 html += ' <td class="center" width="60px">';
                 html += '<a href="/System/AddImgSet?setId=' + this.ImgSetInfo.Id + '">编辑</a><br>'
-                html += '<a href="javascript:;" class="J_DelPoster" data-id="' + this.ImgSetInfo.Id + '">删除</a>'
+                html += '<a href="javascript:;" class="J_DelPoster" data-id="' + this.ImgSetInfo.Id + '"  onclick="deleteImgSet(\'' + this.ImgSetInfo.Id + '\')">删除</a>'
                 html += '</td></tr >';
             });
 
             $("#dataList").html(html);
 
-        },"json")
+        }, "json")
+    }
+    function deleteImgSet(id) {
+        layer.confirm('请确认是否删除？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            layer.closeall();
+        }, function () {
+            $.post("/System/DeleteImgSet", { id: id }, function (e) {
+                if (e) {
+                    layer.msg("删除成功！", { icon: 1 }, function () {
+                        location.reload();
+                    })
+                }
+                else {
+                    layer.msg("删除失败，请刷新后重试！", { icon: 2 }, function () {
+                        location.reload();
+                    })
+
+                }
+            }, "json")
+        });
     }
 
 </script>
