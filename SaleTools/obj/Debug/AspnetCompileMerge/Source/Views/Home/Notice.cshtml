@@ -178,7 +178,7 @@
                     str = "notice_list_a_clicked";
                 }
                 <li class="noticeTitle">
-                    <a class="notice_list_a  @str" data-id="@notice.Id " style="position: inherit; left: 0px;">@notice.Tittle  </a>
+                    <a class="notice_list_a  @str" data-id="@notice.Id " style="position: inherit; left: 0px;"  href="/Home/Notice/@notice.Id ">@notice.Tittle  </a>
                 </li>
 
             }
@@ -190,7 +190,6 @@
         <iframe frameborder="0" scrolling="no" id="notice_container" src="/Home/NoticeDetail/@ViewBag.NoticeId" height="392"></iframe>
     </div>
     <div id="toTop">
-        <img src="/statics/images/chevron-up.png">
         <a class="goToTop">返回顶部</a>
     </div>
 </div>

@@ -16,7 +16,6 @@ namespace Model
 
         public string Tittle { get; set; }
 
-
         public string Content { get; set; }
 
         public string UserTypes { get; set; }

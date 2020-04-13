@@ -193,7 +193,7 @@ namespace SaleTools.Controllers
             return View(model);
         }
 
-
+        [ValidateInput(false)]
         public ActionResult SaveNotice(Notice notice,List<int> userTypes)
         {
             var loginUser = (UserInfo)ViewBag.User;

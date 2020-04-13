@@ -312,7 +312,7 @@ namespace BLL
             var templist = list.Skip((index - 1) * size).Take(size).ToList();
 
 
-            page.ListData = list;
+            page.ListData = templist;
             return page;
         }
 
