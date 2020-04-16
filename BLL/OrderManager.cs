@@ -292,6 +292,17 @@ namespace BLL
             var Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar && !x.IsGift).ToList();
 
             var list = Utils.DeepCopyByJson(Items);
+            List<int> indexs = new List<int>();
+            for (int i = 0; i < list.Count; i++)
+            {
+                var goods = _good.GetGoodInfoById(list[i].ProductId);
+                if (goods != null && !goods.IsUpShelves)
+                    indexs.Add(i);
+            }
+            foreach (var item in indexs)
+            {
+                list.RemoveAt(item);
+            }
             list.ForEach(x => {
                 x.Id = Guid.NewGuid();
                 x.OrderId = Guid.Empty;

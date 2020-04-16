@@ -26,7 +26,8 @@
                                 <span>发布时间:<i class="notice_created">@Model.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</i></span>
                             </div>
                             <div class="notice_con">
-                                @Model.Content 
+                                @Html.Raw(HttpUtility.HtmlDecode(Model.Content));
+                                
                             </div>
                             <!--                        <div class="notice_action">-->
                             <!--                            <a href="/notice">返回公告列表</a>-->
