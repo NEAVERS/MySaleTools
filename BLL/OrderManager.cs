@@ -289,21 +289,45 @@ namespace BLL
 
         public bool ReBuy(Guid orderId)
         {
-            var Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar && !x.IsGift).ToList();
-
-            var list = Utils.DeepCopyByJson(Items);
-            List<int> indexs = new List<int>();
-            for (int i = 0; i < list.Count; i++)
+            try
             {
                 var goods = _good.GetGoodInfoById(list[i].ProductId);
                 LogsHelper.WriteLog(goods.GoodsTittle + goods.IsUpShelves);
                 if (goods != null && !goods.IsUpShelves)
                     indexs.Add(i);
+
+                LogsHelper.WriteLog(list.Count.ToString());
+                foreach (var item in indexs)
+                    var Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar && !x.IsGift).ToList();
+
+                var list = Utils.DeepCopyByJson(Items);
+                List<OrderItem> indexs = new List<OrderItem>();
+                for (int i = 0; i < list.Count; i++)
+                {
+                    var goods = _good.GetGoodInfoById(list[i].ProductId);
+                    if (goods == null || !goods.IsUpShelves || goods.IsDelete)
+                        indexs.Add(list[i]);
+                }
+                foreach (var item in indexs)
+                {
+                    LogsHelper.WriteLog(item.ProductTittle);
+                    list.Remove(item);
+                }
+                list.ForEach(x =>
+                {
+                    x.Id = Guid.NewGuid();
+                    x.OrderId = Guid.Empty;
+                    x.OrderNum = string.Empty;
+                    x.IsInShoppingCar = true;
+                });
+                _context.OrderItems.AddRange(list);
+                return _context.SaveChanges() > 0;
+
             }
-            LogsHelper.WriteLog(list.Count.ToString());
-            foreach (var item in indexs)
+            catch (Exception ex)
             {
-                list.RemoveAt(item);
+                LogsHelper.WriteErrorLog(ex, "再次购买");
+                return false;
             }
             LogsHelper.WriteLog(list.Count.ToString());
 
