@@ -111,7 +111,7 @@ namespace SaleTools.Controllers
             var loginUser = GetUserInfo();
             if (loginUser != null)
             {
-                var imgSet = _system.GetImgSet();
+                var imgSet = _system.GetImgSet(loginUser.TypeId);
 
                 _response.Stutas = true;
                 _response.Result = imgSet;

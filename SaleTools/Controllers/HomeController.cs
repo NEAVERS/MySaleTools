@@ -24,7 +24,7 @@ namespace SaleTools.Controllers
         public ActionResult Index()
         {
             var loginUser = (UserInfo)ViewBag.User;
-            var imgSet = _system.GetImgSet();
+            var imgSet = _system.GetImgSet(loginUser.TypeId);
             ViewBag.ImgList = imgSet;
             List<Notice> list = _system.GetNoticeForShow(loginUser.TypeId, ViewBag.ManagerId);
             list = list.OrderByDescending(x => x.CreateTime).Take(6).ToList();

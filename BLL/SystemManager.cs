@@ -54,7 +54,7 @@ namespace BLL
         {
             var q = from c in _context.ImgSets
                     join d in _context.ImgSetOfUserTypes on c.Id equals d.ImgSetId
-                    where type == -1 || d.UserType == type
+                    where type  <0 || d.UserType == type
                     select c;
             return q.Distinct().OrderByDescending(x=>x.SortedId).ToList();
         }
