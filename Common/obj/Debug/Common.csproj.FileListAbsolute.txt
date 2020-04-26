@@ -36,3 +36,14 @@ H:\Project\MySaleTools\Common\bin\Debug\Newtonsoft.Json.xml
 H:\Project\MySaleTools\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
 H:\Project\MySaleTools\Common\obj\Debug\Common.dll
 H:\Project\MySaleTools\Common\obj\Debug\Common.pdb
+D:\My\MySaleTools\Common\bin\Debug\Common.dll
+D:\My\MySaleTools\Common\bin\Debug\Common.pdb
+D:\My\MySaleTools\Common\bin\Debug\Model.dll
+D:\My\MySaleTools\Common\bin\Debug\Newtonsoft.Json.dll
+D:\My\MySaleTools\Common\bin\Debug\Model.pdb
+D:\My\MySaleTools\Common\bin\Debug\Newtonsoft.Json.xml
+D:\My\MySaleTools\Common\obj\Debug\Common.csprojAssemblyReference.cache
+D:\My\MySaleTools\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+D:\My\MySaleTools\Common\obj\Debug\Common.csproj.CopyComplete
+D:\My\MySaleTools\Common\obj\Debug\Common.dll
+D:\My\MySaleTools\Common\obj\Debug\Common.pdb
