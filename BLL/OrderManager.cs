@@ -291,14 +291,8 @@ namespace BLL
         {
             try
             {
-                var goods = _good.GetGoodInfoById(list[i].ProductId);
-                LogsHelper.WriteLog(goods.GoodsTittle + goods.IsUpShelves);
-                if (goods != null && !goods.IsUpShelves)
-                    indexs.Add(i);
 
-                LogsHelper.WriteLog(list.Count.ToString());
-                foreach (var item in indexs)
-                    var Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar && !x.IsGift).ToList();
+                var Items = _context.OrderItems.Where(x => x.OrderId == orderId && !x.IsDelete && !x.IsInShoppingCar && !x.IsGift).ToList();
 
                 var list = Utils.DeepCopyByJson(Items);
                 List<OrderItem> indexs = new List<OrderItem>();
@@ -329,16 +323,6 @@ namespace BLL
                 LogsHelper.WriteErrorLog(ex, "再次购买");
                 return false;
             }
-            LogsHelper.WriteLog(list.Count.ToString());
-
-            list.ForEach(x => {
-                x.Id = Guid.NewGuid();
-                x.OrderId = Guid.Empty;
-                x.OrderNum = string.Empty;
-                x.IsInShoppingCar = true;
-            });
-            _context.OrderItems.AddRange(list);
-            return _context.SaveChanges() > 0;
         }
 
         public OrderDetail GetOrderDetail(string orderNUm)

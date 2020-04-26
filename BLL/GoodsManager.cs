@@ -3,6 +3,7 @@ using Common.Entities;
 using Dal;
 using Dal.Mapping.Erp;
 using Model;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -626,56 +627,72 @@ namespace BLL
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public MemoryStream ExportGoodInfo(List<GoodInfo> list)
+        public string ExportGoodInfo(List<GoodInfo> list)
         {
-            MemoryStream output = new System.IO.MemoryStream();
+            string sWebRootFolder = AppDomain.CurrentDomain.BaseDirectory + "/DownLoadExcelexport";
+            if (!Directory.Exists(sWebRootFolder))
+                Directory.CreateDirectory(sWebRootFolder);
+            string sFileName ="商品列表" + $"{Guid.NewGuid()}.xlsx";
+            //把项目名加到指定存放的路径
+            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
 
-            StreamWriter writer = new System.IO.StreamWriter(output, System.Text.Encoding.UTF8);
-
-            writer.Write("商品Guid,商品编号,供应商名,商品条码,大类,商品id,商品父级ID,商品名称,批发价,A类销售价,B类销售价,C类销售价,D类销售价,E类销售价,成本价,商品规格信息,起批单位,单位总数,商品保质期,状态,最小起批数量,品牌,排序,关键字,限购数量,限购开始时间,限购结束时间,有无主图,客户类型,是否锁定,最小零售单位,建议零售价");//输出标题，逗号分割（注意最后一列不加逗号）
-
-            writer.WriteLine();
-            //输出内容
-            foreach (var item in list)
+            using (ExcelPackage package = new ExcelPackage(file))
             {
-                writer.Write(item.Id + ",");//第一列
-                writer.Write(item.GoodsNum + ",");//第一列
-                writer.Write(item.SupplierName + ",");//第一列
-                writer.Write(item.BarCode + ",");//第一列
-                writer.Write(item.FirstTypeName + ",");//第一列
-                writer.Write(item.ErpId + ",");//第一列
-                writer.Write( "0,");//第一列
-                writer.Write(item.GoodsTittle + ",");//第一列
-                writer.Write(item.BasePrice + ",");//第一列
-                writer.Write(item.PriceForA + ",");//第一列
-                writer.Write(item.PriceForB+ ",");//第一列
-                writer.Write(item.PriceForC + ",");//第一列
-                writer.Write(item.PriceForD + ",");//第一列
-                writer.Write(item.PriceForLianSuo + ",");//第一列
-                writer.Write(item.CostPrice + ",");//第一列
-                writer.Write(item.Spec + ",");//第一列
-                writer.Write(item.Unit + ",");//第一列
-                writer.Write(item.MinCount + ",");//第一列
-                writer.Write(item.ShelfLife + ",");//第一列
-                writer.Write(item.IsUpShelves?"上架":"下架"+ ",");//第一列
-                writer.Write(item.MinCount + ",");//第一列
-                writer.Write(item.BrandName + ",");//第一列
-                writer.Write(item.SortId + ",");//第一列
-                writer.Write(item.KeyWord + ",");//第一列
-                writer.Write(item.LimitCount + ",");//第一列
-                writer.Write("" + ",");//第一列
-                writer.Write( ",");//第一列
-                writer.Write((string.IsNullOrWhiteSpace(item.pic1)?"无":"有") + ",");//第一列
-                writer.Write("ABCDZ" + ",");//第一列
-                writer.Write((item.IsLockStork?"是":"否") + ",");//第一列
-                writer.Write( ",");//第一列
-                writer.Write(item.RetailtPrice + ",");//第一列
-                writer.WriteLine();
-            }
-            writer.Flush();
+                //添加worksheet的名字
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("商品列表");
 
-            output.Position = 0;
-            return output;
+                string title = "商品Guid,商品编号,供应商名,商品条码,大类,商品id,商品父级ID,商品名称,批发价,A类销售价,B类销售价,C类销售价,D类销售价,E类销售价,成本价,商品规格信息,起批单位,单位总数,商品保质期,状态,最小起批数量,品牌,排序,关键字,限购数量,限购开始时间,限购结束时间,有无主图,客户类型,是否锁定,最小零售单位,建议零售价";
+                var tittles = title.Split(',');
+
+                for (int i = 0; i < tittles.Length; i++)
+                {
+                    worksheet.Cells[1, i + 1].Value = tittles[i];
+
+                }
+
+                //添加值
+                var rowNum = 2; // rowNum 1 is head
+                foreach (var item in list)
+                {
+                    worksheet.Cells["A" + rowNum].Value = item.Id;//第一列
+                    worksheet.Cells["B" + rowNum].Value = item.GoodsNum;//第一列
+                    worksheet.Cells["C" + rowNum].Value = item.SupplierName;//第一列
+                    worksheet.Cells["D" + rowNum].Value = item.BarCode;//第一列
+                    worksheet.Cells["E" + rowNum].Value = item.FirstTypeName;//第一列
+                    worksheet.Cells["F" + rowNum].Value = item.ErpId;//第一列
+                    worksheet.Cells["G" + rowNum].Value = "0";//第一列
+                    worksheet.Cells["H" + rowNum].Value = item.GoodsTittle;//第一列
+                    worksheet.Cells["I" + rowNum].Value = item.BasePrice;//第一列
+                    worksheet.Cells["J" + rowNum].Value = item.PriceForA;//第一列
+                    worksheet.Cells["K" + rowNum].Value = item.PriceForB;//第一列
+                    worksheet.Cells["L" + rowNum].Value = item.PriceForC;//第一列
+                    worksheet.Cells["M" + rowNum].Value = item.PriceForD;//第一列
+                    worksheet.Cells["N" + rowNum].Value = item.PriceForLianSuo;//第一列
+                    worksheet.Cells["O" + rowNum].Value = item.CostPrice;//第一列
+                    worksheet.Cells["P" + rowNum].Value = item.Spec;//第一列
+                    worksheet.Cells["Q" + rowNum].Value = item.Unit;//第一列
+                    worksheet.Cells["R" + rowNum].Value = item.MinCount;//第一列
+                    worksheet.Cells["S" + rowNum].Value = item.ShelfLife;//第一列
+                    worksheet.Cells["T" + rowNum].Value = item.IsUpShelves ? "上架" : "下架";//第一列
+                    worksheet.Cells["U" + rowNum].Value = item.MinCount;//第一列
+                    worksheet.Cells["V" + rowNum].Value = item.BrandName;//第一列
+                    worksheet.Cells["W" + rowNum].Value = item.SortId;//第一列
+                    worksheet.Cells["X" + rowNum].Value = item.KeyWord;//第一列
+                    worksheet.Cells["Y" + rowNum].Value = item.LimitCount;//第一列
+                    worksheet.Cells["Z" + rowNum].Value = "";//第一列
+                    worksheet.Cells["AA" + rowNum].Value = "";//第一列
+                    worksheet.Cells["AB" + rowNum].Value = (string.IsNullOrWhiteSpace(item.pic1) ? "无" : "有");//第一列
+                    worksheet.Cells["AC" + rowNum].Value = "ABCDZ";//第一列
+                    worksheet.Cells["AD" + rowNum].Value = (item.IsLockStork ? "是" : "否");//第一列
+                    worksheet.Cells["AE" + rowNum].Value = "";//第一列
+                    worksheet.Cells["AF" + rowNum].Value = item.RetailtPrice;//第一列
+                    rowNum++;
+                }
+                package.Save();
+            }
+
+            var fileUrl = Path.Combine(sWebRootFolder, sFileName);
+            return fileUrl;
 
         }
 

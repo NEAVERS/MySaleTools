@@ -3,6 +3,7 @@ using Common.Entities;
 using Dal;
 using Dal.Mapping.Erp;
 using Model;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -252,39 +253,54 @@ namespace BLL
 
 
 
-        public MemoryStream ExportUserInfo(DateTime start, DateTime end, string province, string city, string area, string saleManId, int userType, string key, bool isDelete)
+        public string ExportUserInfo(DateTime start, DateTime end, string province, string city, string area, string saleManId, int userType, string key, bool isDelete)
         {
             var pager = GetUserByPage(1, 10000, start, end, province, city, area, saleManId, userType, key, false);
-            MemoryStream output = new System.IO.MemoryStream();
-            StreamWriter writer = new System.IO.StreamWriter(output, System.Text.Encoding.UTF8);
+            string sWebRootFolder = AppDomain.CurrentDomain.BaseDirectory + "/DownLoadExcelexport";
+            if (!Directory.Exists(sWebRootFolder))
+                Directory.CreateDirectory(sWebRootFolder);
+            string sFileName = "小店用户" + $"{Guid.NewGuid()}.xlsx";
+            //把项目名加到指定存放的路径
+            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
 
-            writer.Write("小店编号,小店区域,小店名称,小店地址,用户名,联系方式,创建时间,业务员,小店平米数,客户类型,单位ID,是否锁定");//输出标题，逗号分割（注意最后一列不加逗号）
-
-            writer.WriteLine();
-            //输出内容
-            foreach (var item in pager.ListData)
+            using (ExcelPackage package = new ExcelPackage(file))
             {
-                writer.Write(item.UserNum + ",");//第一列
-                writer.Write(item.Area + ",");//第一列
-                writer.Write(item.SotreName+ ",");//第一列
-                writer.Write(item.Addr + ",");//第一列
-                writer.Write(item.UserName + ",");//第一列
-                writer.Write(item.Tel + ",");//第一列
-                writer.Write(item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") + ",");//第一列
-                writer.Write(item.SaleManName + ",");//第一列
-                writer.Write(item.StoreArea + ",");//第一列
-                writer.Write(item.TypeName + ",");//第一列
-                writer.Write(item.UserCode + ",");//第一列
-                writer.Write((item.IsLocked ? "锁定" : "未锁定") + ",");//第一列
+                //添加worksheet的名字
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("商品列表");
 
-                writer.WriteLine();
+                string title = "小店编号,小店区域,小店名称,小店地址,用户名,联系方式,创建时间,业务员,小店平米数,客户类型,单位ID,是否锁定";
+                var tittles = title.Split(',');
+
+                for (int i = 0; i < tittles.Length; i++)
+                {
+                    worksheet.Cells[1, i + 1].Value = tittles[i];
+
+                }
+
+                //添加值
+                var rowNum = 2; // rowNum 1 is head
+                foreach (var item in pager.ListData)
+                {
+                    worksheet.Cells["A" + rowNum].Value = item.UserNum;//第一列
+                    worksheet.Cells["B" + rowNum].Value = item.Area;//第一列
+                    worksheet.Cells["C" + rowNum].Value = item.SotreName;//第一列
+                    worksheet.Cells["D" + rowNum].Value = item.Addr;//第一列
+                    worksheet.Cells["E" + rowNum].Value = item.UserName;//第一列
+                    worksheet.Cells["F" + rowNum].Value = item.Tel;//第一列
+                    worksheet.Cells["G" + rowNum].Value = item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss");//第一列
+                    worksheet.Cells["H" + rowNum].Value = item.SaleManName;//第一列
+                    worksheet.Cells["I" + rowNum].Value = item.StoreArea;//第一列
+                    worksheet.Cells["J" + rowNum].Value = item.TypeName;//第一列
+                    worksheet.Cells["K" + rowNum].Value = item.UserCode;//第一列
+                    worksheet.Cells["L" + rowNum].Value = (item.IsLocked ? "锁定" : "未锁定");//第一列
+                       rowNum++;
+                }
+                package.Save();
             }
-            writer.Flush();
 
-            output.Position = 0;
+            var fileUrl = Path.Combine(sWebRootFolder, sFileName);
+            return fileUrl;
 
-            //return File(output, "text/comma-separated-values", "demo1.csv");
-            return output;
 
 
         }

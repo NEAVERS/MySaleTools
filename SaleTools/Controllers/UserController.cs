@@ -76,7 +76,7 @@ namespace SaleTools.Controllers
             var startTime = DateTime.MinValue;
             var endTime = DateTime.MaxValue;
             var output = manager.ExportUserInfo(startTime, endTime, province, city, area, saleManId, userType, key, false);
-             return File(output, "text/comma-separated-values", Guid.NewGuid().ToString("N") + ".csv");
+             return File(output, "text/comma-separated-values", "小店用户.xlsx");
         }
 
 

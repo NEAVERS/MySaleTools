@@ -36,4 +36,3 @@ H:\Project\MySaleTools\Common\bin\Debug\Newtonsoft.Json.xml
 H:\Project\MySaleTools\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
 H:\Project\MySaleTools\Common\obj\Debug\Common.dll
 H:\Project\MySaleTools\Common\obj\Debug\Common.pdb
-

@@ -292,7 +292,7 @@ namespace SaleTools.Controllers
             var loginUser =  (UserInfo)ViewBag.User;;
             PageData<GoodInfo> page = _manager.GetGoodsList(ViewBag.ManagerId, loginUser.TypeId, 1, 100000, SupplierId, fstTypeId, secTypeId, thdTypeId, "", keyWord, "");
             var output = _manager.ExportGoodInfo(page.ListData);
-            return File(output, "text/comma-separated-values", Guid.NewGuid().ToString("N")+".csv");
+            return File(output, "application/ms-excel", "商品列表.xlsx");
         }
         /// <summary>
         /// 删除商品

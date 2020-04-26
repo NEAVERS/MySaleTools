@@ -50,4 +50,3 @@ H:\Project\MySaleTools\Dal\bin\Debug\EntityFramework.SqlServer.xml
 H:\Project\MySaleTools\Dal\obj\Debug\Dal.csprojResolveAssemblyReference.cache
 H:\Project\MySaleTools\Dal\obj\Debug\Dal.dll
 H:\Project\MySaleTools\Dal\obj\Debug\Dal.pdb
-

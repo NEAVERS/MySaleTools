@@ -307,7 +307,10 @@
                         </div>
                     </div>
                 </div>
-                <a href="javascript:;" class="actbtn cartbtn" id="CartDetailBtn" data-productid="@Model.Id">加入购物车</a>
+                @if (Model.IsUpShelves)
+                {
+                    <a href="javascript:;" class="actbtn cartbtn" id="CartDetailBtn" data-productid="@Model.Id">加入购物车</a>
+                }
                 <a class="J_AddCollectBtn collect" data-id="@Model.Id">&nbsp;收藏商品</a>
                 <!--                             <span class="J_AddCollectBtn add_collect_btn" id="277664" data-id="277664">收藏</span>
                  -->
