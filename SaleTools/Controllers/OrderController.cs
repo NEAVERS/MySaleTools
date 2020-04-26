@@ -112,7 +112,7 @@ namespace SaleTools.Controllers
                 managerId = loginUser.SaleManGuid;
             PageData<OrderInfo> pager = _order.GetOrderList(1, 10000, startTime, endTime, province, city, area, stutas, saleManId, userType, key, managerId, ViewBag.IsAdmin);
             var result = _order.CreateOrderInfoFile(pager.ListData);
-            return File(result, "text/comma-separated-values", Guid.NewGuid().ToString("N") + ".csv");
+            return File(result, "text/comma-separated-values",  "订单列表.xlsx");
         }
 
         public string CancelOrder(Guid orderId)

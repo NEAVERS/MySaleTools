@@ -10,34 +10,34 @@
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>04/26/2020 12:02:06</publishTime>
+      <publishTime>04/26/2020 12:28:50</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>04/26/2020 12:02:05</publishTime>
+      <publishTime>04/26/2020 12:28:50</publishTime>
     </File>
     <File Include="bin/BLL.dll">
-      <publishTime>04/26/2020 12:01:43</publishTime>
+      <publishTime>04/26/2020 12:28:43</publishTime>
     </File>
     <File Include="bin/BLL.dll.config">
       <publishTime>03/28/2020 18:18:17</publishTime>
     </File>
     <File Include="bin/BLL.pdb">
-      <publishTime>04/26/2020 12:01:43</publishTime>
+      <publishTime>04/26/2020 12:28:43</publishTime>
     </File>
     <File Include="bin/Common.dll">
-      <publishTime>04/26/2020 12:01:42</publishTime>
+      <publishTime>04/26/2020 12:28:25</publishTime>
     </File>
     <File Include="bin/Common.pdb">
-      <publishTime>04/26/2020 12:01:43</publishTime>
+      <publishTime>04/26/2020 12:28:25</publishTime>
     </File>
     <File Include="bin/Dal.dll">
-      <publishTime>04/26/2020 12:01:42</publishTime>
+      <publishTime>04/26/2020 12:28:24</publishTime>
     </File>
     <File Include="bin/Dal.dll.config">
       <publishTime>03/28/2020 18:18:17</publishTime>
     </File>
     <File Include="bin/Dal.pdb">
-      <publishTime>04/26/2020 12:01:42</publishTime>
+      <publishTime>04/26/2020 12:28:24</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/28/2020 18:18:21</publishTime>
@@ -52,19 +52,19 @@
       <publishTime>03/28/2020 18:18:21</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>04/26/2020 12:01:41</publishTime>
+      <publishTime>04/26/2020 12:28:23</publishTime>
     </File>
     <File Include="bin/Model.pdb">
-      <publishTime>04/26/2020 12:01:41</publishTime>
+      <publishTime>04/26/2020 12:28:23</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>03/28/2020 18:18:21</publishTime>
     </File>
     <File Include="bin/SaleTools.dll">
-      <publishTime>04/26/2020 12:01:45</publishTime>
+      <publishTime>04/26/2020 12:28:45</publishTime>
     </File>
     <File Include="bin/SaleTools.pdb">
-      <publishTime>04/26/2020 12:01:45</publishTime>
+      <publishTime>04/26/2020 12:28:45</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>03/28/2020 18:18:21</publishTime>
@@ -493,7 +493,7 @@
       <publishTime>03/28/2020 18:18:18</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>04/26/2020 12:02:03</publishTime>
+      <publishTime>04/26/2020 12:28:47</publishTime>
     </File>
     <File Include="Scripts/bootstrap.bundle.js">
       <publishTime>03/28/2020 18:18:18</publishTime>
@@ -979,7 +979,7 @@
       <publishTime>03/28/2020 18:18:19</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>04/26/2020 12:01:56</publishTime>
+      <publishTime>04/26/2020 12:28:46</publishTime>
     </File>
   </ItemGroup>
 </Project>

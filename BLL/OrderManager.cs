@@ -4,6 +4,7 @@ using Dal;
 using Dal.Mapping.Erp;
 using Model;
 using Model.Erp;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -478,44 +479,57 @@ namespace BLL
         }
 
 
-        public MemoryStream CreateOrderInfoFile(List<OrderInfo> list)
+        public string CreateOrderInfoFile(List<OrderInfo> list)
         {
-            System.IO.MemoryStream output = new System.IO.MemoryStream();
 
-            System.IO.StreamWriter writer = new System.IO.StreamWriter(output, System.Text.Encoding.UTF8);
+            string sWebRootFolder = AppDomain.CurrentDomain.BaseDirectory + "/DownLoadExcelexport";
+            if (!Directory.Exists(sWebRootFolder))
+                Directory.CreateDirectory(sWebRootFolder);
+            string sFileName = "订单列表" + $"{Guid.NewGuid()}.xlsx";
+            //把项目名加到指定存放的路径
+            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
 
-            writer.Write("序号,订单编号,订单时间,小店编号,客户类型,小店名称,区域,小店地址,标记,订单原始销售,订单应付,订单实际支付,业务员,支付类型,交易状态");//输出标题，逗号分割（注意最后一列不加逗号）
-
-            writer.WriteLine();
-            //输出内容
-            int num = 0;
-            foreach (var item in list)
+            using (ExcelPackage package = new ExcelPackage(file))
             {
-                num++;
-                writer.Write(num + ",");//第一列
-                writer.Write(item.OrderNum + ",");//第一列
-                writer.Write(item.CreateTime.ToString("yyyy-dd-MM HH:mm:ss") + ",");//第一列
-                writer.Write(item.CreateUserNum + ",");//第一列
-                writer.Write(item.CreateUserType + ",");//第一列
-                writer.Write(item.StoreName + ",");//第一列
-                writer.Write(item.Area + ",");//第一列
-                writer.Write(item.ReceiveAddr + ",");//第一列
-                writer.Write(item.Area + ",");//第一列
-                writer.Write(item.TotalMoney + ",");//第一列
-                writer.Write(item.RealMoney + ",");//第一列
-                writer.Write(item.PayMoney + ",");//第一列
+                //添加worksheet的名字
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("商品列表");
 
-                writer.Write(item.SaleManName + ",");//第一列
-                writer.Write(item.PayType + ",");//第一列
-                writer.Write((OrderStatus)item.Stutas + ",");//第一列
-                writer.WriteLine();
+                string title = "序号,订单编号,订单时间,小店编号,客户类型,小店名称,区域,小店地址,标记,订单原始销售,订单应付,订单实际支付,业务员,支付类型,交易状态";
+                var tittles = title.Split(',');
+
+                for (int i = 0; i < tittles.Length; i++)
+                {
+                    worksheet.Cells[1, i + 1].Value = tittles[i];
+
+                }
+
+                //添加值
+                var rowNum = 2; // rowNum 1 is head
+                foreach (var item in list)
+                {
+
+                    worksheet.Cells["A" + rowNum].Value = rowNum - 1;//第一列
+                    worksheet.Cells["B" + rowNum].Value = item.OrderNum;//第一列
+                    worksheet.Cells["C" + rowNum].Value = item.CreateTime.ToString("yyyy-dd-MM HH:mm:ss");//第一列
+                    worksheet.Cells["D" + rowNum].Value = item.CreateUserNum;//第一列
+                    worksheet.Cells["E" + rowNum].Value = item.CreateUserType;//第一列
+                    worksheet.Cells["F" + rowNum].Value = item.StoreName;//第一列
+                    worksheet.Cells["G" + rowNum].Value = item.Area;//第一列
+                    worksheet.Cells["H" + rowNum].Value = item.ReceiveAddr;//第一列
+                    worksheet.Cells["I" + rowNum].Value = item.Area;//第一列
+                    worksheet.Cells["J" + rowNum].Value = item.TotalMoney;//第一列
+                    worksheet.Cells["K" + rowNum].Value = item.RealMoney;//第一列
+                    worksheet.Cells["L" + rowNum].Value = item.PayMoney;//第一列
+                    worksheet.Cells["M" + rowNum].Value = item.SaleManName;//第一列
+                    worksheet.Cells["N" + rowNum].Value = item.PayType;//第一列
+                    worksheet.Cells["O" + rowNum].Value = (OrderStatus)item.Stutas;//第一列
+                    rowNum++;
+                }
+                package.Save();
             }
-            writer.Flush();
 
-            output.Position = 0;
-
-            //return File(output, "text/comma-separated-values", "demo1.csv");
-            return output;
+            var fileUrl = Path.Combine(sWebRootFolder, sFileName);
+            return fileUrl;
 
         }
         /// <summary>
