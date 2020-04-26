@@ -296,13 +296,17 @@ namespace BLL
             for (int i = 0; i < list.Count; i++)
             {
                 var goods = _good.GetGoodInfoById(list[i].ProductId);
+                LogsHelper.WriteLog(goods.GoodsTittle + goods.IsUpShelves);
                 if (goods != null && !goods.IsUpShelves)
                     indexs.Add(i);
             }
+            LogsHelper.WriteLog(list.Count.ToString());
             foreach (var item in indexs)
             {
                 list.RemoveAt(item);
             }
+            LogsHelper.WriteLog(list.Count.ToString());
+
             list.ForEach(x => {
                 x.Id = Guid.NewGuid();
                 x.OrderId = Guid.Empty;
