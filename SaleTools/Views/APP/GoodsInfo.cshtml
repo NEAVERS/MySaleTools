@@ -104,11 +104,11 @@
     <script src="~/Scripts/Vue/vue-resource.js"></script>
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/owl.carousel.min.js"></script>
-
+    <script src="~/Scripts/layer/layer.js"></script>
 </head>
 <body>
     <div id="app">
-        <div class="tittle" style="text-align: center;"><div class="return" @@click="history.go(-1)"><img src="~/Content/images/back.png" height="32" width="32" /></div>商品详情</div>
+        <div class="tittle" style="text-align: center;"><div class="return" onclick="closeWindow()"><img src="~/Content/images/back.png" height="32" width="32" /></div>商品详情</div>
         <div style="height: 50px;width: 100%;"></div>
         <div id="owl-demo" class="owl-carousel">
             @if (!string.IsNullOrWhiteSpace(Model.pic1))
@@ -226,6 +226,12 @@
             }
             objImg.height = h;
             objImg.width = w;
+        }
+
+
+
+        function closeWindow() {
+            parent.layer.closeAll();
         }
     </script>
 </body>

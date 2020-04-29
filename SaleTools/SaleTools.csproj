@@ -216,6 +216,8 @@
     <Content Include="Content\js\pages\common\header\global.js" />
     <Content Include="Content\js\public\baiduspider.js" />
     <Content Include="Content\js\public\rsa.js" />
+    <Content Include="Content\layer_mobile\layer.js" />
+    <Content Include="Content\layer_mobile\need\layer.css" />
     <Content Include="Content\pages\buyer\overlay\overlay.css" />
     <Content Include="Content\pages\home\index\index.css" />
     <Content Include="Content\pages\home\index\overlay.css" />

@@ -196,7 +196,7 @@
         </div>
         <transition name="fade">
             <div class="typeList" v-show="show">
-                @if (ViewBag.Parent!="")
+                @if (ViewBag.Parent != "")
                 {
                     <div class="typeItem " typeId="">全部</div>
 
@@ -218,13 +218,15 @@
             </div>
 
         </div>
-        <div class="shoppingcar"  @@click="turnToShoppingCar">
+        <div class="shoppingcar" @@click="turnToShoppingCar">
             <img src="~/Content/images/timg.png" height="40" width="40" />
         </div>
     </div>
     <script src="~/Scripts/Vue/vue.min.js"></script>
     <script src="~/Scripts/Vue/vue-resource.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/layer/layer.js"></script>
+
     <script>
         Vue.component('runoob', {
             data: function () {
@@ -257,7 +259,16 @@
                         this.count = 1;
                 },
                 turnToPage: function () {
-                    location.href = "/APP/GoodsInfo/" + this.todo.Id;
+                    layer.open({
+                        type: 2 //Page层类型
+                        , area: ['100%', '100%']
+                        , title: false
+                        , shade: 0.6 //遮罩透明度
+                        , closeBtn: 0
+                        , maxmin: false//允许全屏最小化
+                        , anim: 1 //0-6的动画形式，-1不开启
+                        , content: '/APP/GoodsInfo/' + this.todo.Id
+                    });
                 }
 
             }
