@@ -53,7 +53,7 @@ namespace BLL
                     x.LessPrice = Math.Round((100 - discount) * x.Price / 100, 10);
                     x.RealPrice = x.Price - x.LessPrice;
                     x.TotalPrice = x.RealPrice * x.Count;
-                    x.ProductTittle = _good.GetGoodInfoById(x.ProductId).GoodsTittle;
+                    x.ProductTittle = tittle;
                 }
             });
             return q.ToList();
