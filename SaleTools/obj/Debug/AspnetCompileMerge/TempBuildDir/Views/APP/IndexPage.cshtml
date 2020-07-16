@@ -191,6 +191,8 @@
     <script src="~/Scripts/Vue/vue-resource.js"></script>
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/owl.carousel.min.js"></script>
+    <script src="~/Scripts/layer/layer.js"></script>
+
     <script type="text/javascript">
 
         Vue.component('button-counter', {
@@ -216,7 +218,17 @@
                     });
                 },
                 turnToPage: function () {
-                    location.href = "/APP/GoodsInfo/" + this.todo.Id;
+                    layer.open({
+                        type: 2 //Page层类型
+                        , area: ['100%', '100%']
+                        , title: false
+                        , closeBtn: 0
+                        , shade: 0.6 //遮罩透明度
+                        , maxmin: false//允许全屏最小化
+                        , anim: 1 //0-6的动画形式，-1不开启
+                        , content: '/APP/GoodsInfo/' + this.todo.Id
+                    });
+
                 }
             }
         })

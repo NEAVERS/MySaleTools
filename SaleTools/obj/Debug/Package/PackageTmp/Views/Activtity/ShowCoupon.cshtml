@@ -1,0 +1,158 @@
+﻿
+@using Common.Entities;
+@using Model;
+@{
+    ViewBag.Title = "ShowCoupon";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Page = (PageData<Coupon>)ViewBag.Pager;
+}
+
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/need/laydate.css">
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+<script type="text/javascript" src="/Content/js/lib/laydate/laydate.js"></script>
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            优惠券列表                           
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="search_bar">
+                <ul class="search_item_list">
+                    <li class="search_item">
+                        <a href="/Activtity/AddNewCoupon">新增优惠券</a>
+                    </li>
+                    <li class="clearfix"></li>
+                </ul>
+            </div>
+            <div class="search_bar">
+                <form action="/Activtity/ShowCoupon" method="GET" id="form">
+                    <ul class="search_item_list">
+                        <li class="search_item">
+                            <label>创建时间:</label>
+                            <div class="item">
+                                <div class="calendar_input">
+                                    <input type="text" name="start" id="start" style="width:160px;" value="@ViewBag.Start" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss'});">
+                                </div>
+                                到
+                                <div class="calendar_input">
+                                    <input type="text" name="end" id="end" style="width:160px;" value="@ViewBag.End" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss'});">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="search_item">
+                            <label>优惠券状态:</label>
+                            <div class="item">
+                                <select name="stutas" id="stutas">
+                                    <option value="-1" @(ViewBag.Stutas == -1 ? "selected='selected'" : "")>全部</option>
+                                    <option value="0" @(ViewBag.Stutas == 0 ? "selected='selected'" : "")>未使用</option>
+                                    <option value="1" @(ViewBag.Stutas == 1 ? "selected='selected'" : "")>已使用</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="search_item">
+                            <div class="item">
+                                <input type="text" name="storeNum" id="storeNum" style="width:160px;" placeholder="请输入小店编号" value="@ViewBag.StoreNum">
+                            </div>
+                        </li>
+                        <li class="search_item">
+                            <button type="submit">查询</button>
+                        </li>
+                        <li class="search_item">
+                            <button type="submit" id="export">优惠券导出</button>
+                        </li>
+                        <li class="clearfix"></li>
+                    </ul>
+                </form>
+            </div>
+            <div class="col_main_content">
+                <table class="table table_border">
+                    <thead class="bg_color">
+                        <tr>
+                            <th class="center">小店编号</th>
+                            <th class="center" width="120">创建时间</th>
+                            <th class="center" width="120">开始时间</th>
+                            <th class="center" width="120">结束时间</th>
+                            <th class="center">使用满足条件</th>
+                            <th class="center">优惠券面额</th>
+                            <th class="center" width="46px">是否已使用</th>
+                            <th class="center">备注</th>
+                            <th class="center" width="58px">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Page.ListData)
+                        {
+                            <tr>
+                                <td class="center">
+                                    @item.StoreNum
+                                </td>
+                                <td class="center">
+                                    @item.CreateTime
+                                </td>
+                                <td class="center">
+                                    @item.StartTime
+                                </td>
+                                <td class="center">
+                                    <input type="text" name="endtime" value="@item.EndTime" id="@("endtime"+item.Id)" onclick="laydate({format:'YYYY-MM-DD hh:mm:ss', istime:true});">
+                                </td>
+                                <td class="center">@item.Limit</td>
+                                <td class="center">@item.LessMoney</td>
+                                <td class="center">@(item.IsUsed ? "是" : "否")</td>
+                                <td class="center">@item.Remark</td>
+                                <td class="center">
+                                    <button class="J_DelPromo btn btn_confirm" data-id="@item.Id">保存</button>
+                                    <!--<a href="/promotion/editonlycoupon?id=379064" class="btn" style="background:#c40000;color:#ffffff;">保存</a>-->
+                                    <!--<a href="" class="J_DelPromo btn btn_confirm" data-id="379064">删除</a>-->
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+                <div id="page" class="page_div">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/Content/js/lib/paging.js"></script>
+<script src="~/Scripts/layer/layer.js"></script>
+
+<script>
+
+    $("#page").paging({
+        pageNo: @Page.PageIndex,
+        totalPage: @Page.TotalPage,
+        totalSize: @Page.TotalCount,
+        callback: function (num) {
+            if (@Page.PageIndex != num)
+                location.href = "/Activtity/ShowCoupon?start=" + $("#start").val() + "&end=" + $("#end").val() +"&stutas=" + $("#stutas").val() + "&storeNum=" + $("#storeNum").val() + "&index=" + num;
+        }
+    })
+
+    $(document).on("click", ".btn_confirm", function () {
+        var id = $(this).data("id");
+        var endTime = $("#endtime" + id).val();
+        var para = {};
+        para.id = id;
+        para.endTime = endTime;
+        $.post("/Activtity/UpdateCouponEndTime", para, function (e) {
+            if (e.Stutas) {
+                layer.msg("保存成功", { icon: 1 }, function () {
+                    location.reload();
+                })
+            }
+            else {
+                layer.msg("保存失败！请重试", { icon: 2 }, function () {
+                    location.reload();
+                })
+
+            }
+        },"Json")
+    })
+
+</script>

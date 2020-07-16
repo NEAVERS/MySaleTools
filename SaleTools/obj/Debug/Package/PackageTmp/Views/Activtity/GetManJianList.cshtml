@@ -1,0 +1,101 @@
+﻿@using Model;
+@using Common.Entities;
+@{
+    ViewBag.Title = "GetManSongList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var pager = (PageData<Manjiujian>)ViewBag.Pager;
+}
+
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>
+            满就送活动                               
+        </h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="col_main_content">
+                <div class="search_bar">
+                    <ul class="search_item_list">
+                        <li class="search_item">
+                            <a href="/Activtity/AddNewManJian">新增满就减活动</a>
+                        </li>
+                        <li class="clearfix"></li>
+                    </ul>
+                </div>
+                <table class="table table_border">
+                    <thead class="bg_color">
+                        <tr>
+                            <th class="center" width="60">活动类型</th>
+
+                            <th class="center" width="130">活动时间</th>
+                            <th class="center" width="180">活动区域</th>
+                            <th class="center" width="80">订单总金额</th>
+                            <th class="center" width="60">减少金额</th>
+                            <th class="center" width="80">客户类型</th>
+                            <th class="center" width="130">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (pager.TotalCount == 0)
+                        {
+                            <tr>
+                                <td colspan="7"><h3>暂无活动信息</h3></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in pager.ListData)
+                            {
+                                string activeType = "";
+                                switch (item.TypeId)
+                                {
+                                    case 1:
+                                        activeType = "通用满就减";
+                                        break;
+                                    case 2:
+                                        activeType = "品牌满就减";
+                                        break;
+                                    case 3:
+                                        activeType = "供应商满就减";
+                                        break;
+                                }
+                                <tr>
+                                    <td>@activeType</td>
+                                    <td>@(item.StartTime.ToString("yyyy-MM-dd HH:mm:ss") + "到" + item.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))</td>
+                                    <td>@item.SupplierName</td>
+                                    <td>@item.LimitMoney</td>
+                                    <td>@item.LessMoeny</td>
+                                    <td>@item.UserTypes</td>
+                                    <td>
+
+                                        <a href="/Activtity/EditManJian?activeId=@item.Id">编辑</a>
+                                    </td>
+                                </tr>
+
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="page" class="page_div"></div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/Content/js/lib/paging.js"></script>
+<script>
+    var pageIndex = @pager.PageIndex;
+
+    $("#page").paging({
+        pageNo: @pager.PageIndex,
+        totalPage: @pager.TotalPage,
+        totalSize: @pager.TotalCount,
+        callback: function (num) {
+            if (pageIndex != num)
+                location.href = "/Activtity/GetManJianList?index=" + num;
+        }
+    })
+
+</script>

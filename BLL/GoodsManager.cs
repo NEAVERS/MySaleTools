@@ -333,6 +333,7 @@ namespace BLL
 
                 int stock = GetGoodsStock(item.ErpId, boxspec);
                 item.Stock = stock;
+
             }
             return item;
         }

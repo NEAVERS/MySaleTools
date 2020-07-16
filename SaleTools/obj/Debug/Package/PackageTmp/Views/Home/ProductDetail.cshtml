@@ -1,0 +1,649 @@
+﻿@using Model;
+@using Common.Entities;
+
+@model GoodInfo
+@{
+    ViewBag.Title = "商品详情";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    var typeList = (List<GoddsTypeTree>)ViewBag.GoddsTypeTree;
+
+
+}
+<link href="~/Content/css/pages/home/product/detail.css" rel="stylesheet" />
+<div class="header" id="header">
+    <div class="module top clearfix">
+        <div class="logo lfloat">
+            <div class="logoImg">
+                <a href="/Home/Index"><img src="/Content/images/new_log.png" href="/cart/"></a>
+            </div>
+            <div class="logoFont">
+                <a href="http://pifa.yunmayi.com/"><img src="/Content/images/index/04171124.png" style="width:100%;"></a>
+            </div>
+        </div>
+        <div class="searchbar lfloat">
+            <form action="/Home/Product" method="get">
+                @*<input type="text" name="key"  value="@ViewBag.Key" placeholder="支持商品关键字、品牌、条码搜索">
+                <button type="submit">搜&nbsp;索</button>*@
+
+                <input type="text" name="key"  class="search_input" id="C_GlobalSearchInput" autocomplete="off" value="@ViewBag.Key" data-placeholder="支持商品关键字、品牌、条码扫描搜索">
+                <button type="submit" class="search_btn" id="search_btn">搜索</button>
+
+            </form>
+
+        </div>
+        <div class="toolbar lfloat">
+            <a href="/Home/ShoppingCar" class="shopCart">
+                购物车
+                <i style="font-style: normal;color: red;" id="C_GlobalCartItemNum">0</i>
+            </a>
+        </div>
+    </div>
+    <div class="module nav clearfix">
+        <div class="category lfloat" id="C_CategoryBox" data-fixed="0">
+            <h2 class="topMenuList"><i style="padding-right: 13px;"><img src="/Content/images/index/04151605.png"></i>全部商品分类</h2>
+            <div class="dropdown_menu" style="display: none;">
+                <!-- first category -->
+                <ul class="menu_nav_container" id="C_CategoryList">
+
+                    @foreach (var item in typeList)
+                    {
+                        <li data-source="">
+                            <div class="menu_nav_fst">
+                                <h3 class="fst_cat_title"><a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a></h3>
+                                <div class="fst_cat_child">
+                                    @foreach (var child in item.TypeList)
+                                    {
+                                        <a href="/Home/Product?sec=@child.GoodsType.Id">@child.GoodsType.TypeName</a>
+
+                                    }
+
+
+                                </div>
+                            </div>
+                        </li>
+
+                    }
+
+                </ul>
+            </div>
+        </div>
+        <ul class="list clearfix">
+            <li>
+                <a href="/Home/Index">首页</a>
+                <img src="/Content/images/christmas-tree.png" alt="">
+            </li>
+            @foreach (var item in typeList)
+            {
+                <li>
+                    <a href="/Home/Product?fst=@item.GoodsType.Id">@item.GoodsType.TypeName</a>
+                    <img src="/Content/images/christmas-tree.png" alt="">
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+<script>
+    document.onkeydown = function (event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 13) { // enter 键
+            if (event.target.value == '' || event.target.value == NULL) {
+                return false;
+            }
+            window.location.href = 'http://pifa.v2.com/search/index?q=' + event.target.value;
+        }
+    };
+
+    var test = window.location.pathname; //获取当前页面的url的路径部分
+    if (test != "/") { //当不为首页时
+        $("#C_CategoryBox").find("h2").addClass('topMenuList');
+    }
+    $(".topMenuList").mouseover(function () {
+        $(".dropdown_menu").css({
+            display: 'block'
+        });
+        var scrollTop = $(document).scrollTop();
+        if (scrollTop < 130) {
+            if ($(".dropdown_menu").height() > windowH - $(".topfixeds").height()) {
+                $(".dropdown_menu .menu_nav_container").css({
+                    height: windowH - $(".topfixeds").height() + 'px'
+                })
+            }
+        } else {
+            $(".header .nav .category").addClass('topShow');
+        }
+        $(".header .nav .category").removeClass('fixed');
+        $(".header .nav .category").addClass('show');
+    })
+    $(".topMenuList").mouseleave(function () {
+        if ($(".header .nav .category").data("fixed") == 0) {
+            $(".dropdown_menu").css({
+                display: 'none'
+            });
+        } else {
+            $(".header .nav .category").addClass('fixed');
+        }
+        $(".header .nav .category").removeClass('show');
+        $(".header .nav .category").removeClass('topShow');
+
+    });
+    var windowH = $(window).height();
+    $(".dropdown_menu").mouseenter(function () {
+        $(".dropdown_menu").css({
+            display: 'block'
+        });
+        var scrollTop = $(document).scrollTop();
+        if (scrollTop > 130) {
+            $(".header .nav .category").addClass('topShow');
+            if ($(".dropdown_menu").height() > windowH - $(".topfixeds").height()) {
+                $(".dropdown_menu .menu_nav_container").css({
+                    height: windowH - $(".topfixeds").height() + 'px'
+                })
+            }
+        }
+        $(".header .nav .category").removeClass('fixed');
+        $(".header .nav .category").addClass('show');
+    });
+    $(".dropdown_menu").mouseleave(function () {
+        if ($(".header .nav .category").data("fixed") == 0) {
+            $(".dropdown_menu").css({
+                display: 'none'
+            });
+        } else {
+            $(".header .nav .category").addClass('fixed');
+        }
+        $(".dropdown_menu .menu_nav_container").css({
+            height: ''
+        })
+        $(".header .nav .category").removeClass('show');
+        $(".header .nav .category").removeClass('topShow');
+    });
+    $(window).on('scroll', function () {
+        var scrollTop = $(document).scrollTop();
+        if (scrollTop > 130) {
+            $(".topfixeds").css({ display: "block" });
+        } else {
+            $(".topfixeds").css({ display: "none" });
+            $(".header .nav .category").removeClass('topShow');
+            $(".dropdown_menu").css({
+                display: ''
+            });
+        }
+    });
+</script>
+<div class="main" id="main">
+    <div class="container">
+        <div class="prompt">
+            <span>
+                当前位置：<a href="/Home/Index">首页</a>
+                &gt;
+                @Model.GoodsTittle
+            </span>
+        </div>
+        <div class="detail">
+            <div class="sub_side lfloat">
+                <div class="images">
+                    <div class="idetail">
+                        <a href="javascript:;" class="big-pic">
+                            <img src="@Model.pic1" id="J_zoom" alt="" style="cursor: crosshair;">
+                        </a>
+                    </div>
+                    <div class="ilist">
+                        <ul class="ilbox">
+                            @if (!string.IsNullOrWhiteSpace(Model.pic1))
+                            {
+                                <li>
+                                    <a href="javascript:;" class="small-pic small-active" data-mi="@Model.pic1" data-bi="@Model.pic1">
+                                        <img src="@Model.pic1">
+                                    </a>
+                                </li>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.pic2))
+                            {
+                                <li>
+                                    <a href="javascript:;" class="small-pic small" data-mi="@Model.pic2" data-bi="@Model.pic2">
+                                        <img src="@Model.pic2">
+                                    </a>
+                                </li>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.pic3))
+                            {
+                                <li>
+                                    <a href="javascript:;" class="small-pic small" data-mi="@Model.pic3" data-bi="@Model.pic3">
+                                        <img src="@Model.pic3">
+                                    </a>
+                                </li>
+                            }
+
+                            @if (!string.IsNullOrWhiteSpace(Model.pic4))
+                            {
+                                <li>
+                                    <a href="javascript:;" class="small-pic small" data-mi="@Model.pic4" data-bi="@Model.pic4">
+                                        <img src="@Model.pic4">
+                                    </a>
+                                </li>
+                            }
+
+                            @if (!string.IsNullOrWhiteSpace(Model.pic5))
+                            {
+                                <li>
+                                    <a href="javascript:;" class="small-pic small" data-mi="@Model.pic5" data-bi="@Model.pic5">
+                                        <img src="@Model.pic5">
+                                    </a>
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="sku_main">
+                <div class="proname">
+                    <h1>@Model.GoodsTittle</h1>
+                </div>
+                <div class="mod_light">
+                    <div class="light_main lfloat">
+                        <div class="pricebox">
+                            <!-- <div class="sub_line">
+                                                                     <span>规格：115g*24罐</span>
+
+                            </div> -->
+                            <ul class="productDetail">
+                                <li>规格：@Model.Spec</li>
+                                <li>整箱：</li>
+                                <li>品牌：<a href="http://pifa.yunmayi.com/product/keywordList?bid=1852">@Model.BrandName</a></li>
+                                <li>单位：@Model.Unit</li>
+                                <li>建议零售价：@Model.MarketPrice</li>
+                                <li>保质期:@(Model.ShelfLife)天</li>
+                            </ul>
+                            <p>
+                                批发价：
+                                <span class="price_num">
+                                    <b style="font-weight:normal;" id="J_price">￥@Model.RetailtPrice</b>
+                                </span>
+                                <span class="num-tit">/@Model.Unit</span>
+                            </p>
+                            <!--
+                            <p>促&nbsp;&nbsp;&nbsp;销：
+                                <span class="onsale">此商品不参与满减</span>
+                            </p> -->
+                            <div class="sales-content">
+                                <!-- <div class="sales">
+                                    <a href="javascript:;" class="sales-detail clicked" id="comments">
+                                        <strong>250</strong>
+                                        <span>累计评论</span>
+                                    </a>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mod_quote">
+                    <div class="quote_main">
+                        <!-- <p class="soldnum" style="display:none;"><span>销量</span></p> -->
+                        <div class="mod_action">
+                            <span class="num-tit">数&nbsp;&nbsp;&nbsp;量：</span>
+                            <div class="computing_item">
+                                <div class="amount">
+                                    <input type="text" value="@Model.MinCount" data-mini="@Model.MinCount" class="num" id="ProAmount">
+                                    <div class="B-box">
+                                        <a href="javascript:;" class="no_bdd" id="CartAmountAdd">+</a>
+                                        <a href="javascript:;" class="no_add cant_add" id="CartAmountReduce">-</a>
+                                    </div>
+                                    <!--徐博改的地方-->
+                                    <input type="hidden" value="1" id="C_MinSoldNum">
+                                    <input type="hidden" value="8891" id="C_Stock">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quote_sub">
+                    </div>
+                </div>
+                <div class="mod_cart">
+                    <div class="actbtnbox">
+                        <div class="information">
+                            <h3 class="a111">订单备注：</h3>
+                            <textarea id="remark" class="info"></textarea>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.IsUpShelves)
+                {
+                    <a href="javascript:;" class="actbtn cartbtn" id="CartDetailBtn" data-productid="@Model.Id">加入购物车</a>
+                }
+                <a class="J_AddCollectBtn collect" data-id="@Model.Id">&nbsp;收藏商品</a>
+                <!--                             <span class="J_AddCollectBtn add_collect_btn" id="277664" data-id="277664">收藏</span>
+                 -->
+            </div>
+            <div id="msg">已成功加入购物车！</div>
+            <div class="explain clearfix" id="explain"></div>
+        </div>
+        <div class="content">
+            <!-- <div class="recommendation lfloat rmd">
+                <h2 class="rmd_tit">——蚂蚁推荐——</h2>
+                <div class="ilist">
+                    <ul class="ilbox">
+                                                                                            <li>
+                                    <a>
+                                        <img src="http://pifa.yunmayi.com/upload/2016/03/28/70c518a2bfd33f3ea228054692e78d38.jpg" />
+                                    </a>
+                                    <a class="rside_price">￥19.20</a>
+                                </li>
+                                                                                </ul>
+                </div>
+                <a href="" class="replace"><i></i>换一批</a>
+            </div> -->
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/Content/js/pages/common/header/global.js"></script>
+<script type="text/javascript" src="/Content/js/lib/jquery.fly.min.js"></script>
+
+<script type="text/javascript" src="/Content/js/lib/jquery.imagezoom.min.js"></script>
+
+<script type="text/javascript">
+    $('#J_zoom').imagezoom({
+        xzoom: 350,
+        yzoom: 350,
+        offset: 16
+    });
+
+    function loacCarCount() {
+        $.post("/Home/LoadShoopingCarCount", {}, function (e) {
+            $("#C_GlobalCartItemNum").html(e);
+        }, "json")
+    }
+
+
+    $(function () {
+        loacCarCount();
+        //点击评论，页面滑动
+        /*jQuery.scrollTo=function(scrolldom,scrolltime){
+            $(scrolldom).click(function(){
+                $('body').animate({scrollTop:$('#specific-comment').offset().top-50},scrolltime);
+                return false;
+            });
+        };
+        $.scrollTo("#comments",1000);*/
+
+        //订单信息设置宽高
+
+        $('.info').blur(function () {
+            $('.info').width('350');
+            $('.info').height('60');
+        });
+        $('.info').focus(function () {
+            $('.info').width('400');
+            $('.info').height('80');
+        });
+        var itemPages;
+        /*我常购买*/
+        $.ajax({
+            url: '/product/oftenBuy',
+            type: 'get',
+            dataType: 'json',
+            success: function (result) {
+                if (result.length != 0) {
+                    var itemProduct = 0;
+                    var html = "<div class='sub_rside rfloat rmd'>";
+                    html += "<h2 class='rmd_tit'>——&nbsp;我常购买&nbsp;——</h2>";
+                    html += "<div class='ilist'>";
+                    html += "<ul class='sideIlbox'>";
+                    for (var i in result) {
+                        html += "<li>";
+                        html += "<a href='/product/detail?id=" + result[i].id + "' target='_blank'>";
+                        html += "<img src='http://i8.yunmayi.com" + result[i].pic_url + "XXXXX!!!!!_160x160.jpg' />";
+                        html += "<span class='rside_price'>￥" + result[i].sell_price / 100 + "</span>"
+                        html += "<i class='searchIcon'></i>";
+                        html += "</a>";
+                        html += "</li>";
+                        itemProduct += 1;
+                    }
+                    html += "<li><a href='http://buyer.pifa.yunmayi.com/trade/oftenBuy' class='more'><span class='jumpToOftenbuy jumpIcon'></span></a></li>";
+                    html += "</ul>";
+                    html += "</div>";
+                    html += "<a href='javascript:;' class='replace'><i class='chevron-up'></i><i class='chevron-down'></i></a>";
+                    html += "</div>";
+                    itemPages = parseInt((itemProduct - 1) / 3); //获取我常购买页面数量
+                    $(".detail").append(html)
+                }
+
+            },
+            error: function () {
+
+            }
+        });
+        var page = 0;
+        $(".detail").on("click", ".chevron-up", function () {
+            page -= 1;
+            if (page < 0)
+                page = itemPages;
+            $(".sideIlbox").animate({ top: -page * 393 + 'px' });
+        }).on("click", ".chevron-down", function () {
+            page += 1;
+            if (page > itemPages)
+                page = 0;
+            $(".sideIlbox").animate({ top: -page * 393 + 'px' });
+        });
+
+
+        $(".J_AddCollectBtn").on("click", function () {
+            var productId = $(this).attr("data-id");
+            $(".J_AddCollectBtn").addClass('disable');
+            if ($(this).hasClass("collected")) {
+                $.post("/index/delCollect", { "pid": productId }, function (data) {
+                    if (data.state) {
+                        $(".J_AddCollectBtn").text('收藏商品');
+                        $(".J_AddCollectBtn").removeClass('collected');
+                        $(".J_AddCollectBtn").addClass('add_collect');
+                        $(".J_AddCollectBtn").removeClass("disable");
+                        build("green", "已取消收藏！", productId);
+                    } else {
+                        build("green", "失败!请重试!", productId);
+                        console.log(data.msg);
+                    }
+                }, 'json')
+            } else {
+                $.get("/index/productFav", { "id": productId }, function (data) {
+                    if (data.state) {
+                        $(".J_AddCollectBtn").text('已收藏');
+                        $(".J_AddCollectBtn").removeClass('add_collect');
+                        $(".J_AddCollectBtn").addClass('collected');
+                        $(".J_AddCollectBtn").removeClass("disable");
+                        build("green", "收藏成功！", productId);
+                    } else {
+                        build("green", "失败!请重试!", productId);
+                        console.log(data.msg);
+                    }
+                }, 'json')
+            }
+        });
+
+        $('.pro-detail-content').on('click', function () {
+            var _this = $(this);
+            _this.addClass('selected');
+            _this.parent().siblings().children('a').removeClass('selected');
+        });
+
+        //为小图添加hover事件
+        $('.small-pic').on('mouseover', function () {
+            var _this = $(this),
+                _J_zoom = $('#J_zoom'),
+                mi = _this.data('mi'),
+                bi = _this.data('bi');
+            _this.addClass('small-active');
+            _this.parent().siblings().children('a').removeClass('small-active');
+            _J_zoom.attr('rel', bi);
+            _J_zoom[0].src = mi;
+        });
+
+        // 加入购物车
+        $('#CartDetailBtn').on('click', function (event) {
+            $(".actbtn").removeAttr("id");
+            var _this = $(this);
+            var _minSoldNum = $('#C_MinSoldNum');
+            var _stock = $('#C_Stock');
+            var _ProAmount = $('#ProAmount');
+            var productId = _this.data('productid');
+            var minSoldNum = parseInt(_minSoldNum.val());
+            var stock = parseInt(_stock.val());
+            var quantity = parseInt(_ProAmount.val());
+            var remark = $('#remark').val();
+            var html = "";
+            var items = [];
+
+            $.ajax({
+                type: 'post',
+                url: '/Home/AddToShoppingCar',
+                dataType: 'json',
+                data: {
+                    goodId: productId,
+                    remark: remark,
+                    count: quantity
+                },
+                success: function (result) {
+                    $(".actbtn").attr("id", "CartDetailBtn");
+                    if (result.Stutas) {
+                        var img = $(".big-pic").children('img').attr('src');
+                        var flyer = $('<img class="u-flyer" src="' + img + '">');
+                        var address1 = $('#C_GlobalCartItemNum_fixed');
+                        var address2 = $('#C_GlobalCartItemNum');
+                        var scrollTop = $(document).scrollTop();
+                        if (scrollTop > 130) {
+                            flyer.fly({
+                                start: {
+                                    left: event.clientX,
+                                    top: event.clientY,
+                                },
+                                end: {
+                                    left: address1[0].offsetLeft,
+                                    top: address1[0].offsetTop,
+                                    width: 0,
+                                    height: 0
+                                },
+                                onEnd: function () {
+                                    $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
+                                    this.destory();
+                                }
+                            })
+                        } else {
+                            flyer.fly({
+                                start: {
+                                    left: event.clientX,
+                                    top: event.clientY
+                                },
+                                end: {
+                                    left: address2[0].offsetLeft,
+                                    top: address2[0].offsetTop - 20,
+                                    width: 0,
+                                    height: 0
+                                },
+                                onEnd: function () {
+                                    $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
+                                    this.destory();
+                                }
+                            })
+                        }
+                    } else {
+                        build("red", result.Msg, productId);
+                    }
+                    // 更新页头购物车数量信息
+                    loacCarCount();
+                }
+            });
+
+
+
+
+            return false;
+        });
+
+        // 增加数量
+        $('#CartAmountAdd').on('click', function () {
+            if ($(this).hasClass('no_add')) {
+                build("red", "商品库存不足", "CartAmountAdd");
+                return false;
+            }
+            var buyCount = parseInt($('#ProAmount').val());
+            var minSoldNum = parseInt($('#ProAmount').data("mini"));
+            var stock = parseInt($('#C_Stock').val());
+            buyCount+=minSoldNum;
+            if ($('#CartAmountReduce').hasClass('cant_add')) {
+                $('#CartAmountReduce').removeClass('cant_add')
+            }
+ 
+            $('#ProAmount').val(buyCount);
+        });
+
+        // 减少数量
+        $('#CartAmountReduce').on('click', function () {
+            if ($(this).hasClass('cant_add')) {
+                build("red", "购买数量小于最小起批量", "CartAmountReduce");
+                return false;
+            }
+            var buyCount = parseInt($('#ProAmount').val());
+            var minSoldNum = parseInt($('#ProAmount').data("mini"));
+            buyCount -= minSoldNum;
+            if (buyCount <= minSoldNum) {
+                buyCount = minSoldNum;
+                if (!$(this).hasClass('cant_add')) {
+                    $(this).addClass('cant_add');
+                }
+            } 
+            
+            $('#ProAmount').val(buyCount);
+        });
+    });
+    //关闭预售html 弹出框
+    function closeExplain() {
+        $('.explain').removeClass('j_display');
+    }
+    //预售加减数量
+    $("#explain").on("click", ".decrementPresales", function () {
+        var _input = $(this).siblings("input.presaleInput");
+        var quantity = _input.val();
+        quantity--;
+        quantity = quantity > 0 ? quantity : 1;
+        _input.val(quantity);
+    })
+        .on('click', '.addPresale', function () {
+            var _input = $(this).siblings("input.presaleInput");
+            var max = parseInt(_input.data("max"));
+            var quantity = _input.val();
+            quantity++;
+            quantity = quantity > max ? max : quantity;
+            _input.val(quantity);
+        })
+        .on('click', '.addPresaleCart', function () { //加入购物车
+            var id = $(this).data("id");
+            var productId = $(this).data("productId");
+            var _input = $(this).prev(".presaleItems").children(".presaleInput");
+            var quantity = _input.val();
+            var _amount = $(this).siblings('.amountNum');
+            $.ajax({
+                type: "post",
+                url: " /Home/AddToShoppingCar",
+                dataType: "json",
+                data: {
+                    goodId: productId,
+                    count: quantity, //_input.val()
+                    mode: 1,
+                    presaleId: id
+                },
+                success: function (res) {
+                    console.log(res)
+                    if (res.error) {
+                        console.log(11)
+                        build("red", res.info, "pressaleError")
+                    } else {
+                        GlobalCartItemNum();
+                        _amount.html(_amount.html() - quantity);
+                        $("#msg").show().animate({ width: '250px' }, 200).fadeOut(1000);
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+        });
+</script>

@@ -1,0 +1,130 @@
+﻿@using Common.Entities;
+@{
+    Layout = null;
+    var list = (List<OrderDetail>)ViewBag.List;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>订单连打 - 加盟商个人中心</title>
+    <!-- global css -->
+    <link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/base.css">
+    <style type="text/css">
+        #J_SendGoodsBillsBox {
+            width: 750px;
+            margin: 0 auto;
+        }
+
+        .bill_box {
+            height: 1027px;
+            font-size: 10px;
+        }
+
+        table {
+            border: 1px solid #000000;
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 1em;
+        }
+
+        td,
+        th {
+            border: 1px solid #000000;
+            text-align: center;
+            font-size: 1.3em;
+        }
+    </style>
+</head>
+<body>
+    <div id="J_SendGoodsBillsBox">
+        @foreach (var item in list)
+        {
+            int count = 0;
+        <div class="bill_box">
+            <br>
+            <br>
+            <h1 style="text-align:center;font-size:24px;font-weight:bold;">销宝贝 - 送货单</h1>
+            <p style="font-size:1.5em;line-height:18px;">
+                <img src="http://pifa.yunmayi.com/index/qrcode?text=1804071713333317" style="float:right;" width="69px" height="69px">
+                <span>订单编号：</span>@item.Info.OrderNum <span style="margin-left:18px;">订单日期：</span>@item.Info.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")<span style="margin-left:38px; font-size:1.8em; font-weight:bold;">龙湾2</span>
+                <br>
+                <span>付款方式：</span><span style="font-weight:bold;font-size:1.6em;">@item.Info.PayType,</span> 收件人：@item.User.ReceiveName ,@item.User.Tel,
+                <span style="margin-left:8px;">服务站编号：</span>577029548&nbsp;九联生活超市
+            </p>
+            <p style="font-size:1.5em;margin-bottom:5px;">
+              @item.User.Addr  <span style="float:right;font-weight:bold;">
+                    总价：@item.Info.TotalMoney
+                </span>
+            </p>
+            <table>
+                <tbody>
+                    <tr>
+                        <th width="65px">类目</th>
+                        <th width="30px">序号</th>
+                        <th width="90px">商品条形码</th>
+                        <th width="250px">商品</th>
+                        <th width="30px">数量</th>
+                        <th>规格</th>
+                        <th>单位</th>
+                        <th>单价(元)</th>
+                        <th>总价(元)</th>
+                        <th>折扣(元)</th>
+                        <th>备注</th>
+                    </tr>
+                    
+                    @foreach (var orderItem in item.Items)
+                    {
+                        count++;
+                    <tr>
+                        <td height="30px">@orderItem.ProductType</td>
+                        <td>@count</td>
+                        <td>@orderItem.BarCode</td>
+                        <td>
+                            @orderItem.ProductTittle
+                            <br>
+                        </td>
+                        <td>@orderItem.Count</td>
+                        <td>@orderItem.Spec</td>
+                        <td>@orderItem.Unit</td>
+                        <td>@orderItem.Price</td>
+                        <td>@orderItem.TotalPrice</td>
+                        <td>@orderItem.LessPrice </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <p style="margin-top:2px;font-size:1.4em;overflow:hidden;">
+                <span style="margin-right:80px;">拣货员：</span>
+                <span style="margin-right:40px;">商品总件数：</span>@item.Items.Count
+                <span style="display:block;float:right; font-weight:bold;">
+                    总价：@item.Info.RealMoney
+                </span>
+                <br>
+                <span style="margin-right:80px;">装车员：</span>
+                <span style="margin-right:200px;">实际装车件数：</span>
+                <span style="margin-right:60px;">收件人签收：</span>
+                <span style="margin-right:40px;">签收日期：</span>
+                <br>
+                <span style="margin-right:80px;">业务员:@item.Info.SaleManName</span>
+                <span>业务员号码:@item.Info.SaleManTel  </span>
+                <span style="float: right;">付款方式：<span style="font-weight: bold;font-size:1.2em;">@item.Info.PayType</span></span>
+                <br>
+                <span style="font-weight: bold;">
+                    留言：LSTLST
+                </span>
+            </p>
+            <p style="font-size:1.4em;margin-top:5px;overflow:hidden;height:125px;">
+                尊敬的客户,以上商品，七天内可调换货，愈期不予以调换，请知悉并及时处理！ 账户信息:浙江农村信用社梧田支行池西分理处 陈孟冉 6230 9103 9906 2654 167 客服联系电话：86000801 仓库联系电话：86000802 支付宝帐号: 15558807679 陈贤松
+            </p>
+        </div>
+        }
+    </div>
+
+</body>
+</html>

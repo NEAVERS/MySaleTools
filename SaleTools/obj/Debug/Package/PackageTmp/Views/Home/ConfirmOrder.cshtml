@@ -1,0 +1,313 @@
+﻿@using Model;
+@using Common.Entities;
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    var list = (List<OrderItem>)ViewBag.List;
+    var mj = (Manjiujian)ViewBag.Mj;
+    var ms = (Manjiusong)ViewBag.Ms;
+    var user = (UserInfo)ViewBag.User;
+    var coupons = (List<Coupon>)ViewBag.CouponList;
+    var dpses = (List<DPS>)ViewBag.DPSES;
+
+    decimal totalPrice = 0;
+}
+<link rel="stylesheet" type="text/css" href="/Content/css/normalize.css">
+<link rel="stylesheet" type="text/css" href="/Content/css/base.css">
+<!-- 公用css -->
+<link rel="stylesheet" type="text/css" href="/Content/css/common/header/global.css?04260915">
+<link rel="stylesheet" type="text/css" href="/Content/css/common/footer/global.css?04260915">
+<link rel="stylesheet" href="/Content/js/lib/poshytip/tip-yellow/tip-yellow.css">
+<link rel="stylesheet" href="/Content/css/pages/home/trade/confirmV2.css">
+<!-- global js -->
+<script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
+
+<div class="header">
+    <div class="container clearfix">
+        <div class="trade-logo">
+            <a href="/" class="logo" title="返回首页">销宝贝</a>
+            <p class="txt">结算页</p>
+        </div>
+        <div class="trade-search-wrap">
+            <form action="/Home/Product" method="get" target="_blank">
+                <input type="text" name="key" placeholder="支持商品关键字、品牌、条码搜索">
+                <button type="submit">搜&nbsp;索</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="main" id="main">
+    <div class="container">
+
+        <div id="JConfirmMain">
+            <h2 class="confirm-main-tit">核对订单信息</h2>
+            <div class="confirm-main-steps">
+                <!-- 收货人信息 -->
+                <div class="step-tit">
+                    <h3>收货人信息</h3>
+                </div>
+                <div class="step-cont">
+                    <div class="addr-detail">
+                        <span class="addr-name">@user.UserName</span>
+                        <span class="addr-info">@user.Province @user.City @user.Area @user.Addr </span>
+                        <span class="addr-tel">@user.Tel</span>
+                    </div>
+                </div>
+                <div class="step-hr"></div>
+                <!-- 支付方式 -->
+                <div class="step-tit">
+                    <h3>支付方式</h3>
+                </div>
+                <div class="step-cont">
+                    <div class="payment-list">
+                        <ul id="JPaymentList">
+                            <li>
+                                <a href="javascript:;" data-platform="cod" class="pay-type selected" title="">
+                                    <span>货到付款</span>
+                                    <b></b>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="step-hr"></div>
+                <!-- 送货清单 -->
+                <div class="step-tit">
+                    <h3>送货清单</h3>
+                </div>
+                <div class="step-cont">
+                    <div class="orders">
+                        <div class="order_hd">
+                            <span class="thinfo">商品信息</span>
+                            <span class="thprice">单价(元)</span>
+                            <span class="thquantity">数量</span>
+                            <span class="thpromotion">促销信息</span>
+                            <span class="thtotal">小计(元)</span>
+                        </div>
+                        <div class="order-deliver">订单由平台【<b>温州</b>】提供配送</div>
+                        <div class="list">
+                            <!-- 正常购买商品 -->
+                            @foreach (var item in list)
+                            {
+                                totalPrice += item.TotalPrice;
+                                Decimal lessprice = item.LessPrice * item.Count;
+                                <div class="order">
+                                    <div class="cell thinfo clearfix">
+                                        <a href="javascript:;" class="pic"><img src="@item.Pic"></a>
+                                        <div class="info">
+                                            <a href="javascript:;">@item.ProductTittle</a>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                    <div class="cell thprice">
+                                        <span>@item.Price.ToString("f2")</span>
+                                    </div>
+                                    <div class="cell thquantity">
+                                        <span>@item.Count</span>
+                                    </div>
+                                    <div class="cell thpromotion">
+                                        @(lessprice>0?"类目折扣" +lessprice.ToString("f2") + "元":"-")
+                                    </div>
+                                    <div class="cell thtotal">
+                                        <span>@item.TotalPrice.ToString("f2")</span>
+                                    </div>
+                                </div>
+                            }
+                            @if (ms != null)
+                            {
+                                <div class="order">
+                                    <div class="cell thinfo clearfix">
+                                        <a href="javascript:;" class="pic"><img src="@ms.Tittle"></a>
+                                        <div class="info">
+                                            <a href="javascript:;">@ms.SendGoodName</a>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                    <div class="cell thprice">
+                                        <span>0</span>
+                                    </div>
+                                    <div class="cell thquantity">
+                                        <span>@ms.SendGoodCount</span>
+                                    </div>
+                                    <div class="cell thpromotion">
+                                        满就送
+                                    </div>
+                                    <div class="cell thtotal">
+                                        <span>0</span>
+                                    </div>
+                                </div>
+
+                            }
+
+                            @foreach (var item in dpses)
+                            {
+                                <div class="order">
+                                    <div class="cell thinfo clearfix">
+                                        <a href="javascript:;" class="pic"><img src="@item.SendGoodsNum"></a>
+                                        <div class="info">
+                                            <a href="javascript:;">@item.SendGoodsName</a>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                    <div class="cell thprice">
+                                        <span>0</span>
+                                    </div>
+                                    <div class="cell thquantity">
+                                        <span>@(item.SendCount)</span>
+                                    </div>
+                                    <div class="cell thpromotion">
+                                        单品送
+                                    </div>
+                                    <div class="cell thtotal">
+                                        <span>0</span>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <div class="step-hr"></div>
+                <!-- 订单备注 -->
+                <div class="step-tit">
+                    <h3>订单备注</h3>
+                </div>
+                <div class="step-cont">
+                    <div class="remark-detail">
+                        <textarea id="JRemarkInput"></textarea>
+                    </div>
+                </div>
+                <div class="step-hr"></div>
+                <!-- 优惠券 -->
+                <div class="step-tit">
+                    <h3>优惠券</h3>
+                </div>
+                <div class="step-cont">
+                    <div class="coupon-cont">
+                        <ul class="coupon-tabs">
+                            <li class="coupon-tab current" data-type="common">可用优惠券</li>
+                        </ul>
+                        <div class="coupon-panels">
+                            <!-- 通用优惠券 -->
+                            <div class="coupon-panel panel-selected">
+                                <!-- 可用优惠券 -->
+                                <div class="coupon-enable">
+                                    <ul>
+                                        @foreach (var coupon in coupons)
+                                        {
+                                            <li>
+                                                <input type="radio" name="coupons" lessMoney="@coupon.LessMoney" value="@coupon.Id" />@(((CouponType)coupon.CouponType).ToString() + ":满" + coupon.Limit + "减" + coupon.LessMoney)
+                                            </li>
+                                        }
+                                        @if (coupons.Count > 0)
+                                        {
+                                            <li>
+                                                <input type="radio" name="coupons" lessMoney="0" value="" />不使用优惠券
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                                <!-- div class="coupon-hr"></div -->
+                                <!-- 不可用优惠券 -->
+                                <!-- div class="coupon-disable"></div -->
+                            </div>
+                            <!-- 品牌优惠券 -->
+                        </div>
+                        <div class="coupon-used-count">
+                            <h4>优惠券共抵扣金额<b id="JCouponUsedCount">￥0.00</b></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="order-summary">
+                <div class="summary-list">
+                    <div class="summary-item">
+                        <span><i>@list.Count</i>件商品，总商品金额：</span>
+                        <em>￥@((totalPrice+list.Sum(x => x.LessPrice * x.Count)).ToString("f2"))</em>
+                    </div>
+                    <div class="summary-item">
+                        <span>满就减：</span>
+                        @if (mj != null)
+                        {
+                            totalPrice -= mj.LessMoeny;
+                            <em>-￥@mj.LessMoeny</em>
+                        }
+                        
+
+                    </div>
+                    <div class="summary-item">
+                        <span>优惠券：</span>
+                        <em id="coupon">-￥0.00</em>
+                    </div>
+                    <div class="summary-item">
+                        <span>类目折扣：</span>
+                        <em>-￥@(list.Sum(x => x.LessPrice*x.Count).ToString("f2"))</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-footer">
+                <div class="order-info">
+                    <div class="order-payment-main">
+                        <div class="order-payment">
+                            <span class="payment-tit">应付总额：</span>
+                            <em class="payment-price" id="realMoney">￥@totalPrice.ToString("f2")</em>
+                        </div>
+                    </div>
+                    <input type="hidden" value="@totalPrice" id="TotalPrice" />
+                    <div class="order-addr-detail">
+                        <span>寄送至：@user.Province @user.City @user.Area @user.Addr </span>
+                        <span>收货人：@user.UserName @user.Tel</span>
+                    </div>
+                </div>
+                <div class="order-confirm-btn-wrap" id="JTradeConfirmForm">
+                    <a href="/Home/ShoppingCar" class="back-cart">返回购物车</a>
+                    <button type="button" id="JSubmitButton" onclick="ConfirmOrder()">提交订单</button>
+                    <input type="hidden" name="payType" value="1">
+                    <input type="hidden" name="payPlatform" value="cod">
+                    <input type="hidden" name="remark" value="">
+                    <input type="hidden" name="couponId" id="couponId" value="0">
+                    <input type="hidden" name="brandCouponIds" value="">
+                    <input type="hidden" name="vendorCouponIds" value="">
+                    <input type="hidden" name="brandMjsIds" value="">
+                    <input type="hidden" name="vendorMjsIds" value="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/layer/layer.js"></script>
+<script>
+
+    $(":radio").click(function () {
+        var checked = $('input[name="coupons"]:checked ');
+        $("#couponId").val(checked.val());
+        var less = checked.attr("lessMoney");
+        $("#coupon").html("-￥" + less);
+        var total = $("#TotalPrice").val();
+        var real = parseFloat(total) - parseFloat(less);
+        $("#realMoney").html("￥" + real);
+    });
+
+    var _n = 0;
+    function ConfirmOrder() {
+        if (_n == 1)
+            return;
+        _n = 1;
+        var remark = $("#JRemarkInput").val();
+        var couponId = $("#couponId").val();
+        $.post("/Home/CreateOrder", { remark: remark, couponId: couponId }, function (e) {
+            if (e.Stutas) {
+                layer.msg("保存订单成功！", { icon: 1 }, function () {
+
+                    location.href = "/Order/UserOrderManager";
+                })
+            }
+            else {
+                _n = 0;
+                layer.msg("保存订单失败！"+e.Msg, { icon: 2 })
+            }
+        }, "json");
+    }
+</script>

@@ -241,8 +241,10 @@
                 idList.push(cartId);
             })
             DeleteItem(idList);
-        }
-    })
+            }
+        }).on("scroll", document, function () {
+            onbeforeunload();
+        })
 
     function DeleteItem(ids) {
         $.post("/Home/DeleteItems", { itemIds: ids }, function (e) {

@@ -1,0 +1,284 @@
+﻿
+@using Model;
+@{
+    ViewBag.Title = "AddNewUser";
+    var typeList = (List<UserType>)ViewBag.TypeList;
+    var saleList = (List<UserInfo>)ViewBag.SaleManList;
+
+}
+
+<div class="col_main">
+    <div class="col_main_hd">
+        <h2>新增小店用户</h2>
+    </div>
+    <div class="col_main_bd">
+        <div class="inner">
+            <div class="col_main_content">
+                <table class="table table_border_td_none">
+                    <tbody>
+                        <tr>
+                            <td class="right" width="120"><span class="highlight">*</span>用户名：</td>
+                            <td><input type="text" class="inputtext" name="username" style="width:150px;" value="" id="account"></td>
+                        </tr>
+                        <tr>
+                            <td class="right"><span class="highlight">*</span>密码：</td>
+                            <td><input type="text" class="inputtext" name="password" style="width:150px;" id="pws"></td>
+                        </tr>
+                        <tr>
+                            <td class="right"><span class="highlight">*</span>重复密码：</td>
+                            <td><input type="text" class="inputtext" name="password" style="width:150px;" id="pws2"></td>
+                        </tr>
+                        <tr>
+                            <td class="right" width="120"><span class="highlight">*</span>小店编号：</td>
+                            <td>
+                                <input type="text" class="inputtext" name="number" style="width:150px;" value="" id="userNum">
+                                <span class="tip">
+                                    &nbsp;&nbsp;编号必须已<b class="highlight">5770</b>开头的<b class="highlight">9</b>位数字
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right"><span class="highlight">*</span>名字：</td>
+                            <td><input type="text" class="inputtext" name="name" style="width:100px;" value="" id="userName"></td>
+                        </tr>
+                        <tr>
+                            <td class="right"><span class="highlight">*</span>小店名称：</td>
+                            <td><input type="text" class="inputtext" name="shop_name" style="width:200px;" value="" id="storeName"></td>
+                        </tr>
+                        <tr>
+                            <td class="right"><span class="highlight">*</span>手机：</td>
+                            <td><input class="data1" type="text" name="mobile" style="width:120px;" value="" id="tel"></td>
+                        </tr>
+                        <tr>
+                            <td class="right">邮箱：</td>
+                            <td><input type="text" class="inputtext" name="email" style="width:150px;" value="" id="email"></td>
+                        </tr>
+                        <tr>
+                            <td class="right"><span class="highlight">*</span>区域：</td>
+                            <td>
+                                <select id="province"></select>
+                                <select id="city"></select>
+                                <select id="area"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right"><span class="highlight">*</span>地址：</td>
+                            <td><input type="text" class="inputtext" name="address" style="width:280px;" value="" id="addr"></td>
+                        </tr>
+                        <tr>
+                            <td class="right">小店平米数：</td>
+                            <td><input type="text" class="inputtext" name="store_square_meter" style="width:60px;" value="" id="storeArea"></td>
+                        </tr>
+                        <tr>
+                            <td class="right">送货备注：</td>
+                            <td>
+                                <input type="text" class="inputtext" name="store_note" style="width:280px;" id="remark" value="">
+                                <span class="tip">
+                                    &nbsp;&nbsp;(信息会显示在送货单留言里)
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right">业务员：</td>
+                            <td>
+
+                                <select id="saleMan">
+                                    <option value="0">请选择业务员</option>
+                                    @foreach (var item in saleList)
+                {
+                    <option value="@item.UserId">@item.UserName</option>
+}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right">客户类型：</td>
+                            <td>
+                                <select id="userType" class="seller-id">
+                                    @foreach (var item in typeList)
+                {
+                    <option value="@item.TypeId">@item.TypeName </option>
+}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right">优惠券：</td>
+                            <td>
+                                <select class="coupon" id="coupon_id" name="coupon_id">
+                                    <option value="0">无优惠券</option>
+                                    <option value="226">15.00元</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right">
+                                单位Id：
+                            </td>
+                            <td>
+                                <input type="text" class="inputtext" style="width:150px;" name="UserCode" id="UserCode" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <button type="submit" class="btn btn_confirm" id="btn_add">保存</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/Scripts/layer/layer.js"></script>
+<script>
+
+    $(function () {
+        $(document).on("change", "#province", function () {
+            LoadArea($(this).val(), $("#city"))
+        });
+        $(document).on("change", "#city", function () {
+            LoadArea($(this).val(), $("#area"))
+        });
+        LoadArea("0", $("#province"))
+    })
+
+
+
+
+
+    function LoadArea(num, obj) {
+        $.post("/Common/GetAreaList", { num: num }, function (res) {
+            var html = "";
+            $(res).each(function () {
+                html += '<option value="' + this.Num + '">' + this.Name + '</option>';
+            });
+            obj.html(html);
+            obj.change();
+        }, "json");
+    }
+
+    function CheckNum(num) {
+        $.post("/User/CheckNumIsExit", { num: num}, function (e) {
+            _n = 0;
+            if (e) {
+                layer.msg("该编号已存在请重新输入！", { icon: 2 })
+            }
+            else {
+                AddNewUser();
+            }
+        }, "json")
+
+    }
+
+    $("#btn_add").click(function () {
+        var userNum = $("#userNum").val();
+        if (userNum == "") {
+            layer.msg("请输入小店编号！", { icon: 2 });
+
+            return;
+        }
+
+        CheckNum(userNum);
+    });
+    function checkPhone(tel) {
+        if (!(/^1(3|4|5|7|8|9)\d{9}$/.test(tel))) {
+            return true;
+        }
+        return true;
+    }
+    var _n = 0;
+    function AddNewUser() {
+        if (_n == 1)
+            return;
+        var userName = $("#userName").val();
+        var userNum = $("#userNum").val();
+        var account = $("#account").val();
+        var pwd = $("#pws").val();
+        var typeId = $("#userType").val();
+        var typeName = $("#userType").find("option:selected").text();
+        var addr = $("#addr").val();
+        var SotreName = $("#storeName").val();
+        var tel = $("#tel").val();
+        if (pwd == "") {
+            layer.msg("请输入密码", { icon: 2 });
+            return;
+        }
+
+        if (pwd != $("#pws2").val()) {
+            layer.msg("两次密码不一致", { icon: 2 });
+            return;
+        }
+        if (account == "") {
+            layer.msg("请输入用户名", { icon: 2 });
+
+            return;
+        }
+        if (userNum == "") {
+            layer.msg("请输入小店编号！", { icon: 2 });
+
+            return;
+        }
+        if (userName == "") {
+            layer.msg("请输入姓名", { icon: 2 });
+            return;
+        }
+        if (addr == "") {
+            layer.msg("请输入地址", { icon: 2 });
+            return;
+        }
+        if (SotreName == "") {
+            layer.msg("请输入小店名称", { icon: 2 });
+            return;
+        }
+        if (!checkPhone(tel)) {
+            layer.msg("请输入正确的电话号码", { icon: 2 });
+            return;
+
+        }
+
+        var para = {};
+        para.UserName = userName;
+        para.UserNum = userNum;
+        para.Account = account;
+        para.PassWord = pwd;
+        para.TypeId = typeId;
+        para.TypeName = typeName;
+        para.ProvinceNum = $("#province").val();
+        para.Province = $("#province").find("option:selected").text();
+        para.CityNum = $("#city").val();
+        para.City = $("#city").find("option:selected").text();
+        para.AreaNum = $("#area").val();
+        para.Area = $("#area").find("option:selected").text();
+        para.SotreName = SotreName;
+        para.Tel = tel;
+        para.Email = $("#email").val();
+        para.Addr = addr;
+        para.StoreArea = $("#storeArea").val();
+        para.Remark = $("#remark").val();
+        para.SaleManGuid = $("#saleMan").val();
+        para.SaleManName = $("#saleMan").find("option:selected").text();
+        para.UserCode = $("#UserCode").val();
+
+        _n = 1;
+        $.post("/User/SaveUser", para, function (e) {
+            _n = 0;
+            if (e.Stutas) {
+                layer.msg("添加成功！", { icon: 1 }, function () {
+                    location.href = "/User/Index";
+                })
+            }
+            else {
+                if (e.Msg == "")
+                    layer.msg("未提交任何更改！", { icon: 2 })
+                else
+                    layer.msg(e.Msg, { icon: 2 })
+            }
+        }, "json")
+    }
+</script>

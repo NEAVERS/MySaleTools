@@ -1,0 +1,391 @@
+﻿@using Model;
+@using Common.Entities;
+
+@{
+    ViewBag.Title = "OrderManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var typeList = (List<UserType>)ViewBag.TypeList;
+    var saleList = (List<UserInfo>)ViewBag.SaleManList;
+    var Resourse = (List<string>)ViewBag.Resourse;
+
+}
+<style>
+    .alink
+    {
+        display:block;
+    }
+</style>
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/need/laydate.css">
+<link type="text/css" rel="stylesheet" href="/Content/js/lib/laydate/skins/ymy/laydate.css" id="LayDateSkin">
+<script type="text/javascript" src="/Content/js/lib/laydate/laydate.js"></script>
+
+<div class="col_main_hd">
+    <h2>
+        订单管理
+    </h2>
+</div>
+<div class="col_main_bd">
+    <div class="inner">
+        <div class="search_bar">
+            <ul class="search_item_list">
+                <li class="search_item">
+                    <label>下单时间:</label>
+                    <div class="item">
+                        <div class="calendar_input">
+                            <input type="text" name="starttime" id="starttime" style="width:160px;" value="@(DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd 16:00:00"))" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                        </div>
+                        到
+                        <div class="calendar_input">
+                            <input type="text" name="endtime" id="endtime" style="width:160px;" value="@(DateTime.Now.ToString("yyyy-MM-dd 16:00:00"))" onclick="laydate({format:'YYYY-MM-DD 16:00:00'});">
+                        </div>
+                    </div>
+                </li>
+                <li class="search_item">
+                    <label>区域:</label>
+                    <div class="item">
+
+                        <select id="province"></select>
+                        <select id="city"></select>
+                        <select id="area"></select>
+                    </div>
+                </li>
+                <li class="search_item">
+                    <label>订单状态:</label>
+                    <div class="item">
+                        <select name="state" id="state">
+                            <option value="0">请选择</option>
+                            <option value="1">等待商家发货</option>
+                            <option value="2">商家已发货</option>
+                            <option value="3">交易完成</option>
+                            <option value="4">订单取消中</option>
+                            <option value="5">订单取消成功</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="search_item">
+                    <label>客户类型：</label>
+                    <div class="item">
+                        <select name="customer_type" id="userType">
+                            <option value="0">全部</option>
+                            @foreach (var item in typeList)
+                            {
+                                <option value="@item.TypeId">@item.TypeName</option>
+                            }
+
+                        </select>
+                    </div>
+                </li>
+
+                <li class="search_item">
+                    <label>业务员：</label>
+                    <select id="saleManId">
+                        <option value="-1">不限</option>
+                        @foreach (var item in saleList)
+                        {
+                            <option value="@item.UserId">@item.UserName</option>
+                        }
+                    </select>
+                </li>
+                <li class="search_item">
+                    <label>关键字:</label>
+                    <div class="item">
+                        <input type="text" name="keyword" id="key" style="width:160px;" value="">
+                    </div>
+                </li>
+                <li class="search_item">
+                    <label>下载:</label>
+                    <select id="isDown">
+                        <option value="False">否</option>
+                        <option value="True">是</option>
+                    </select>
+                </li>
+                <li class="search_item">
+                    <input type="hidden" value="1" name="diff">
+                    <button type="submit" id="search">搜索</button>
+                </li>
+                <li class="clearfix"></li>
+            </ul>
+        </div>
+        <div class="extra">
+            <p>
+                订单记录数: <span class="highlight" id="totalCount">-</span>,
+                订单总金额: <span class="highlight" id="totalMoney">-</span>元 ,
+                下单小店数: <span class="highlight" id="totalStore">-</span> ,
+            </p>
+        </div>
+        <div class="col_main_content">
+            <table class="table table_border">
+                <thead class="bg_color">
+                    <tr>
+                        <th width="130">订单编号</th>
+                        <th>订单时间</th>
+                        <th>小店编号</th>
+                        <th>小店名称</th>
+                        <th>客户类型</th>
+                        <th>区域</th>
+                        <th>标记</th>
+                        <th>订单总金额</th>
+                        <th>已付金额</th>
+                        <th>来源</th>
+                        <th>交易状态</th>
+                        <th>是否同步</th>
+
+                        <th class="center">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="dataList"></tbody>
+            </table>
+        </div>
+        <div id="page" class="page_div"></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/Content/js/lib/jquery-1.11.1.min.js"></script>
+
+<script type="text/javascript" src="/Content/js/lib/paging.js"></script>
+<script src="~/Scripts/layer/layer.js"></script>
+<script>
+    var pageSize = 30;
+    var pageIndex = 1;
+    $(function () {
+        GetData(1);
+        $(document).on("change", "#province", function () {
+            LoadArea($(this).val(), $("#city"))
+        });
+        $(document).on("change", "#city", function () {
+            LoadArea($(this).val(), $("#area"))
+        });
+        LoadArea("0", $("#province"));
+
+    })
+    function LoadArea(num, obj) {
+        $.post("/Common/GetAreaList", { num: num }, function (res) {
+            var html = "<option value='-1'> 请选择</option>";
+            $(res).each(function () {
+                html += '<option value="' + this.Num + '">' + this.Name + '</option>';
+            });
+            obj.html(html);
+            obj.change();
+        }, "json");
+    }
+    function GetData(index) {
+        var para = {};
+        para.index = index;
+        para.size = pageSize;
+        para.start = $("#starttime").val();
+        para.end = $("#endtime").val();
+        para.province = $("#province").val();
+        para.city = $("#city").val();
+        para.area = $("#area").val();
+        para.stutas = $("#state").val();
+        para.saleManId = $("#saleManId").val();
+        para.userType = $("#userType").val();
+        para.key = $("#key").val();
+        para.isDown = $("#isDown").val();
+        if (para.isDown == "True") {
+            var paraStr = "?1=1" + urlEncode(para);
+            location.href = "/Order/ExportOrderInfo" + paraStr;
+        }
+        $.post("/Order/GetOrderTotal", para, function (data) {
+            $("#totalCount").html(data.totalCount);
+            $("#totalMoney").html(data.totalMoney);
+            $("#totalStore").html(data.totalStore);
+            
+        }, "json")
+
+        $.post("/Order/GetOrderList", para, function (data) {
+            var html = "";
+            $(data.ListData).each(function () {
+                if (this.Stutas == 5)
+                    html += ' <tr style="color: #ff0000;">';
+                else
+                    html += ' <tr>';
+                html += '<td>' + this.OrderNum + '</td >';
+                html += '<td>' + this.CreateTime + '</td >';
+                html += '<td>' + this.CreateUserNum + '</td >';
+                html += '<td>' + this.StoreName + '</td >';
+                html += '<td>' + this.CreateUserType + '</td >';
+                html += '<td>' + this.Area + '</td >';
+                html += '<td>' + this.Remark + '</td >';
+                html += '<td>' + this.RealMoney + '</td >';
+
+                html += '<td><span class="highlight">' + this.PayMoney + '</span>&nbsp;&nbsp; [货到付款]</td >';
+                html += '<td>电脑端</td >';
+                html += '<td>' + getSutas(this.Stutas) + '</td >';
+                html += '<td ' + (this.IsExport ? "" : "style='color: red;'" )+'>' + (this.IsExport?"已导入":"未导入") + '</td >';
+
+                html += '<td>';
+                html += '<a class="alink" href="/Order/OrderDetail?orderId=' + this.Id + '">订单详情</a>'
+                if (this.Stutas == 1) {
+                    html += '<a class="del alink" href="#" data-pick="0" data-state="1" data-id="' + this.Id + '">取消订单</a>'
+                    html += '<a class="alink"  href="javascript:void(0)" data-pick="0" data-state="1" onclick="InsertErp(\'' + this.Id + '\')">重新导入ERP</a>'
+
+                }
+                if (this.Stutas == 4)
+                    html += '<a class="alink"  href="javascript:void(0)" data-pick="0" data-state="1" onclick="CheckAgree(\'' + this.Id + '\')">审核订单</a>'
+                if (this.Stutas == 5)
+                    html += '<a class="alink"  href="javascript:void(0)" data-pick="0" data-state="1" onclick="RecoverOrder(\'' + this.Id + '\')">恢复订单</a>'
+
+                html += '</td >';
+                html += '</tr>';
+
+            });
+            $("#dataList").html(html);
+            $("#page").paging({
+                pageNo: index,
+                totalPage: data.TotalPage,
+                totalSize: data.TotalCount,
+                callback: function (num) {
+                    pageIndex = num;
+                    if (index != num)
+                        GetData(num);
+                }
+            })
+
+        }, "json");
+    }
+    var  urlEncode  =  function  (param,  key,  encode)  {
+          if (param == null)  return  '';
+          var  paramStr  =  '';
+          var  t  =  typeof  (param);
+          if  (t  ==  'string'  ||  t  ==  'number'  ||  t  ==  'boolean')  {
+                paramStr  +=  '&'  +  key  +  '='  +  ((encode == null || encode)  ?  encodeURIComponent(param)  :  param);
+          }  else  {
+                for  (var  i  in  param)  {
+                      var  k  =  key  ==  null  ?  i  :  key  +  (param  instanceof  Array  ?  '['  +  i  +  ']'  :  '.'  +  i);
+                      paramStr  +=  urlEncode(param[i],  k,  encode);
+                }
+          }
+          return  paramStr;
+    };
+
+
+    $(document).on("click", "#search", function () {
+        GetData(1);
+    })
+    $(document).on("click", ".del", function () {
+
+        var orderId = $(this).data("id")
+
+        layer.confirm('请确认是否取消该订单？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            $.post("/Order/CancelOrder", { orderId: orderId }, function (e) {
+                if (e.Stutas) {
+                    layer.msg("取消成功！", { icon: 1 }, function () {
+                        GetData(pageIndex);
+                        layer.closeAll();
+                    })
+                }
+                else {
+                    layer.msg(e.Msg, { icon: 2 }, function () {
+                        layer.closeAll();
+                    })
+                }
+            }, "json")
+
+        }, function () {
+            layer.closeAll();
+        });
+    });
+
+    function getSutas(code) {
+        var res = "";
+        switch (code) {
+            case 1:
+                res = "等待商家发货";
+                break;
+            case 2:
+                res = "商家已发货";
+                break;
+            case 3:
+                res = "交易完成";
+                break;
+            case 4:
+                res = "订单取消中";
+                break;
+            case 5:
+                res = "订单取消成功";
+                break;
+            case 6:
+                res = "退货中";
+                break;
+            case 7:
+                res = "退货成功";
+                break;
+        }
+        return res;
+    }
+
+    function CheckAgree(OrderId) {
+        layer.confirm('是否通过申请？', {
+            btn: ['通过', '驳回'] //按钮
+        }, function () {
+            SaveCheck(OrderId, true);
+        }, function () {
+            SaveCheck(OrderId, false);
+
+        });
+    }
+    function InsertErp(OrderId) {
+        layer.confirm('是否通过申请？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            inPutErp(OrderId, true);
+        });
+    }
+
+    function inPutErp(orderId, isAgree) {
+        var para = {};
+        para.orderid = orderId;
+
+        $.post("/Order/InsertErp", para, function (e) {
+            if (e) {
+                layer.msg("操作成功！", { icon: 1 }, function () {
+                })
+            }
+            else
+                layer.msg(e.Msg, { icon: 2 });
+        }, "json");
+    }
+
+    function SaveCheck(orderId, isAgree) {
+        var para = {};
+        para.orderId = orderId;
+        para.isAgree = isAgree;
+
+        $.post("/Order/OrderCheck", para, function (e) {
+            if (e) {
+                layer.msg("操作成功！", { icon: 1 }, function () {
+                    GetData(pageIndex);
+                })
+            }
+            else
+                layer.msg(e.Msg, { icon: 2 });
+        }, "json");
+    }
+
+
+    function RecoverOrder(orderId) {
+        layer.confirm('请确认是否恢复该订单？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            $.post("/Order/RecoverOrder", { orderId: orderId }, function (e) {
+                if (e.Stutas) {
+                    layer.msg("取消成功！", { icon: 1 }, function () {
+                        GetData(pageIndex);
+                        layer.closeAll();
+                    })
+                }
+                else {
+                    layer.msg(e.Msg, { icon: 2 }, function () {
+                        layer.closeAll();
+                    })
+                }
+            }, "json")
+
+        }, function () {
+            layer.closeAll();
+        })
+    }
+</script>

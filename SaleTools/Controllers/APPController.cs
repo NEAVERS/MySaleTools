@@ -931,7 +931,9 @@ namespace SaleTools.Controllers
             {
                 ViewBag.GoodsId = id;
                 GoodInfo model = _goodsmanager.GetGoodInfoById(id);
-
+                string tittle = "";
+                model.BasePrice = _goodsmanager.GetPriceOfUserType(model, loginUser.TypeId, out tittle);
+                model.GoodsTittle = tittle;
                 return View(model);
             }
             else
