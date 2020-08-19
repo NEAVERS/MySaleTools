@@ -46,12 +46,14 @@ namespace BLL
             {
                 if (!x.IsGift)
                 {
-                    x.Price = _good.GetPriceOfUserType(x.ProductId, userType);
+                    string tittle = "";
+                    var goodinfo = _good.GetGoodInfoById(x.ProductId);
+                    x.Price = _good.GetPriceOfUserType(goodinfo, userType,out tittle);
                     decimal discount = _active.CheckDiscountDetail(x.ProductTypeId, areaNum, userType.ToString());
                     x.LessPrice = Math.Round((100 - discount) * x.Price / 100, 10);
                     x.RealPrice = x.Price - x.LessPrice;
                     x.TotalPrice = x.RealPrice * x.Count;
-                    x.ProductTittle = _good.GetGoodInfoById(x.ProductId).GoodsTittle;
+                    x.ProductTittle = tittle;
                 }
             });
             return q.ToList();
